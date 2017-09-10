@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<!-- 
+	Sample icons file. This file looks like an SVG file with groups as its
+	children. Each group element has an ID that must match the ID of the button given
+	in the extension. The SVG inside the group makes up the actual icon, and
+	needs use a viewBox instead of width/height for it to scale	properly.
+	
+	Multiple icons can be included, each within their own group.
+-->
+	<g id="web_socket">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="480px"
+		height="480px" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;" xml:space="preserve">
+		<path d="M395.516,242.926l-50.32-29.062l-33.281,57.656c-15.054-22.445-40.336-37.367-69.156-38.32l33.977-58.852L240,153.137
+		l-36.735,21.212l33.969,58.828c-28.843,0.858-54.164,15.71-69.297,38.077l-33.125-57.398l-50.328,29.062l23.625-152.944L240,140.402
+		l131.891-50.43L395.516,242.926z M239.836,249.637c-38.766,0-70.195,31.422-70.195,70.188c0,38.773,31.429,70.203,70.195,70.203
+		c38.773,0,70.203-31.43,70.203-70.203C310.039,281.059,278.609,249.637,239.836,249.637z"/>
+		</svg>
+	</g>
+</svg>

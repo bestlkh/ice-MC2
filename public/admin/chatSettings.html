@@ -1,0 +1,40 @@
+
+<div class="control-header">
+    <header> Chat Settings </header>
+    <div class="header-control-wrapper">
+        <logout-menu user="user"></logout-menu>
+
+    </div>
+</div>
+<div class="control-content">
+        <form class="chat-setting-form" ng-submit="Actions.onSettingSubmit()">
+            <div class="setting-category">
+                <header>General</header>
+                <div class="setting-wrapper">
+                    <div class="setting">
+                        <div class="setting-label">
+                            Room Name
+                            <div class="change-button" ng-click="block.roomName = false">
+                                Change
+                            </div>
+                        </div>
+                        <input required ng-disabled="block.roomName" type="text" ng-class="{'setting-blocked': block.roomName}" ng-model="settings.roomName"/>
+
+                    </div>
+                    <div class="setting">
+                        <div class="setting-label">
+                            Invite Only
+                        </div>
+                        <md-switch ng-model="settings.invite" aria-label="Switch 1" class="md-warn" style="margin: 0;">
+                        </md-switch>
+
+                    </div>
+                </div>
+
+
+        </div>
+            <div class="button-wrapper">
+                <input type="submit" value="Save">
+            </div>
+        </form>
+</div>

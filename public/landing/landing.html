@@ -1,0 +1,86 @@
+<div class="landing-wrapper">
+    <header class="header-bar" ng-class="{'blue-nav': !hideMenu}">
+        <div class="cont"> <a class="header-text" href="/"> MC²<span>Chat</span> </a>
+            <div class="mobile-menu visible-xs" ng-click="menuOnClick()">
+            </div>
+            <nav class="mobile-nav" ng-class="{'menu-active': !hideMenu}">
+                <ul class="menu-list">
+                    <header>Menu</header>
+                    <li><a href="">Video</a></li>
+                    <li><a href="">Github</a></li>
+                    <li><a href="">About</a></li>
+                </ul>
+
+            </nav>
+            <nav class="navbar-clear hidden-xs">
+                <ul id="btn-list">
+                    <div class="login-button">
+                        <a href="/login">LOGIN</a>
+
+                    </div>
+                    <li><a href="">Video</a></li>
+                    <li><a href="">Github</a></li>
+                    <li><a href="">About</a></li>
+                </ul>
+
+            </nav>
+        </div>
+    </header>
+    <div class="container-wrapper">
+        <div class="landing">
+            <div class="landing-splash">
+
+            </div>
+            <div class="landing-text">
+                <div class="text"> Collaborative Math Editing Software </div>
+                <div class="sub-text"> Create and share mathematical equations seamlessly </div>
+                <div class="landing-buttons">
+                    <div class="chat-button"> <a href="/"> GO TO MC2 </a></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="info-wrapper">
+        <div class="container-wrapper">
+            <div class="card-container">
+                <div class="landing-card orange-button">
+                    <div class="card-icon schedule">
+
+                    </div>
+                    <div>
+                        <header>
+                            Schedule
+                        </header>
+                        <div ng-repeat="interval in schedule">
+                            <div class="card-content">
+                                {{interval.day+" "+interval.start+" - "+interval.end}}
+                                <span ng-if="isInInterval(interval)" class="open-status-circle"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="landing-card orange-button">
+                    <div class="card-icon git">
+
+                    </div>
+                    <div>
+                        <header>
+                            Open Source
+                        </header>
+                        <div class="card-content">
+                            MC2 is open source.
+
+                        </div>
+                        <div class="line-button">
+                            <a href="https://github.com/byxchen/MC2">See on Github</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

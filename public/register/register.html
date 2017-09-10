@@ -1,0 +1,17 @@
+<div class="card" style="position: relative; top: 30%; transform: translateY(-30%);border: 1px #e0e0e0 solid;padding: 10px 10px;">
+    <div style="margin: 0 auto 20px;">
+        <div class="header-text" style="float: none; text-align: center; width: 200px; margin: 10px auto;">MC²<span>Chat</span></div>
+    </div>
+    <header ng-if="user.utorid">Register username for UTORID: </header>
+    <div style="text-align: center; font-weight: 700; color: #5d6795; font-size: 25px;">{{user.utorid}}</div>
+    <div class="error-message" ng-if="error.message">{{error.message}}</div>
+    <form class="utorid-form" ng-if="user.utorid" ng-submit="onFormSubmit();">
+        <div style="margin-top: 7px;">USERNAME:</div>
+        <input ng-model="form.username" type="text"/>
+        <div>CONFIRM USERNAME:</div>
+        <input ng-model="form.usernameConfirmation" type="text"/>
+        <div class="button-wrapper">
+            <input type="submit" class="confirm-button"/>
+        </div>
+    </form>
+</div>

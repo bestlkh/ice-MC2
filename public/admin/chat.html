@@ -1,0 +1,37 @@
+
+    <div class="control-header">
+        <header> Chat Room Controller </header>
+        <div class="header-control-wrapper">
+            <logout-menu user="user"></logout-menu>
+        </div>
+    </div>
+    <div class="control-content">
+        <div class="card chat-room-controller">
+            <div class="status-wrapper">
+                <div>
+                    <header>Status</header>
+                    <div style="font-size: 17px;" ng-class="{'green-text': controller.status === 'Online', 'red-text': controller.status === 'Offline'}">{{controller.status}}</div>
+                </div>
+                <div>
+                    <header>Chat Room Name</header>
+                    <div>{{settings.roomName}}</div>
+                </div>
+                <div>
+                    <header>In Chat Room</header>
+                    <div>{{controller.people}}</div>
+                </div>
+            </div>
+
+            <div style="display: flex;">
+                <div class="send-result" ng-if="controller.sendResult">{{controller.sendResult.success ? "Success" : "Failed"}}</div>
+                <div class="chat-button send-button" ng-click="Actions.sendTrackEmails();">Send Tracking Email</div>
+            </div>
+        </div>
+        <div class="chat-room-frame">
+            <div class="create-room" ng-if="!controller.connected" ng-click="Actions.getSessionToken();">Start room session</div>
+
+            <iframe iframe-on-load="startController()" ng-if="controller.connected" src={{"/#/v1/ChatRoom/"+settings.roomName}} allowfullscreen="allowfullscreen" frameborder="0" scrolling="no" style="width: 100%; height: 100%">
+
+            </iframe>
+        </div>
+    </div>

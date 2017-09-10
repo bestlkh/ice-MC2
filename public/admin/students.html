@@ -1,0 +1,65 @@
+<div class="control-header">
+    <header> Students </header>
+    <div class="header-control-wrapper">
+        <logout-menu user="user"></logout-menu>
+    </div>
+</div>
+<div class="control-content">
+    <div class="student-control-wrapper">
+        <input class="student-search" ng-model="search.value" ng-change="onSearchChange()"/>
+
+        <div class="button-wrapper">
+            <div class="line-button import-button" ng-click="onImportClick()">
+                Import
+            </div>
+            <div class="line-button add-button">
+                Add Item
+            </div>
+        </div>
+    </div>
+    <div class="student-list" >
+        <div class="student-list-header">
+            <div> Utorid </div>
+
+            <div> Email </div>
+        </div>
+        <div class="list-wrapper" ng-repeat="student in students">
+            <div class="student-item" ng-if="checkInclude(student)">
+                <div>{{student.utorid}}</div>
+
+                <div>{{student.email}}</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="import-overlay" ng-if="!hideImport" ng-click="onOverlayClick($event)">
+        <div class="import-wrapper">
+            <header> Import student list </header>
+            <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
+            <form ng-submit="onImportSubmit()">
+                <div class="form-wrapper">
+                    <div class="">
+                        Upload student CSV file
+                    </div>
+                    <div>
+                        Drag and drop
+                    </div>
+                    <div class="font-light">
+                        <span>or</span>
+                        <label class="upload-button">
+                            <input type="file" required fileread="import.csv"/>
+                            <span>Browse</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="button-wrapper">
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+                    <input type="submit" />
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>

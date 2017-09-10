@@ -1,0 +1,26 @@
+{
+  "name": "chatroom",
+  "description": "NodeJS based Text, Image, File Real Time Chat Room",
+  "main": "",
+  "authors": [
+    "[object Object]",
+    "[object Object]"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "NodeJS",
+    "AngularJS",
+    "Web",
+    "Sockets",
+    "File",
+    "Sharing"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

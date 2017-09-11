@@ -1811,6 +1811,7 @@ a:hover,a:active,a:focus {
     position: absolute;
     right: 10px;
     top: 5px
+    display: flex;
 }
 
 .box-header>.box-tools [data-toggle="tooltip"] {
@@ -1823,7 +1824,7 @@ a:hover,a:active,a:focus {
 }
 
 .btn-box-tool {
-    padding: 5px;
+    padding: 5px 4px;
     font-size: 12px;
     background: transparent;
     box-shadow: none!important;

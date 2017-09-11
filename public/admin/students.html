@@ -12,7 +12,7 @@
             <div class="line-button import-button" ng-click="onImportClick()">
                 Import
             </div>
-            <div class="line-button add-button">
+            <div class="line-button add-button" ng-click="onAddClick()">
                 Add Item
             </div>
         </div>
@@ -32,8 +32,8 @@
         </div>
 
     </div>
-    <div class="import-overlay" ng-if="!hideImport" ng-click="onOverlayClick($event)">
-        <div class="import-wrapper">
+    <div class="import-overlay" ng-if="!hideOverlay" ng-click="onOverlayClick($event)">
+        <div class="import-wrapper" ng-if="!hideImport">
             <header> Import student list </header>
             <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
             <form ng-submit="onImportSubmit()">
@@ -41,16 +41,42 @@
                     <div class="">
                         Upload student CSV file
                     </div>
-                    <div>
-                        Drag and drop
+                    <div ng-if="import.csv">
+                        <div>{{import.csv.name}}</div>
+
+                        <div>{{import.csv.size+" bytes"}}</div>
                     </div>
                     <div class="font-light">
-                        <span>or</span>
                         <label class="upload-button">
                             <input type="file" required fileread="import.csv"/>
                             <span>Browse</span>
                         </label>
                     </div>
+                </div>
+
+                <div class="button-wrapper">
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+                    <input type="submit" />
+                </div>
+
+            </form>
+        </div>
+        <div class="import-wrapper" ng-if="!hideAdd">
+            <header> Add student to list </header>
+            <form ng-submit="onAddSubmit()">
+
+                <div class="form-wrapper" style="border: 0;">
+                    <div class="add-wrapper">
+                        <div>
+                            Utorid:
+                        </div>
+                        <input type="text" ng-model="student.utorid" required/>
+                        <div>
+                            Email:
+                        </div>
+                        <input type="text" ng-model="student.email" required/>
+                    </div>
+
                 </div>
 
                 <div class="button-wrapper">

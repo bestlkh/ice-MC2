@@ -19,10 +19,14 @@ angular.module('Controllers')
         $rootScope.tabActive = "students";
 
         $scope.hideImport = true;
+        $scope.hideOverlay = true;
+        $scope.hideAdd = true;
 
         $scope.import = {
             csv: null
         };
+
+        $scope.student = {};
 
         $scope.search = {
             value: ""
@@ -51,17 +55,30 @@ angular.module('Controllers')
                     }
                 })
             },
-            postStudentList: function (csv) {
+            putStudentList: function (csv) {
                 $.ajax({
-                    method: "POST",
+                    method: "PUT",
                     url: "/v1/api/students",
                     data:  JSON.stringify({csv: csv}),
                     processData: false,
                     contentType: "application/json",
                     success: function (result) {
                         $scope.students = result;
-                        $scope.hideImport = true;
+                        $scope.hideImport = $scope.hideOverlay = true;
                         $scope.$apply();
+                    }
+                })
+            },
+            patchStudentList: function () {
+                $.ajax({
+                    method: "PATCH",
+                    url: "/v1/api/students",
+                    data:  JSON.stringify($scope.student),
+                    processData: false,
+                    contentType: "application/json",
+                    success: function (result) {
+                        $scope.Actions.getStudentList();
+                        $scope.hideAdd = $scope.hideOverlay = true;
                     }
                 })
             }
@@ -80,24 +97,32 @@ angular.module('Controllers')
         };
 
         $scope.onImportClick = function () {
-            $scope.hideImport = false;
+            $scope.hideImport = $scope.hideOverlay = false;
+        };
+
+        $scope.onAddClick = function () {
+            $scope.hideAdd = $scope.hideOverlay = false;
         };
 
         $scope.onOverlayClick = function ($event) {
             var form = document.getElementsByClassName("import-wrapper")[0];
             if ($event.target !==  form && !form.contains($event.target)) {
-                $scope.hideImport = true;
+                $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
             }
         };
 
         $scope.onCancelClick = function () {
-            $scope.hideImport = true;
+            $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
         };
 
         $scope.onImportSubmit = function () {
             $scope.getBase64($scope.import.csv, function (csv) {
-                $scope.Actions.postStudentList(csv);
+                $scope.Actions.putStudentList(csv);
             });
+        };
+
+        $scope.onAddSubmit = function () {
+            $scope.Actions.patchStudentList();
         };
 
         $scope.Actions.getStudentList();

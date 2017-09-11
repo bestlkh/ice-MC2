@@ -10,7 +10,7 @@ angular.module('Controllers')
                 })
             }
         }})
-    .controller("chatController", function ($scope, $rootScope, $routeParams, $socket) {
+    .controller("chatController", function ($scope, $rootScope, $routeParams, $socket, $window) {
         $rootScope.tabActive = "chat";
 
         $scope.controller = {
@@ -34,6 +34,10 @@ angular.module('Controllers')
                 });
             }, 1000);
         };
+
+        $scope.$on('$destroy', function() {
+            clearInterval($rootScope.chatController);
+        });
 
         $socket.on("disconnect", function () {
             if ($rootScope.chatController) clearInterval($rootScope.chatController);

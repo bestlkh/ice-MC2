@@ -1142,6 +1142,26 @@ input[type="submit"]:hover {
 	background-color: transparent;
 }
 
+.add-wrapper {
+	width: 200px;
+	margin: auto;
+}
+
+.add-wrapper div {
+	text-align: left;
+	margin: 8px 0 3px 0;
+}
+
+.add-wrapper input {
+	width: 100%;
+	border: 1px #c0c0c0 solid;
+	padding: 6px;
+	outline: none;
+}
+
+.add-wrapper input:focus {
+	border-color: #5d6795;
+}
 
 @keyframes OpenPulse {
     from {

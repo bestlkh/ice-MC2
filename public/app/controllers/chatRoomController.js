@@ -14,7 +14,7 @@ angular.module('Controllers')
         {
           setTimeout(function() {
 			  $(element).scrollTop($(element)[0].scrollHeight);
-		  }, 200);
+		  }, 100);
         }
       });
     }

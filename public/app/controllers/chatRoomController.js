@@ -3,16 +3,18 @@ var chatLog = "";
 
 
 angular.module('Controllers')
-.directive('schrollBottom', function () {		// custom directive for scrolling bottom on new message load
+.directive('scrollBottom', function () {		// custom directive for scrolling bottom on new message load
   return {
     scope: {
-      schrollBottom: "="
+      scrollBottom: "="
     },
     link: function (scope, element) {
-      scope.$watchCollection('schrollBottom', function (newValue) {
+      scope.$watchCollection('scrollBottom', function (newValue) {
         if (newValue)
         {
-          $(element).scrollTop($(element)[0].scrollHeight);
+          setTimeout(function() {
+			  $(element).scrollTop($(element)[0].scrollHeight);
+		  }, 200);
         }
       });
     }
@@ -189,7 +191,7 @@ angular.module('Controllers')
 
 	// recieving new text message
 	$socket.on("new message", function(data){
-		console.log(data);
+		//console.log(data);
 
         data.ownMsg = (data.username === $rootScope.username);
 

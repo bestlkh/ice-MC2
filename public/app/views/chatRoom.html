@@ -58,9 +58,9 @@
 
 
               </div><!-- /.box-header -->
-              <div id="chat_body_div" class="box-body">
+              <div id="chat_body_div" class="box-body" >
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="dcs" schroll-bottom="messeges">
+                <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
                   <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}" >
                     {{console.log(messege.type)}}

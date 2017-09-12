@@ -32,7 +32,8 @@ function AdminView(socketController, expressApp) {
     this.ios = socketController;
     this.app = expressApp;
 
-    this.controlSessionIds = {};
+    // switch to redis at some point to prevent memory leaks
+    this.controllers = {};
     this.ios.tracking = {};
 
     this.app.use(bodyParser.json());
@@ -51,15 +52,6 @@ AdminView.prototype.setupRoute = function () {
     });
 
 
-};
-
-var User = function(user){
-    var salt = crypto.randomBytes(16).toString('base64');
-    var hash = crypto.createHmac('sha512', salt);
-    hash.update(user.password);
-    this.username = user.username;
-    this.salt = salt;
-    this.saltedHash = hash.digest('base64');
 };
 
 var Student = function (student) {
@@ -102,14 +94,23 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
                 if (err) return res.status(500).end("Server error, could not resolve request");
-                if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({message: "Invalid username or password", status: 403});
-                req.session.user = user;
+                    db.collection("settings").findOne({user: user.username}, function (err, settings) {
+                        if (err) return res.status(500).end("Server error, could not resolve request");
+                        if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
+                            message: "Invalid username or password",
+                            status: 403
+                        });
+                        req.session.user = user;
+                        req.session.username = user.username;
+                        req.session.isAdmin = true;
+                        req.session.settings = settings ? settings : {};
+                        req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
+                        res.cookie('username', user.username, {httpOnly: false});
 
-                res.cookie('username', user.username, {httpOnly: false});
+                        res.json({username: user.username, redirect: req.session.redirectTo});
+                        delete req.session.redirectTo;
 
-                res.json({username: user.username, redirect: req.session.redirectTo});
-                delete req.session.redirectTo;
-
+                    });
             });
         });
     });
@@ -126,8 +127,6 @@ AdminView.prototype.setupApi = function () {
 
         });
     });
-
-
 
     function generateURLs(list) {
         var urls = {};
@@ -191,12 +190,12 @@ AdminView.prototype.setupApi = function () {
     this.app.get("/v1/api/chat/start", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
-                req.session.user.roomName = settings.chat.roomName;
+                //req.session.user.roomName = settings.chat.roomName;
                 req.session.username = req.session.user.username;
                 req.session.settings = settings;
                 req.session.connected = true;
+                req.session.isInstructor = false;
                 req.session.isAdmin = true;
-                req.session.userAvatar = 'avatar1.jpg';
                 res.json({roomName: settings.chat.roomName});
             });
         });
@@ -242,7 +241,7 @@ AdminView.prototype.setupApi = function () {
 
         });
     });
-    
+
     this.app.get("/v1/api/settings/:type", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
@@ -262,7 +261,7 @@ AdminView.prototype.setupApi = function () {
                             var newSettings = new ChatSetting(req.body.settings);
                             db.collection("settings").updateOne({user: req.session.user.username}, {$set: {chat: newSettings}}, {upsert: true}, function (err, result) {
                                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                                req.session.settings = newSettings;
+                                req.session.settings.chat = newSettings;
 
                                 res.json(newSettings);
 
@@ -303,8 +302,9 @@ AdminView.prototype.setupSocket = function () {
             var room = findRoom(socket.handshake.session.connectedRoom);
             data.type = "chat";
             if (socket.handshake.session.username && room.admin) {
+                if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
                 MongoClient.connect(constants.dbUrl, function (err, db) {
-                    db.collection("chatHistory").updateOne({sessionId: room.sessionId, owner: room.admin.handshake.session.username}, {$push: {messages: data}}, {upsert: true}, function (err, result) {
+                    db.collection("chatHistory").updateOne({sessionId: room.sessionId, owner: room.admin.handshake.session.username, roomName: socket.handshake.session.connectedRoom}, {$push: {messages: data}}, {upsert: true}, function (err, result) {
 
                     });
                 });
@@ -312,14 +312,31 @@ AdminView.prototype.setupSocket = function () {
             }
         });
 
+        socket.on("logout", function () {
+            var room = findRoom(socket.handshake.session.connectedRoom);
+            if (!room) return;
+            room.admin = null;
+            var session = socket.handshake.session;
+            if (this.controllers[session.id])
+                this.controllers[session.id].emit("stop_controller");
+        }.bind(this));
+
+        socket.on("instructor_login", function (callback) {
+            var session = socket.handshake.session;
+            if (!session.user) return socket.disconnect();
+            setSessionVars({isInstructor: true, username: session.user.username});
+            callback({});
+        }.bind(this));
+
         socket.on("admin_get_status", function (data, callback) {
 
             socket.handshake.session.reload(function (err) {
                 if (err) return callback();
                 if (socket.handshake.session.isAdmin) {
-                    var user = socket.handshake.session.user;
-                    if (!this.ios.sockets.adapter.rooms[user.roomName]) return callback({status: "Offline", online: 0});
-                    callback({online: this.ios.sockets.adapter.rooms[user.roomName].length, status: "Online"})
+                    var session = socket.handshake.session;
+                    this.controllers[session.id] = socket;
+                    if (!this.ios.sockets.adapter.rooms[session.settings.chat.roomName]) return callback({status: "Offline", online: 0});
+                    callback({online: this.ios.sockets.adapter.rooms[session.settings.chat.roomName].length, status: "Online"})
                 } else callback({});
             }.bind(this));
 

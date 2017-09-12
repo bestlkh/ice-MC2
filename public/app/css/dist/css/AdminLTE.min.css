@@ -1810,7 +1810,7 @@ a:hover,a:active,a:focus {
 .box-header>.box-tools {
     position: absolute;
     right: 10px;
-    top: 5px
+    top: 5px;
     display: flex;
 }
 

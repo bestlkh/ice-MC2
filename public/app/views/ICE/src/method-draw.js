@@ -3319,7 +3319,7 @@ var SOTP = 0;
       var Actions = function() {
         // sel:'selector', fn:function, evt:'event', key:[key, preventDefault, NoDisableInInput]
         var tool_buttons = [
-          {sel:'#tool_swap', fn: clickConvert, evt: 'click', key: [modKey + 'return', true]},
+          {sel:'#tool_swap', fn: clickSwap, evt: 'click', key: [modKey + 'return', true]},
           {sel:'#tool_select', fn: clickSelect, evt: 'click', kAy: ['V', true]},
           {sel:'#tool_selectpath', fn: clickSwapCursor, evt: 'click', kAy: ['V', true]},
           {sel:'#tool_undobutton', fn: clickUndo, evt: 'click', kAy: ['U', true]},
@@ -3329,7 +3329,7 @@ var SOTP = 0;
           {sel:'#tool_line', fn: clickLine, evt: 'click', kAy: ['L', true]},
           {sel:'#tool_rect', fn: clickRect, evt: 'click', kAy: ['R', true], icon: 'rect'},
           {sel:'#tool_ellipse', fn: clickEllipse, evt: 'mouseup', kAy: ['C', true], icon: 'ellipse'},
-          {sel:'#tool_convert', fn: getBST, evt: 'click', kAy: ['L', true]},
+          {sel:'#tool_convert', fn: clickConvert, evt: 'click', kAy: ['L', true]},
           //{sel:'#tool_circle', fn: clickCircle, evt: 'mouseup', icon: 'circle'},
           //{sel:'#tool_fhellipse', fn: clickFHEllipse, evt: 'mouseup', parent: '#tools_ellipse', icon: 'fh_ellipse'},
           {sel:'#tool_path', fn: clickPath, evt: 'click', kAy: ['P', true]},

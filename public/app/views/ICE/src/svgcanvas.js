@@ -9085,9 +9085,7 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
 //      for(var j in selectedBBoxes[i]) b[j] = selectedBBoxes[i][j];
 //      selectedBBoxes[i] = b;
       if(elementIn) {
-        console.log(elements, selected, getBBox(selected).x, curX)
         if (getBBox(selected).x > curX) {
-          console.log("break");
           break;
         } else {
           curX = getBBox(selected).x +getBBox(selected).width + dx;
@@ -9810,7 +9808,7 @@ var moveCursorAbs = this.moveCursorAbs;
     var regionCondFunc = function(region) {
       var res = (region.wall.left <= cursor_x && cursor_x < region.wall.right
         && region.wall.top <= cursor_y + 10 && cursor_y + 10 < region.wall.bottom);
-      console.log('region', region.region_name, 'wall', region.wall, 'cursorx, y', cursor_x + 1, cursor_y + 10, res);
+      //console.log('region', region.region_name, 'wall', region.wall, 'cursorx, y', cursor_x + 1, cursor_y + 10, res);
       return res;
     }.bind(this);
     var pushElems = [];

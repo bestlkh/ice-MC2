@@ -60,6 +60,7 @@ Expression.prototype.apply = function(func, regionCondFunc, condFunc) {
         }
     }
     if(!regionCondFunc) {
+        console.log(1);
         regionCondFunc = function() {
             return true;
         }

@@ -9073,6 +9073,8 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
     elements = selectedElements;
   }
   var i = elements.length;
+  var curs = document.getElementById('math_cursor');
+  var curX = getBBox(curs).x + dx;
   while (i--) {
     var selected = elements[i];
     if (selected != null) {
@@ -9082,7 +9084,15 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
 //      var b = {};
 //      for(var j in selectedBBoxes[i]) b[j] = selectedBBoxes[i][j];
 //      selectedBBoxes[i] = b;
-
+      if(elementIn) {
+        console.log(elements, selected, getBBox(selected).x, curX)
+        if (getBBox(selected).x > curX) {
+          console.log("break");
+          break;
+        } else {
+          curX = getBBox(selected).x +getBBox(selected).width + dx;
+        }
+      }
       var xform = svgroot.createSVGTransform();
       var tlist = getTransformList(selected);
 
@@ -9113,6 +9123,9 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
       }
       if (!elementIn)
         selectorManager.requestSelector(selected).resize();
+      if (elementIn) {
+        console.log(selected);
+      }
     }
   }
   if (!batchCmd.isEmpty()) {
@@ -9795,9 +9808,9 @@ var moveCursorAbs = this.moveCursorAbs;
     cursor_x = Number(cursor_x);
 
     var regionCondFunc = function(region) {
-      //console.log('region', region.region_name, 'wall', region.wall, 'cursorx, y', cursor_x + 1, cursor_y + 10);
       var res = (region.wall.left <= cursor_x && cursor_x < region.wall.right
-              && region.wall.top <= cursor_y + 10 && cursor_y + 10 < region.wall.bottom);
+        && region.wall.top <= cursor_y + 10 && cursor_y + 10 < region.wall.bottom);
+      console.log('region', region.region_name, 'wall', region.wall, 'cursorx, y', cursor_x + 1, cursor_y + 10, res);
       return res;
     }.bind(this);
     var pushElems = [];
@@ -9828,6 +9841,7 @@ var moveCursorAbs = this.moveCursorAbs;
         addCommandToHistory(batchCmd);
     } */
     //console.log(pushElems);
+    pushElems.reverse();
     canvas.moveSelectedElements(spacing, 0, true, pushElems);
   }
 

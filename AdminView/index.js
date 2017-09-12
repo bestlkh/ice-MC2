@@ -8,6 +8,7 @@ var csv = require('csv');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require("mongodb").ObjectID;
+const nodemailer = require('nodemailer');
 
 var sessionRedirect = function (req, res, next) {
     if (!req.session.user && req.originalUrl !== "/favicon.ico") {
@@ -17,14 +18,22 @@ var sessionRedirect = function (req, res, next) {
     return next();
 };
 
-const SMTPConnection = require('nodemailer/lib/smtp-connection');
-var connection = new SMTPConnection({host: constants.smtp.host, secure: true, requireTLS: true});
+var transporter = nodemailer.createTransport({
+    host: constants.smtp.host,
+    secure: true,
+    requireTLS: true,
+    auth: {
+        user: constants.smtp.username,
+        pass: constants.smtp.password
+    }
+});
 
 function AdminView(socketController, expressApp) {
     this.ios = socketController;
     this.app = expressApp;
 
-    this.controlSessionIds = {};
+    // switch to redis at some point to prevent memory leaks
+    this.controllers = {};
     this.ios.tracking = {};
 
     this.app.use(bodyParser.json());
@@ -45,13 +54,9 @@ AdminView.prototype.setupRoute = function () {
 
 };
 
-var User = function(user){
-    var salt = crypto.randomBytes(16).toString('base64');
-    var hash = crypto.createHmac('sha512', salt);
-    hash.update(user.password);
-    this.username = user.username;
-    this.salt = salt;
-    this.saltedHash = hash.digest('base64');
+var Student = function (student) {
+    this.utorid = student.utorid;
+    this.email = student.email;
 };
 
 var ChatSetting = function (settings) {
@@ -89,14 +94,23 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
                 if (err) return res.status(500).end("Server error, could not resolve request");
-                if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({message: "Invalid username or password", status: 403});
-                req.session.user = user;
+                    db.collection("settings").findOne({user: user.username}, function (err, settings) {
+                        if (err) return res.status(500).end("Server error, could not resolve request");
+                        if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
+                            message: "Invalid username or password",
+                            status: 403
+                        });
+                        req.session.user = user;
+                        req.session.username = user.username;
+                        req.session.isAdmin = true;
+                        req.session.settings = settings ? settings : {};
+                        req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
+                        res.cookie('username', user.username, {httpOnly: false});
 
-                res.cookie('username', user.username, {httpOnly: false});
+                        res.json({username: user.username, redirect: req.session.redirectTo});
+                        delete req.session.redirectTo;
 
-                res.json({username: user.username, redirect: req.session.redirectTo});
-                delete req.session.redirectTo;
-
+                    });
             });
         });
     });
@@ -113,8 +127,6 @@ AdminView.prototype.setupApi = function () {
 
         });
     });
-
-
 
     function generateURLs(list) {
         var urls = {};
@@ -136,31 +148,31 @@ AdminView.prototype.setupApi = function () {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
                     var urls = generateURLs(list.students);
+                    console.log(urls);
                     this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
-                    connection.connect(function () {
-                        connection.login({
-                            credentials: {
-                                user: constants.smtp.username,
-                                pass: constants.smtp.password
-                            }
-                        }, function (err) {
+
                             Promise.all(Object.keys(urls).map(function (id) {
                                 return new Promise(function (resolve, rej) {
-                                    connection.send({
-                                        from: constants.smtp.username,
-                                        to: urls[id].email
-                                    }, "test confirmation: http://127.0.0.1:8080/#/v1/"+settings.chat.roomName+"?trackId=" + id, function (err, info) {
+                                    var mailOptions = {
+                                        from: '"Test" <'+constants.smtp.username+'>', // sender address
+                                        to: urls[id].email, // list of receivers
+                                        subject: 'test', // Subject line
+                                        text: "test confirmation: http://127.0.0.1:8080/#/v1/"+settings.chat.roomName+"?trackId=" + id // plain text body
+                                    };
+                                    transporter.sendMail(mailOptions, function (err, info) {
+                                        if (err) return rej(err);
                                         resolve(info);
                                     });
                                 });
 
                             })).then(function (details) {
-                                connection.quit();
                                 res.json({success: true, details: details});
+                            }).catch(function (err) {
+                                res.status(500).json({});
                             });
 
-                        });
-                    });
+
+
                 }.bind(this));
             }.bind(this));
 
@@ -178,12 +190,12 @@ AdminView.prototype.setupApi = function () {
     this.app.get("/v1/api/chat/start", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
-                req.session.user.roomName = settings.chat.roomName;
+                //req.session.user.roomName = settings.chat.roomName;
                 req.session.username = req.session.user.username;
                 req.session.settings = settings;
                 req.session.connected = true;
+                req.session.isInstructor = false;
                 req.session.isAdmin = true;
-                req.session.userAvatar = 'avatar1.jpg';
                 res.json({roomName: settings.chat.roomName});
             });
         });
@@ -200,35 +212,36 @@ AdminView.prototype.setupApi = function () {
         });
     });
 
-    this.app.post("/v1/api/students", checkAuth, function (req, res) {
+    this.app.patch("/v1/api/students", checkAuth, function (req, res) {
+        var student = new Student(req.body);
+
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("students").update({owner: req.session.user.username}, {$push: {students: student}}, {upsert: true}, function (err, list) {
+                res.json({});
+                db.close();
+            });
+
+        });
+    });
+
+    this.app.put("/v1/api/students", checkAuth, function (req, res) {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function(err, data) {
             MongoClient.connect(constants.dbUrl, function (err, db) {
 
-                db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
-                    if (list) {
+
                         db.collection("students").updateOne({owner: req.session.user.username}, {
                             $set: {students: data}
-                        }, function (err, result) {
-                            res.json(data);
-                            db.close();
-                        })
-                    }
-                    else {
-                        var entry = {
-                            owner: req.session.user.username,
-                            students: data
-                        };
-                        db.collection("students").insertOne(entry, function (err, result) {
+                        }, {upsert: true}, function (err, result) {
                             res.json(data);
                             db.close();
                         });
-                    }
+
                 });
 
-            });
+
         });
     });
-    
+
     this.app.get("/v1/api/settings/:type", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
@@ -246,9 +259,10 @@ AdminView.prototype.setupApi = function () {
                     switch (req.params.type) {
                         case "chat":
                             var newSettings = new ChatSetting(req.body.settings);
-                            console.log(req.body.settings);
-                            console.log(newSettings);
                             db.collection("settings").updateOne({user: req.session.user.username}, {$set: {chat: newSettings}}, {upsert: true}, function (err, result) {
+                                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                                req.session.settings.chat = newSettings;
+
                                 res.json(newSettings);
 
                             });
@@ -288,8 +302,9 @@ AdminView.prototype.setupSocket = function () {
             var room = findRoom(socket.handshake.session.connectedRoom);
             data.type = "chat";
             if (socket.handshake.session.username && room.admin) {
+                if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
                 MongoClient.connect(constants.dbUrl, function (err, db) {
-                    db.collection("chatHistory").updateOne({sessionId: room.sessionId, owner: room.admin.handshake.session.username}, {$push: {messages: data}}, {upsert: true}, function (err, result) {
+                    db.collection("chatHistory").updateOne({sessionId: room.sessionId, owner: room.admin.handshake.session.username, roomName: socket.handshake.session.connectedRoom}, {$push: {messages: data}}, {upsert: true}, function (err, result) {
 
                     });
                 });
@@ -297,14 +312,32 @@ AdminView.prototype.setupSocket = function () {
             }
         });
 
+        socket.on("logout", function () {
+            var room = findRoom(socket.handshake.session.connectedRoom);
+            if (!room) return;
+            room.admin = null;
+            var session = socket.handshake.session;
+            if (this.controllers[session.id])
+                this.controllers[session.id].emit("stop_controller");
+        }.bind(this));
+
+        socket.on("instructor_login", function (callback) {
+            var session = socket.handshake.session;
+            if (!session.user) return socket.disconnect();
+            setSessionVars({isInstructor: true, username: session.user.username});
+            callback({});
+        }.bind(this));
+
         socket.on("admin_get_status", function (data, callback) {
+
             socket.handshake.session.reload(function (err) {
                 if (err) return callback();
                 if (socket.handshake.session.isAdmin) {
-                    var user = socket.handshake.session.user;
-                    if (!this.ios.sockets.adapter.rooms[user.roomName]) return callback({status: "Offline", online: 0});
-                    callback({online: this.ios.sockets.adapter.rooms[user.roomName].length, status: "Online"})
-                } else callback({status: "Offline", online: "0"});
+                    var session = socket.handshake.session;
+                    this.controllers[session.id] = socket;
+                    if (!this.ios.sockets.adapter.rooms[session.settings.chat.roomName]) return callback({status: "Offline", online: 0});
+                    callback({online: this.ios.sockets.adapter.rooms[session.settings.chat.roomName].length, status: "Online"})
+                } else callback({});
             }.bind(this));
 
         }.bind(this));

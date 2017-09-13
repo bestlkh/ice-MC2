@@ -281,7 +281,7 @@
                           var newHeight = chatHeight.substring(0, chatHeight.indexOf("px")) - 260;
                           newHeight = newHeight + "px";
                           document.getElementById("chat_body_div").style.height = newHeight;
-                          window.scroll(0,0);
+                          setTimeout(function() { window.scroll(0,0);}, 100);
                         }
                       };
 
@@ -292,7 +292,7 @@
                           var newHeight = Number(chatHeight.substring(0, chatHeight.indexOf("px"))) + 260;
                           newHeight = newHeight + "px";
                           document.getElementById("chat_body_div").style.height = newHeight; 
-                          window.scroll(0,0);
+                          setTimeout(function() { window.scroll(0,0);}, 100);
                         }
                       };
                     </script>

@@ -68,6 +68,7 @@ angular.module('Controllers')
 
 	$(document).bind("mouseup", function (e) {
 		var setting = $(".chat-settings")[0];
+		if (!setting) return;
 		if (e.target !== setting && !setting.contains(e.target)) {
 			$scope.hideSettings = true;
 			$scope.$apply();
@@ -78,6 +79,7 @@ angular.module('Controllers')
 	if(!$rootScope.loggedIn){
 		$location.path('/v1/'+$routeParams.roomId);
 	} else {
+		console.log($rootScope.loggedIn);
         $socket.emit('join-room', {roomId: $routeParams.roomId}, function(data) {
         	//$scope.messeges.push(data);
             chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
@@ -139,7 +141,10 @@ angular.module('Controllers')
     };
 
     $scope.logout = function () {
-		$window.open("/logout", "_self");
+        $rootScope.loggedIn = false;
+		$socket.emit("logout", function () {
+			$window.open("/", "_self");
+        })
     };
 
 

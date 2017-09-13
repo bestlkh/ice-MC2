@@ -6,24 +6,24 @@ App.config(function ($routeProvider, $locationProvider){
     //$socketProvider.setConnectionUrl('http://142.1.93.22:8080'); // Socket URL
     $routeProvider	// AngularJS Routes
         .when('/dashboard', {
-            templateUrl: 'dashboard.html',
+            templateUrl: '/app/views/admin/dashboard.html',
             controller: 'dashboardController'
         })
         .when('/chat', {
-            templateUrl: 'chat.html',
+            templateUrl: '/app/views/admin/chat.html',
             controller: 'chatController'
         })
         .when('/chatSettings', {
-            templateUrl: 'chatSettings.html',
+            templateUrl: '/app/views/admin/chatSettings.html',
             controller: 'chatSettingsController'
         })
         .when('/students', {
-            templateUrl: 'students.html',
+            templateUrl: '/app/views/admin/students.html',
             controller: 'studentsController'
         })
         .otherwise({
             redirectTo: '/dashboard',	// Default Route
-            templateUrl: 'dashboard.html',
+            templateUrl: '/app/views/admin/dashboard.html',
             controller: 'dashboardController'
         });
 

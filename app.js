@@ -110,9 +110,19 @@ ios.on('connection', function(socket){
         socket.handshake.session.save();
     }
 
-	socket.on("check-session", function (callback) {
-		if (!socket.handshake.session.username) callback({});
-		else callback({username: socket.handshake.session.username, avatar: socket.handshake.session.userAvatar, room: socket.handshake.session.connectedRoom});
+	socket.on("check-session", function (data, callback) {
+        var session = socket.handshake.session;
+        var isRoomAdmin = false;
+        if (data.roomName && session.settings) {
+			isRoomAdmin = (session.settings.chat.roomName === data.roomName);
+		}
+		var username = session.username;
+        if (session.user) {
+        	console.log(session.user);
+        	username = session.user.username;
+		}
+		if (!username) callback({});
+		else callback({username: username, avatar: session.userAvatar, room: session.connectedRoom, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
     });
 
 	socket.on("join-room", function(data, callback) {
@@ -120,20 +130,23 @@ ios.on('connection', function(socket){
 		if (socket.handshake.session.username) {
 			socket.leave(socket.handshake.session.connectedRoom, function () {
                 socket.join(data.roomId, function () {
-                    setSessionVar('connectedRoom', data.roomId);
+
                     //console.log(socket.username+" joined room "+ data.roomId);
 
                     var room = findRoom(data.roomId);
 
-					if (socket.handshake.session.isAdmin) {
+					if (socket.handshake.session.isAdmin && !socket.handshake.session.isInstructor) {
                         ios.sockets.adapter.rooms[data.roomId].admin = socket;
 						if (!room.sessionId) room.sessionId = uuidv4();
 						room.inviteOnly = socket.handshake.session.settings.chat.invite;
+						if (socket.handshake.session.connectedRoom) {
+							findRoom(socket.handshake.session.connectedRoom).admin = null;
+						}
 
 					} else if (ios.sockets.adapter.rooms[data.roomId].admin)
 						ios.sockets.adapter.rooms[data.roomId].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", msgTime: new Date(), type: "system"});
 
-
+                    setSessionVar('connectedRoom', data.roomId);
 
 					if (!room.messageHistory) room.messageHistory = [];
 
@@ -224,6 +237,12 @@ ios.on('connection', function(socket){
 			}
 		}
 	});
+
+	socket.on("logout", function (callback) {
+		setSessionVars({username: null, connected: null, connectedRoom: null});
+
+		callback({});
+    });
 	
 	// disconnect user handling 
 	socket.on('disconnect', function () {

@@ -28,25 +28,34 @@ angular.module('Controllers',["ngRoute"])
 	$scope.trackId = $location.search().trackId;
 	$scope.utorid = "-----";
 	$scope.error = null;
+	$scope.adminLogin = false;
+	$scope.isRoomAdmin = false;
 
 	$scope.isLoading = true;
 
 
-        $socket.emit('check-session', function (data) {
-            if (data.username) {
-            	console.log(data);
+        $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
+			console.log(data);
+            if (data.isAdmin && !data.isRoomAdmin) {
+
+                $rootScope.username = data.username;
+                $rootScope.initials = data.username.substring(0, 2);
+                $rootScope.userAvatar = data.avatar;
+            	$scope.adminLogin = true;
+            	$scope.isRoomAdmin = data.isRoomAdmin;
+			} else if (data.username) {
+
                 $rootScope.loggedIn = true;
                 $rootScope.username = data.username;
                 $rootScope.initials = data.username.substring(0, 2);
                 $rootScope.userAvatar = data.avatar;
 
                 if ($routeParams.roomId) $location.path('/v1/ChatRoom/'+$routeParams.roomId);
-                else $location.path('/v1/ChatRoom/'+data.room);
+                else if (data.room) $location.path('/v1/ChatRoom/'+data.room);
             }
             $scope.isLoading = false;
-            $scope.$apply();
-        });
 
+        });
 
         if ($scope.trackId) {
         	$.ajax({
@@ -68,6 +77,14 @@ angular.module('Controllers',["ngRoute"])
 	if($rootScope.loggedIn && $routeParams.roomId){
 		$location.path('/v1/ChatRoom/'+$routeParams.roomId);
 	}
+
+	$scope.onInstructorLogin = function () {
+		$socket.emit("instructor_login", function () {
+            $rootScope.loggedIn = true;
+            $location.path('/v1/ChatRoom/'+$routeParams.roomId);
+        });
+
+    };
 
 	$scope.changeInitials = function () {
 		$scope.form.initials = $scope.form.username.substring(0,2);

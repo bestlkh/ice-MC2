@@ -58,9 +58,9 @@ Symbol.prototype.apply = function(func, regionCondFunc, condFunc) {
                 var res = b && condFunc(symbol);
                 return res;
             };
-            if(b)
-                this.region[region_name].apply(func, function(region){return true}, combinedCondFunc);
-            else
+            //if(b)
+              //  this.region[region_name].apply(func, function(region){return true}, combinedCondFunc);
+            //else
                 this.region[region_name].apply(func, regionCondFunc, combinedCondFunc);
         }
     }

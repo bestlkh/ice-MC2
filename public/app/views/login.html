@@ -8,7 +8,7 @@
     <wave-spinner></wave-spinner>
   </div>
   <div ng-if="!isLoading">
-    <div ng-if="!(roomId && isJoin)" class="selector-wrapper2">
+    <div ng-if="!(roomId && isJoin) && (!adminLogin)" class="selector-wrapper2">
 
       <div ng-class="{'create-button2': true, 'orange-button2': true, 'button-active2': !isJoin}" ng-click="toggle(false);">
         CREATE ROOM
@@ -21,7 +21,12 @@
     <div ng-if="error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
       <div class="error" style="text-align: center;">{{error.message}}</div>
     </div>
-    <div ng-if="!error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
+
+    <div ng-if="adminLogin && roomId && !isRoomAdmin" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
+      <div style="text-align: center;margin-bottom: 10px">Login in as an <b>Instructor</b> for room <b>{{roomId}}</b></div>
+      <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Start</button>
+    </div>
+    <div ng-if="!error && !(adminLogin && !isRoomAdmin && roomId)" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
       <h4 ng-if="!roomId || !isJoin" class="login-box-msg">Sign in to get started...</h4>
       <h4 ng-if="roomId && isJoin && !trackId" class="login-box-msg">Sign in to join room <b>{{roomId}}</b></h4>
       <h4 ng-if="roomId && isJoin && trackId" class="login-box-msg">Welcome <b>{{utorid}}</b>, sign into <b>{{roomId}}</b></h4>

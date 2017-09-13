@@ -9067,10 +9067,13 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
   }
   var undoable = undoable || true;
   var elementIn = true;
+  var direction = 1; // 1 is for right, -1 is for left
   var batchCmd = new BatchCommand("position");
   if (!elements) {
     elementIn = false;
     elements = selectedElements;
+  } else {
+    direction = dx > 0 ? 1 : -1;
   }
   var i = elements.length;
   var curs = document.getElementById('math_cursor');
@@ -9085,10 +9088,19 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
 //      for(var j in selectedBBoxes[i]) b[j] = selectedBBoxes[i][j];
 //      selectedBBoxes[i] = b;
       if(elementIn) {
-        if (getBBox(selected).x > curX) {
-          break;
+        if (direction > 0) {
+          if (getBBox(selected).x > curX) {
+            break;
+          } else {
+            curX = getBBox(selected).x +getBBox(selected).width + dx;
+          }
         } else {
-          curX = getBBox(selected).x +getBBox(selected).width + dx;
+          if (getBBox(selected).x + getBBox(selected).width <= curX) {
+            console.log(elements);
+            break;
+          } else {
+            curX = getBBox(selected).x + dx;
+          }
         }
       }
       var xform = svgroot.createSVGTransform();
@@ -9106,6 +9118,7 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
 //          selectedBBoxes[0].x += dx;
 //          selectedBBoxes[0].y += dy;
 //        }
+        console.log(dx);
         xform.setTranslate(dx,dy);
       }
 
@@ -9122,7 +9135,7 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
       if (!elementIn)
         selectorManager.requestSelector(selected).resize();
       if (elementIn) {
-        console.log(selected);
+        //console.log(selected);
       }
     }
   }
@@ -9790,6 +9803,64 @@ var moveCursorAbs = this.moveCursorAbs;
     placeMathCursor(lastMouseDown_x, lastMouseDown_y);
   }
 
+
+  this.pullAllAtCursor = function(width, excl) {
+    var spacing = width;
+    if(!width) {
+      if (width == 0) {
+        return;
+      }
+      spacing = -10
+      width = 0;
+    }
+    var eqns = document.querySelectorAll('[id^="svg_eqn_"]');
+    var cursor = document.getElementById('math_cursor');
+    var cursor_x = cursor.getAttribute('x');
+    var cursor_y = Number(cursor.getAttribute('y'));
+    cursor_x = Number(cursor_x);
+
+    var regionCondFunc = function(region) {
+      var res = (region.wall.left <= cursor_x 
+              && cursor_x < region.wall.right
+              && region.wall.top <= cursor_y + 10 && cursor_y + 10 < region.wall.bottom);
+      //console.log('region', region.region_name, 'wall', region.wall, 'cursorx, y', cursor_x + 1, cursor_y + 10, res);
+      return res;
+    }.bind(this);
+    var pushElems = [];
+    var func = function(symbol) {
+      symbol = document.getElementById(symbol.id);
+      pushElems.push(symbol);
+      //var newX = Number(symbol.getAttribute('x')) + spacing;
+      //symbol.setAttribute('x', newX);
+    }.bind(this);
+
+    var condFunc = function(symbol) {
+      symbol = document.getElementById(symbol.id);
+      var eqnX = Number(getBBox(symbol).x);//.getAttribute('x'));
+      var res = (eqnX >= cursor_x && symbol != excl);
+      //console.log(symbol.id, res, eqnX, cursor_x);
+      return res;
+    }.bind(this);
+
+    var Expression = getExpression();
+    Expression.apply(func, regionCondFunc, condFunc);
+    /** canvas.undoMgr.beginUndoableChange('x', pushElems);
+    for (var i = 0; i < pushElems.length; i++) {
+        var newX = Number(pushElems[i].getAttribute('x')) + spacing;
+        pushElems[i].setAttribute('x', newX);
+      }
+    var batchCmd = canvas.undoMgr.finishUndoableChange();
+      if (!batchCmd.isEmpty()) {
+        addCommandToHistory(batchCmd);
+    } */
+    //console.log(pushElems);
+    console.log("s", spacing)
+    canvas.moveSelectedElements(spacing, 0, true, pushElems);
+  }
+
+  var pullAllAtCursor = this.pullAllAtCursor;
+
+
   this.pushAllAtCursor = function(width, excl) {
     var spacing = width;
     if(!width) {
@@ -9867,6 +9938,7 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
     if(seqns.length == 0) {
+      pullAllAtCursor();
       moveCursor(-1, 0);
       return;
     }
@@ -9878,8 +9950,10 @@ var moveCursorAbs = this.moveCursorAbs;
     })
     var t = seqns[0];
     if (math_cursor.getAttribute('x') - (getBBox(t).x + getBBox(t).width) > 5) {
+      pullAllAtCursor();
       moveCursor(-1, 0);
     } else {
+      pullAllAtCursor(-1 * getBBox(t).width);
       math_cursor.setAttribute('x', getBBox(t).x);
       selectOnly([t], false);
       canvas.deleteSelectedElements();

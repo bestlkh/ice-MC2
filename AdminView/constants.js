@@ -3,9 +3,15 @@ var constants = {
     views: ["dashboard", "chat", "students", "chatSettings"],
     dbUrl: "mongodb://127.0.0.1:27017/control",
     smtp: {
-        username: "ytnotifbot@gmail.com",
-        password: "63577477",
+        username: "",
+        password: "",
         host: "smtp.gmail.com"
+    },
+    // oauth information can be found on the application portal for microsoft stuff except for the secret
+    // DO NOT commit this stuff to git
+    oauth: {
+        secret: "",
+        appId: ""
     }
 };
 

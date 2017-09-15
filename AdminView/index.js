@@ -10,6 +10,9 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require("mongodb").ObjectID;
 const nodemailer = require('nodemailer');
 
+var passport = require("passport");
+OutlookStrategy = require('passport-outlook').Strategy;
+
 var sessionRedirect = function (req, res, next) {
     if (!req.session.user && req.originalUrl !== "/favicon.ico") {
         req.session.redirectTo = req.originalUrl;
@@ -28,6 +31,15 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+
 function AdminView(socketController, expressApp) {
     this.ios = socketController;
     this.app = expressApp;
@@ -38,6 +50,32 @@ function AdminView(socketController, expressApp) {
     this.oauthTokens = {};
 
     this.app.use(bodyParser.json());
+
+
+    passport.use(new OutlookStrategy({
+            clientID: constants.oauth.appId,
+            clientSecret: constants.oauth.secret,
+            callbackURL: 'https://127.0.0.1:8080/api/admin/auth/outlook/callback'
+        },
+        function(accessToken, refreshToken, profile, done) {
+            var user = {
+                outlookId: profile.id,
+                name: profile.DisplayName,
+                email: profile.EmailAddress,
+                accessToken:  accessToken
+            };
+            if (refreshToken)
+                user.refreshToken = refreshToken;
+            if (profile.MailboxGuid)
+                user.mailboxGuid = profile.MailboxGuid;
+            if (profile.Alias)
+                user.alias = profile.Alias;
+            done(err, user);
+        }
+    ));
+
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
 
 
     this.setupRoute();
@@ -91,6 +129,24 @@ var ChatSetting = function (settings) {
 //     });
 
 AdminView.prototype.setupApi = function () {
+    this.app.get('/admin/auth/outlook',
+        passport.authenticate('windowslive', {
+            scope: [
+                'https://outlook.office.com/Mail.Send'
+            ]
+        }),
+        function(req, res){
+            // The request will be redirected to Outlook for authentication, so
+            // this function will not be called.
+        }
+    );
+
+    this.app.get('/api/admin/auth/outlook/callback',
+        passport.authenticate('windowslive'),
+        function(req, res) {
+            res.redirect('/');
+        });
+
     this.app.post("/v1/api/login", function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("users").findOne({username: req.body.username}, function (err, user) {

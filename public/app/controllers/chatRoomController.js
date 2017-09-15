@@ -56,6 +56,8 @@ angular.module('Controllers')
 
 	$scope.hideSettings = true;
 	$scope.settingTimeout = null;
+	$scope.isLoading = true;
+	$scope.disconnected = false;
 
 	$scope.onSettingsClick = function () {
 
@@ -73,16 +75,69 @@ angular.module('Controllers')
 		}
     });
 
+	$socket.on("connect", function () {
+		console.log("connect");
+		if ($scope.disconnected) {
+			$scope.messeges.push({type: "system", msg: "Reconnected to chat."});
+			$scope.disconnected = false;
+            $socket.emit('join-room', {roomId: $routeParams.roomId}, function(data) {
+                if (!data.success) {
+
+                    $rootScope.loggedIn = false;
+
+                    $rootScope.error = data.message;
+                    return $location.path('/v1/');
+                }
+                //$scope.messeges.push(data);
+                $scope.isLoading = false;
+            });
+		}
+    });
+
 	// redirection if user is not logged in.
-	if(!$rootScope.loggedIn){
-		$location.path('/v1/'+$routeParams.roomId);
-	} else {
-		console.log($rootScope.loggedIn);
+    if(!$rootScope.loggedIn){
+
+        $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
+
+            if (data.username) {
+
+                $rootScope.loggedIn = true;
+                $rootScope.username = data.username;
+                $rootScope.initials = data.username.substring(0, 2);
+                $rootScope.userAvatar = data.avatar;
+
+                $socket.emit('join-room', {roomId: $routeParams.roomId}, function(data) {
+                    if (!data.success) {
+
+                        $rootScope.loggedIn = false;
+                        $rootScope.error = data.message;
+                        return $location.path('/v1/');
+                    }
+                    //$scope.messeges.push(data);
+                    chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
+                });
+            } else {
+                $location.path('/v1/'+$routeParams.roomId);
+            }
+            $scope.isLoading = false;
+
+        });
+    } else {
+
         $socket.emit('join-room', {roomId: $routeParams.roomId}, function(data) {
-        	//$scope.messeges.push(data);
+            if (!data.success) {
+
+                $rootScope.loggedIn = false;
+                $rootScope.error = data.message;
+                return $location.path('/v1/');
+            }
+            //$scope.messeges.push(data);
+            $scope.isLoading = false;
+
             chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
-		});
-	}
+        });
+
+    }
 
 // ================================== Online Members List ===============================
 
@@ -140,6 +195,7 @@ angular.module('Controllers')
 
     $scope.logout = function () {
         $rootScope.loggedIn = false;
+        $rootScope.username = null;
 		$socket.emit("logout", function () {
 			$window.open("/", "_self");
         })
@@ -147,6 +203,7 @@ angular.module('Controllers')
 
 
     $socket.on("disconnect", function () {
+    	$scope.disconnected = true;
     	$scope.messeges.push({msg: "Disconnected from chat room.", error: true, type: "system"});
     });
 

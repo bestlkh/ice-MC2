@@ -1,6 +1,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
 <!-- Full Width Column -->
-<div id="chat-wrapper" class="content-wrapper" style="height:100vh">
+<div ng-if="isLoading">
+  <wave-spinner></wave-spinner>
+</div>
+<div ng-if="!isLoading" id="chat-wrapper" class="content-wrapper" style="height:100vh">
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
@@ -69,7 +72,7 @@
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>
-                        <span class='direct-chat-name pull-left'>{{ messege.username }}</span>
+                        <span class='direct-chat-name pull-left' ng-class="{'admin': messege.isInstructor}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
                         <span class='direct-chat-timestamp pull-right'>{{ messege.msgTime }}</span>
                       </div><!-- /.direct-chat-info -->
                       <div class="direct-chat-img" style="position:relative">
@@ -166,7 +169,7 @@
                           <a href>
                             <img class='contacts-list-img' ng-src='app/css/dist/img/{{user.userAvatar}}'/>
                             <div class='contacts-list-info'>
-                                <span class="ol-memeber-name" style="line-height:2.6; padding:5px; font-weight : 600; color : #333;">{{ user.username }}{{user.utorid ? ' ('+user.utorid+')' : ""}}</span>
+                                <span class="ol-memeber-name" ng-class="{'admin': user.isInstructor}" style="line-height:2.6; padding:5px; font-weight : 600; color : #333;">{{ user.username }}{{user.utorid ? ' ('+user.utorid+')' : ""}}{{user.isInstructor ? ' (Instructor)' : ""}}</span>
                             </div><!-- /.contacts-list-info -->
                           </a>
                         </li><!-- End Contact Item -->

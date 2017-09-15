@@ -13,7 +13,7 @@ angular.module('Controllers',["ngRoute"])
         }
     };
 })
-.controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams){		// Login Controller
+.controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams, $window){		// Login Controller
 	// Varialbles Initialization.
 	$scope.userAvatar = "Avatar1.jpg";
 	$scope.isErrorReq = false;
@@ -28,34 +28,41 @@ angular.module('Controllers',["ngRoute"])
 	$scope.trackId = $location.search().trackId;
 	$scope.utorid = "-----";
 	$scope.error = null;
-	$scope.adminLogin = false;
-	$scope.isRoomAdmin = false;
 
 	$scope.isLoading = true;
 
+    $scope.form.username = $rootScope.username;
 
-        $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-			console.log(data);
-            if (data.isAdmin && !data.isRoomAdmin) {
+    $scope.printErr = function(msg){	// popup for error message
+        var html = '<p id="alert">'+ msg +'</p>';
+        if ($( ".chat-box" ).has( "p" ).length < 1) {
+            $(html).hide().prependTo(".chat-box").fadeIn(1500);
+            $('#alert').delay(5000).fadeOut('slow', function(){
+                $('#alert').remove();
+            });
+        }
+    };
 
-                $rootScope.username = data.username;
-                $rootScope.initials = data.username.substring(0, 2);
-                $rootScope.userAvatar = data.avatar;
-            	$scope.adminLogin = true;
-            	$scope.isRoomAdmin = data.isRoomAdmin;
-			} else if (data.username) {
-
-                $rootScope.loggedIn = true;
-                $rootScope.username = data.username;
-                $rootScope.initials = data.username.substring(0, 2);
-                $rootScope.userAvatar = data.avatar;
-
-                if ($routeParams.roomId) $location.path('/v1/ChatRoom/'+$routeParams.roomId);
-                else if (data.room) $location.path('/v1/ChatRoom/'+data.room);
-            }
+		if ($rootScope.error) {
             $scope.isLoading = false;
+            $scope.printErr($rootScope.message);
+		} else {
+            $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
 
-        });
+                if (data.username) {
+
+                    $rootScope.loggedIn = true;
+                    $rootScope.username = data.username;
+                    $rootScope.initials = data.username.substring(0, 2);
+                    $rootScope.userAvatar = data.avatar;
+
+                    if ($routeParams.roomId) $location.path('/v1/ChatRoom/' + $routeParams.roomId);
+                    else if (data.room) $location.path('/v1/ChatRoom/' + data.room);
+                }
+                $scope.isLoading = false;
+
+            });
+        }
 
         if ($scope.trackId) {
         	$.ajax({
@@ -79,9 +86,15 @@ angular.module('Controllers',["ngRoute"])
 	}
 
 	$scope.onInstructorLogin = function () {
-		$socket.emit("instructor_login", function () {
-            $rootScope.loggedIn = true;
-            $location.path('/v1/ChatRoom/'+$routeParams.roomId);
+		$socket.emit("instructor_login", {roomName: $scope.roomId}, function (result) {
+			if (!result.token) {
+                $rootScope.loggedIn = true;
+                $location.path('/v1/ChatRoom/'+$routeParams.roomId);
+			} else {
+				var url = "/login/?token="+result.token;
+				$window.open(url, "_self");
+			}
+
         });
 
     };
@@ -129,18 +142,11 @@ angular.module('Controllers',["ngRoute"])
 			$scope.isErrorReq = true;
 			$scope.printErr($scope.errMsg);
 		}
-	}
+	};
 
-	$scope.printErr = function(msg){	// popup for error message
-		var html = '<p id="alert">'+ msg +'</p>';
-		if ($( ".chat-box" ).has( "p" ).length < 1) {
-			$(html).hide().prependTo(".chat-box").fadeIn(1500);
-			$('#alert').delay(1000).fadeOut('slow', function(){
-				$('#alert').remove();
-			});
-		};
-	}
+
+
 	$scope.changeAvatar = function(avatar){		// secting different avatar
 			$scope.userAvatar = avatar;
 	}
-})
+});

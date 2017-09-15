@@ -45,6 +45,9 @@
 .error {
 	color: #df3320 !important;
 }
+.admin {
+	color: #4c83ba !important;
+}
 .avatar{
 	height : 65px; 
 	width : 65px; 

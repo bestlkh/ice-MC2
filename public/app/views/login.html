@@ -8,7 +8,7 @@
     <wave-spinner></wave-spinner>
   </div>
   <div ng-if="!isLoading">
-    <div ng-if="!(roomId && isJoin) && (!adminLogin)" class="selector-wrapper2">
+    <div ng-if="!(roomId && isJoin)" class="selector-wrapper2">
 
       <div ng-class="{'create-button2': true, 'orange-button2': true, 'button-active2': !isJoin}" ng-click="toggle(false);">
         CREATE ROOM
@@ -22,11 +22,7 @@
       <div class="error" style="text-align: center;">{{error.message}}</div>
     </div>
 
-    <div ng-if="adminLogin && roomId && !isRoomAdmin" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
-      <div style="text-align: center;margin-bottom: 10px">Login in as an <b>Instructor</b> for room <b>{{roomId}}</b></div>
-      <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Start</button>
-    </div>
-    <div ng-if="!error && !(adminLogin && !isRoomAdmin && roomId)" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
+    <div ng-if="!error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
       <h4 ng-if="!roomId || !isJoin" class="login-box-msg">Sign in to get started...</h4>
       <h4 ng-if="roomId && isJoin && !trackId" class="login-box-msg">Sign in to join room <b>{{roomId}}</b></h4>
       <h4 ng-if="roomId && isJoin && trackId" class="login-box-msg">Welcome <b>{{utorid}}</b>, sign into <b>{{roomId}}</b></h4>
@@ -35,6 +31,7 @@
         </div>
         <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">
             <input id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="isErrorReq=isErrorNick=false;changeInitials();" focus-me="true"/>
+
             <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <input ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <hr>
@@ -80,6 +77,7 @@
           <div class="row">
             <div class="col-xs-12">
               <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
+              <button ng-if="roomId" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Login as instructor</button>
             </div><!-- /.col -->
         </div><!-- /.row -->
 

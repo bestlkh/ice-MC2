@@ -35,6 +35,7 @@ function AdminView(socketController, expressApp) {
     // switch to redis at some point to prevent memory leaks
     this.controllers = {};
     this.ios.tracking = {};
+    this.oauthTokens = {};
 
     this.app.use(bodyParser.json());
 
@@ -100,20 +101,29 @@ AdminView.prototype.setupApi = function () {
                             message: "Invalid username or password",
                             status: 403
                         });
+
                         req.session.user = user;
-                        req.session.username = user.username;
-                        req.session.isAdmin = true;
-                        req.session.settings = settings ? settings : {};
                         req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
-                        res.cookie('username', user.username, {httpOnly: false});
+                        req.session.username = user.username;
+                        req.session.settings = settings ? settings : {};
+
+
+                        if (req.body.token) {
+                            var info = this.oauthTokens[req.body.token];
+                            if (info) {
+                                req.session.redirectTo = "/#/v1/"+info.roomName;
+                                req.session.isInstructor = true;
+                                delete this.oauthTokens[req.body.token];
+                            }
+                        }
 
                         res.json({username: user.username, redirect: req.session.redirectTo});
                         delete req.session.redirectTo;
 
-                    });
-            });
-        });
-    });
+                    }.bind(this));
+            }.bind(this));
+        }.bind(this));
+    }.bind(this));
 
     this.app.get("/v1/api/session/current", function (req, res) {
         return res.json({username: req.session.user ? req.session.user.username : null, connected: req.session.connected});
@@ -190,13 +200,14 @@ AdminView.prototype.setupApi = function () {
     this.app.get("/v1/api/chat/start", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
+                if (!settings || !settings.chat || !settings.chat.roomName) return res.status(400).json({status: 400, message: "Invalid chat room settings."});
                 //req.session.user.roomName = settings.chat.roomName;
                 req.session.username = req.session.user.username;
                 req.session.settings = settings;
                 req.session.connected = true;
                 req.session.isInstructor = false;
                 req.session.isAdmin = true;
-                res.json({roomName: settings.chat.roomName});
+                res.json({connected: true});
             });
         });
     }.bind(this));
@@ -321,11 +332,19 @@ AdminView.prototype.setupSocket = function () {
                 this.controllers[session.id].emit("stop_controller");
         }.bind(this));
 
-        socket.on("instructor_login", function (callback) {
+        socket.on("instructor_login", function (data, callback) {
             var session = socket.handshake.session;
-            if (!session.user) return socket.disconnect();
-            setSessionVars({isInstructor: true, username: session.user.username});
-            callback({});
+            // if (!session.user) return socket.disconnect();
+            // setSessionVars({isInstructor: true, username: session.user.username});
+            if (session.user) {
+                setSessionVars({isInstructor: true, username: session.user.username, isAdmin: false});
+                callback({});
+            } else {
+                var token = uuidv4();
+                this.oauthTokens[token] = {roomName: data.roomName};
+                callback({token: token});
+            }
+
         }.bind(this));
 
         socket.on("admin_get_status", function (data, callback) {

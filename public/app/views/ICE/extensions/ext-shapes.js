@@ -418,7 +418,7 @@ methodDraw.addExtension("shapes", function() {
         if (cat !== 'basic' || !isMobile) cur_lib.buttons.push(icon_btn[0]);
         else {
             if (id === "shift") {
-                icon_btn.find("svg svg").attr("viewBox", "0 0 620 330");
+                icon_btn.find("svg svg").attr("viewBox", "0 0 780 330");
                 icon_btn.find(">svg").attr("width", "80");
             }
             wrapper.append(icon_btn);

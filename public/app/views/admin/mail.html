@@ -1,0 +1,42 @@
+
+    <div class="control-header">
+        <header> Mail Settings </header>
+        <div class="header-control-wrapper">
+            <logout-menu user="user"></logout-menu>
+
+        </div>
+    </div>
+    <div class="control-content">
+        <form class="chat-setting-form" ng-submit="Actions.onSettingSubmit()">
+            <div class="setting-category">
+                <header>Outlook</header>
+                <div class="setting-wrapper">
+                    <div class="mail-setting">
+                        <div class="setting-label" style="width: 200px;">
+                            Outlook Oauth Token
+                        </div>
+                        <div ng-click="guarded.oauth = false" ng-mouseenter="hideToolTip = !user.oauth" ng-mouseleave="hideToolTip = true" style="position:relative;width: 40%">
+                            <input  ng-class="{'input-guard': guarded.oauth}" name="oauth_token" ng-model="user.oauth" readonly="readonly" type="text" style="width: 100%; color: inherit; text-shadow: none;">
+                            <div ng-if="guarded.oauth && !hideToolTip" style="position: absolute; line-height: 36px; margin-left: 45%;margin-top: -36px;cursor:pointer;font-weight: 600;">Click to show</div>
+                        </div>
+
+                        <div class="oauth-button" ng-if="!user.oauth" ng-click="Actions.onOauthClick()">Login from Outlook</div>
+                        <div class="oauth-button" ng-if="user.oauth" ng-click="Actions.onOauthClick()">Refresh</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="import-overlay" ng-if="!hideOverlay" ng-click="onOverlayClick($event)">
+        <div class="import-wrapper" ng-if="!hideOauth" style="height: 300px">
+            <div ng-if="isLoading">
+                <wave-spinner></wave-spinner>
+            </div>
+            <div  ng-if="!isLoading">
+                <div style="text-align: center;font-size: 20px; font-weight: 600;">Login Successful</div>
+                <div style="text-align: center;">Signed in as: <b style="color: #ed8355">{{user.email}}</b></div>
+                <div ng-if="error" style="text-align: center;font-size: 20px; font-weight: 600;" class="error">{{error}}</div>
+            </div>
+        </div>
+    </div>

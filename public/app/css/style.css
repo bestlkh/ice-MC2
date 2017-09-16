@@ -41,6 +41,17 @@
 	color: #ffc266;
 }
 
+.notif-popup {
+	padding: 15px;
+	text-align: center;
+}
+
+.notif-popup div {
+	margin-bottom: 15px;
+	font-size: 15px;
+	font-weight: 600;
+}
+
 /* ============================= login Page =============================*/
 .error {
 	color: #df3320 !important;

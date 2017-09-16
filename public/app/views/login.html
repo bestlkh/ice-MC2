@@ -18,6 +18,10 @@
       </div>
 
     </div>
+    <div class="card notif-popup" ng-if="errMsg.indexOf('exist') !== -1 && isJoin">
+      <div>Room does not exist. Create it?</div>
+      <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
+    </div>
     <div ng-if="error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
       <div class="error" style="text-align: center;">{{error.message}}</div>
     </div>
@@ -37,7 +41,7 @@
             <hr>
             <input id="nickname" required type="text" class="form-control" placeholder="Initials (2 char. max)" ng-model="form.initials" ng-change="isErrorReq=isErrorNick=false;" onkeydown="limit(this);" onkeyup="limit(this);"/>
 
-            <span ng-hide="isErrorNick"class="glyphicon glyphicon-user form-control-feedback"></span>
+            <span ng-hide="isErrorNick" class="glyphicon glyphicon-user form-control-feedback"></span>
             <span ng-hide="!isErrorNick" class="glyphicon glyphicon-remove form-control-feedback errText"></span>
         </div>
         <div class="form-group has-feedback">
@@ -84,5 +88,7 @@
       </form><!-- / form -->
     </div><!-- /.login-box-body -->
   </div>
+
+
 
 </div><!-- /.login-box -->

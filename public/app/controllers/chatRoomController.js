@@ -224,7 +224,7 @@ angular.module('Controllers')
 			$scope.isFileSelected = false;
 			$scope.isMsg = true;
 			var dateString = formatAMPM(new Date());
-			$socket.emit("send-message",{ username : $rootScope.username, userAvatar : $rootScope.userAvatar, msg : message, hasMsg : $scope.isMsg , hasFile : $scope.isFileSelected , msgTime : dateString, initials : $rootScope.initials}, function(data){
+			$socket.emit("send-message",{ msg : message, hasMsg : $scope.isMsg , hasFile : $scope.isFileSelected}, function(data){
 				//delivery report code goes here
 				if (data.success == true) {
 					$scope.chatMsg = "";

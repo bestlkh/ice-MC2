@@ -10,6 +10,7 @@ var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
 const uuidv4 = require('uuid/v4');
+var moment = require("moment");
 
 const AdminView = require("./AdminView");
 
@@ -239,10 +240,13 @@ ios.on('connection', function(socket){
 
 		data.type = "chat";
 		if (socket.handshake.session.username) {
-			if (socket.handshake.session.username !== data.username) return socket.disconnect();
+			data.username = socket.handshake.session.username;
+			data.userAvatar = socket.handshake.session.userAvatar;
+			data.initials = data.username.slice(0, 2);
+			data.msgTime = moment().format('LT');
 			data.isInstructor = false;
 
-            if (socket.handshake.session.isAdmin || socket.handshake.session.isInstructor) data.isInstructor = true;
+            data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
 			findRoom(socket.handshake.session.connectedRoom).messageHistory.push(data);
 			if(data.hasMsg){
                 ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message', data);
@@ -260,7 +264,7 @@ ios.on('connection', function(socket){
 					callback({success:true});
 				}
 			}else{
-				callback({ success:false});
+				socket.disconnect();
 			}
 		}
 	});

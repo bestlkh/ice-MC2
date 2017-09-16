@@ -21,9 +21,10 @@ angular.module('Controllers',["ngRoute"])
     $scope.form = {};
 	$scope.form.username = "";
 	$scope.form.initials = "";
+	$scope.errMsg = "";
 
 	$scope.form.roomId = $routeParams.roomId;
-	$scope.isJoin = !!$routeParams.roomId;
+	$scope.isJoin = true;
 	$scope.roomId = $routeParams.roomId;
 	$scope.trackId = $location.search().trackId;
 	$scope.utorid = "-----";
@@ -36,6 +37,7 @@ angular.module('Controllers',["ngRoute"])
     $scope.printErr = function(msg){	// popup for error message
         var html = '<p id="alert">'+ msg +'</p>';
         if ($( ".chat-box" ).has( "p" ).length < 1) {
+        	console.log("check");
             $(html).hide().prependTo(".chat-box").fadeIn(1500);
             $('#alert').delay(5000).fadeOut('slow', function(){
                 $('#alert').remove();
@@ -45,6 +47,7 @@ angular.module('Controllers',["ngRoute"])
 
 		if ($rootScope.error) {
             $scope.isLoading = false;
+            console.log($rootScope.error);
             $scope.printErr($rootScope.message);
 		} else {
             $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
@@ -108,12 +111,12 @@ angular.module('Controllers',["ngRoute"])
     };
 
 	// Functions for controlling behaviour.
-	$scope.redirect = function(){
+	$scope.redirect = function(create){
 
 		if ($scope.form.username.length <= 20) {
 			if($scope.form.username && $scope.form.roomId){
 
-				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin, trackId: $scope.trackId},function(data){
+				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, trackId: $scope.trackId},function(data){
 					if(data.success == true){	// if nickname doesn't exists
 
 						$rootScope.username = $scope.form.username;
@@ -126,9 +129,10 @@ angular.module('Controllers',["ngRoute"])
 
 					}else{		// if nickname exists
 						$scope.errMsg = data.message;
+
 						$scope.isErrorNick = true;
 						$scope.isErrorReq = true;
-						$scope.printErr($scope.errMsg);	
+						$scope.printErr($scope.errMsg);
 					}			
 				});
 			}else{		// blanck nickname 

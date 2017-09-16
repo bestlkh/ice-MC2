@@ -384,6 +384,9 @@ body {
 
 .landing-buttons {
 	margin-top: 30px;
+	width: 150px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .chat-button {

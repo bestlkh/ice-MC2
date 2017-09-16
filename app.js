@@ -9,7 +9,7 @@ var io = require('socket.io');				// using sockets
 var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid-v4');
 
 const AdminView = require("./AdminView");
 
@@ -222,7 +222,7 @@ ios.on('connection', function(socket){
 				callback({success:true});
 			}else if(data.hasFile){
 				if(data.istype == "image"){
-
+					console.log(data);
                     ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message image', data);
 					callback({success:true});
 				} else if(data.istype == "music"){
@@ -286,6 +286,7 @@ app.post('/v1/uploadImage',function (req, res){
     });
     
     form.parse(req,function(err,fields,files){
+		console.log(files);
 		var data = { 
 				username : fields.username,
 				userAvatar : fields.userAvatar, 
@@ -309,7 +310,7 @@ app.post('/v1/uploadImage',function (req, res){
 		        serverfilepath : files.file.path,
 		        expirytime : imgdatetimenow + (3600000 * expiryTime)           
 	    };
-	    files_array.push(image_file);
+		files_array.push(image_file);
 		ios.sockets.emit('new message image', data);
     });
 });

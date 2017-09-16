@@ -9,12 +9,8 @@ var io = require('socket.io');				// using sockets
 var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
-<<<<<<< HEAD
 const uuidv4 = require('uuid-v4');
-=======
-const uuidv4 = require('uuid/v4');
 var moment = require("moment");
->>>>>>> 0048a2fb423221889b02bd0b7fb47d1086dade64
 
 const AdminView = require("./AdminView");
 

@@ -585,8 +585,10 @@ html, body {
 }
 
  #tools_left .tool_button { background: #2f2f2c; position: relative;}
- #tools_left .tool_button.loaded { background: #ccc;}
- #tools_left .tool_button.loaded:hover { background: #fff;}
+ #tools_left .tool_button.loaded { background-color: #ccc }
+ #tool_deletebutton {background-size: 25px !important;background-position: center !important;background-color: transparent!important;background-repeat:no-repeat !important;}
+ #tools_left .tool_button.loaded:hover { background-color: #fff;}
+  #tool_deletebutton:hover {background: #2f2f2c}
  #tools_left .tool_button:after,  #tools_left .tool_button_current:after {
   position: absolute;
   content: '';

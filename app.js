@@ -137,7 +137,7 @@ ios.on('connection', function(socket){
         	return callback({success:false, message: "Use different username."});
 		}
 		if (socket.handshake.session.username) {
-            if (room && room.inviteOnly && !socket.handshake.session.isInstructor) {
+            if (room && room.inviteOnly && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid) {
                 destroySession();
                 return callback({success: false, message: "Room is invite only."});
             }
@@ -150,7 +150,7 @@ ios.on('connection', function(socket){
 
                     if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
                     	socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
-					else socket.handshake.session.isInstructor = true;
+					else socket.handshake.session.isInstructor = false;
 
 					if (socket.handshake.session.isAdmin && !socket.handshake.session.isInstructor) {
                         ios.sockets.adapter.rooms[data.roomId].admin = socket;
@@ -239,6 +239,9 @@ ios.on('connection', function(socket){
 
 		data.type = "chat";
 		if (socket.handshake.session.username) {
+			if (socket.handshake.session.username !== data.username) return socket.disconnect();
+			data.isInstructor = false;
+
             if (socket.handshake.session.isAdmin || socket.handshake.session.isInstructor) data.isInstructor = true;
 			findRoom(socket.handshake.session.connectedRoom).messageHistory.push(data);
 			if(data.hasMsg){

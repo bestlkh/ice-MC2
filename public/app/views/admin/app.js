@@ -1,13 +1,13 @@
-var App = angular.module('Admin',['ngRoute','ngStorage','socket.io','Controllers', 'ngMaterial'])
+var App = angular.module('Admin',['ngRoute','ngStorage','socket.io','Controllers', 'ngMaterial', 'angular-spinkit'])
     .run(["$rootScope", function ($rootScope){
         //$rootScope.baseUrl = 'http://142.1.93.22:8080'; //Application URL
     }]);
 App.config(function ($routeProvider, $locationProvider){
     //$socketProvider.setConnectionUrl('http://142.1.93.22:8080'); // Socket URL
     $routeProvider	// AngularJS Routes
-        .when('/dashboard', {
-            templateUrl: '/app/views/admin/dashboard.html',
-            controller: 'dashboardController'
+        .when('/mail', {
+            templateUrl: '/app/views/admin/mail.html',
+            controller: 'mailController'
         })
         .when('/chat', {
             templateUrl: '/app/views/admin/chat.html',
@@ -22,9 +22,9 @@ App.config(function ($routeProvider, $locationProvider){
             controller: 'studentsController'
         })
         .otherwise({
-            redirectTo: '/dashboard',	// Default Route
-            templateUrl: '/app/views/admin/dashboard.html',
-            controller: 'dashboardController'
+            redirectTo: '/chat',	// Default Route
+            templateUrl: '/app/views/admin/chat.html',
+            controller: 'chatController'
         });
 
     $locationProvider.html5Mode(true);
@@ -32,9 +32,9 @@ App.config(function ($routeProvider, $locationProvider){
     template: "<div class='user-display' ng-mouseenter='$ctrl.onEnter()' ng-mouseleave='$ctrl.onLeave()'>" +
                 "{{ $ctrl.user.username }}" +
                 "<ul class='dd-menu' ng-if='!$ctrl.hideLogout'>" +
-                    "<li>" +
-                        "<a href='/logout'>Logout</a>" +
-                    "</li>" +
+                    "<a href='/logout'><li>" +
+                        "Logout" +
+                    "</li></a>" +
                 "</ul> " +
             "</div>",
     controller: function($scope) {

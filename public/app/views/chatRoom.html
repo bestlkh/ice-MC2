@@ -72,8 +72,8 @@
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>
-                        <span class='direct-chat-name pull-left' ng-class="{'admin': messege.isInstructor}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
-                        <span class='direct-chat-timestamp pull-right'>{{ messege.msgTime }}</span>
+                        <span class='direct-chat-name' ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
+                        <span class='direct-chat-timestamp' ng-class="{'pull-right': messege.ownMsg, 'pull-left': !messege.ownMsg}">{{ messege.msgTime }}</span>
                       </div><!-- /.direct-chat-info -->
                       <div class="direct-chat-img" style="position:relative">
                         <img class="direct-chat-img" ng-src="app/css/dist/img/{{messege.userAvatar}}" alt="message user image"></img><!-- /.direct-chat-img -->
@@ -271,7 +271,8 @@
                   <span class="input-group-btn" style="position:relative">
                     <button type="button" class="accordion btn btn-warning btn-flat">☺+</button>
                   </span>
-                    <textarea rows=1 id="textArea" type="textarea" style="resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus"/>
+                    <textarea rows=1 id="textArea" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
+                    </textarea>
                     <script>
                       var ua = window.navigator.userAgent;
                       var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);

@@ -9,9 +9,10 @@ var csv = require('csv');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require("mongodb").ObjectID;
 const nodemailer = require('nodemailer');
+var request = require('request');
+var outlook = require("node-outlook");
 
-var passport = require("passport");
-OutlookStrategy = require('passport-outlook').Strategy;
+outlook.base.setApiEndpoint("https://outlook.office.com/api/v2.0");
 
 var sessionRedirect = function (req, res, next) {
     if (!req.session.user && req.originalUrl !== "/favicon.ico") {
@@ -31,15 +32,6 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-    done(null, obj);
-});
-
-
 function AdminView(socketController, expressApp) {
     this.ios = socketController;
     this.app = expressApp;
@@ -47,36 +39,9 @@ function AdminView(socketController, expressApp) {
     // switch to redis at some point to prevent memory leaks
     this.controllers = {};
     this.ios.tracking = {};
-    this.oauthTokens = {};
+    this.callbacks = {};
 
     this.app.use(bodyParser.json());
-
-
-    passport.use(new OutlookStrategy({
-            clientID: constants.oauth.appId,
-            clientSecret: constants.oauth.secret,
-            callbackURL: 'https://127.0.0.1:8080/api/admin/auth/outlook/callback'
-        },
-        function(accessToken, refreshToken, profile, done) {
-            var user = {
-                outlookId: profile.id,
-                name: profile.DisplayName,
-                email: profile.EmailAddress,
-                accessToken:  accessToken
-            };
-            if (refreshToken)
-                user.refreshToken = refreshToken;
-            if (profile.MailboxGuid)
-                user.mailboxGuid = profile.MailboxGuid;
-            if (profile.Alias)
-                user.alias = profile.Alias;
-            done(err, user);
-        }
-    ));
-
-    this.app.use(passport.initialize());
-    this.app.use(passport.session());
-
 
     this.setupRoute();
     this.setupApi();
@@ -85,10 +50,13 @@ function AdminView(socketController, expressApp) {
 
 AdminView.prototype.setupRoute = function () {
     this.app.get("/admin/:view", sessionRedirect, function (req, res, next) {
-        if (constants.views.indexOf(req.params.view) !== -1)
-            return res.sendfile(constants.adminIndexPath);
-        else return next();
+
+                return res.sendfile(constants.adminIndexPath);
     });
+
+    this.app.get("/admin", sessionRedirect, function (req, res, next) {
+        res.sendfile(constants.adminIndexPath);
+    })
 
 
 };
@@ -129,23 +97,7 @@ var ChatSetting = function (settings) {
 //     });
 
 AdminView.prototype.setupApi = function () {
-    this.app.get('/admin/auth/outlook',
-        passport.authenticate('windowslive', {
-            scope: [
-                'https://outlook.office.com/Mail.Send'
-            ]
-        }),
-        function(req, res){
-            // The request will be redirected to Outlook for authentication, so
-            // this function will not be called.
-        }
-    );
 
-    this.app.get('/api/admin/auth/outlook/callback',
-        passport.authenticate('windowslive'),
-        function(req, res) {
-            res.redirect('/');
-        });
 
     this.app.post("/v1/api/login", function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
@@ -182,7 +134,11 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/session/current", function (req, res) {
-        return res.json({username: req.session.user ? req.session.user.username : null, connected: req.session.connected});
+        var token;
+        if (req.session.user && req.session.user.outlook) {
+            token = req.session.user.outlook["access_token"];
+        }
+        return res.json({username: req.session.user ? req.session.user.username : null, connected: req.session.connected, oauth: token});
     });
 
     this.app.get("/logout", function (req, res) {
@@ -209,32 +165,122 @@ AdminView.prototype.setupApi = function () {
         else return next();
     };
 
+    this.app.get("/v1/api/admin/auth/start", checkAuth, function (req, res) {
+        this.callbacks[req.session.id] = function (err, json) {
+            if (err) return res.status(400).json({status: 400, message: "Oauth failed due to user input."});
+            request({
+                    url: "https://outlook.office.com/api/v2.0/me",
+                    headers: {
+                        'Authorization': "Bearer " + json["access_token"]
+                    }
+                }, function (err, http, body) {
+                    body = JSON.parse(body);
+                    if (!body || body.error) return res.status(500).json({
+                        status: 500,
+                        message: "Server could not resolve request."
+                    });
+
+                    req.session.user.outlook = json;
+                    req.session.user.outlook.email = body['EmailAddress'];
+                    req.session.user.outlook.name = body['Display'];
+                    return res.json(req.session.user.outlook);
+                }
+            );
+
+        }
+    }.bind(this));
+
+    this.app.get("/admin/auth/outlook", checkAuth,
+        function(req, res){
+            res.redirect(constants.oauth.authURL);
+        }
+    );
+
+    this.app.get("/v1/api/admin/auth/outlook/callback", checkAuth,
+    function(req, res) {
+        if (req.query.error) {
+            this.callbacks[req.session.id](req.query.error, null);
+        }
+        if (!req.query.code) return res.status(400).json({status: 400, message: "Invalide parameters."});
+        request.post({url: constants.oauth.tokenURL, form: {
+            "client_id": constants.oauth.appId,
+            "client_secret": constants.oauth.secret,
+            "code": req.query.code,
+            "redirect_uri": constants.oauth.callbackURL,
+            "grant_type": "authorization_code"
+        }}, function (err, httpResponse, body) {
+            body = JSON.parse(body);
+            if (body.error) return res.status(500).json({status: 500, message: "Server could not resolve request."});
+
+
+            this.callbacks[req.session.id](null, body);
+            delete this.callbacks[req.session.id];
+            res.end("Successfully authenticated, you can close this window");
+
+        }.bind(this))
+    }.bind(this));
+
+
     this.app.get("/v1/api/admin/sendEmail", checkAuth, function(req, res) {
+        if (!req.session.user.outlook || !req.session.user.outlook["access_token"]) return res.status(400).json({status: 400, message: "Invalid outlook access token"});
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
                     var urls = generateURLs(list.students);
                     console.log(urls);
                     this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
+                    outlook.base.setAnchorMailbox(req.session.user.outlook.email);
+                    // transporter = nodemailer.createTransport({
+                    //     host: constants.smtp.host,
+                    //     secureConnection: false,
+                    //     port: 587,
+                    //     auth: {
+                    //         type: 'OAuth2',
+                    //         user: req.session.user.outlook.email,
+                    //         accessToken: req.session.user.outlook["access_token"]
+                    //     },
+                    //     tls: {
+                    //         ciphers:'SSLv3'
+                    //     }
+                    // });
 
+                            var userInfo = {
+                                email: req.session.user.outlook.email
+                            };
                             Promise.all(Object.keys(urls).map(function (id) {
                                 return new Promise(function (resolve, rej) {
                                     var mailOptions = {
-                                        from: '"Test" <'+constants.smtp.username+'>', // sender address
-                                        to: urls[id].email, // list of receivers
-                                        subject: 'test', // Subject line
-                                        text: "test confirmation: http://127.0.0.1:8080/#/v1/"+settings.chat.roomName+"?trackId=" + id // plain text body
+                                        Importance: "High",
+                                        Subject: 'MC2 Invitation', // Subject line
+                                        Body: {
+                                            Content: constants.emailTemplate.replace("{link}", "http://127.0.0.1:8080/#/v1/" + settings.chat.roomName + "?trackId=" + id)
+                                        },
+                                        ToRecipients: [
+                                            {
+                                                EmailAddress: {
+                                                    Address: urls[id].email
+                                                }
+                                            }
+                                        ]
                                     };
-                                    transporter.sendMail(mailOptions, function (err, info) {
-                                        if (err) return rej(err);
-                                        resolve(info);
+
+                                    outlook.mail.sendNewMessage({token: req.session.user.outlook["access_token"], message: mailOptions, user: userInfo}, function (err, result) {
+
+                                        if (err && err.indexOf("503") === -1) return rej(err);
+                                        resolve(result);
                                     });
+
+                                    // transporter.sendMail(mailOptions, function (err, info) {
+                                    //     console.log(err);
+                                    //     if (err) return rej(err);
+                                    //     resolve(info);
+                                    // });
                                 });
 
                             })).then(function (details) {
                                 res.json({success: true, details: details});
                             }).catch(function (err) {
-                                res.status(500).json({});
+                                res.status(500).json({status: 500, message: "Server could not resolve request."});
                             });
 
 

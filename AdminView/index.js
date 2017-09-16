@@ -51,7 +51,7 @@ function AdminView(socketController, expressApp) {
 AdminView.prototype.setupRoute = function () {
     this.app.get("/admin/:view", sessionRedirect, function (req, res, next) {
 
-                return res.sendfile(constants.adminIndexPath);
+        return res.sendfile(constants.adminIndexPath);
     });
 
     this.app.get("/admin", sessionRedirect, function (req, res, next) {
@@ -103,32 +103,32 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
                 if (err) return res.status(500).end("Server error, could not resolve request");
-                    db.collection("settings").findOne({user: user.username}, function (err, settings) {
-                        if (err) return res.status(500).end("Server error, could not resolve request");
-                        if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
-                            message: "Invalid username or password",
-                            status: 403
-                        });
+                db.collection("settings").findOne({user: user.username}, function (err, settings) {
+                    if (err) return res.status(500).end("Server error, could not resolve request");
+                    if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
+                        message: "Invalid username or password",
+                        status: 403
+                    });
 
-                        req.session.user = user;
-                        req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
-                        req.session.username = user.username;
-                        req.session.settings = settings ? settings : {};
+                    req.session.user = user;
+                    req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
+                    req.session.username = user.username;
+                    req.session.settings = settings ? settings : {};
 
 
-                        if (req.body.token) {
-                            var info = this.oauthTokens[req.body.token];
-                            if (info) {
-                                req.session.redirectTo = "/#/v1/"+info.roomName;
-                                req.session.isInstructor = true;
-                                delete this.oauthTokens[req.body.token];
-                            }
+                    if (req.body.token) {
+                        var info = this.oauthTokens[req.body.token];
+                        if (info) {
+                            req.session.redirectTo = "/#/v1/" + info.roomName;
+                            req.session.isInstructor = true;
+                            delete this.oauthTokens[req.body.token];
                         }
+                    }
 
-                        res.json({username: user.username, redirect: req.session.redirectTo});
-                        delete req.session.redirectTo;
+                    res.json({username: user.username, redirect: req.session.redirectTo});
+                    delete req.session.redirectTo;
 
-                    }.bind(this));
+                }.bind(this));
             }.bind(this));
         }.bind(this));
     }.bind(this));
@@ -138,7 +138,11 @@ AdminView.prototype.setupApi = function () {
         if (req.session.user && req.session.user.outlook) {
             token = req.session.user.outlook["access_token"];
         }
-        return res.json({username: req.session.user ? req.session.user.username : null, connected: req.session.connected, oauth: token});
+        return res.json({
+            username: req.session.user ? req.session.user.username : null,
+            connected: req.session.connected,
+            oauth: token
+        });
     });
 
     this.app.get("/logout", function (req, res) {
@@ -191,38 +195,46 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/admin/auth/outlook", checkAuth,
-        function(req, res){
+        function (req, res) {
             res.redirect(constants.oauth.authURL);
         }
     );
 
     this.app.get("/v1/api/admin/auth/outlook/callback", checkAuth,
-    function(req, res) {
-        if (req.query.error) {
-            this.callbacks[req.session.id](req.query.error, null);
-        }
-        if (!req.query.code) return res.status(400).json({status: 400, message: "Invalide parameters."});
-        request.post({url: constants.oauth.tokenURL, form: {
-            "client_id": constants.oauth.appId,
-            "client_secret": constants.oauth.secret,
-            "code": req.query.code,
-            "redirect_uri": constants.oauth.callbackURL,
-            "grant_type": "authorization_code"
-        }}, function (err, httpResponse, body) {
-            body = JSON.parse(body);
-            if (body.error) return res.status(500).json({status: 500, message: "Server could not resolve request."});
+        function (req, res) {
+            if (req.query.error) {
+                this.callbacks[req.session.id](req.query.error, null);
+            }
+            if (!req.query.code) return res.status(400).json({status: 400, message: "Invalide parameters."});
+            request.post({
+                url: constants.oauth.tokenURL, form: {
+                    "client_id": constants.oauth.appId,
+                    "client_secret": constants.oauth.secret,
+                    "code": req.query.code,
+                    "redirect_uri": constants.oauth.callbackURL,
+                    "grant_type": "authorization_code"
+                }
+            }, function (err, httpResponse, body) {
+                body = JSON.parse(body);
+                if (body.error) return res.status(500).json({
+                    status: 500,
+                    message: "Server could not resolve request."
+                });
 
 
-            this.callbacks[req.session.id](null, body);
-            delete this.callbacks[req.session.id];
-            res.end("Successfully authenticated, you can close this window");
+                this.callbacks[req.session.id](null, body);
+                delete this.callbacks[req.session.id];
+                res.end("Successfully authenticated, you can close this window");
 
-        }.bind(this))
-    }.bind(this));
+            }.bind(this))
+        }.bind(this));
 
 
-    this.app.get("/v1/api/admin/sendEmail", checkAuth, function(req, res) {
-        if (!req.session.user.outlook || !req.session.user.outlook["access_token"]) return res.status(400).json({status: 400, message: "Invalid outlook access token"});
+    this.app.get("/v1/api/admin/sendEmail", checkAuth, function (req, res) {
+        if (!req.session.user.outlook || !req.session.user.outlook["access_token"]) return res.status(400).json({
+            status: 400,
+            message: "Invalid outlook access token"
+        });
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
@@ -244,45 +256,48 @@ AdminView.prototype.setupApi = function () {
                     //     }
                     // });
 
-                            var userInfo = {
-                                email: req.session.user.outlook.email
+                    var userInfo = {
+                        email: req.session.user.outlook.email
+                    };
+                    Promise.all(Object.keys(urls).map(function (id) {
+                        return new Promise(function (resolve, rej) {
+                            var mailOptions = {
+                                Importance: "High",
+                                Subject: 'MC2 Invitation', // Subject line
+                                Body: {
+                                    Content: constants.emailTemplate.replace("{link}", "http://127.0.0.1:8080/#/v1/" + settings.chat.roomName + "?trackId=" + id)
+                                },
+                                ToRecipients: [
+                                    {
+                                        EmailAddress: {
+                                            Address: urls[id].email
+                                        }
+                                    }
+                                ]
                             };
-                            Promise.all(Object.keys(urls).map(function (id) {
-                                return new Promise(function (resolve, rej) {
-                                    var mailOptions = {
-                                        Importance: "High",
-                                        Subject: 'MC2 Invitation', // Subject line
-                                        Body: {
-                                            Content: constants.emailTemplate.replace("{link}", "http://127.0.0.1:8080/#/v1/" + settings.chat.roomName + "?trackId=" + id)
-                                        },
-                                        ToRecipients: [
-                                            {
-                                                EmailAddress: {
-                                                    Address: urls[id].email
-                                                }
-                                            }
-                                        ]
-                                    };
 
-                                    outlook.mail.sendNewMessage({token: req.session.user.outlook["access_token"], message: mailOptions, user: userInfo}, function (err, result) {
+                            outlook.mail.sendNewMessage({
+                                token: req.session.user.outlook["access_token"],
+                                message: mailOptions,
+                                user: userInfo
+                            }, function (err, result) {
 
-                                        if (err && err.indexOf("503") === -1) return rej(err);
-                                        resolve(result);
-                                    });
-
-                                    // transporter.sendMail(mailOptions, function (err, info) {
-                                    //     console.log(err);
-                                    //     if (err) return rej(err);
-                                    //     resolve(info);
-                                    // });
-                                });
-
-                            })).then(function (details) {
-                                res.json({success: true, details: details});
-                            }).catch(function (err) {
-                                res.status(500).json({status: 500, message: "Server could not resolve request."});
+                                if (err && err.indexOf("503") === -1) return rej(err);
+                                resolve(result);
                             });
 
+                            // transporter.sendMail(mailOptions, function (err, info) {
+                            //     console.log(err);
+                            //     if (err) return rej(err);
+                            //     resolve(info);
+                            // });
+                        });
+
+                    })).then(function (details) {
+                        res.json({success: true, details: details});
+                    }).catch(function (err) {
+                        res.status(500).json({status: 500, message: "Server could not resolve request."});
+                    });
 
 
                 }.bind(this));
@@ -292,8 +307,11 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/room/:roomName/track/:code", function (req, res) {
-        if (!this.ios.tracking[req.params.roomName]) return res.status(404).json({status: 404, message: "Requested registration id cannot be found."});
-        else if (!this.ios.tracking[req.params.roomName].trackingIds) return res.status(404).json({status: 404, message: "Requested registration id cannot be found."});
+        if (!this.ios.tracking[req.params.roomName] || !this.ios.tracking[req.params.roomName].trackingIds) return res.status(404).json({
+            status: 404,
+            message: "Requested registration id cannot be found."
+        });
+
         var resp = this.ios.tracking[req.params.roomName].trackingIds[req.params.code];
         if (!resp) return res.status(404).json({status: 404, message: "Requested registration id cannot be found."});
         res.json(resp);
@@ -301,8 +319,13 @@ AdminView.prototype.setupApi = function () {
 
     this.app.get("/v1/api/chat/start", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
-                if (!settings || !settings.chat || !settings.chat.roomName) return res.status(400).json({status: 400, message: "Invalid chat room settings."});
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                if (!settings || !settings.chat || !settings.chat.roomName) return res.status(400).json({
+                    status: 400,
+                    message: "Invalid chat room settings."
+                });
                 //req.session.user.roomName = settings.chat.roomName;
                 req.session.username = req.session.user.username;
                 req.session.settings = settings;
@@ -316,7 +339,9 @@ AdminView.prototype.setupApi = function () {
 
     this.app.get("/v1/api/students", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 if (!list) return res.json([]);
                 res.json(list.students);
                 db.close();
@@ -329,7 +354,9 @@ AdminView.prototype.setupApi = function () {
         var student = new Student(req.body);
 
         MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             db.collection("students").update({owner: req.session.user.username}, {$push: {students: student}}, {upsert: true}, function (err, list) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 res.json({});
                 db.close();
             });
@@ -338,18 +365,19 @@ AdminView.prototype.setupApi = function () {
     });
 
     this.app.put("/v1/api/students", checkAuth, function (req, res) {
-        csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function(err, data) {
+        csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
+            if (err) return res.status(400).json({status: 400, message: err});
             MongoClient.connect(constants.dbUrl, function (err, db) {
 
-
-                        db.collection("students").updateOne({owner: req.session.user.username}, {
-                            $set: {students: data}
-                        }, {upsert: true}, function (err, result) {
-                            res.json(data);
-                            db.close();
-                        });
-
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                db.collection("students").updateOne({owner: req.session.user.username}, {
+                    $set: {students: data}
+                }, {upsert: true}, function (err, result) {
+                    res.json(data);
+                    db.close();
                 });
+
+            });
 
 
         });
@@ -357,7 +385,9 @@ AdminView.prototype.setupApi = function () {
 
     this.app.get("/v1/api/settings/:type", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 if (!settings) return res.json({});
                 res.json(settings[req.params.type]);
             });
@@ -367,37 +397,40 @@ AdminView.prototype.setupApi = function () {
 
     this.app.post("/v1/api/settings/:type", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-
-                try {
-                    switch (req.params.type) {
-                        case "chat":
-                            var newSettings = new ChatSetting(req.body.settings);
-                            db.collection("settings").updateOne({user: req.session.user.username}, {$set: {chat: newSettings}}, {upsert: true}, function (err, result) {
-                                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                                req.session.settings.chat = newSettings;
-
-                                res.json(newSettings);
-
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            try {
+                switch (req.params.type) {
+                    case "chat":
+                        var newSettings = new ChatSetting(req.body.settings);
+                        db.collection("settings").updateOne({user: req.session.user.username}, {$set: {chat: newSettings}}, {upsert: true}, function (err, result) {
+                            if (err) return res.status(500).json({
+                                status: 500,
+                                message: "Server error, could not resolve request"
                             });
-                            break;
-                        default:
-                            return res.status(404).json({status: 404, message: "No such settings"});
-                    }
-                } catch (e) {
-                    return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                }
+                            req.session.settings.chat = newSettings;
 
-            });
+                            res.json(newSettings);
+
+                        });
+                        break;
+                    default:
+                        return res.status(404).json({status: 404, message: "No such settings"});
+                }
+            } catch (e) {
+                return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            }
+
+        });
 
     });
 };
 
 AdminView.prototype.setupSocket = function () {
-    var findRoom = function(roomId) {
+    var findRoom = function (roomId) {
         return this.ios.sockets.adapter.rooms[roomId];
     }.bind(this);
 
-    this.ios.on('connection', function(socket){
+    this.ios.on('connection', function (socket) {
 
         function setSessionVar(variable, value) {
             socket.handshake.session[variable] = value;
@@ -411,7 +444,7 @@ AdminView.prototype.setupSocket = function () {
             socket.handshake.session.save();
         }
 
-        socket.on('send-message', function(data, callback) {
+        socket.on('send-message', function (data, callback) {
             var room = findRoom(socket.handshake.session.connectedRoom);
             data.type = "chat";
             if (socket.handshake.session.username && room.admin) {
@@ -421,7 +454,11 @@ AdminView.prototype.setupSocket = function () {
                 data.msgTime = moment().format('LT');
                 if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
                 MongoClient.connect(constants.dbUrl, function (err, db) {
-                    db.collection("chatHistory").updateOne({sessionId: room.sessionId, owner: room.admin.handshake.session.username, roomName: socket.handshake.session.connectedRoom}, {$push: {messages: data}}, {upsert: true}, function (err, result) {
+                    db.collection("chatHistory").updateOne({
+                        sessionId: room.sessionId,
+                        owner: room.admin.handshake.session.username,
+                        roomName: socket.handshake.session.connectedRoom
+                    }, {$push: {messages: data}}, {upsert: true}, function (err, result) {
 
                     });
                 });
@@ -460,8 +497,14 @@ AdminView.prototype.setupSocket = function () {
                 if (socket.handshake.session.isAdmin) {
                     var session = socket.handshake.session;
                     this.controllers[session.id] = socket;
-                    if (!this.ios.sockets.adapter.rooms[session.settings.chat.roomName]) return callback({status: "Offline", online: 0});
-                    callback({online: this.ios.sockets.adapter.rooms[session.settings.chat.roomName].length, status: "Online"})
+                    if (!this.ios.sockets.adapter.rooms[session.settings.chat.roomName]) return callback({
+                        status: "Offline",
+                        online: 0
+                    });
+                    callback({
+                        online: this.ios.sockets.adapter.rooms[session.settings.chat.roomName].length,
+                        status: "Online"
+                    })
                 } else callback({});
             }.bind(this));
 

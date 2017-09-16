@@ -556,7 +556,7 @@ var SOTP = 0;
         });
           var iconThing = document.getElementById("tool_deletebutton");
           if (selectedElement == null && !multiselected && !path.getNodePoint() && undoMgr.getUndoStackSize() > 0) {
-              iconThing.style.backgroundImage = "url('images/t_undo.png')";
+              iconThing.style.backgroundImage = "url('images/undo-arrow.svg')";
               SOTP = 0;
           }
       };
@@ -595,7 +595,7 @@ var SOTP = 0;
       var elementChanged = function(window,elems) {
         var iconThing = document.getElementById("tool_deletebutton");
         if (selectedElement == null && !multiselected && !path.getNodePoint() && undoMgr.getUndoStackSize() > 0) {
-          iconThing.style.backgroundImage = "url('images/t_undo.png')";
+          iconThing.style.backgroundImage = "url('images/undo-arrow.svg')";
           SOTP = 0;
         }
         else if (selectedElement != null || multiselected) {
@@ -2217,7 +2217,7 @@ var SOTP = 0;
       // an element has been selected
       var deleteSelected = function() {
         var iconThing = document.getElementById("tool_deletebutton");
-        iconThing.style.backgroundImage = "url('images/t_undo.png')";
+        iconThing.style.backgroundImage = "url('images/undo-arrow.svg')";
         //   **MDP(  -- TOOO: UNDO -- Fix the cursor/Undo thing
 
         if (selectedElement == null && !multiselected && !path.getNodePoint() && undoMgr.getUndoStackSize() > 0) {

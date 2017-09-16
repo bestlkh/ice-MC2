@@ -585,7 +585,8 @@ html, body {
 }
 
  #tools_left .tool_button { background: #2f2f2c; position: relative;}
- #tools_left .tool_button.loaded { background: #ccc;}
+ #tools_left .tool_button.loaded {  }
+ #tool_deletebutton {background-size: 25px !important;background-position: center !important;background-color: transparent;background-repeat:no-repeat !important;}
  #tools_left .tool_button.loaded:hover { background: #fff;}
  #tools_left .tool_button:after,  #tools_left .tool_button_current:after {
   position: absolute;

@@ -9,7 +9,12 @@ var io = require('socket.io');				// using sockets
 var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
+<<<<<<< HEAD
 const uuidv4 = require('uuid-v4');
+=======
+const uuidv4 = require('uuid/v4');
+var moment = require("moment");
+>>>>>>> 0048a2fb423221889b02bd0b7fb47d1086dade64
 
 const AdminView = require("./AdminView");
 
@@ -75,7 +80,8 @@ app.use(function(req, res, next) {
 });
 
 function findClient(clients, username) {
-	for (var clientId in clients) {
+	if (!clients) return null;
+	for (var clientId in clients.sockets) {
 
 		if (ios.sockets.connected[clientId].handshake.session.username === username) {
 			return ios.sockets.connected[clientId];
@@ -110,36 +116,52 @@ ios.on('connection', function(socket){
         socket.handshake.session.save();
     }
 
+    function destroySession() {
+		setSessionVars({username: null, connectedRoom: null});
+    }
+
 	socket.on("check-session", function (data, callback) {
+
         var session = socket.handshake.session;
         var isRoomAdmin = false;
         if (data.roomName && session.settings) {
 			isRoomAdmin = (session.settings.chat.roomName === data.roomName);
 		}
 		var username = session.username;
-        if (session.user) {
-        	console.log(session.user);
-        	username = session.user.username;
-		}
 		if (!username) callback({});
 		else callback({username: username, avatar: session.userAvatar, room: session.connectedRoom, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
     });
 
 	socket.on("join-room", function(data, callback) {
+		if (!data.roomId) return socket.disconnect();
         data.roomId = data.roomId.toLowerCase();
+        var room = findRoom(data.roomId);
+        var nameExists = findClient(room, data.username);
+        if (nameExists && !socket.handshake.session.isInstructor && !socket.handshake.session.isAdmin) {
+        	destroySession();
+        	return callback({success:false, message: "Use different username."});
+		}
 		if (socket.handshake.session.username) {
+            if (room && room.inviteOnly && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid) {
+                destroySession();
+                return callback({success: false, message: "Room is invite only."});
+            }
 			socket.leave(socket.handshake.session.connectedRoom, function () {
                 socket.join(data.roomId, function () {
 
                     //console.log(socket.username+" joined room "+ data.roomId);
 
-                    var room = findRoom(data.roomId);
+                    room = findRoom(data.roomId);
+
+                    if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
+                    	socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
+					else socket.handshake.session.isInstructor = false;
 
 					if (socket.handshake.session.isAdmin && !socket.handshake.session.isInstructor) {
                         ios.sockets.adapter.rooms[data.roomId].admin = socket;
 						if (!room.sessionId) room.sessionId = uuidv4();
 						room.inviteOnly = socket.handshake.session.settings.chat.invite;
-						if (socket.handshake.session.connectedRoom) {
+						if (socket.handshake.session.connectedRoom && findRoom(socket.handshake.session.connectedRoom)) {
 							findRoom(socket.handshake.session.connectedRoom).admin = null;
 						}
 
@@ -153,25 +175,28 @@ ios.on('connection', function(socket){
 					var history = room.messageHistory.slice();
 					history.push({msg: "You have joined room "+ data.roomId+".", type: "system"});
 					socket.emit('new message multi', history);
-					callback({});
+					callback({success: true});
                 });
             });
 
 		} else {
             socket.emit('new message', {msg: "Error failed to joined room "+ data.roomId+".", type: "system"});
-            callback({});
+            destroySession();
+            callback({success: false});
 		}
     });
 
 	// creating new user if nickname doesn't exists
+
+	//TODO: verify username is alphanumeric
 	socket.on('new user', function(data, callback){
 		data.roomId = data.roomId.toLowerCase();
         var clients = ios.sockets.adapter.rooms[data.roomId];
 
         if (!clients && data.isJoin) return callback({success: false, message: "Room does not exist."});
         else if (clients && !data.isJoin) return callback({success: false, message: "Room already exists."});
-		if (!data.isJoin) clients = {sockets:[]};
-		if(findClient(clients.sockets, data.username))
+		//if (!data.isJoin) clients = {sockets:[]};
+		if(findClient(clients, data.username))
 			{
 				callback({success:false, message: "Use different username."});
 			} else {
@@ -206,6 +231,9 @@ ios.on('connection', function(socket){
             if (socket.handshake.session.isAdmin) {
             	temp1.utorid = ios.sockets.connected[clientId].handshake.session.utorid;
 			}
+			if (ios.sockets.connected[clientId].handshake.session.isAdmin || ios.sockets.connected[clientId].handshake.session.isInstructor) {
+            	temp1.isInstructor = true;
+			}
             online_member.push(temp1);
 		}
 		socket.emit('online-members', online_member);
@@ -216,6 +244,13 @@ ios.on('connection', function(socket){
 
 		data.type = "chat";
 		if (socket.handshake.session.username) {
+			data.username = socket.handshake.session.username;
+			data.userAvatar = socket.handshake.session.userAvatar;
+			data.initials = data.username.slice(0, 2);
+			data.msgTime = moment().format('LT');
+			data.isInstructor = false;
+
+            data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
 			findRoom(socket.handshake.session.connectedRoom).messageHistory.push(data);
 			if(data.hasMsg){
                 ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message', data);
@@ -233,7 +268,7 @@ ios.on('connection', function(socket){
 					callback({success:true});
 				}
 			}else{
-				callback({ success:false});
+				socket.disconnect();
 			}
 		}
 	});

@@ -40,6 +40,7 @@ function AdminView(socketController, expressApp) {
     this.controllers = {};
     this.ios.tracking = {};
     this.callbacks = {};
+	this.oauthTokens = {};
 
     this.app.use(bodyParser.json());
 
@@ -224,7 +225,7 @@ AdminView.prototype.setupApi = function () {
 
                 this.callbacks[req.session.id](null, body);
                 delete this.callbacks[req.session.id];
-                res.end("Successfully authenticated, you can close this window");
+                res.end("<html><script>window.close()</script><body>Successfully authenticated, you can close this window</body></html>");
 
             }.bind(this))
         }.bind(this));

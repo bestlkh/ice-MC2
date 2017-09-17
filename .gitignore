@@ -95,3 +95,9 @@ typings/
 
 # idea files
 .idea
+
+# uploaded files
+public/app/upload/doc/
+public/app/upload/images/
+public/app/upload/music/
+

@@ -3,7 +3,7 @@
 <div ng-if="isLoading">
   <wave-spinner></wave-spinner>
 </div>
-<div ng-if="!isLoading" id="chat-wrapper" class="content-wrapper" style="height:100vh">
+<div id="chat-wrapper" class="content-wrapper" style="height:100vh">
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
@@ -100,7 +100,7 @@
                                 </a>
                                   </div>
                                   <div ng-class="{'attachment-msg-right' : messege.ownMsg, 'attachment-msg-left' : !messege.ownMsg}" ng-hide="messege.showme">
-                                    <span class="decs-text"><b>File:</b> {{ messege.filename}}</span>
+                                    <span class="decs-text"><b>File:</b> {{ messege.filename }}</span>
                                     <span class="decs-text">
                                     <a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>
                                     <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;</i></a>
@@ -108,7 +108,7 @@
                                     </span>
                                   </div>
                                   <div ng-class="{'attachment-msg-right' : messege.ownMsg, 'attachment-msg-left' : !messege.ownMsg}" ng-if="(messege.dwimgsrc !== 'app/images/spin.gif')" ng-show="messege.showme">
-                                    <span class="decs-text"><b>File :</b> {{ messege.filename}}</span>
+                                    <span class="decs-text"><b>File :</b> {{ messege.filename }}</span>
                                     <span class="decs-text">
                                     <a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Open in Editor&nbsp;&nbsp;</i><span style="font-size: 17px">&Eopf;</span></a>
                                     <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><span style="font-size: 17px">&Eopf;</span><i>&nbsp;&nbsp;Open in Editor</i></a>

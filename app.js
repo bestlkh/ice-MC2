@@ -9,7 +9,7 @@ var io = require('socket.io');				// using sockets
 var ios = io.listen(server);				// listening sockets
 var formidable = require('formidable');		// file upload module
 var util = require('util');
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid-v4');
 var moment = require("moment");
 
 const AdminView = require("./AdminView");
@@ -237,7 +237,6 @@ ios.on('connection', function(socket){
 
 	// sending new message
 	socket.on('send-message', function(data, callback){
-
 		data.type = "chat";
 		if (socket.handshake.session.username) {
 			data.username = socket.handshake.session.username;
@@ -253,7 +252,6 @@ ios.on('connection', function(socket){
 				callback({success:true});
 			}else if(data.hasFile){
 				if(data.istype == "image"){
-
                     ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message image', data);
 					callback({success:true});
 				} else if(data.istype == "music"){
@@ -339,8 +337,8 @@ app.post('/v1/uploadImage',function (req, res){
 		        serverfilename : baseName(files.file.path),
 		        serverfilepath : files.file.path,
 		        expirytime : imgdatetimenow + (3600000 * expiryTime)           
-	    };
-	    files_array.push(image_file);
+		};
+		files_array.push(image_file);
 		ios.sockets.emit('new message image', data);
     });
 });
@@ -435,7 +433,6 @@ app.post('/v1/getfile', function(req, res){
     var filenm = req.body.filename;
     var dwidexist = false;
     var req_file_data;
-    
     for(var i = 0; i<files_array.length; i++)
     {
         if(files_array[i].dwid == data)
@@ -495,7 +492,7 @@ function bytesToSize(bytes) {
 //get file name from server file path
 function baseName(str)
 {
-   var base = new String(str).substring(str.lastIndexOf('/') + 1);     
+   var base = new String(str).substring(str.lastIndexOf('\\') + 1);     
    return base;
 }
 

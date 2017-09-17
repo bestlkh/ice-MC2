@@ -78,7 +78,7 @@ angular.module('Controllers')
     });
 
 	$socket.on("connect", function () {
-		console.log("connect");
+		//console.log("connect");
 		if ($scope.disconnected) {
 			$scope.messeges.push({type: "system", msg: "Reconnected to chat."});
 			$scope.disconnected = false;
@@ -271,11 +271,11 @@ angular.module('Controllers')
 
     //  opens the sent image on gallery_icon click
     $scope.openClickImage = function(msg){
-		if(!msg.ownMsg){
+		//if(!msg.ownMsg){
 		$http.post("/v1/getfile",msg).success(function (response){
 	    	if(!response.isExpired){
 	    		msg.showme = false;
-	    		msg.serverfilename = msg.serverfilename;
+				msg.serverfilename = response.serverfilename;
 	    	}else{
 	    		var html = '<p id="alert">'+ response.expmsg +'</p>';
 	    		if ($( ".chat-box" ).has( "p" ).length < 1) {
@@ -286,7 +286,7 @@ angular.module('Controllers')
 				}
 	    	}
 	    });	
-		}
+		//}
     };
     
     // recieving new image message
@@ -294,7 +294,6 @@ angular.module('Controllers')
 		$scope.showme = true;
 		if (data.serverfilename) {
             var paths = data.serverfilename.split("\\");
-
             data.serverfilename = paths[paths.length - 1];
         }
 		if(data.username == $rootScope.username){
@@ -303,7 +302,7 @@ angular.module('Controllers')
 		}else{
 			data.ownMsg = false;
 		}
-		if((data.username == $rootScope.username) && data.repeatMsg){
+		if(data.ownMsg && data.repeatMsg){
 			checkMessegesImage(data);
 		}else{
 			$scope.messeges.push(data);
@@ -346,7 +345,7 @@ angular.module('Controllers')
 	}
 
 	// download image if it exists on server else return error message
-	$scope.downloadImage = function(ev, elem){
+	$scope.downloadImage = function(ev, elem){		
 		var search_id = elem.id;
     	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
 			if($scope.messeges[i].hasFile){
@@ -377,22 +376,24 @@ angular.module('Controllers')
 
     // sending new images function
     $scope.sendImage = function (files) {
-        if (files && files.length) {
+		if (files && files.length) {
         	$scope.isFileSelected = true;
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 var dateString = formatAMPM(new Date());            
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var image = {
+						//file: file,
 			      		username : $rootScope.username, 
 			      		userAvatar : $rootScope.userAvatar, 
-			      		hasFile : $scope.isFileSelected , 
+			      		hasFile : $scope.isFileSelected ,
 			      		isImageFile : true, 
 			      		istype : "image", 
 			      		showme : true , 
 			      		dwimgsrc : "app/images/gallery_icon5.png", 
 			      		dwid : DWid, 
-			      		msgTime : dateString			      		
+						msgTime : dateString,
+						filename : file.name       		
 			    };
                 $socket.emit('send-message',image,function (data){       // sending new image message via socket    
                 });

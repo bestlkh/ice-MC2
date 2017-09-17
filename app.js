@@ -492,9 +492,7 @@ function bytesToSize(bytes) {
 //get file name from server file path
 function baseName(str)
 {
-	console.log(str);
-   var base = new String(str).substring(str.lastIndexOf('//') + 1);     
-   console.log(base);
+   var base = new String(str).substring(str.lastIndexOf('/') + 1);
    return base;
 }
 

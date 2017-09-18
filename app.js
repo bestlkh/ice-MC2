@@ -14,17 +14,7 @@ var moment = require("moment");
 
 const AdminView = require("./AdminView");
 
-var session = require('express-session');
-var MongoDBStore = require('connect-mongodb-session')(session);
-
-var store = new MongoDBStore(
-    {
-        uri: 'mongodb://localhost:27017/control',
-        collection: 'mySessions'
-    });
-
-
-var session2 = require('express-session')({
+var session = require('express-session')({
     secret: 'AdminView',
     resave: false,
     saveUninitialized: true,
@@ -32,11 +22,9 @@ var session2 = require('express-session')({
         httpOnly: false,
         secure: false,
         sameSite: false
-    },
-	store: store
+    }
 });
-app.use(session2);
-
+app.use(session);
 var sharedsession = require("express-socket.io-session");
 ios.use(sharedsession(session, {
     autoSave:true

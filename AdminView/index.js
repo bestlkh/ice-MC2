@@ -60,6 +60,11 @@ AdminView.prototype.setupRoute = function () {
 
     this.app.get("/admin", sessionRedirect, function (req, res, next) {
         res.sendfile(constants.adminIndexPath);
+    });
+
+    this.app.use(function (req, res, next) {
+        console.log(req.session.id) ;
+        return next();
     })
 
 
@@ -87,6 +92,7 @@ AdminView.prototype.setupApi = function () {
 
     this.app.post("/v1/api/login", function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).end("Server error, could not resolve request");
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
 
 
@@ -158,7 +164,8 @@ AdminView.prototype.setupApi = function () {
 
     // TODO: Potentially spoof token so client doesnt get real/full token
     this.app.get("/v1/api/admin/auth/start", checkAuth, function (req, res) {
-        this.callbacks[req.session.id] = function (err, json) {
+        req.session.callbackId = uuidv4();
+        this.callbacks[req.session.callbackId] = function (err, json) {
             if (err) return res.status(400).json({status: 400, message: "Oauth failed due to user input."});
             request({
                     url: "https://outlook.office.com/api/v2.0/me",
@@ -179,7 +186,8 @@ AdminView.prototype.setupApi = function () {
                 }
             );
 
-        }
+        };
+        req.session.save();
     }.bind(this));
 
     this.app.get("/admin/auth/outlook", checkAuth,
@@ -210,8 +218,8 @@ AdminView.prototype.setupApi = function () {
                     message: "Server could not resolve request."
                 });
 
-
-                this.callbacks[req.session.id](null, body);
+                console.log(req.session.callbackId);
+                this.callbacks[req.session.callbackId](null, body);
                 delete this.callbacks[req.session.id];
                 res.end("<html><script>window.close()</script><body>Successfully authenticated, you can close this window</body></html>");
 
@@ -523,9 +531,12 @@ AdminView.prototype.setupSocket = function () {
             var session = socket.handshake.session;
             // if (!session.user) return socket.disconnect();
             // setSessionVars({isInstructor: true, username: session.user.username});
+            var isInstructor = false;
+            if (socket.handshake.session.settings)
+                 isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
             if (session.user) {
-                setSessionVars({isInstructor: true, username: session.user.username, isAdmin: false});
-                callback({});
+                setSessionVars({isInstructor: isInstructor, username: session.user.username, isAdmin: !isInstructor});
+                callback({username: session.user.username});
             } else {
                 var token = uuidv4();
                 this.oauthTokens[token] = {roomName: data.roomName};

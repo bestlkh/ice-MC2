@@ -92,6 +92,7 @@ angular.module('Controllers',["ngRoute"])
 		$socket.emit("instructor_login", {roomName: $scope.roomId}, function (result) {
 			if (!result.token) {
                 $rootScope.loggedIn = true;
+                $rootScope.username = result.username;
                 $location.path('/v1/ChatRoom/'+$routeParams.roomId);
 			} else {
 				var url = "/login/?token="+result.token;

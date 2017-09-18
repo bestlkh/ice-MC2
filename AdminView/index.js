@@ -62,11 +62,6 @@ AdminView.prototype.setupRoute = function () {
         res.sendfile(constants.adminIndexPath);
     });
 
-    this.app.use(function (req, res, next) {
-        console.log(req.session.id) ;
-        return next();
-    })
-
 
 };
 
@@ -199,7 +194,7 @@ AdminView.prototype.setupApi = function () {
     this.app.get("/v1/api/admin/auth/outlook/callback", checkAuth,
         function (req, res) {
             if (req.query.error) {
-                this.callbacks[req.session.id](req.query.error, null);
+                this.callbacks[req.session.callbackId](req.query.error, null);
             }
             if (!req.query.code) return res.status(400).json({status: 400, message: "Invalide parameters."});
             request.post({
@@ -220,7 +215,7 @@ AdminView.prototype.setupApi = function () {
 
                 console.log(req.session.callbackId);
                 this.callbacks[req.session.callbackId](null, body);
-                delete this.callbacks[req.session.id];
+                delete this.callbacks[req.session.callbackId];
                 res.end("<html><script>window.close()</script><body>Successfully authenticated, you can close this window</body></html>");
 
             }.bind(this))

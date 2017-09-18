@@ -253,9 +253,8 @@ angular.module('Controllers')
 
 	// recieving new text message
 	$socket.on("new message", function(data){
-		//console.log(data);
-
         data.ownMsg = (data.username === $rootScope.username);
+        console.log(data.ownMsg);
 
 		$scope.messeges.push(data);
 		// Updates chatlog with relevant message history

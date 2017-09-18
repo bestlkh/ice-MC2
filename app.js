@@ -14,17 +14,29 @@ var moment = require("moment");
 
 const AdminView = require("./AdminView");
 
-var session = require('express-session')({
+var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+var store = new MongoDBStore(
+    {
+        uri: 'mongodb://localhost:27017/control',
+        collection: 'mySessions'
+    });
+
+
+var session2 = require('express-session')({
     secret: 'AdminView',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
-        sameSite: true
-    }
+        sameSite: false
+    },
+	store: store
 });
-app.use(session);
+app.use(session2);
+
 var sharedsession = require("express-socket.io-session");
 ios.use(sharedsession(session, {
     autoSave:true
@@ -128,6 +140,8 @@ ios.on('connection', function(socket){
 		else callback({username: username, avatar: session.userAvatar, room: session.connectedRoom, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
     });
 
+
+    // TODO: Test this with admin view, might be weird interactions
 	socket.on("join-room", function(data, callback) {
 		if (!data.roomId) return socket.disconnect();
         data.roomId = data.roomId.toLowerCase();
@@ -138,7 +152,7 @@ ios.on('connection', function(socket){
         	return callback({success:false, message: "Use different username."});
 		}
 		if (socket.handshake.session.username) {
-            if (room && room.inviteOnly && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid) {
+            if (room && room.inviteOnly && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
                 destroySession();
                 return callback({success: false, message: "Room is invite only."});
             }
@@ -204,6 +218,7 @@ ios.on('connection', function(socket){
 				} else if (data.isJoin && clients.inviteOnly) {
 					return callback({success: false, message: "Room is invite only"});
 				}
+            	if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
 				setSessionVars({username: data.username, userAvatar: data.userAvatar});
 				//nickname[data.username] = socket;
 				// socket.join(data.roomId, function () {
@@ -284,6 +299,7 @@ ios.on('connection', function(socket){
             ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", msgTime: new Date(), type: "system"});
 
 		//logout user after gone for 5min
+		// TODO: Maybe implement this but removed due to buddy
 
         // clearTimeout(ios.timeOuts[socket.handshake.session.id]);
         // ios.timeOuts[socket.handshake.session.id] = setTimeout(function () {

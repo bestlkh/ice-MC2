@@ -11,10 +11,10 @@ var constants = {
     // oauth information can be found on the application portal for microsoft stuff except for the secret
     // DO NOT commit this stuff to git
     oauth: {
-        secret: "",
-        appId: "",
+        secret: "G6V9z9osCjrSD3JcnMmSjev",
+        appId: "2ab8afcb-7dfe-429f-b5a6-a0a9f46e592f",
         scope: ["https://outlook.office.com/Mail.Send", "https://outlook.office.com/user.readbasic.all"],
-        callbackURL: 'https://127.0.0.1:8080/v1/api/admin/auth/outlook/callback',
+        callbackURL: 'https://127.0.0.1:8000/v1/api/admin/auth/outlook/callback',
 
         tokenURL: "https://login.microsoftonline.com/common/oauth2/v2.0/token"
     },

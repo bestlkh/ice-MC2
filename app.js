@@ -198,11 +198,11 @@ ios.on('connection', function(socket){
 			{
 				callback({success:false, message: "Use different username."});
 			} else {
-				if (data.trackId) {
-					if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {
+				if (data.token) {
+					if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.token]) {
 						return callback({success: false, message: "Invalid tracking id."});
 					}
-					setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
+					setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.token].utorid);
 				} else if (data.isJoin && clients.inviteOnly) {
 					return callback({success: false, message: "Room is invite only"});
 				}

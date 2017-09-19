@@ -26,7 +26,7 @@ angular.module('Controllers',["ngRoute"])
 	$scope.form.roomId = $routeParams.roomId;
 	$scope.isJoin = true;
 	$scope.roomId = $routeParams.roomId;
-	$scope.trackId = $location.search().trackId;
+	$scope.token = $location.search().token;
 	$scope.utorid = "-----";
 	$scope.error = null;
 
@@ -69,9 +69,9 @@ angular.module('Controllers',["ngRoute"])
             });
         }
 
-        if ($scope.trackId) {
+        if ($scope.token) {
         	$.ajax({
-        		url: "/v1/api/room/"+$routeParams.roomId+"/track/"+$scope.trackId,
+        		url: "/v1/api/room/"+$routeParams.roomId+"/track/"+$scope.token,
 				success: function (result) {
 					$scope.utorid = result.utorid;
 					console.log(result);
@@ -119,7 +119,7 @@ angular.module('Controllers',["ngRoute"])
 		if ($scope.form.username.length <= 20) {
 			if($scope.form.username && $scope.form.roomId){
 
-				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, trackId: $scope.trackId},function(data){
+				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
 
 						$rootScope.username = $scope.form.username;

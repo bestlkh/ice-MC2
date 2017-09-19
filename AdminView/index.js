@@ -14,6 +14,8 @@ var outlook = require("node-outlook");
 
 outlook.base.setApiEndpoint("https://outlook.office.com/api/v2.0");
 
+//TODO: More rror handling both on frontend and backend
+
 var sessionRedirect = function (req, res, next) {
     if (!req.session.user && req.originalUrl !== "/favicon.ico") {
         req.session.redirectTo = req.originalUrl;
@@ -36,6 +38,7 @@ function AdminView(socketController, expressApp) {
     this.ios = socketController;
     this.app = expressApp;
 
+    // TODO:
     // switch to redis at some point to prevent memory leaks
     this.controllers = {};
     this.ios.tracking = {};
@@ -57,7 +60,7 @@ AdminView.prototype.setupRoute = function () {
 
     this.app.get("/admin", sessionRedirect, function (req, res, next) {
         res.sendfile(constants.adminIndexPath);
-    })
+    });
 
 
 };
@@ -79,42 +82,31 @@ var ChatSetting = function (settings) {
 
 };
 
-// var user = new User({username: "test", password: "test"});
-// var settings = {
-//     user: user.username,
-//     chat: new ChatSetting()
-// };
-//
-// MongoClient.connect(constants.dbUrl, function (err, db) {
-//         db.collection("users").insertOne(user, function (err2, newUser) {
-//             db.close();
-//         });
-// });
-//
-//     MongoClient.connect(constants.dbUrl, function (err, db) {
-//         db.collection("settings").insertOne(settings, function (err2, newUser) {
-//             db.close();
-//         });
-//     });
-
 AdminView.prototype.setupApi = function () {
 
 
     this.app.post("/v1/api/login", function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).end("Server error, could not resolve request");
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
+<<<<<<< HEAD
                 if (err) return res.status(500).end("Server error, could not resolve request");
                 if(!user) return res.status(403).json({
                     message: "Invalid username or password",
                     status: 403
                 });
                 db.collection("settings").findOne({user: user.username}, function (err, settings) {
+=======
+
+
+>>>>>>> 04a38da2064ba2c541a8da0e68a6a0290dd7151a
                     if (err) return res.status(500).end("Server error, could not resolve request");
                     if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
                         message: "Invalid username or password",
                         status: 403
                     });
-
+                db.collection("settings").findOne({user: user.username}, function (err, settings) {
+                    if (err) return res.status(500).end("Server error, could not resolve request");
                     req.session.user = user;
                     req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
                     req.session.username = user.username;
@@ -174,8 +166,10 @@ AdminView.prototype.setupApi = function () {
         else return next();
     };
 
+    // TODO: Potentially spoof token so client doesnt get real/full token
     this.app.get("/v1/api/admin/auth/start", checkAuth, function (req, res) {
-        this.callbacks[req.session.id] = function (err, json) {
+        req.session.callbackId = uuidv4();
+        this.callbacks[req.session.callbackId] = function (err, json) {
             if (err) return res.status(400).json({status: 400, message: "Oauth failed due to user input."});
             request({
                     url: "https://outlook.office.com/api/v2.0/me",
@@ -196,7 +190,8 @@ AdminView.prototype.setupApi = function () {
                 }
             );
 
-        }
+        };
+        req.session.save();
     }.bind(this));
 
     this.app.get("/admin/auth/outlook", checkAuth,
@@ -208,7 +203,7 @@ AdminView.prototype.setupApi = function () {
     this.app.get("/v1/api/admin/auth/outlook/callback", checkAuth,
         function (req, res) {
             if (req.query.error) {
-                this.callbacks[req.session.id](req.query.error, null);
+                this.callbacks[req.session.callbackId](req.query.error, null);
             }
             if (!req.query.code) return res.status(400).json({status: 400, message: "Invalide parameters."});
             request.post({
@@ -221,20 +216,24 @@ AdminView.prototype.setupApi = function () {
                 }
             }, function (err, httpResponse, body) {
                 body = JSON.parse(body);
+                console.log(body.error);
                 if (body.error) return res.status(500).json({
                     status: 500,
                     message: "Server could not resolve request."
                 });
 
-
-                this.callbacks[req.session.id](null, body);
-                delete this.callbacks[req.session.id];
+                console.log(req.session.callbackId);
+                this.callbacks[req.session.callbackId](null, body);
+                delete this.callbacks[req.session.callbackId];
                 res.end("<html><script>window.close()</script><body>Successfully authenticated, you can close this window</body></html>");
 
             }.bind(this))
         }.bind(this));
 
 
+
+
+    // TODO: Add email/password login to admin view mail settings
     this.app.get("/v1/api/admin/sendEmail", checkAuth, function (req, res) {
         if (!req.session.user.outlook || !req.session.user.outlook["access_token"]) return res.status(400).json({
             status: 400,
@@ -261,48 +260,94 @@ AdminView.prototype.setupApi = function () {
                     //     }
                     // });
 
+
                     var userInfo = {
                         email: req.session.user.outlook.email
                     };
-                    Promise.all(Object.keys(urls).map(function (id) {
-                        return new Promise(function (resolve, rej) {
-                            var mailOptions = {
-                                Importance: "High",
-                                Subject: 'MC2 Invitation', // Subject line
-                                Body: {
-                                    Content: constants.emailTemplate.replace("{link}", "http://127.0.0.1:8080/#/v1/" + settings.chat.roomName + "?token=" + id)
-                                },
-                                ToRecipients: [
-                                    {
-                                        EmailAddress: {
-                                            Address: urls[id].email
-                                        }
+
+                    var count = 0;
+                    var ids = Object.keys(urls);
+
+                    var results = {};
+
+                    function sendMail(id, callback) {
+                        var mailOptions = {
+                            Importance: "High",
+                            Subject: 'MC2 Invitation', // Subject line
+                            Body: {
+                                Content: constants.emailTemplate.replace("{link}", "https://ice.trentu.ca/#/v1/" + settings.chat.roomName + "?token=" + id)
+                            },
+                            ToRecipients: [
+                                {
+                                    EmailAddress: {
+                                        Address: urls[id].email
                                     }
-                                ]
-                            };
+                                }
+                            ]
+                        };
 
-                            outlook.mail.sendNewMessage({
-                                token: req.session.user.outlook["access_token"],
-                                message: mailOptions,
-                                user: userInfo
-                            }, function (err, result) {
-
-                                if (err && err.indexOf("503") === -1) return rej(err);
-                                resolve(result);
-                            });
-
-                            // transporter.sendMail(mailOptions, function (err, info) {
-                            //     console.log(err);
-                            //     if (err) return rej(err);
-                            //     resolve(info);
-                            // });
+                        outlook.mail.sendNewMessage({
+                            token: req.session.user.outlook["access_token"],
+                            message: mailOptions,
+                            user: userInfo
+                        }, function (err, result) {
+                            if (err)  {
+                                results[urls[id].utorid] = err;
+                            } else results[urls[id].utorid] = result;
+                            count++;
+                            if (count === ids.length) {
+                                return callback(null, results);
+                            }
+                            sendMail(ids[count], callback)
                         });
+                    }
 
-                    })).then(function (details) {
-                        res.json({success: true, details: details});
-                    }).catch(function (err) {
-                        res.status(500).json({status: 500, message: "Server could not resolve request."});
+
+                    sendMail(ids[count], function (err, data) {
+                        if (err) res.status(500).json({status: 500, message: "Server could not resolve request."});
+                        res.json({success: true, details: data});
                     });
+
+
+                    // Promise.all(Object.keys(urls).map(function (id) {
+                    //     return new Promise(function (resolve, rej) {
+                    //         var mailOptions = {
+                    //             Importance: "High",
+                    //             Subject: 'MC2 Invitation', // Subject line
+                    //             Body: {
+                    //                 Content: constants.emailTemplate.replace("{link}", "https://ice.trentu.ca/#/v1/" + settings.chat.roomName + "?trackId=" + id)
+                    //             },
+                    //             ToRecipients: [
+                    //                 {
+                    //                     EmailAddress: {
+                    //                         Address: urls[id].email
+                    //                     }
+                    //                 }
+                    //             ]
+                    //         };
+                    //
+                    //         outlook.mail.sendNewMessage({
+                    //             token: req.session.user.outlook["access_token"],
+                    //             message: mailOptions,
+                    //             user: userInfo
+                    //         }, function (err, result) {
+                    //
+                    //             if (err && err.indexOf("503") === -1) return rej(err);
+                    //             resolve(result);
+                    //         });
+                    //
+                    //         // transporter.sendMail(mailOptions, function (err, info) {
+                    //         //     console.log(err);
+                    //         //     if (err) return rej(err);
+                    //         //     resolve(info);
+                    //         // });
+                    //     });
+
+                    // })).then(function (details) {
+                    //     res.json({success: true, details: details});
+                    // }).catch(function (err) {
+                    //     res.status(500).json({status: 500, message: "Server could not resolve request."});
+                    // });
 
 
                 }.bind(this));
@@ -355,6 +400,8 @@ AdminView.prototype.setupApi = function () {
         });
     });
 
+    //TODO: verify student list
+
     this.app.patch("/v1/api/students", checkAuth, function (req, res) {
         var student = new Student(req.body);
 
@@ -369,6 +416,8 @@ AdminView.prototype.setupApi = function () {
         });
     });
 
+    //TODO: verify student list
+
     this.app.put("/v1/api/students", checkAuth, function (req, res) {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
             if (err) return res.status(400).json({status: 400, message: err});
@@ -378,6 +427,7 @@ AdminView.prototype.setupApi = function () {
                 db.collection("students").updateOne({owner: req.session.user.username}, {
                     $set: {students: data}
                 }, {upsert: true}, function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                     res.json(data);
                     db.close();
                 });
@@ -449,6 +499,7 @@ AdminView.prototype.setupSocket = function () {
             socket.handshake.session.save();
         }
 
+        // TODO: Pontentially implement a frontend for chat history
         socket.on('send-message', function (data, callback) {
             var room = findRoom(socket.handshake.session.connectedRoom);
             data.type = "chat";
@@ -456,7 +507,7 @@ AdminView.prototype.setupSocket = function () {
                 data.username = socket.handshake.session.username;
                 data.userAvatar = socket.handshake.session.userAvatar;
                 data.initials = data.username.slice(0, 2);
-                data.msgTime = moment().format('LT');
+                data.timestamp = moment();
                 if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
                 MongoClient.connect(constants.dbUrl, function (err, db) {
                     db.collection("chatHistory").updateOne({
@@ -484,9 +535,12 @@ AdminView.prototype.setupSocket = function () {
             var session = socket.handshake.session;
             // if (!session.user) return socket.disconnect();
             // setSessionVars({isInstructor: true, username: session.user.username});
+            var isInstructor = false;
+            if (socket.handshake.session.settings)
+                 isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
             if (session.user) {
-                setSessionVars({isInstructor: true, username: session.user.username, isAdmin: false});
-                callback({});
+                setSessionVars({isInstructor: isInstructor, username: session.user.username, isAdmin: !isInstructor});
+                callback({username: session.user.username});
             } else {
                 var token = uuidv4();
                 this.oauthTokens[token] = {roomName: data.roomName};

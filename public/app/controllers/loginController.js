@@ -50,6 +50,7 @@ angular.module('Controllers',["ngRoute"])
             console.log($rootScope.error);
             $scope.printErr($rootScope.message);
 		} else {
+			console.log("test");
             $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
 
                 if (data.username) {
@@ -63,6 +64,7 @@ angular.module('Controllers',["ngRoute"])
                     else if (data.room) $location.path('/v1/ChatRoom/' + data.room);
                 }
                 $scope.isLoading = false;
+                $scope.$apply();
 
             });
         }
@@ -92,6 +94,7 @@ angular.module('Controllers',["ngRoute"])
 		$socket.emit("instructor_login", {roomName: $scope.roomId}, function (result) {
 			if (!result.token) {
                 $rootScope.loggedIn = true;
+                $rootScope.username = result.username;
                 $location.path('/v1/ChatRoom/'+$routeParams.roomId);
 			} else {
 				var url = "/login/?token="+result.token;

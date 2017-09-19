@@ -89,17 +89,6 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             if (err) return res.status(500).end("Server error, could not resolve request");
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
-<<<<<<< HEAD
-                if (err) return res.status(500).end("Server error, could not resolve request");
-                if(!user) return res.status(403).json({
-                    message: "Invalid username or password",
-                    status: 403
-                });
-                db.collection("settings").findOne({user: user.username}, function (err, settings) {
-=======
-
-
->>>>>>> 04a38da2064ba2c541a8da0e68a6a0290dd7151a
                     if (err) return res.status(500).end("Server error, could not resolve request");
                     if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
                         message: "Invalid username or password",

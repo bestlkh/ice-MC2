@@ -104,6 +104,10 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
                 if (err) return res.status(500).end("Server error, could not resolve request");
+                if(!user) return res.status(403).json({
+                    message: "Invalid username or password",
+                    status: 403
+                });
                 db.collection("settings").findOne({user: user.username}, function (err, settings) {
                     if (err) return res.status(500).end("Server error, could not resolve request");
                     if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
@@ -266,7 +270,7 @@ AdminView.prototype.setupApi = function () {
                                 Importance: "High",
                                 Subject: 'MC2 Invitation', // Subject line
                                 Body: {
-                                    Content: constants.emailTemplate.replace("{link}", "http://127.0.0.1:8080/#/v1/" + settings.chat.roomName + "?trackId=" + id)
+                                    Content: constants.emailTemplate.replace("{link}", "http://127.0.0.1:8080/#/v1/" + settings.chat.roomName + "?token=" + id)
                                 },
                                 ToRecipients: [
                                     {

@@ -498,7 +498,7 @@ AdminView.prototype.setupSocket = function () {
                 data.username = socket.handshake.session.username;
                 data.userAvatar = socket.handshake.session.userAvatar;
                 data.initials = data.username.slice(0, 2);
-                data.timestamp = moment();
+                data.timestamp = moment().valueOf();
                 if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
                 MongoClient.connect(constants.dbUrl, function (err, db) {
                     db.collection("chatHistory").updateOne({

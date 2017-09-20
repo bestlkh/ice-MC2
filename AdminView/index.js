@@ -471,6 +471,7 @@ AdminView.prototype.setupApi = function () {
 
     });
 
+    this.app.get("/v1/api/admin/students/generate", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("students").findOne({owner: req.session.user.username}, function (err, students) {
                 var newStudents = [];

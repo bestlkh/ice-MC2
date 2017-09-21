@@ -222,8 +222,13 @@ AdminView.prototype.setupApi = function () {
 
 
     this.app.get("/vi/api/admin/resetTokens", checkAuth, function(req, res) {
-        this.ios.tracking[settings.chat.roomName] = null;
-        res.json({success: true})
+        console.log(1);
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
+                this.ios.tracking[settings.chat.roomName] = null;
+                res.json({success: true})                
+            }.bind(this));
+        }.bind(this));
     }.bind(this));
 
 

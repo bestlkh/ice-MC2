@@ -1,7 +1,6 @@
 var textarea = document.getElementById("textArea");
 var chatLog = "";
 
-
 angular.module('Controllers')
 .directive('scrollBottom', function () {		// custom directive for scrolling bottom on new message load
   return {
@@ -51,6 +50,7 @@ angular.module('Controllers')
 	$scope.isMsgBoxEmpty = false;
 	$scope.isFileSelected = false;
 	$scope.isMsg = false;
+	$scope.isAdmin = false;
 	$scope.setFocus = true;
 	$scope.chatMsg = "";
 	$scope.users = [];
@@ -122,7 +122,7 @@ angular.module('Controllers')
                 $location.path('/v1/'+$routeParams.roomId);
             }
             $scope.isLoading = false;
-
+            $scope.isAdmin = data.isAdmin;
         });
     } else {
 
@@ -135,7 +135,6 @@ angular.module('Controllers')
             }
             //$scope.messeges.push(data);
             $scope.isLoading = false;
-
             chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
         });
 

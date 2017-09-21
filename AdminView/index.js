@@ -237,10 +237,12 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
+                    var urls;
                     if (!this.ios.tracking[settings.chat.roomName] || !this.ios.tracking[settings.chat.roomName].trackingIds) {
-                        var urls = generateURLs(list.students);
+                        urls = generateURLs(list.students);
                         this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
                     }
+                    urls = this.ios.tracking[settings.chat.roomName].trackingIds;
                     console.log(urls);
                     outlook.base.setAnchorMailbox(req.session.user.outlook.email);
                     // transporter = nodemailer.createTransport({

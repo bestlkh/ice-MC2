@@ -221,7 +221,7 @@ AdminView.prototype.setupApi = function () {
 
 
 
-    this.app.get("/vi/api/admin/resetTokens", checkAuth, function(req, res) {
+    this.app.get("/v1/api/admin/resetTokens", checkAuth, function(req, res) {
         console.log(1);
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {

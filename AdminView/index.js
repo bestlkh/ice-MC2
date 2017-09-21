@@ -221,19 +221,27 @@ AdminView.prototype.setupApi = function () {
 
 
 
+    this.app.get("/vi/api/admin/resetTokens", checkAuth, function(req, res) {
+        this.ios.tracking[settings.chat.roomName] = null;
+        res.json({success: true})
+    }.bind(this));
+
+
 
     // TODO: Add email/password login to admin view mail settings
     this.app.get("/v1/api/admin/sendEmail", checkAuth, function (req, res) {
-        if (!req.session.user.outlook || !req.session.user.outlook["access_token"]) return res.status(400).json({
+        if (false && (!req.session.user.outlook || !req.session.user.outlook["access_token"])) return res.status(400).json({
             status: 400,
             message: "Invalid outlook access token"
         });
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
-                    var urls = generateURLs(list.students);
+                    if (!this.ios.tracking[settings.chat.roomName] || !this.ios.tracking[settings.chat.roomName].trackingIds) {
+                        var urls = generateURLs(list.students);
+                        this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
+                    }
                     console.log(urls);
-                    this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
                     outlook.base.setAnchorMailbox(req.session.user.outlook.email);
                     // transporter = nodemailer.createTransport({
                     //     host: constants.smtp.host,

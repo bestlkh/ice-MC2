@@ -24,6 +24,7 @@
 
             <div style="display: flex;">
                 <div class="send-result" ng-if="controller.sendResult">{{controller.sendResult.success ? "Success" : "Failed"}}</div>
+                <div class="chat-button send-button" ng-click="Actions.resetTokens();">Reset Tokens</div>
                 <div class="chat-button send-button" ng-click="Actions.sendTrackEmails();">Send Tracking Email</div>
             </div>
         </div>

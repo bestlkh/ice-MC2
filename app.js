@@ -200,7 +200,7 @@ ios.on('connection', function(socket){
 			} else {
 				if (data.token) {
 					if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.token]) {
-						return callback({success: false, message: "Invalid tracking id."});
+						return callback({success: false, message: "Invalid token or expired token."});
 					}
 					setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.token].utorid);
 				} else if (data.isJoin && clients.inviteOnly) {

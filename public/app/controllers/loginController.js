@@ -121,7 +121,6 @@ angular.module('Controllers',["ngRoute"])
 
 				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
-
 						$rootScope.username = $scope.form.username;
 						$rootScope.initials = $scope.form.initials;
 						$rootScope.userAvatar = $scope.userAvatar;

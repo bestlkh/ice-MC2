@@ -44,7 +44,10 @@
                   <button class="btn btn-box-tool glyphicon glyphicon-fullscreen" id="goFS" onclick="simulateFullScreen();"></button>
 
                   <button class="btn btn-box-tool mobile" data-widget="" onclick="swapFrame();">f(x)</button>
-                  <button class="btn btn-box-tool mobile" data-widget="" onclick="downloadLogs();">⇲</button>
+                                                     
+                  <button class="btn btn-box-tool mobile" id = "downloadLogBtn" 
+                  ng-style= "{'display': isAdmin ? 'block' : 'none'}" data-widget="" onclick="downloadLogs();">⇲</button>
+
                   <button class="btn btn-box-tool mobile" data-widget="" ngf-select ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>
                   <!-- online member list mobile -->
                   <button style="display: inline-block;" class="btn btn-box-tool toggle-contact-icon" data-toggle="tooltip" data-widget="chat-pane-toggle" title="Contacts" ng-click="toggleCustom()"><i class="fa fa-comments"></i></button>

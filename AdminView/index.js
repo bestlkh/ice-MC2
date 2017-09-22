@@ -105,8 +105,6 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             if (err) return res.status(500).end("Server error, could not resolve request");
             db.collection("users").findOne({username: req.body.username}, function (err, user) {
-
-
                     if (err) return res.status(500).end("Server error, could not resolve request");
                     if (!user || !checkPassword(user, req.body.password)) return res.status(403).json({
                         message: "Invalid username or password",
@@ -239,19 +237,34 @@ AdminView.prototype.setupApi = function () {
 
 
 
+    this.app.get("/v1/api/admin/resetTokens", checkAuth, function(req, res) {
+        console.log(1);
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
+                this.ios.tracking[settings.chat.roomName] = null;
+                res.json({success: true})                
+            }.bind(this));
+        }.bind(this));
+    }.bind(this));
+
+
 
     // TODO: Add email/password login to admin view mail settings
     this.app.get("/v1/api/admin/sendEmail", checkAuth, function (req, res) {
-        if (!req.session.user.outlook || !req.session.user.outlook["access_token"]) return res.status(400).json({
+        if (false && (!req.session.user.outlook || !req.session.user.outlook["access_token"])) return res.status(400).json({
             status: 400,
             message: "Invalid outlook access token"
         });
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
-                    var urls = generateURLs(list.students);
+                    var urls;
+                    if (!this.ios.tracking[settings.chat.roomName] || !this.ios.tracking[settings.chat.roomName].trackingIds) {
+                        urls = generateURLs(list.students);
+                        this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
+                    }
+                    urls = this.ios.tracking[settings.chat.roomName].trackingIds;
                     console.log(urls);
-                    this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
                     outlook.base.setAnchorMailbox(req.session.user.outlook.email);
                     // transporter = nodemailer.createTransport({
                     //     host: constants.smtp.host,
@@ -282,7 +295,7 @@ AdminView.prototype.setupApi = function () {
                             Importance: "High",
                             Subject: 'MC2 Invitation', // Subject line
                             Body: {
-                                Content: constants.emailTemplate.replace("{link}", "https://ice.trentu.ca/#/v1/" + settings.chat.roomName + "?trackId=" + id)
+                                Content: constants.emailTemplate.replace("{link}", "https://ice.trentu.ca/#/v1/" + settings.chat.roomName + "?token=" + id)
                             },
                             ToRecipients: [
                                 {

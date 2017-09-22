@@ -185,6 +185,21 @@ ios.on('connection', function(socket){
     });
 
 	// creating new user if nickname doesn't exists
+    var getUserTracking = function (data, callback) {
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.tracking.find({roomName: req.parmas.roomName}, function (err, tracking) {
+                var student = findOne(tracking.students, {token: req.params.code});
+                if (!student) return res.status(404).json({
+                    status: 404,
+                    message: "Requested registration id cannot be found."
+                });
+
+                req.student = student;
+                return next();
+            })
+        });
+
+    };
 
 	//TODO: verify username is alphanumeric
 	socket.on('new user', function(data, callback){
@@ -199,10 +214,21 @@ ios.on('connection', function(socket){
 				callback({success:false, message: "Use different username."});
 			} else {
 				if (data.trackId) {
-					if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {
-						return callback({success: false, message: "Invalid tracking id."});
-					}
-					setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
+                    MongoClient.connect(constants.dbUrl, function (err, db) {
+                        db.tracking.find({roomName: data.roomId}, function (err, tracking) {
+                            var student = findOne(tracking.students, {token: data.trackId});
+                            if (!student) return res.status(404).json({
+                                status: 404,
+                                message: "Requested registration id cannot be found."
+                            });
+
+                            setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
+                        })
+                    });
+					// if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {
+					// 	return callback({success: false, message: "Invalid tracking id."});
+					// }
+					// setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
 				} else if (data.isJoin && clients.inviteOnly) {
 					return callback({success: false, message: "Room is invite only"});
 				}

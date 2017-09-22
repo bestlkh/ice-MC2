@@ -14,6 +14,23 @@ var moment = require("moment");
 
 const AdminView = require("./AdminView");
 
+var MongoClient = require('mongodb').MongoClient;
+
+function findOne(list, params) {
+    var result;
+    list.every(function (user) {
+        var accepted = Object.keys(params).every(function (item) {
+            return (user[item] === params[item])
+        });
+        if (accepted) {
+            result = (user);
+            return false;
+        }
+        return true;
+    });
+    return result;
+}
+
 var session = require('express-session')({
     secret: 'AdminView',
     resave: false,
@@ -213,16 +230,13 @@ ios.on('connection', function(socket){
 			{
 				callback({success:false, message: "Use different username."});
 			} else {
-				if (data.trackId) {
-                    MongoClient.connect(constants.dbUrl, function (err, db) {
-                        db.tracking.find({roomName: data.roomId}, function (err, tracking) {
-                            var student = findOne(tracking.students, {token: data.trackId});
-                            if (!student) return res.status(404).json({
-                                status: 404,
-                                message: "Requested registration id cannot be found."
-                            });
+				if (data.token) {
+                    MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
+                        db.collection('tracking').findOne({roomName: data.roomId}, function (err, tracking) {
+                            var student = findOne(tracking.students, {token: data.token});
+                            if (!student) return callback({success: false, message: "Invalid id."});
 
-                            setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
+                            setSessionVar("utorid", student.utorid);
                         })
                     });
 					// if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {

@@ -14,7 +14,23 @@ var outlook = require("node-outlook");
 
 outlook.base.setApiEndpoint("https://outlook.office.com/api/v2.0");
 
-//TODO: More rror handling both on frontend and backend
+function findOne(list, params) {
+    var result;
+    list.every(function (user) {
+        var accepted = Object.keys(params).every(function (item) {
+            return (user[item] === params[item])
+        });
+        if (accepted) {
+            result = (user);
+            return false;
+        }
+        return true;
+    });
+    return result;
+}
+
+
+//TODO: More error handling both on frontend and backend
 
 var sessionRedirect = function (req, res, next) {
     if (!req.session.user && req.originalUrl !== "/favicon.ico") {
@@ -76,7 +92,7 @@ var ChatSetting = function (settings) {
         this.invite = false;
     }
     else {
-        this.roomName = settings.roomName;
+        this.roomName = settings.roomName.toLowerCase();
         this.invite = settings.invite;
     }
 
@@ -98,7 +114,7 @@ AdminView.prototype.setupApi = function () {
                     if (err) return res.status(500).end("Server error, could not resolve request");
                     req.session.user = user;
                     req.session.userAvatar = user.userAvatar ? user.userAvatar : "avatar1.jpg";
-                    req.session.username = user.username;
+                    //req.session.username = user.username;
                     req.session.settings = settings ? settings : {};
 
 
@@ -360,15 +376,34 @@ AdminView.prototype.setupApi = function () {
         }.bind(this));
     }.bind(this));
 
-    this.app.get("/v1/api/room/:roomName/track/:code", function (req, res) {
 
-        if (!this.ios.tracking[req.params.roomName] || !this.ios.tracking[req.params.roomName].trackingIds) return res.status(404).json({
-            status: 404,
-            message: "Requested registration id cannot be found."
+
+    var getUserTracking = function (req, res, next) {
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+           db.collection('tracking').findOne({roomName: req.params.roomName}, function (err, tracking) {
+               var student = findOne(tracking.students, {token: req.params.code});
+               if (!student) return res.status(404).json({
+                   status: 404,
+                   message: "Requested registration id cannot be found."
+               });
+
+               req.student = student;
+               return next();
+           })
         });
 
-        var resp = this.ios.tracking[req.params.roomName].trackingIds[req.params.code];
-        if (!resp) return res.status(404).json({status: 404, message: "Requested registration id cannot be found."});
+    };
+
+    this.app.get("/v1/api/room/:roomName/track/:code", getUserTracking, function (req, res) {
+
+        // if (!this.ios.tracking[req.params.roomName] || !this.ios.tracking[req.params.roomName].trackingIds) return res.status(404).json({
+        //     status: 404,
+        //     message: "Requested registration id cannot be found."
+        // });
+
+
+        var resp = req.student;
+
         res.json(resp);
     }.bind(this));
 
@@ -461,6 +496,7 @@ AdminView.prototype.setupApi = function () {
             try {
                 switch (req.params.type) {
                     case "chat":
+                        if (!req.body.settings.roomName) return res.status(400).json({status: 400, message: "Specify a room name."});
                         var newSettings = new ChatSetting(req.body.settings);
                         db.collection("settings").updateOne({user: req.session.user.username}, {$set: {chat: newSettings}}, {upsert: true}, function (err, result) {
                             if (err) return res.status(500).json({
@@ -494,8 +530,9 @@ AdminView.prototype.setupApi = function () {
                     newStudents.push(student);
                     urls[student.token] = student;
                 });
-                db.collection("students").updateOne({owner: req.session.user.username}, {$set: {students: newStudents}}, function (err, result) {
-                    if (err) return;
+
+                db.collection("tracking").updateOne({roomName: req.session.settings.chat.roomName}, {$set: {students: newStudents}}, {upsert: true}, function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                     this.ios.tracking[req.session.settings.chat.roomName] = {trackingIds: urls};
                     return csv.stringify(newStudents).pipe(res);
                 }.bind(this));

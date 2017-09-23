@@ -29,7 +29,7 @@
     <div ng-if="!error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
       <h4 ng-if="!roomId || !isJoin" class="login-box-msg">Sign in to get started...</h4>
       <h4 ng-if="roomId && isJoin && !token" class="login-box-msg">Sign in to join room <b>{{roomId}}</b></h4>
-      <h4 ng-if="roomId && isJoin && token" class="login-box-msg">Welcome <b>{{utorid}}</b>, sign into <b>{{roomId}}</b></h4>
+      <h4 ng-if="roomId && isJoin && token" class="login-box-msg">Welcome, sign into <b>{{roomId}}</b></h4>
       <form>
         <div class="form-group errGroup">
         </div>

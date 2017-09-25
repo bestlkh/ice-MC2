@@ -74,6 +74,15 @@ angular.module('Controllers')
                     }
                 })
             },
+            getTokens: function () {
+                $.ajax({
+                    url: "/v1/api/admin/getTokens",
+                    success: function (result) {
+                        $scope.controller.sendResult = result;
+                        $scope.$apply();
+                    }
+                })
+            },
             getSessionToken: function () {
                 $.ajax({
                     url: "/v1/api/chat/start",

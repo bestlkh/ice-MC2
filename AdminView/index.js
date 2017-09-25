@@ -238,11 +238,22 @@ AdminView.prototype.setupApi = function () {
 
 
     this.app.get("/v1/api/admin/resetTokens", checkAuth, function(req, res) {
-        console.log(1);
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
                 this.ios.tracking[settings.chat.roomName] = null;
                 res.json({success: true})                
+            }.bind(this));
+        }.bind(this));
+    }.bind(this));
+
+    this.app.get("/v1/api/admin/getTokens", checkAuth, function(req, res) {
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("tracking").findOne({roomName: req.session.settings.chat.roomName}, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                if(result && result.students)
+                    return csv.stringify(result.students).pipe(res);
+                else 
+                    res.send('No Tokens');
             }.bind(this));
         }.bind(this));
     }.bind(this));

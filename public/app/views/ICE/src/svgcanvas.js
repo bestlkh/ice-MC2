@@ -3067,7 +3067,6 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
           dx = 0;
         }
         
-        console.log(1145);
         var ts = null,
           tx = 0, ty = 0,
           sy = height ? (height+dy)/height : 1,
@@ -9118,7 +9117,6 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
 //          selectedBBoxes[0].x += dx;
 //          selectedBBoxes[0].y += dy;
 //        }
-        console.log(dx);
         xform.setTranslate(dx,dy);
       }
 
@@ -9813,6 +9811,7 @@ var moveCursorAbs = this.moveCursorAbs;
       spacing = -10
       width = 0;
     }
+    console.log("pull spacing", spacing);
     var eqns = document.querySelectorAll('[id^="svg_eqn_"]');
     var cursor = document.getElementById('math_cursor');
     var cursor_x = cursor.getAttribute('x');
@@ -9854,7 +9853,7 @@ var moveCursorAbs = this.moveCursorAbs;
         addCommandToHistory(batchCmd);
     } */
     //console.log(pushElems);
-    console.log("s", spacing)
+    console.log(pushElems);
     canvas.moveSelectedElements(spacing, 0, true, pushElems);
   }
 
@@ -9870,6 +9869,7 @@ var moveCursorAbs = this.moveCursorAbs;
       width = 0;
       spacing = 10;
     }
+    console.log("push spacing ", spacing);
     var eqns = document.querySelectorAll('[id^="svg_eqn_"]');
     var cursor = document.getElementById('math_cursor');
     var cursor_x = cursor.getAttribute('x');
@@ -9894,7 +9894,7 @@ var moveCursorAbs = this.moveCursorAbs;
       symbol = document.getElementById(symbol.id);
       var eqnX = Number(getBBox(symbol).x);//.getAttribute('x'));
       var res = (eqnX >= cursor_x && symbol != excl);
-      //console.log(symbol.id, res, eqnX, cursor_x);
+      //console.log(symbol.id, res,kkkkk eqnX, cursor_x);
       return res;
     }.bind(this);
 
@@ -9911,6 +9911,7 @@ var moveCursorAbs = this.moveCursorAbs;
     } */
     //console.log(pushElems);
     pushElems.reverse();
+    //console.log(pushElems);
     canvas.moveSelectedElements(spacing, 0, true, pushElems);
   }
 
@@ -10147,7 +10148,11 @@ var moveCursorAbs = this.moveCursorAbs;
     var diffWidth = Number(bbox.x) + Number(bbox.width) - Number(math_cursor.getAttribute('x')) + 1;
     var cloneNewText = newText.cloneNode(true);
     parentNewText.removeChild(newText);
-    pushAllAtCursor(diffWidth);
+    if(diffWidth > 0)
+      pushAllAtCursor(diffWidth);
+    else
+      pullAllAtCursor(diffWidth);
+    console.log(diffWidth);
     parentNewText.appendChild(cloneNewText);
     newText = cloneNewText;
     math_cursor.setAttribute('x', bbox.x + bbox.width + 1);

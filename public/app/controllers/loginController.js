@@ -50,7 +50,6 @@ angular.module('Controllers',["ngRoute"])
             console.log($rootScope.error);
             $scope.printErr($rootScope.message);
 		} else {
-			console.log("test");
             $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
 
                 if (data.username) {
@@ -64,7 +63,6 @@ angular.module('Controllers',["ngRoute"])
                     else if (data.room) $location.path('/v1/ChatRoom/' + data.room);
                 }
                 $scope.isLoading = false;
-                $scope.$apply();
 
             });
         }
@@ -79,6 +77,7 @@ angular.module('Controllers',["ngRoute"])
                 },
 				error: function (err) {
 					$scope.error = err.responseJSON;
+					console.log(err);
                 }
 			})
 		}
@@ -121,7 +120,6 @@ angular.module('Controllers',["ngRoute"])
 
 				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
-
 						$rootScope.username = $scope.form.username;
 						$rootScope.initials = $scope.form.initials;
 						$rootScope.userAvatar = $scope.userAvatar;

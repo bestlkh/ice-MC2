@@ -2966,8 +2966,8 @@ table.text-center,table.text-center td,table.text-center th {
 }
 
 .direct-chat-warning .right>div>.direct-chat-text:after,.direct-chat-warning .right>div>.direct-chat-text:before {
-    border-left-color: #f39c12
-}
+    border-left-color: border-color;
+} //* need to be changed */
 
 .direct-chat-info .right>.direct-chat-text {
     background: #00c0ef;

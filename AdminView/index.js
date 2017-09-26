@@ -246,13 +246,19 @@ AdminView.prototype.setupApi = function () {
         }.bind(this));
     }.bind(this));
 
-    this.app.get("/v1/api/admin/getTokens", checkAuth, function(req, res) {
+    this.app.get("/admin/students/tokens.csv", checkAuth, function(req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("tracking").findOne({roomName: req.session.settings.chat.roomName}, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                if(result && result.students)
+                if(result && result.students) {
+                    res.writeHead(200, {
+                        'Content-Type': 'application/csv',
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Disposition': 'attachment; filename=tokens.csv'
+                    });
                     return csv.stringify(result.students).pipe(res);
-                else 
+                }
+                else
                     res.send('No Tokens');
             }.bind(this));
         }.bind(this));
@@ -531,7 +537,7 @@ AdminView.prototype.setupApi = function () {
 
     });
 
-    this.app.get("/v1/api/admin/students/generate", checkAuth, function (req, res) {
+    this.app.get("/admin/students/generate.csv", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("students").findOne({owner: req.session.user.username}, function (err, students) {
                 var newStudents = [];
@@ -544,7 +550,12 @@ AdminView.prototype.setupApi = function () {
 
                 db.collection("tracking").updateOne({roomName: req.session.settings.chat.roomName}, {$set: {students: newStudents}}, {upsert: true}, function (err, result) {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                    this.ios.tracking[req.session.settings.chat.roomName] = {trackingIds: urls};
+                    //this.ios.tracking[req.session.settings.chat.roomName] = {trackingIds: urls};
+                    res.writeHead(200, {
+                        'Content-Type': 'application/csv',
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Disposition': 'attachment; filename=tokens.csv'
+                    });
                     return csv.stringify(newStudents).pipe(res);
                 }.bind(this));
             }.bind(this));

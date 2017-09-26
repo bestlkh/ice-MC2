@@ -15,7 +15,7 @@ angular.module('Controllers')
             }
         }
     }])
-    .controller("studentsController", function ($scope, $rootScope, $routeParams) {
+    .controller("studentsController", function ($scope, $rootScope, $routeParams, $window) {
         $rootScope.tabActive = "students";
 
         $scope.hideImport = true;
@@ -124,6 +124,15 @@ angular.module('Controllers')
         $scope.onAddSubmit = function () {
             $scope.Actions.patchStudentList();
         };
+
+        $scope.onReset = function () {
+            $window.open("/admin/students/generate.csv", "_self");
+        };
+
+        $scope.onExport = function () {
+            $window.open("/admin/students/tokens.csv", "_self");
+        };
+
 
         $scope.Actions.getStudentList();
 

@@ -252,7 +252,7 @@ AdminView.prototype.setupApi = function () {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 if(result && result.students) {
                     res.writeHead(200, {
-                        'Content-Type': 'application/txt',
+                        'Content-Type': 'application/csv',
                         'Access-Control-Allow-Origin': '*',
                         'Content-Disposition': 'attachment; filename=tokens.csv'
                     });
@@ -552,7 +552,7 @@ AdminView.prototype.setupApi = function () {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                     //this.ios.tracking[req.session.settings.chat.roomName] = {trackingIds: urls};
                     res.writeHead(200, {
-                        'Content-Type': 'application/txt',
+                        'Content-Type': 'application/csv',
                         'Access-Control-Allow-Origin': '*',
                         'Content-Disposition': 'attachment; filename=tokens.csv'
                     });

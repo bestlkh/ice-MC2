@@ -11,6 +11,16 @@ div.tab {
   background:none;
 }
 
+.dollorbutton{
+  height:20px;
+  width:30px;
+  display: flex;
+  border:none;
+  background:none;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .formulabutton{
   height:20px;
   width:inherit;

@@ -998,6 +998,17 @@ ul {
 	background-color: #7d87b0;
 }
 
+.reset-button {
+	background-color: #ed8355;
+	color: #fff;
+	transition: all 0.1s linear;
+	border-color: #ed8355;
+}
+
+.reset-button:hover {
+	background-color: #ff9f75;
+}
+
 .student-search {
 	border: 1px #c0c0c0 solid;
 	background-color: transparent;

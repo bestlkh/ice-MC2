@@ -119,7 +119,7 @@ var dragging = false;
            }
            var mainPercentage = 100-percentage;
            
-
+           $('#editor-frame').css("width", e.pageX - 50 + "px");
            $('#editorframe').css("width",percentage + "%");
            $('#chatframe').css("width","calc(" + mainPercentage + "%" + " - " + "10px)");
            $('#ghostbar').remove();

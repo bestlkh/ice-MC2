@@ -91,6 +91,10 @@
 		float: left;
 	}
 
+	#dragbar{
+		display: none;
+	 }
+
 	#swapButton{
 		text-decoration:none;
 		display: inline;

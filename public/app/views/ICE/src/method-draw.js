@@ -29,9 +29,11 @@ var SOTP = 0;
     var svgCanvas;
     var Editor = {};
     var is_ready = false;
+    var initWidth = screen.availWidth;// parent.document.getElementById("editorframe").offsetWidth;
+    var initHeight = screen.availHeight; //parent.document.getElementById("editorframe").offsetHeight;
     curConfig = {
       canvas_expansion: 1,
-      dimensions: [screen.availWidth,screen.availHeight],
+      dimensions: [initWidth,initHeight],
       initFill: {color: '000', opacity: 1},
       initStroke: {width: 1.5, color: '000', opacity: 1},
       initOpacity: 1,

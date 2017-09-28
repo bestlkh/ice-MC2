@@ -1,12 +1,29 @@
 #editorframe{
 	width:70%; 
 	float: left;
+	overflow-y: hidden;
 }
 
 #chatframe{
-	width:30%; 
+	width: calc(30% - 10px);
 	height: 100vh;
+	float: right;
+}
+
+#dragbar{
+	background-color:#2f2f2c;
+	height:100%;
 	float: left;
+	width: 10px;
+	cursor: col-resize;
+ }
+ #ghostbar{
+	 width:3px;
+	 background-color:#000;
+	 opacity:0.5;
+	 position:absolute;
+	 cursor: col-resize;
+	 z-index:999
 }
 
 #swapButton{

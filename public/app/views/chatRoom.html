@@ -7,8 +7,7 @@
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
-
-    <iframe id="editor-frame" style="width: 1px; min-width: 100%; height:100vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+    <iframe id="editor-frame" style="resize:horizontal; width:100%; height:100vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
     <script type="text/javascript">//<![CDATA[ 
             function resizeEditor()
             {
@@ -28,8 +27,10 @@
             //]]>  
     </script> 
   </div>
+  <div id="dragbar"></div>  
   <!-- Chat Content -->
-    <section id="chatframe">                 
+    <div id="chatframe"> 
+                   
           <div class="row">
             <div class="col-sm-12">
               <div class="box box-warning direct-chat direct-chat-warning" >
@@ -316,6 +317,6 @@
 
             <script src="app/js/chatroomPlus.js"></script>     
       </div>
-    </section><!-- /.content --> 
+    </div><!-- /.content --> 
   </div><!-- /.container -->
 </div><!-- /.content-wrapper -->

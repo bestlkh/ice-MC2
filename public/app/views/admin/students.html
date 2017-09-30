@@ -15,6 +15,15 @@
             <div class="line-button add-button" ng-click="onAddClick()">
                 Add Item
             </div>
+
+                <div class="line-button add-button" ng-click="onExport()">
+                    Export
+                </div>
+            <div class="line-button reset-button" ng-click="onReset()">
+                Reset
+            </div>
+
+
         </div>
     </div>
     <div class="student-list" >
@@ -22,12 +31,14 @@
             <div> Utorid </div>
 
             <div> Email </div>
+            <div>Token</div>
         </div>
         <div class="list-wrapper" ng-repeat="student in students">
             <div class="student-item" ng-if="checkInclude(student)">
                 <div>{{student.utorid}}</div>
 
                 <div>{{student.email}}</div>
+                <div>{{student.token}}</div>
             </div>
         </div>
 

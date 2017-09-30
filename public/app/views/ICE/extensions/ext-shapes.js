@@ -462,6 +462,10 @@ methodDraw.addExtension("shapes", function() {
 
       var shower = $('#tools_shapelib_show');
 
+      // $("#tools_shapelib").css({
+      //     display: "block"
+      // });
+
       var isOpen = false;
 
       loadLibrary('basic');

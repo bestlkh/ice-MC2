@@ -377,7 +377,13 @@ angular.module('Controllers')
 		if (files && files.length) {
         	$scope.isFileSelected = true;
             for (var i = 0; i < files.length; i++) {
-                var file = files[i];
+				var file = files[i];
+				var fileSize = file.size;
+				if (fileSize > 25000000) {
+					alert("Image size too big, please use an image under 25MB");
+					continue;
+				}
+				console.log(file);
                 var dateString = formatAMPM(new Date());            
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var image = {

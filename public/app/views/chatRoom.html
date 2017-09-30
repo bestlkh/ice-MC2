@@ -7,8 +7,7 @@
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
-
-    <iframe id="editor-frame" style="width: 1px; min-width: 100%; height:100vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+    <iframe id="editor-frame" style="width:100%; height:100vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
     <script type="text/javascript">//<![CDATA[ 
             function resizeEditor()
             {
@@ -28,11 +27,13 @@
             //]]>  
     </script> 
   </div>
+  <div id="dragbar"></div>  
   <!-- Chat Content -->
-    <section id="chatframe">                 
+    <div id="chatframe"> 
+                   
           <div class="row">
             <div class="col-sm-12">
-              <div class="box box-warning direct-chat direct-chat-warning">
+              <div class="box box-warning direct-chat direct-chat-warning" >
               <div class="box-header with-border">
                 <h3 class="box-title">MC² = Engagement</h3>
                 <!-- MathJax CDN from CloudFlare-->
@@ -68,14 +69,15 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
-                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}" >
+                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}"> 
                     {{console.log(messege.type)}}
-                    <div class="system-message" ng-class="{'error': messege.error}" ng-if="messege.type === 'system'">
+                      <div class="system-message" ng-class="{'error': messege.error}" ng-if="messege.type === 'system'">
                       {{messege.msg}}
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>
-                        <span class='direct-chat-name' ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
+                        <span class='direct-chat-name' 
+                         ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
                         <span class='direct-chat-timestamp' ng-class="{'pull-right': messege.ownMsg, 'pull-left': !messege.ownMsg}">{{ messege.msgTime }}</span>
                       </div><!-- /.direct-chat-info -->
                       <div class="direct-chat-img" style="position:relative">
@@ -84,7 +86,7 @@
                         <span class="nicknames"> {{messege.initials}} </span>
 
                       </div>
-                      <div ng-class="{'direct-chat-text' : true, 'text-right' : messege.ownMsg}">
+                      <div ng-class="{'direct-chat-text' : true, 'text-right' : messege.ownMsg}" ng-style = "{'background-color': messege.isInstructor ? '#32CD32' : '#f39c12', 'border-color': messege.isInstructor ? '#32CD32' : '#f39c12'}" >
                         <div ng-hide="hasFile">{{ messege.msg }}</div>
                         <!-- {{ messege.sendfile }} Media File Messeges -->
                         <div class="item" ng-show="messege.hasFile">
@@ -94,7 +96,7 @@
                                 <div>
                                   <div ng-class="{'attachment-icon-right' : messege.ownMsg, 'attachment-icon-left' : !messege.ownMsg}">
                                     <a href ng-click="openClickImage(messege)" ng-show="messege.showme" >
-                                <img id="{{messege.dwid}}" width="50" height="50" ng-src="{{messege.dwimgsrc}}" alt="Open Image"></a> <!-- Open Icon -->
+                                <img id="{{messege.dwid}}" width="100" height="30" ng-src="{{messege.dwimgsrc}}" alt="Open Image"></a> <!-- Open Icon -->
 
                                 <a ng-href="{{messege.serverfilename}}" data-lightbox="{{messege.dwid}}" data-title="{{messege.filename}}" ng-hide="messege.showme">
                                   <img ng-class="{'multiple-borders-white' : messege.ownMsg,'multiple-borders-black' : !messege.ownMsg}" id="{{messege.dwid+1}}" width="90" height="70" ng-src="{{messege.serverfilename}}" alt="Image File">
@@ -103,21 +105,21 @@
                                 </a>
                                   </div>
                                   <div ng-class="{'attachment-msg-right' : messege.ownMsg, 'attachment-msg-left' : !messege.ownMsg}" ng-hide="messege.showme">
-                                    <span class="decs-text"><b>File:</b> {{ messege.filename }}</span>
+                                    <!--<span class="decs-text"><b>File:</b> {{ messege.filename }}</span>-->
                                     <span class="decs-text">
-                                    <a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>
-                                    <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;</i></a>
-                                    <a id ="{{messege.dwid}}A" class="decs-text hidden-link" href="{{ messege.serverfilename }}"  download="{{ messege.serverfilename }}"><i>Hidden Link</i></a>
+                                    <!--<a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>-->
+                                    <!--<a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;</i></a>-->
+                                    <!--<a id ="{{messege.dwid}}A" class="decs-text hidden-link" href="{{ messege.serverfilename }}"  download="{{ messege.serverfilename }}"><i>Hidden Link</i></a>-->
                                     </span>
                                   </div>
                                   <div ng-class="{'attachment-msg-right' : messege.ownMsg, 'attachment-msg-left' : !messege.ownMsg}" ng-if="(messege.dwimgsrc !== 'app/images/spin.gif')" ng-show="messege.showme">
-                                    <span class="decs-text"><b>File :</b> {{ messege.filename }}</span>
+                                    <!--<span class="decs-text"><b>File :</b> {{ messege.filename }}</span>--> 
                                     <span class="decs-text">
-                                    <a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Open in Editor&nbsp;&nbsp;</i><span style="font-size: 17px">&Eopf;</span></a>
-                                    <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><span style="font-size: 17px">&Eopf;</span><i>&nbsp;&nbsp;Open in Editor</i></a>
-                                    <a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Download&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>
-                                    <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;Download</i></a>
-                                    <a id ="{{messege.dwid}}A" class="decs-text hidden-link" href="{{ messege.serverfilename }}"  download="{{ messege.serverfilename }}"><i>Hidden Link</i></a>
+                                    <!--<a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Open in Editor&nbsp;&nbsp;</i><span style="font-size: 17px">&Eopf;</span></a>-->
+                                    <!--<a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><span style="font-size: 17px">&Eopf;</span><i>&nbsp;&nbsp;Open in Editor</i></a>-->
+                                    <!--<a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Download&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>-->
+                                    <!--<a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;Download</i></a>-->
+                                    <!--<a id ="{{messege.dwid}}A" class="decs-text hidden-link" href="{{ messege.serverfilename }}"  download="{{ messege.serverfilename }}"><i>Hidden Link</i></a>-->
                                     </span>
                                   </div>
                                 </div>
@@ -225,7 +227,8 @@
                           <input value="😝" class="emojibutton" type="button" onclick="input(this);" />
                         </div>
 
-                        <div id="Math" class="tabcontent">
+                        <div id="Math" class="tabcontent">            
+                          <input value="$$ $$" class="dollorbutton" type="button" onclick="input(this);" />
                           <input value="α" class="emojibutton" type="button" onclick="input(this);" />
                           <input value="β" class="emojibutton" type="button" onclick="input(this);" />
                           <input value="δ" class="emojibutton" type="button" onclick="input(this);" />
@@ -314,6 +317,6 @@
 
             <script src="app/js/chatroomPlus.js"></script>     
       </div>
-    </section><!-- /.content --> 
+    </div><!-- /.content --> 
   </div><!-- /.container -->
 </div><!-- /.content-wrapper -->

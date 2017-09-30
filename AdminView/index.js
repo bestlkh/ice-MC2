@@ -252,7 +252,7 @@ AdminView.prototype.setupApi = function () {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 if(result && result.students) {
                     res.writeHead(200, {
-                        'Content-Type': 'application/txt',
+                        'Content-Type': 'application/csv',
                         'Access-Control-Allow-Origin': '*',
                         'Content-Disposition': 'attachment; filename=tokens.csv'
                     });
@@ -556,6 +556,7 @@ AdminView.prototype.setupApi = function () {
                 db.collection("students").updateOne({owner: req.session.user.username}, {$set: {students: newStudents}}, function (err, result) {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                     res.json({});
+
                 }.bind(this));
             }.bind(this));
 

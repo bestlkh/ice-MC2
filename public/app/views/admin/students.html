@@ -31,12 +31,14 @@
             <div> Utorid </div>
 
             <div> Email </div>
+            <div>Token</div>
         </div>
         <div class="list-wrapper" ng-repeat="student in students">
             <div class="student-item" ng-if="checkInclude(student)">
                 <div>{{student.utorid}}</div>
 
                 <div>{{student.email}}</div>
+                <div>{{student.token}}</div>
             </div>
         </div>
 

@@ -354,4 +354,12 @@ li input.active{
         flex-grow: 30 !important;
         max-width: 65px !important;
     }
+
+    #tools_shapelib_show {
+        display: none !important;
+    }
+
+    #tools_shapelib {
+        display: block !important;
+    }
 }

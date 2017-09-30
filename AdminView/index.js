@@ -248,7 +248,7 @@ AdminView.prototype.setupApi = function () {
 
     this.app.get("/admin/students/tokens.csv", checkAuth, function(req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.collection("tracking").findOne({roomName: req.session.settings.chat.roomName}, function (err, result) {
+            db.collection("students").findOne({owner: req.session.user.username}, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 if(result && result.students) {
                     res.writeHead(200, {
@@ -256,7 +256,7 @@ AdminView.prototype.setupApi = function () {
                         'Access-Control-Allow-Origin': '*',
                         'Content-Disposition': 'attachment; filename=tokens.csv'
                     });
-                    return csv.stringify(result.students).pipe(res);
+                    return csv.stringify(result.students, {header:true}).pipe(res);
                 }
                 else
                     res.send('No Tokens');
@@ -397,15 +397,20 @@ AdminView.prototype.setupApi = function () {
 
     var getUserTracking = function (req, res, next) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-           db.collection('tracking').findOne({roomName: req.params.roomName}, function (err, tracking) {
-               var student = findOne(tracking.students, {token: req.params.code});
-               if (!student) return res.status(404).json({
-                   status: 404,
-                   message: "Requested registration id cannot be found."
+           db.collection('settings').findOne({'chat.roomName': req.params.roomName}, function (err, setting) {
+               var owner = setting.user;
+
+               db.collection("students").findOne({owner: owner}, function (err, students) {
+                   var student = findOne(students.students, {token: req.params.code});
+                   if (!student) return res.status(404).json({
+                       status: 404,
+                       message: "Requested registration id cannot be found."
+                   });
+
+                   req.student = student;
+                   return next();
                });
 
-               req.student = student;
-               return next();
            })
         });
 
@@ -537,7 +542,7 @@ AdminView.prototype.setupApi = function () {
 
     });
 
-    this.app.get("/admin/students/generate.csv", checkAuth, function (req, res) {
+    this.app.get("/v1/api/admin/students/generate", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("students").findOne({owner: req.session.user.username}, function (err, students) {
                 var newStudents = [];
@@ -548,15 +553,9 @@ AdminView.prototype.setupApi = function () {
                     urls[student.token] = student;
                 });
 
-                db.collection("tracking").updateOne({roomName: req.session.settings.chat.roomName}, {$set: {students: newStudents}}, {upsert: true}, function (err, result) {
+                db.collection("students").updateOne({owner: req.session.user.username}, {$set: {students: newStudents}}, function (err, result) {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                    //this.ios.tracking[req.session.settings.chat.roomName] = {trackingIds: urls};
-                    res.writeHead(200, {
-                        'Content-Type': 'application/txt',
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-Disposition': 'attachment; filename=tokens.csv'
-                    });
-                    return csv.stringify(newStudents).pipe(res);
+                    res.json({});
                 }.bind(this));
             }.bind(this));
 

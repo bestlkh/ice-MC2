@@ -126,7 +126,12 @@ angular.module('Controllers')
         };
 
         $scope.onReset = function () {
-            $window.open("/admin/students/generate.csv", "_self");
+            $.ajax({
+                url: "/v1/api/admin/students/generate",
+                success: function () {
+                    $scope.Actions.getStudentList();
+                }
+            })
         };
 
         $scope.onExport = function () {

@@ -232,12 +232,15 @@ ios.on('connection', function(socket){
 			} else {
 				if (data.token) {
                     MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
-                        db.collection('tracking').findOne({roomName: data.roomId}, function (err, tracking) {
-                            var student = findOne(tracking.students, {token: data.token});
-                            if (!student) return callback({success: false, message: "Invalid id."});
+                        db.collection('settings').findOne({'chat.roomName': data.roomId}, function (err, setting) {
+                            var owner = setting.user;
+                            db.collection("students").findOne({owner: owner}, function (err, students) {
+                                var student = findOne(students.students, {token: data.token});
+                                if (!student) return callback({success: false, message: "Invalid id."});
 
-                            setSessionVar("utorid", student.utorid);
-                        })
+                                setSessionVar("utorid", student.utorid);
+                            })
+                        });
                     });
 					// if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {
 					// 	return callback({success: false, message: "Invalid tracking id."});

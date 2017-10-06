@@ -25,6 +25,16 @@ var SOTP = 0;
   document.addEventListener("touchend", touchHandler, true);
   document.addEventListener("touchcancel", touchHandler, true);
 
+
+  /*<script>
+    $('#menu-button').on('click', function() {
+       console.log("hello");
+      $(document.body).toggleClass('menu-open');
+    });
+</script>  */
+
+
+
   if(!window.methodDraw) window.methodDraw = function($) {
     var svgCanvas;
     var Editor = {};
@@ -160,6 +170,12 @@ var SOTP = 0;
       $("body").toggleClass("touch", svgedit.browser.isTouch());
       $("#canvas_width").val(curConfig.dimensions[0]);
       $("#canvas_height").val(curConfig.dimensions[1]);
+
+      $('.touch #menu-button').on('mouseenter touchstart', function() {
+         console.log("hello");
+        $(document.body).toggleClass('menu-open');
+      });
+
 
       var extFunc = function() {
         $.each(curConfig.extensions, function() {

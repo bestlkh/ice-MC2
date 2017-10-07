@@ -146,7 +146,7 @@ ios.on('connection', function(socket){
     });
 
 
-    // TODO: Test this with admin view, might be weird interactions
+
 	socket.on("join-room", function(data, callback) {
 		if (!data.roomId) return socket.disconnect();
         data.roomId = data.roomId.toLowerCase();
@@ -330,7 +330,7 @@ ios.on('connection', function(socket){
             ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", msgTime: new Date(), type: "system"});
 
 		//logout user after gone for 5min
-		// TODO: Maybe implement this but removed due to buddy
+		// TODO: Maybe implement this but removed due to buggy
 
         // clearTimeout(ios.timeOuts[socket.handshake.session.id]);
         // ios.timeOuts[socket.handshake.session.id] = setTimeout(function () {

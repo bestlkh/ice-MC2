@@ -468,6 +468,7 @@ methodDraw.addExtension("shapes", function() {
 
       var isOpen = false;
 
+
       loadLibrary('basic');
 
 

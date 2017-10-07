@@ -186,7 +186,7 @@ li input.active{
         bottom: 30px;
         top: auto !important;
         opacity: 1;
-        display: block;
+        display: block !important;
         transition: bottom ease 0.5s, opacity ease 0.5s;
     }
 

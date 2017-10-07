@@ -789,7 +789,7 @@ methodDraw.addExtension("shapes", function () {
 
                         cur_shape = null;
                         current_d = null;
-                        if(!MobileUI.mounted) $('.tools_flyout').fadeOut();
+                        $('.tools_flyout').fadeOut();
                         return;
                     }
 

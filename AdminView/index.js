@@ -54,8 +54,6 @@ function AdminView(socketController, expressApp) {
     this.ios = socketController;
     this.app = expressApp;
 
-    // TODO:
-    // switch to redis at some point to prevent memory leaks
     this.controllers = {};
     this.ios.tracking = {};
     this.callbacks = {};

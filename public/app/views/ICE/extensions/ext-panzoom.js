@@ -21,7 +21,7 @@ methodDraw.addExtension("panzoom", function () {
             title: "Panzoom utility",
             icon: "extensions/zoom.svg",
             events: {
-                "click": function () {
+                "mouseup": function () {
                     canv.setMode("pan");
                     $panzoom = $("#svgroot").panzoom({
                         cursor: 'default',

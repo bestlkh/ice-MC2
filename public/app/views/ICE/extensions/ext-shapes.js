@@ -789,7 +789,7 @@ methodDraw.addExtension("shapes", function () {
 
                         cur_shape = null;
                         current_d = null;
-                        $('.tools_flyout').fadeOut();
+                        if(!MobileUI.mounted) $('.tools_flyout').fadeOut();
                         return;
                     }
 
@@ -862,7 +862,7 @@ methodDraw.addExtension("shapes", function () {
                     //MDP)
                     cur_shape = null;
                     current_d = null;
-                    $('.tools_flyout').fadeOut();
+                    if(!MobileUI.mounted) $('.tools_flyout').fadeOut();
                     return;
                 }
                 if (!on) canv.keyPressed(btn[0].mathdata.charAt(0));

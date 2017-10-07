@@ -183,7 +183,7 @@ methodDraw.addExtension("shapes", function() {
         cur_shape_id = btn[0].id.substr((mode_id+'_').length);
         current_d = cur_lib.data[cur_shape_id];
 
-        $('.tools_flyout').fadeOut();
+        if(!MobileUI.mounted) $('.tools_flyout').fadeOut();
 
       });
       var shape_cats = $('<div id="shape_cats">');

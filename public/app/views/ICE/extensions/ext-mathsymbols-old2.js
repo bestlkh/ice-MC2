@@ -283,7 +283,7 @@ methodDraw.addExtension("mathsymbols", function() {
         }
 //**MDP)
 
-        $('.tools_flyout').fadeOut();
+        if(!MobileUI.mounted) $('.tools_flyout').fadeOut();
 
       });
 

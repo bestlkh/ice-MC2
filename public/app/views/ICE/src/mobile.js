@@ -7,17 +7,32 @@
 var MobileUI = {
     toolbarTopPositionInterval: null,
     mounted: false,
+    keyboardShown: true,
+
+    /**
+     * () -> void
+     * Mount the mobile UI
+     */
     mount: function(){
+        var self = this;
         this.mounted = true;
         $("#tools_left, .tool_button, body").addClass("mobile");
         this.toolbarTopPositionInterval = setInterval(function(){
             // Find FloatingLayer position
             var keyboardY = $("#FloatingLayer").position().top;
+            if(!self.keyboardShown){
+                keyboardY = $(window).height();
+            }
             $("#tools_left").css({
                 'top': keyboardY - 50
             });
         }, 100);
     },
+
+    /**
+     * () -> void
+     * Dismount the mobile UI
+     */
     dismount: function(){
         this.mounted = false;
         $("#tools_left, .tool_button, body").removeClass("mobile");
@@ -26,6 +41,11 @@ var MobileUI = {
             'top': 30
         });
     },
+
+    /**
+     * () -> void
+     * Bind browser window resize event, and automatically mount mobile UI
+     */
     bindWindowResize: function(){
         var self = this;
         $(window).on('resize', function(){
@@ -34,6 +54,11 @@ var MobileUI = {
         // Call it on start as well.
         this.autoMount();
     },
+
+    /**
+     * () -> void
+     * Mount mobile UI if width > MOBILE_UI_MAX_WIDTH, dismount otherwise
+     */
     autoMount: function(){
         if($(window).width() > MOBILE_UI_MAX_WIDTH){
             this.dismount();
@@ -41,6 +66,48 @@ var MobileUI = {
             if(!this.mounted){
                 this.mount();
             }
+        }
+    },
+
+    /**
+     * () -> void
+     * Hide the keyboard
+     */
+    hideKeyboard: function(){
+        $(".tools_flyout").css({
+            'bottom': -500,
+            'opacity': 0
+        }, 100);
+        $("#tool_toggle_keyboard").css({
+            'background-image': 'url(\'images/keyboard-up.svg\')'
+        });
+        this.keyboardShown = false;
+    },
+
+    /**
+     * () -> void
+     * Show the keyboard
+     */
+    showKeyboard: function(){
+        $(".tools_flyout").css({
+            'bottom': 30,
+            'opacity': 1
+        });
+        $("#tool_toggle_keyboard").css({
+            'background-image': 'url(\'images/keyboard.svg\')'
+        });
+        this.keyboardShown = true;
+    },
+
+    /**
+     * () -> void
+     * Toggle the keyboard, this method is mainly used to bind tool button events
+     */
+    toggleKeyboard: function(){
+        if(MobileUI.keyboardShown){
+            MobileUI.hideKeyboard();
+        } else {
+            MobileUI.showKeyboard();
         }
     }
 };

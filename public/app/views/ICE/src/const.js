@@ -1,5 +1,5 @@
 /*
- mobile.js
+ const.js
  Author: Jun Zheng (junthehacker) me at jackzh dot com
  Description: Application constants
  */

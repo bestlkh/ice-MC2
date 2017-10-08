@@ -3526,7 +3526,6 @@ var SOTP = 0;
               // Bind function to button
               if(opts.sel) {
                 var btn = $(opts.sel);
-                console.log(btn);
                 if (btn.length == 0) return true; // Skip if markup does not exist
                 if(opts.evt) {
                   if (svgedit.browser.isTouch() && opts.evt === "click") opts.evt = "mousedown"

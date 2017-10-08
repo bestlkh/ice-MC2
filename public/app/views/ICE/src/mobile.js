@@ -7,7 +7,7 @@
 var MobileUI = {
     toolbarTopPositionInterval: null,
     mounted: false,
-    keyboardShown: true,
+    keyboardShown: false,
 
     /**
      * () -> void

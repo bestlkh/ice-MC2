@@ -183,11 +183,13 @@ li input.active{
         max-width: 100% !important;
         background-color: #ebf0ef !important;
         height: auto;
-        bottom: 30px;
         top: auto !important;
         opacity: 1;
         display: block !important;
         transition: bottom ease 0.5s, opacity ease 0.5s;
+        /*Hide keyboard on startup*/
+        bottom: -500px;
+        opacity: 0;
     }
 
     #tools_left {

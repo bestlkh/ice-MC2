@@ -113,27 +113,28 @@ methodDraw.addExtension("panzoom", function () {
                             animate: true
                         });
 
-                        if (isMobile)  {
-                            var options = {
-                                preventDefault: true
-                            };
-                            var hammer = new Hammer(workarea[0], options);
+                        var options = {
+                            preventDefault: true
+                        };
+                        var hammer = new Hammer(workarea[0], options);
 
-                            hammer.get('pinch').set({ enable: true });
-                            hammer.on("pinch", function (e) {
-                                $panzoom.panzoom("zoom", e.scale);
-                                workarea.attr({
-                                    width: 1920 * e.scale * 2,
-                                    height: 1040 * e.scale * 2
-                                });
-                                workarea.css({
-                                    'transform-origin': '0% 0% 0px'
-                                });
-                                $("#svgcanvas").css({
-                                    width: 1920 * e.scale,
-                                    height: 1040 * e.scale
-                                })
+                        hammer.get('pinch').set({ enable: true });
+                        hammer.on("pinch", function (e) {
+                            $panzoom.panzoom("zoom", e.scale);
+                            workarea.attr({
+                                width: 1920 * e.scale * 2,
+                                height: 1040 * e.scale * 2
                             });
+                            workarea.css({
+                                'transform-origin': '0% 0% 0px'
+                            });
+                            $("#svgcanvas").css({
+                                width: 1920 * e.scale,
+                                height: 1040 * e.scale
+                            })
+                        });
+                        if (isMobile)  {
+
 
                             return;
                         }

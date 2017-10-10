@@ -48,7 +48,10 @@ methodDraw.addExtension("panzoom", function () {
                     if (!isMobile) return;
                     canv.setMode("pan");
 
-
+                    var touchCount = 0;
+                    var drag = [];
+                    var dist = 0;
+                    var oldDist = 0;
 
                     var workarea = $("#svgroot");
 
@@ -69,7 +72,28 @@ methodDraw.addExtension("panzoom", function () {
 
                     }
 
+                    workarea.bind("mousedown", function (e) {
+                        touchCount++;
+                        drag[touchCount % 2] = e;
+                    });
 
+                    workarea.bind("mouseup", function () {
+                        touchCount--;
+                    });
+
+                    workarea.bind("dragStart", function () {
+                        var mode = canv.getMode();
+                        oldDist = dist;
+                        dist = Math.sqrt(Math.pow(drag[1].x - drag[0].x, 2) + (Math.pow(drag[1].y - drag[0].y, 2)));
+                        if (mode === "pan" && dist !== 0) {
+                            if (oldDist > dist) zoom += zoomInc;
+                            else if (oldDist < dist) zoom -= zoomInc;
+                            if (zoom < 0.5) zoom = 0.5;
+                            else if (zoom > 16) zoom = 16;
+                            $panzoom.panzoom("zoom", zoom);
+                        }
+
+                    });
 
                     workarea.css({
                         'transform-origin': '0% 0% 0px'

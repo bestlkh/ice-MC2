@@ -51,12 +51,16 @@ methodDraw.addExtension("panzoom", function () {
 
                     var workarea = $("#svgroot");
 
-                    var hammer = new Hammer(workarea[0]);
-                    
-                    hammer.get('pinch').set({ enable: true });
-                    hammer.on("pinch", function (e) {
-                        alert.log(e.scale);
-                    });
+                    // var options = {
+                    //     preventDefault: true
+                    // };
+                    // var hammer = new Hammer(workarea[0], options);
+                    // console.log('hammer');
+                    //
+                    // hammer.get('pinch').set({ enable: true });
+                    // hammer.on("pinch", function (e) {
+                    //     alert.log(e.scale);
+                    // });
 
 
 
@@ -87,12 +91,13 @@ methodDraw.addExtension("panzoom", function () {
                     var isMobile = false;
                     if ($(window).width() <= 732) isMobile = true;
 
-                    if (isMobile) return;
+
                     canv.setMode("pan");
 
 
 
                     var workarea = $("#svgroot");
+
 
                     if ($panzoom && $panzoom.panzoom("isDisabled")) {
                         $panzoom.panzoom("enable");
@@ -107,6 +112,31 @@ methodDraw.addExtension("panzoom", function () {
                             disablePan: true,
                             animate: true
                         });
+
+                        if (isMobile)  {
+                            var options = {
+                                preventDefault: true
+                            };
+                            var hammer = new Hammer(workarea[0], options);
+
+                            hammer.get('pinch').set({ enable: true });
+                            hammer.on("pinch", function (e) {
+                                $panzoom.panzoom("zoom", e.scale);
+                                workarea.attr({
+                                    width: 1920 * e.scale * 2,
+                                    height: 1040 * e.scale * 2
+                                });
+                                workarea.css({
+                                    'transform-origin': '0% 0% 0px'
+                                });
+                                $("#svgcanvas").css({
+                                    width: 1920 * e.scale,
+                                    height: 1040 * e.scale
+                                })
+                            });
+
+                            return;
+                        }
                         workarea.bind("mouseup", function (e) {
 
                             var mode = canv.getMode();
@@ -116,7 +146,7 @@ methodDraw.addExtension("panzoom", function () {
                                 else zoom += zoomInc;
                                 if (zoom < 0.5) zoom = 0.5;
                                 else if (zoom > 16) zoom = 16;
-                                console.log("zoom: "+zoom);
+
                                 $panzoom.panzoom("zoom", zoom);
                                 workarea.attr({
                                     width: 1920 * zoom * 2,

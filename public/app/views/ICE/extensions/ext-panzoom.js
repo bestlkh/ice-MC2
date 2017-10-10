@@ -19,22 +19,17 @@ methodDraw.addExtension("panzoom", function () {
 
     if (isMobile) {
 
-        $panzoom = $("#svgroot").panzoom({
+        // $panzoom = $("#svgroot").panzoom({
+        //     transition: true,
+        //     duration: 200,
+        //     easing: "ease-in-out",
+        //     disablePan: true,
+        //     animate: true
+        // });
 
-            increment: 4,
-            minScale: 0.5,
-            maxScale: 16,
-            rangeStep: 2,
-            transition: true,
-            duration: 200,
-            easing: "ease-in-out",
-            focal: {
-                clientX: 108,
-                clientY: 132
-            },
-            disablePan: true,
-            animate: true
-        });
+        $("#workarea").css({
+            overflow: "hidden"
+        })
     }
 
     return {
@@ -46,7 +41,11 @@ methodDraw.addExtension("panzoom", function () {
             title: "Panzoom utility",
             icon: "extensions/zoom.svg",
             events: {
-                "click": function () {
+                "mouseup": function () {
+                    var isMobile = false;
+                    if ($(window).width() <= 732) isMobile = true;
+
+                    if (!isMobile) return;
                     canv.setMode("pan");
 
 
@@ -59,17 +58,45 @@ methodDraw.addExtension("panzoom", function () {
                     else if (!$panzoom) {
                         $panzoom = $("#svgroot").panzoom({
 
-                            increment: 4,
-                            minScale: 0.5,
-                            maxScale: 16,
-                            rangeStep: 2,
+
                             transition: true,
                             duration: 200,
                             easing: "ease-in-out",
-                            focal: {
-                                clientX: 108,
-                                clientY: 132
-                            },
+                            disablePan: true,
+                            animate: true
+                        });
+
+
+                    }
+
+
+
+                    workarea.css({
+                        'transform-origin': '0% 0% 0px'
+                    });
+                },
+                "click": function () {
+
+                    var isMobile = false;
+                    if ($(window).width() <= 732) isMobile = true;
+
+                    if (isMobile) return;
+                    canv.setMode("pan");
+
+
+
+                    var workarea = $("#svgroot");
+
+                    if ($panzoom && $panzoom.panzoom("isDisabled")) {
+                        $panzoom.panzoom("enable");
+                    }
+                    else if (!$panzoom) {
+                        $panzoom = $("#svgroot").panzoom({
+
+
+                            transition: true,
+                            duration: 200,
+                            easing: "ease-in-out",
                             disablePan: true,
                             animate: true
                         });

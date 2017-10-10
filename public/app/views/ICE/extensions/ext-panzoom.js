@@ -14,6 +14,29 @@ methodDraw.addExtension("panzoom", function () {
     var zoom = 1;
     var zoomInc = 0.25;
 
+    var isMobile = false;
+    if ($(window).width() <= 732) isMobile = true;
+
+    if (isMobile) {
+
+        $panzoom = $("#svgroot").panzoom({
+
+            increment: 4,
+            minScale: 0.5,
+            maxScale: 16,
+            rangeStep: 2,
+            transition: true,
+            duration: 200,
+            easing: "ease-in-out",
+            focal: {
+                clientX: 108,
+                clientY: 132
+            },
+            disablePan: true,
+            animate: true
+        });
+    }
+
     return {
         svgicons: "extensions/zoom.svg",
         buttons: [{

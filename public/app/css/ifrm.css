@@ -120,6 +120,10 @@
 	#downloadLogsButton{
 		display:none;
 	}
+
+	#tool_panzoom {
+		display: none;
+	}
 }
 
 .nicknames{
@@ -139,3 +143,4 @@
 #workarea {
 	width: calc(100vw - 50px)
 }
+

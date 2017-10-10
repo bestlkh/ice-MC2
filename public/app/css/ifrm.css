@@ -135,3 +135,7 @@
 	border: 0;
 	width: 20px;
 }
+
+#workarea {
+	width: calc(100vw - 50px)
+}

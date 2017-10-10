@@ -120,6 +120,7 @@ methodDraw.addExtension("panzoom", function () {
 
                         hammer.get('pinch').set({ enable: true });
                         hammer.on("pinch", function (e) {
+                            alert(e.scale);
                             $panzoom.panzoom("zoom", e.scale);
                             workarea.attr({
                                 width: 1920 * e.scale * 2,

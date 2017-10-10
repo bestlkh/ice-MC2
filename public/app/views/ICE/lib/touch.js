@@ -23,8 +23,8 @@ function touchHandler(event)
                               false, false, false, 0/*left*/, null);
     
     if(touches.length < 2) {
-      //first.target.dispatchEvent(simulatedEvent);
+      first.target.dispatchEvent(simulatedEvent);
     }
-    //event.preventDefault();
+    event.preventDefault();
     
 }

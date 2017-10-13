@@ -9080,43 +9080,29 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
   while (i--) {
     var selected = elements[i];
     if (selected != null) {
-//      if (i==0)
-//        selectedBBoxes[0] = svgedit.utilities.getBBox(selected);
-
-//      var b = {};
-//      for(var j in selectedBBoxes[i]) b[j] = selectedBBoxes[i][j];
-//      selectedBBoxes[i] = b;
       if(elementIn) {
         if (direction > 0) {
+          console.log(selected);
           if (getBBox(selected).x - 3 > curX) {
             break;
           } else {
             curX = getBBox(selected).x +getBBox(selected).width + dx;
           }
         } else {
-          if (getBBox(selected).x + getBBox(selected).width + 3 < curX) {
-            //console.log(elements);
+          console.log(selected);
+          if (getBBox(selected).x + dx - (2 * (getBBox(selected).width)/3)> curX) {
             break;
           } else {
-            curX = getBBox(selected).x + dx;
+            curX = getBBox(selected).x + getBBox(selected).width;
           }
         }
       }
       var xform = svgroot.createSVGTransform();
       var tlist = getTransformList(selected);
 
-      // dx and dy could be arrays
       if (dx.constructor == Array) {
-//        if (i==0) {
-//          selectedBBoxes[0].x += dx[0];
-//          selectedBBoxes[0].y += dy[0];
-//        }
         xform.setTranslate(dx[i],dy[i]);
       } else {
-//        if (i==0) {
-//          selectedBBoxes[0].x += dx;
-//          selectedBBoxes[0].y += dy;
-//        }
         xform.setTranslate(dx,dy);
       }
 
@@ -9132,9 +9118,6 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
       }
       if (!elementIn)
         selectorManager.requestSelector(selected).resize();
-      if (elementIn) {
-        //console.log(selected);
-      }
     }
   }
   if (!batchCmd.isEmpty()) {
@@ -9811,7 +9794,7 @@ var moveCursorAbs = this.moveCursorAbs;
       spacing = -10
       width = 0;
     }
-    console.log("pull spacing", spacing);
+    //console.log("pull spacing", spacing);
     var eqns = document.querySelectorAll('[id^="svg_eqn_"]');
     var cursor = document.getElementById('math_cursor');
     var cursor_x = cursor.getAttribute('x');
@@ -9843,17 +9826,7 @@ var moveCursorAbs = this.moveCursorAbs;
 
     var Expression = getExpression();
     Expression.apply(func, regionCondFunc, condFunc);
-    /** canvas.undoMgr.beginUndoableChange('x', pushElems);
-    for (var i = 0; i < pushElems.length; i++) {
-        var newX = Number(pushElems[i].getAttribute('x')) + spacing;
-        pushElems[i].setAttribute('x', newX);
-      }
-    var batchCmd = canvas.undoMgr.finishUndoableChange();
-      if (!batchCmd.isEmpty()) {
-        addCommandToHistory(batchCmd);
-    } */
-    //console.log(pushElems);
-    console.log(pushElems);
+    pushElems.reverse();
     canvas.moveSelectedElements(spacing, 0, true, pushElems);
   }
 
@@ -9869,7 +9842,7 @@ var moveCursorAbs = this.moveCursorAbs;
       width = 0;
       spacing = 10;
     }
-    console.log("push spacing ", spacing);
+    //console.log("push spacing ", spacing);
     var eqns = document.querySelectorAll('[id^="svg_eqn_"]');
     var cursor = document.getElementById('math_cursor');
     var cursor_x = cursor.getAttribute('x');
@@ -10152,7 +10125,7 @@ var moveCursorAbs = this.moveCursorAbs;
       pushAllAtCursor(diffWidth);
     else
       pullAllAtCursor(diffWidth);
-    console.log(diffWidth);
+    //console.log(diffWidth);
     parentNewText.appendChild(cloneNewText);
     newText = cloneNewText;
     math_cursor.setAttribute('x', bbox.x + bbox.width + 1);

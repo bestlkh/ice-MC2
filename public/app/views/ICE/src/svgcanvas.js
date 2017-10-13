@@ -9082,14 +9082,12 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
     if (selected != null) {
       if(elementIn) {
         if (direction > 0) {
-          console.log(selected);
           if (getBBox(selected).x - 3 > curX) {
             break;
           } else {
             curX = getBBox(selected).x +getBBox(selected).width + dx;
           }
         } else {
-          console.log(selected);
           if (getBBox(selected).x + dx - (2 * (getBBox(selected).width)/3)> curX) {
             break;
           } else {

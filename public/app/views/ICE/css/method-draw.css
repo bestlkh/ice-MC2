@@ -65,7 +65,7 @@ html, body {
 }
 
 #menu-button {
-display: block;
+display: none;
 }
 
 .touch #menu-button {
@@ -195,13 +195,15 @@ nav li {
   color: white;
 }
 
+
 nav li a {
-  color: rgb(41, 37, 47);
+  color: white;
   display: inline-block;
   overflow: hidden;
   position: relative;
   text-decoration: none;
 }
+
 
 nav li a::after {
   content: '';
@@ -220,7 +222,6 @@ nav li a:hover::after {
   transform: translateX(0);
   transition: all 400ms 100ms;
 }
-
 
 .menu-open nav li {
   opacity: 1;
@@ -255,6 +256,26 @@ nav li:nth-of-type(5) {
   transition-delay: 400ms;
 }
 
+
+.touch .second-level-menu {
+    position: relative;
+    top: 0px;
+    left: -15px;
+    width: 150px;
+    padding: 0px 0px 180px 0px;
+    margin: 0;
+    display: none;
+    color: white;
+}
+
+.second-level-menu > li
+{
+    position: absolute;
+    height: 30px;
+    background: #999999;
+}
+.touch .second-level-menu > li:hover { background: #CCCCCC; }
+
 @keyframes wind {
   0%, 100% {
     transform: none; 
@@ -272,7 +293,7 @@ nav li:nth-of-type(5) {
     transform: rotateY(-4deg) rotateX(2deg); 
   }
 }
-.help_icon{
+.touch .help_icon{
     position: absolute;
     right: 10px;
     top: 7px;
@@ -281,12 +302,17 @@ nav li:nth-of-type(5) {
     background: url(../images/select.png);
   }
 /* menu */
-
  #menu_bar {
+    padding: 0 0 0 50px;
+    background: #2f2f2c;
+    position: relative;
+    z-index: 2;
+}
+
+
+ .touch #menu_bar {
   padding: 0 0 0 5px;
   height: 45px;
-  position: relative;
-  background: #2f2f2c;
   z-index: 0;
 }
 
@@ -302,6 +328,12 @@ nav li:nth-of-type(5) {
   display: inline-block;
 }
 
+ .touch .menu {
+  position: absolute;
+  display: none;
+}
+
+
 .menu_logo{
   display: none;
 }
@@ -313,6 +345,17 @@ nav li:nth-of-type(5) {
   left: 44%;
   top: 15px;
 
+}
+
+.menu_title {
+    cursor: pointer;
+    display: inline-block;
+    padding: 7px 10px;
+    z-index: 10;
+    color: #fff;
+    position: relative;
+    height: 16px;
+    vertical-align: top;
 }
 
 .touch   .menu_title {
@@ -331,7 +374,7 @@ nav li:nth-of-type(5) {
 }
 
  .menu_list {
-  display: none;
+  display: block;
   position: absolute;
   top: 28px;
   left: 0;
@@ -343,7 +386,8 @@ nav li:nth-of-type(5) {
 }
 
 .touch  .menu_list {
-  top: 38px;
+  display: block;
+  top: 0px;
 }
 
  #menu_bar.active .menu.open .menu_title {

@@ -114,29 +114,33 @@
 </div>
       <nav>
         <ul>
-          <li>File</li>
-          <li>Object</li>
-          <li>Edit</li>
+          <li><a href="#">File </a>
+               <ul class="second-level-menu">
+                    <div class="menu_list" id="file_menu">
+                      <div id="tool_clear" class="menu_item">New Document</div>
+                      <div id="tool_open" class="menu_item" style="display: none;"><div id="fileinputs"></div>Open SVG...</div>
+                      <div id="tool_import" class="menu_item" style="display: none;"><div id="fileinputs_import"></div>Import Image...</div>
+                      <div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
+                      <div id="tool_export" class="menu_item">Export as PNG</div>
+                    </div>
+                </ul>
+          </li>
+          <li><a href="#">Edit </a>
+               <ul class="second-level-menu">
+                    <div class="menu_list" id="file_menu">
+                      <div id="tool_clear" class="menu_item">New Document</div>
+                      <div id="tool_open" class="menu_item" style="display: none;"><div id="fileinputs"></div>Open SVG...</div>
+                      <div id="tool_import" class="menu_item" style="display: none;"><div id="fileinputs_import"></div>Import Image...</div>
+                      <div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
+                      <div id="tool_export" class="menu_item">Export as PNG</div>
+                    </div>
+                </ul>
+          </li>
+          <li><a href="#">Object</a></li>
         </ul>
       </nav>
-
-
 <div class="menu_logo">MC2</div>
 <div class="help_icon" style="background-image: url('images/info.png');" title="help"></div>
-
-
-
-
-  <!-- <a class="menu" style="visibility: hidden">
-    <div class="menu_title" id="logo"></div>
-    <div class="menu_list">
-      <div id="tool_about" class="menu_item">About this Editor...</div>
-      <div class="separator"></div>
-      <div id="tool_about" class="menu_item">Keyboard Shortcuts...</div>
-    </div>
-  </a> -->
-
-<!--
 
   <div class="menu">
     <div class="menu_title">File</div>
@@ -180,6 +184,7 @@
     </div>
   </div>
 
+
   <div class="menu">
     <div class="menu_title" id="tool_swap">Switch</div>
   </div>
@@ -196,6 +201,11 @@
   <div id="ts" style="background-color: orange; height:250px; width:250px; display:none;">
     <canvas id="testcanvas" width="250px" height="250px" style="border:1px solid #d3d3d3;">
   </div>
+
+
+</div>
+
+
 
 </div>
 

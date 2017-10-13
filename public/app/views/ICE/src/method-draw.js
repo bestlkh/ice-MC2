@@ -26,15 +26,6 @@ var SOTP = 0;
   document.addEventListener("touchcancel", touchHandler, true);
 
 
-  /*<script>
-    $('#menu-button').on('click', function() {
-       console.log("hello");
-      $(document.body).toggleClass('menu-open');
-    });
-</script>  */
-
-
-
   if(!window.methodDraw) window.methodDraw = function($) {
     var svgCanvas;
     var Editor = {};
@@ -170,12 +161,9 @@ var SOTP = 0;
       $("body").toggleClass("touch", svgedit.browser.isTouch());
       $("#canvas_width").val(curConfig.dimensions[0]);
       $("#canvas_height").val(curConfig.dimensions[1]);
-
       $('.touch #menu-button').on('mouseenter touchstart', function() {
-         console.log("hello");
         $(document.body).toggleClass('menu-open');
       });
-
 
       var extFunc = function() {
         $.each(curConfig.extensions, function() {
@@ -1902,6 +1890,7 @@ var SOTP = 0;
 
       //menu handling
       var menus = $('.menu');
+      var touchmenus = $('nav li');
       var blinker = function(e) {
         e.target.style.background = "#fff";
         setTimeout(function(){e.target.style.background = "#ddd";}, 50);
@@ -1945,6 +1934,18 @@ var SOTP = 0;
            $(this).parent().addClass('open');
          });
 
+
+        $('.touch nav li').on('touchstart', function() {
+          var a =  $(this).children()
+          console.log(a);
+     
+              if( a.css('display', 'none')){
+                    a.css('display', 'block');
+              }
+              else{
+                 $(this).children().css('display', 'none');
+              }
+        });
 
       // Made public for UI customization.
       // TODO: Group UI functions into a public methodDraw.ui interface.

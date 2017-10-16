@@ -186,8 +186,6 @@ methodDraw.addExtension("shapes", function() {
         $('.tools_flyout').fadeOut();
 
       });
-
-//
       var shape_cats = $('<div id="shape_cats">');
       var cat_str = '';
 
@@ -218,10 +216,10 @@ methodDraw.addExtension("shapes", function() {
       $('#tool_shapelib').remove();
 
       var h = $('#tools_shapelib').height();
-      $('#tools_shapelib').css({
-        'margin-top': -(h/2),
-        'margin-left': 3
-      });
+      // $('#tools_shapelib').css({
+      //   'margin-top': -(h/2),
+      //   'margin-left': 3
+      // });
 
 
     },

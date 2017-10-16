@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/method-draw.css" type="text/css"/>
   <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
   <link rel="stylesheet" href="css/cEmoji.css" type="text/css"/>
+  <link rel="stylesheet" href="css/mobile.min.css" type="text/css"/>
   <link rel="stylesheet" href="../../css/ifrm.css" type="text/css"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <!--{endif}-->
@@ -33,6 +34,7 @@
   <script type="text/javascript" src="lib/jgraduate/jquery.jgraduate.js"></script>
   <script type="text/javascript" src="lib/contextmenu/jquery.contextMenu.js"></script>
   <script type="text/javascript" src="lib/jquery-ui/jquery-ui-1.8.17.custom.min.js"></script>
+  <script type="text/javascript" src="src/const.js"></script>
   <script type="text/javascript" src="src/browser.js"></script>
   <script type="text/javascript" src="src/svgtransformlist.js"></script>
   <script type="text/javascript" src="src/math.js"></script>
@@ -47,6 +49,7 @@
   <script type="text/javascript" src="src/dialog.js"></script>
   <script type="text/javascript" src="src/method-draw.js"></script>
   <script type="text/javascript" src="src/cEmoji.js"></script>
+  <script type="text/javascript" src="src/mobile.js"></script>
   <script type="text/javascript" src="lib/jquery-draginput.js"></script>
   <script type="text/javascript" src="lib/contextmenu.js"></script>
   <!-- <script type="text/javascript" src="lib/jgraduate/jpicker.min.js"></script> -->
@@ -596,9 +599,9 @@
 
     <div class="tool_button" id="tool_select" title="Select Tool [V]"></div>
     <div class="tool_button" id="tool_fhpath" title="Pencil Tool [P]"></div>
-    <div class="tool_button" id="tool_selectpath" style="background-image: url('images/t_select.png');" title="Select/Path Tool[S]"></div>
+    <!--This button does not make sense since we moved to horizontal-->
+    <!--<div class="tool_button" id="tool_selectpath" style="background-image: url('images/t_select.png');" title="Select/Path Tool[S]"></div>-->
     <div class="tool_button" id="tool_deletebutton" style="background-image: url('images/undo-arrow.svg');" title="Undo/Delete Tool[U]"></div>
-
   <!--
   <div class="tool_button" id="tool_line" title="Line Tool [L]"></div>
   -->
@@ -623,6 +626,7 @@
         </div>
   </div>
   <div class="tool_button" id="tool_convert" style="background-image: url('images/swap.png');" title="Convert Tool [C]"></div>
+  <div class="tool_button" id="tool_toggle_keyboard" style="background-image: url('images/keyboard-up.svg');" title="Show/Hide Keyboard"></div>
 </div> <!-- tools_left -->
   <div class="tool_button" id="tool_rect" title="Square/Rect Tool [R]" style="visibility: hidden"></div>
   <div class="tool_button" id="tool_ellipse" title="Ellipse/Circle Tool [C]" style="visibility: hidden"></div>

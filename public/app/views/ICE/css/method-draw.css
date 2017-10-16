@@ -880,11 +880,33 @@ position: absolute;
   background-color: #0cf;
 }
 
-.touch  #tools_left {
-  display: none;
+
+
+#tools_left.mobile .tool_button_current {
+  display: inline-block;
+  vertical-align: top;
 }
 
- #main_icon span {
+#tools_left.mobile .tool_button {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#tools_left.mobile {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+
+.tool_button.mobile {
+  display: inline-block;
+}
+
+body.mobile #workarea {
+  left: 0;
+}
+
+#main_icon span {
   position: absolute;
   width: 100%;
   height: 100%;

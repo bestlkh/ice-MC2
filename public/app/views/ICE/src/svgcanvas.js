@@ -2863,6 +2863,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
 
     var real_x = x = mouse_x / current_zoom;
     var real_y = y = mouse_y / current_zoom;
+    // If we are using mobile ui, do not hide keyboard
     if(selectedElements.length > 0)
       $('.tools_flyout').hide();
     /*

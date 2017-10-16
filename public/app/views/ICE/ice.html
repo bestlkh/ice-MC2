@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
   <link rel="stylesheet" href="css/cEmoji.css" type="text/css"/>
   <link rel="stylesheet" href="../../css/ifrm.css" type="text/css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <!--{endif}-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -114,40 +115,59 @@
 </div>
       <nav>
         <ul>
-          <li><a href="#">File </a>
+          <li>File
                <ul class="second-level-menu">
                     <div class="menu_list" id="file_menu">
                       <div id="tool_clear" class="menu_item">New Document</div>
                       <div id="tool_open" class="menu_item" style="display: none;"><div id="fileinputs"></div>Open SVG...</div>
                       <div id="tool_import" class="menu_item" style="display: none;"><div id="fileinputs_import"></div>Import Image...</div>
-                      <div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
+                      <div id="tool_save" class="menu_item">Save Image...</div>
                       <div id="tool_export" class="menu_item">Export as PNG</div>
                     </div>
                 </ul>
           </li>
-          <li><a href="#">Edit </a>
-               <ul class="second-level-menu">
-                    <div class="menu_list" id="file_menu">
-                      <div id="tool_clear" class="menu_item">New Document</div>
-                      <div id="tool_open" class="menu_item" style="display: none;"><div id="fileinputs"></div>Open SVG...</div>
-                      <div id="tool_import" class="menu_item" style="display: none;"><div id="fileinputs_import"></div>Import Image...</div>
-                      <div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
-                      <div id="tool_export" class="menu_item">Export as PNG</div>
-                    </div>
-                </ul>
+          <li>Edit
+              <ul class="second-level-menu">
+              <div class="menu_list" id="edit_menu">
+                <div class="menu_item" id="tool_undo">Undo</div>
+                <div class="menu_item" id="tool_redo">Redo</div>
+                <div class="separator"></div>
+                <div class="menu_item action_selected disabled" id="tool_cut">Cut</div>
+                <div class="menu_item action_selected disabled" id="tool_copy">Crop</div>
+                <div class="menu_item action_selected disabled" id="tool_paste">Paste</div>
+                <div class="menu_item action_selected disabled" id="tool_clone">Duplicate</div>
+                <div class="menu_item action_selected disabled" id="tool_delete">Delete</div>
+              </div>
+              </ul>
           </li>
-          <li><a href="#">Object</a></li>
+          <li>Object
+              <ul class="second-level-menu">
+                <div class="menu_list" id="object_menu">
+                  <div class="menu_item action_selected disabled" id="tool_move_top">Bring to Front</div>
+                  <div class="menu_item action_selected disabled" id="tool_move_up">Bring Forward</div>
+                  <div class="menu_item action_selected disabled" id="tool_move_down">Send Backward</div>
+                  <div class="menu_item action_selected disabled" id="tool_move_bottom">Send to Back</div>
+                  <div class="separator"></div>
+                  <div class="menu_item action_multi_selected disabled" id="tool_group">Group Elements</div>
+                  <div class="menu_item action_group_selected disabled" id="tool_ungroup">Ungroup Elements</div>
+                  <div class="separator"></div>
+                  <div class="menu_item action_path_convert_selected disabled" id="tool_topath">Convert to Path</div>
+                  <div class="menu_item action_path_selected disabled" id="tool_reorient">Reorient path</div>
+                </div>                                          
+              </ul>
+          </li>
         </ul>
       </nav>
 <div class="menu_logo">MC2</div>
-<div class="help_icon" style="background-image: url('images/info.png');" title="help"></div>
+<button style = "font-size: 27px" class="switchbtn" id="tool_swap"> <i class="fa fa-comments-o"></i></button>
+
 
   <div class="menu">
     <div class="menu_title">File</div>
     <div class="menu_list" id="file_menu">
       <div id="tool_clear" class="menu_item">New Document</div>
-      <div id="tool_open" class="menu_item" style="display: none;"><div id="fileinputs"></div>Open SVG...</div>
-      <div id="tool_import" class="menu_item" style="display: none;"><div id="fileinputs_import"></div>Import Image...</div>
+      <div id="tool_open" class="menu_item" style="display: block;"><div id="fileinputs"></div>Open SVG...</div>
+      <div id="tool_import" class="menu_item" style="display: block;"><div id="fileinputs_import"></div>Import Image...</div>
       <div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
       <div id="tool_export" class="menu_item">Export as PNG</div>
     </div>

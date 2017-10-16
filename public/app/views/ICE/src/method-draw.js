@@ -1890,7 +1890,7 @@ var SOTP = 0;
 
       //menu handling
       var menus = $('.menu');
-      var touchmenus = $('nav li');
+      var secondmenus = $('.touch .second-level-menu');
       var blinker = function(e) {
         e.target.style.background = "#fff";
         setTimeout(function(){e.target.style.background = "#ddd";}, 50);
@@ -1935,15 +1935,16 @@ var SOTP = 0;
          });
 
 
-        $('.touch nav li').on('touchstart', function() {
-          var a =  $(this).children()
-          console.log(a);
-     
-              if( a.css('display', 'none')){
-                    a.css('display', 'block');
+        $('.touch nav li').on('touchstart', function() {   
+              if(  $(this).hasClass('open')){
+
+                $(this).children('.touch .second-level-menu').css('display' , 'none');
+                     $(this).removeClass('open');
               }
               else{
-                 $(this).children().css('display', 'none');
+               secondmenus.css('display', 'none')
+               $(this).children('.touch .second-level-menu').css('display' , 'block');
+                 $(this).toggleClass('open');
               }
         });
 

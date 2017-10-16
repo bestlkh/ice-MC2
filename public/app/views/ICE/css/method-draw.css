@@ -180,7 +180,7 @@ nav ul {
 
 nav li {
   display: block;
-  overflow: hidden;
+  position: relative;
   font-family: 'Helvetica Neue Light', Helvetica, sans-serif;
   font-weight: 200;
   font-size: 26px;
@@ -258,14 +258,16 @@ nav li:nth-of-type(5) {
 
 
 .touch .second-level-menu {
-    position: relative;
-    top: 0px;
-    left: -15px;
+    position: absolute;
+    top: 40px;
+    left: 25px;
     width: 150px;
-    padding: 0px 0px 180px 0px;
+    padding: 0px 0px 280px 0px;
     margin: 0;
     display: none;
     color: white;
+    z-index: 1;
+
 }
 
 .second-level-menu > li
@@ -293,13 +295,13 @@ nav li:nth-of-type(5) {
     transform: rotateY(-4deg) rotateX(2deg); 
   }
 }
-.touch .help_icon{
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    width: 32px;
+.touch .switchbtn{
+position: absolute;
+    display: inline-block;
+    right: 20px;
+    width: 40px;
     height: 32px;
-    background: url(../images/select.png);
+    background: none;
   }
 /* menu */
  #menu_bar {
@@ -386,8 +388,11 @@ nav li:nth-of-type(5) {
 }
 
 .touch  .menu_list {
-  display: block;
-  top: 0px;
+    display: block;
+    top: 0px;
+    left: -15px;
+    /* height: 0px; */
+    width: 250px;
 }
 
  #menu_bar.active .menu.open .menu_title {

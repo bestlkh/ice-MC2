@@ -29,10 +29,10 @@ const TEX_TEXT = {
     'fraction': '\\frac',
     'root': '\\sqrt',
     'integral': '\\int',
-    'lbracket': '(',
-    'rbracket': ')',
-    '(': '(',
-    ')': ')'
+    'lbracket': '\\left(',
+    'rbracket': '\\right)',
+    '(': '\\left(',
+    ')': '\\right)'
 };
 
 const BRACKET = ["lbracket", "(", ")", "rbracket"];

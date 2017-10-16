@@ -749,8 +749,9 @@ methodDraw.addExtension("shapes", function() {
               if (selectedElements.length == 0) {
                   var mode = canv.getMode();
                   if(mode !== mode_id) return;
-                  var x = start_x = document.getElementById('math_cursor').getAttribute('x');
-                  var y = start_y = document.getElementById('math_cursor').getAttribute('y');
+                  var math_cursor = canv.getBBox(document.getElementById('math_cursor'));
+                  var x = start_x = math_cursor.x + 180;
+                  var y = start_y = math_cursor.y + 40;
                   var cur_style = canv.getStyle();
                   cur_shape = canv.addSvgElementFromJson({
                       "element": "path",

@@ -1562,7 +1562,7 @@ function angularInit(element, bootstrap) {
  *   {{greeting}}
  * </div>
  *
- * <script src="angular.js"></script>
+ * <script src="/angular.js"></script>
  * <script>
  *   var app = angular.module('demo', [])
  *   .controller('WelcomeController', function($scope) {

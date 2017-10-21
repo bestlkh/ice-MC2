@@ -183,9 +183,17 @@ li input.active{
         max-width: 100% !important;
         background-color: #ebf0ef !important;
         height: auto;
-        bottom: 30px;
         top: auto !important;
         opacity: 1;
+        display: block !important;
+        transition: bottom ease 0.5s, opacity ease 0.5s;
+        /*Hide keyboard on startup*/
+        bottom: -500px;
+        opacity: 0;
+    }
+
+    #tools_left {
+        z-index: 99;
     }
 
     #shape_buttons {
@@ -213,10 +221,10 @@ li input.active{
     }
 
     #shape_buttons .tool_button {
-        margin: 2px;
+        margin: 3px;
         width: 26px !important;
         height: 26px !important;
-        border: 1px #3f3f3f solid;
+        border: none;
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(0,0,0,.15);
     }
@@ -357,9 +365,5 @@ li input.active{
 
     #tools_shapelib_show {
         display: none !important;
-    }
-
-    #tools_shapelib {
-        display: block !important;
     }
 }

@@ -25,6 +25,7 @@ var SOTP = 0;
   document.addEventListener("touchend", touchHandler, true);
   document.addEventListener("touchcancel", touchHandler, true);
 
+
   if(!window.methodDraw) window.methodDraw = function($) {
     var svgCanvas;
     var Editor = {};
@@ -160,6 +161,9 @@ var SOTP = 0;
       $("body").toggleClass("touch", svgedit.browser.isTouch());
       $("#canvas_width").val(curConfig.dimensions[0]);
       $("#canvas_height").val(curConfig.dimensions[1]);
+      $('.touch #menu-button').on('mouseenter touchstart', function() {
+        $(document.body).toggleClass('menu-open');
+      });
 
       var extFunc = function() {
         $.each(curConfig.extensions, function() {
@@ -1809,10 +1813,12 @@ var SOTP = 0;
         if ($(button).hasClass('disabled')) return false;
         if($(button).parent().hasClass('tools_flyout')) return true;
         var fadeFlyouts = fadeFlyouts || 'normal';
-        if(!noHiding) {
-          //$('.tools_flyout').fadeOut(fadeFlyouts);  //**MDP
-          $('.tools_flyout').hide('normal'); //**MDP
+
+        // If mobile interface is not mounted, we hide the keyboard
+        if(!noHiding && !MobileUI.mounted) {
+          $('.tools_flyout').hide('normal');
         }
+
         $('#styleoverrides').text('');
         $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
         $(button).addClass('tool_button_current').removeClass('tool_button');
@@ -1886,6 +1892,7 @@ var SOTP = 0;
 
       //menu handling
       var menus = $('.menu');
+      var secondmenus = $('.touch .second-level-menu');
       var blinker = function(e) {
         e.target.style.background = "#fff";
         setTimeout(function(){e.target.style.background = "#ddd";}, 50);
@@ -1929,6 +1936,19 @@ var SOTP = 0;
            $(this).parent().addClass('open');
          });
 
+
+        $('.touch nav li').on('touchstart', function() {   
+              if(  $(this).hasClass('open')){
+
+                $(this).children('.touch .second-level-menu').css('display' , 'none');
+                     $(this).removeClass('open');
+              }
+              else{
+               secondmenus.css('display', 'none')
+               $(this).children('.touch .second-level-menu').css('display' , 'block');
+                 $(this).toggleClass('open');
+              }
+        });
 
       // Made public for UI customization.
       // TODO: Group UI functions into a public methodDraw.ui interface.
@@ -3326,6 +3346,7 @@ var SOTP = 0;
           {sel:'#tool_selectpath', fn: clickSwapCursor, evt: 'click', kAy: ['V', true]},
           {sel:'#tool_undobutton', fn: clickUndo, evt: 'click', kAy: ['U', true]},
           {sel:'#tool_deletebutton', fn: deleteSelected, evt: 'click', kAy: ['U', true]},
+          {sel:'#tool_toggle_keyboard', fn: MobileUI.toggleKeyboard, evt: 'click'},
           {sel:'#tool_fhpath', fn: clickFHPath, evt: 'click', kAy: ['Q', true]},
           {sel:'#tool_onscreenkeyboard', fn: clickOSK, evt: 'click', kAy: ['K', true]},
           {sel:'#tool_line', fn: clickLine, evt: 'click', kAy: ['L', true]},

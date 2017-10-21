@@ -480,7 +480,6 @@ methodDraw.addExtension("shapes", function () {
                 })
             });
 
-
             var isMobile = false;
             if ($(window).width() <= 732) isMobile = true;
             //ToggleFloatingLayer('FloatingLayer',0);

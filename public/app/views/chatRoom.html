@@ -1,5 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
 <!-- Full Width Column -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
 <div ng-if="isLoading">
   <wave-spinner></wave-spinner>
 </div>
@@ -59,6 +60,15 @@
                       <div id="downloadLogsButton" class="btn-flat" onclick="PDFDL();">DL</div>
                       <div id="downloadLogsButton" class=" btn-flat" onclick="imageOpen();">IMG</div>
                       <div class="btn-flat" ng-click="logout()">Logout</div>
+                      <div class="btn-flat" style="display: flex;" ng-click="onClickDetails()">
+                        <div class="squaredFour" style="margin-right: 5px">
+
+                          <input type="checkbox" value="None" id="squaredFour" name="check" ng-model="enableVerbose"/>
+                          <label for="squaredFour"></label>
+
+                        </div>
+                        <label>Enable Details</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -69,10 +79,9 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
-                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}"> 
-                    {{console.log(messege.type)}}
-                      <div class="system-message" ng-class="{'error': messege.error}" ng-if="messege.type === 'system'">
-                      {{messege.msg}}
+                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
+                      <div class="system-message" ng-class="{'error': messege.error}" ng-if="(messege.type === 'system') && !(messege.hidden && !enableVerbose)">
+                      {{messege.hidden ? "["+messege.timeFormatted+"] "+messege.msg : messege.msg}}
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>

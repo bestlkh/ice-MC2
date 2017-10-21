@@ -22,6 +22,11 @@
 
 
   <script type="text/javascript" src="lib/jquery.js"></script>
+  <script src="lib/jquery.panzoom.fixed.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
+
+
+
 
 
 <!--{if svg_edit_release}>
@@ -60,6 +65,7 @@
   <!--<script type="text/javascript" src="extensions/ext-websocket.js"></script> -->
   <!-- <script type="text/javascript" src="extensions/ext-mathsymbols.js"></script> -->
   <script type="text/javascript" src="extensions/ext-grid.js"></script>
+  <script type="text/javascript" src="extensions/ext-panzoom.js"></script>
   <script type="text/javascript" src="lib/requestanimationframe.js"></script>
   <script type="text/javascript" src="lib/taphold.js"></script>
   <script type="text/javascript" src="lib/filesaver.js"></script>
@@ -76,6 +82,7 @@
   <script type="text/javascript" src="../recognition/operatorSymbol.js"></script>
   <script type="text/javascript" src="../../js/ifrm.js"></script>
   <!--<script type="text/javascript" src="../../controllers/chatRoomController.js"></script>-->
+
   <script>
     $("html").css({
       "touch-action": "pan-down"
@@ -106,7 +113,7 @@
   </div>
 </div>
 
-<div id="workarea">
+<div id="workarea" style="overflow: scroll;">
 <div id="svgcanvas" style="position:relative">
 
 </div>

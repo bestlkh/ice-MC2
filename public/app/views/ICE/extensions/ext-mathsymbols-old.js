@@ -166,6 +166,8 @@ methodDraw.addExtension("mathsymbols", function() {
 
       loadLibrary('basic');
 
+
+
       // Do mouseup on parent element rather than each button
       $('#math_buttons').mouseup(function(evt) {
         var btn = $(evt.target).closest('div.tool_button2');

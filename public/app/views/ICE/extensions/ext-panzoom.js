@@ -46,13 +46,51 @@ methodDraw.addExtension("panzoom", function () {
                     if ($(window).width() <= 732) isMobile = true;
 
                     if (!isMobile) return;
+
+
                     canv.setMode("pan");
+
+                    var options = {
+                        preventDefault: true,
+                        transform_always_block: true,
+                        domEvents: true
+                    };
+                    var mc = new Hammer.Manager(workarea[0]);
+                    mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
+
+                    mc.add(new Hammer.Swipe()).recognizeWith(mc.get('pan'));
+                    mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
+                    mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
+
+                    mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+                    mc.add(new Hammer.Tap());
+
+                    //mc.get('pinch').set({ enable: true });
+                    mc.on("pinchstart pinchmove", function (e) {
+                        console.log(e.scale);
+                        zoom = e.scale;
+                        if (zoom < 0.5) zoom = 0.5;
+                        else if (zoom > 16) zoom = 16;
+                        console.log(zoom);
+                        $panzoom.panzoom("zoom", zoom);
+                        workarea.attr({
+                            width: 1920 * zoom * 2,
+                            height: 1040 * zoom * 2
+                        });
+                        workarea.css({
+                            'transform-origin': '0% 0% 0px'
+                        });
+                        $("#svgcanvas").css({
+                            width: 1920 * zoom,
+                            height: 1040 * zoom
+                        })
+                    });
                 },
                 "click": function () {
 
                     var isMobile = false;
                     if ($(window).width() <= 732) isMobile = true;
-
+                    if (isMobile) return;
 
                     canv.setMode("pan");
 
@@ -81,42 +119,8 @@ methodDraw.addExtension("panzoom", function () {
                             animate: true
                         });
 
-                        var options = {
-                            preventDefault: true,
-                            transform_always_block: true,
-                            domEvents: true
-                        };
-                        var mc = new Hammer.Manager(workarea[0]);
-                        mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
 
-                        mc.add(new Hammer.Swipe()).recognizeWith(mc.get('pan'));
-                        mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
-                        mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
 
-                        mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
-                        mc.add(new Hammer.Tap());
-
-                        //mc.get('pinch').set({ enable: true });
-                        mc.on("pinchstart pinchmove", function (e) {
-                            console.log(e.scale);
-                            zoom = e.scale;
-                            if (zoom < 0.5) zoom = 0.5;
-                            else if (zoom > 16) zoom = 16;
-                            console.log(zoom);
-                            $panzoom.panzoom("zoom", zoom);
-                            workarea.attr({
-                                width: 1920 * zoom * 2,
-                                height: 1040 * zoom * 2
-                            });
-                            workarea.css({
-                                'transform-origin': '0% 0% 0px'
-                            });
-                            $("#svgcanvas").css({
-                                width: 1920 * zoom,
-                                height: 1040 * zoom
-                            })
-                        });
-                        if (isMobile) return;
                         workarea.bind("mouseup", function (e) {
 
                             var mode = canv.getMode();

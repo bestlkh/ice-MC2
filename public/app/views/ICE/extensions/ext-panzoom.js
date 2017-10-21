@@ -27,9 +27,7 @@ methodDraw.addExtension("panzoom", function () {
         //     animate: true
         // });
 
-        $("#workarea").css({
-            overflow: "hidden"
-        })
+
     }
 
     return {
@@ -55,6 +53,7 @@ methodDraw.addExtension("panzoom", function () {
                         workarea.css({
                             'transform-origin': '0% 0% 0px'
                         });
+
                         if (isMobile) return;
                         var svg = $("#svgcanvas");
 
@@ -104,6 +103,9 @@ methodDraw.addExtension("panzoom", function () {
                             })
                         });
                     }
+                    $("#workarea").css({
+                        overflow: "auto"
+                    });
                 },
                 "click": function () {
 
@@ -200,7 +202,9 @@ methodDraw.addExtension("panzoom", function () {
                         'transform-origin': '0% 0% 0px'
                     });
 
-
+                    $("#workarea").css({
+                        overflow: "auto"
+                    });
                 }
             }
         }],
@@ -216,6 +220,9 @@ methodDraw.addExtension("panzoom", function () {
                         var svg = $("#svgcanvas");
                         svg.css({
                             cursor: "text"
+                        });
+                        $("#workarea").css({
+                            overflow: "hidden"
                         });
                     }
                 }, 100);

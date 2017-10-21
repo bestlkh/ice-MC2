@@ -145,17 +145,21 @@ ios.on('connection', function(socket){
 		else callback({username: username, avatar: session.userAvatar, room: session.connectedRoom, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
     });
 
-    function sendMessage(soc, room, message) {
-		soc.emit(message);
-        MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
-            db.collection("chatHistory").updateOne({
-                sessionId: room.sessionId,
-                owner: room.admin.handshake.session.username,
-                roomName: room.roomName
-            }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
+    function sendMessage(roomName, message) {
+        ios.sockets.to(roomName).emit("new message", message);
 
+        var room = findRoom(roomName);
+		if (room && room.admin) {
+            MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
+                db.collection("chatHistory").updateOne({
+                    sessionId: room.sessionId,
+                    owner: room.admin.handshake.session.username,
+                    roomName: roomName
+                }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
+
+                });
             });
-		});
+        }
     }
 
 
@@ -175,7 +179,7 @@ ios.on('connection', function(socket){
                 return callback({success: false, message: "Room is invite only."});
             }
 			socket.leave(socket.handshake.session.connectedRoom, function () {
-                ios.sockets.to(data.roomId).emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", msgTime: new Date(), type: "system", hidden: true});
+                sendMessage(data.roomId, {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", timestamp: moment().valueOf(), type: "system", hidden: true});
                 socket.join(data.roomId, function () {
 
                     //console.log(socket.username+" joined room "+ data.roomId);
@@ -318,7 +322,7 @@ ios.on('connection', function(socket){
 
 
 
-		ios.sockets.to(socket.handshake.session.connectedRoom).emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", msgTime: new Date(), type: "system", hidden: true});
+		sendMessage(socket.handshake.session.connectedRoom, {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", timestamp: moment().valueOf(), type: "system", hidden: true});
 
 		//logout user after gone for 5min
 		// TODO: Maybe implement this but removed due to buggy

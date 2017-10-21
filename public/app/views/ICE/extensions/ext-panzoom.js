@@ -83,13 +83,14 @@ methodDraw.addExtension("panzoom", function () {
 
                         var options = {
                             preventDefault: true,
-
-                            transform_always_block: true
+                            transform_always_block: true,
+                            domEvents: true
                         };
-                        var hammer = new Hammer(document, options);
+                        var hammer = new Hammer(workarea[0], options);
 
                         hammer.get('pinch').set({ enable: true });
-                        hammer.on("pinch", function (e) {
+                        workarea.on("pinch", function (e) {
+                            console.log(e.originalEvent.gesture.scale);
                             zoom = e.scale;
                             if (zoom < 0.5) zoom = 0.5;
                             else if (zoom > 16) zoom = 16;

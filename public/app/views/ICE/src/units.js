@@ -74,9 +74,12 @@ svgedit.units.init = function(elementContainer) {
   rect.setAttribute('height',"1ex");
   rect.setAttribute('x',"1in");
   svg.appendChild(rect);
-  var bb = rect.getBBox();
+  try {
+      var bb = rect.getBBox();
+  }  catch (e) {
+      bb = {x: 96, width: 13, height: 6.8935546875};
+  }
   document.body.removeChild(svg);
-
   var inch = bb.x;
   typeMap_['em'] = bb.width;
   typeMap_['ex'] = bb.height;

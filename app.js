@@ -145,6 +145,19 @@ ios.on('connection', function(socket){
 		else callback({username: username, avatar: session.userAvatar, room: session.connectedRoom, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
     });
 
+    function sendMessage(soc, room, message) {
+		soc.emit(message);
+        MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
+            db.collection("chatHistory").updateOne({
+                sessionId: room.sessionId,
+                owner: room.admin.handshake.session.username,
+                roomName: room.roomName
+            }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
+
+            });
+		});
+    }
+
 
 
 	socket.on("join-room", function(data, callback) {
@@ -162,6 +175,7 @@ ios.on('connection', function(socket){
                 return callback({success: false, message: "Room is invite only."});
             }
 			socket.leave(socket.handshake.session.connectedRoom, function () {
+                ios.sockets.to(data.roomId).emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", msgTime: new Date(), type: "system", hidden: true});
                 socket.join(data.roomId, function () {
 
                     //console.log(socket.username+" joined room "+ data.roomId);
@@ -180,43 +194,28 @@ ios.on('connection', function(socket){
 							findRoom(socket.handshake.session.connectedRoom).admin = null;
 						}
 
-					} else if (ios.sockets.adapter.rooms[data.roomId].admin)
-						ios.sockets.adapter.rooms[data.roomId].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", msgTime: new Date(), type: "system"});
+					}
+
+
 
                     setSessionVar('connectedRoom', data.roomId);
 
 					if (!room.messageHistory) room.messageHistory = [];
 
 					var history = room.messageHistory.slice();
-					history.push({msg: "You have joined room "+ data.roomId+".", type: "system"});
+					history.push({msg: "You have joined room "+ data.roomId+".", type: "system", timestamp: moment().valueOf()});
 					socket.emit('new message multi', history);
 					callback({success: true});
                 });
             });
 
 		} else {
-            socket.emit('new message', {msg: "Error failed to joined room "+ data.roomId+".", type: "system"});
+            socket.emit('new message', {msg: "Error failed to joined room "+ data.roomId+".", type: "system", timestamp: moment().valueOf()});
             destroySession();
             callback({success: false});
 		}
     });
 
-	// creating new user if nickname doesn't exists
-    var getUserTracking = function (data, callback) {
-        MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.tracking.find({roomName: req.parmas.roomName}, function (err, tracking) {
-                var student = findOne(tracking.students, {token: req.params.code});
-                if (!student) return res.status(404).json({
-                    status: 404,
-                    message: "Requested registration id cannot be found."
-                });
-
-                req.student = student;
-                return next();
-            })
-        });
-
-    };
 
 	//TODO: verify username is alphanumeric
 	socket.on('new user', function(data, callback){
@@ -242,20 +241,12 @@ ios.on('connection', function(socket){
                             })
                         });
                     });
-					// if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {
-					// 	return callback({success: false, message: "Invalid tracking id."});
-					// }
-					// setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
+
 				} else if (data.isJoin && clients.inviteOnly) {
 					return callback({success: false, message: "Room is invite only"});
 				}
             	if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
 				setSessionVars({username: data.username, userAvatar: data.userAvatar});
-				//nickname[data.username] = socket;
-				// socket.join(data.roomId, function () {
-                 //    socket.connectedRoom = data.roomId;
-                 //    console.log(socket.username+" joined room "+ data.roomId);
-                // });
 
             	callback({success:true});
 			}
@@ -326,8 +317,8 @@ ios.on('connection', function(socket){
         //delete socket.username;
 
 
-        if (socket.handshake.session.connectedRoom && ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom] && ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom].admin)
-            ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", msgTime: new Date(), type: "system"});
+
+		ios.sockets.to(socket.handshake.session.connectedRoom).emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", msgTime: new Date(), type: "system", hidden: true});
 
 		//logout user after gone for 5min
 		// TODO: Maybe implement this but removed due to buggy

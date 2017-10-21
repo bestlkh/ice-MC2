@@ -47,44 +47,6 @@ methodDraw.addExtension("panzoom", function () {
 
                     if (!isMobile) return;
                     canv.setMode("pan");
-
-
-                    var workarea = $("#svgroot");
-
-                    // var options = {
-                    //     preventDefault: true
-                    // };
-                    // var hammer = new Hammer(workarea[0], options);
-                    // console.log('hammer');
-                    //
-                    // hammer.get('pinch').set({ enable: true });
-                    // hammer.on("pinch", function (e) {
-                    //     alert.log(e.scale);
-                    // });
-
-
-
-                    if ($panzoom && $panzoom.panzoom("isDisabled")) {
-                        $panzoom.panzoom("enable");
-                    }
-                    else if (!$panzoom) {
-                        $panzoom = $("#svgroot").panzoom({
-
-
-                            transition: true,
-                            duration: 200,
-                            easing: "ease-in-out",
-                            disablePan: true,
-                            animate: true
-                        });
-
-
-                    }
-
-
-                    workarea.css({
-                        'transform-origin': '0% 0% 0px'
-                    });
                 },
                 "click": function () {
 
@@ -101,6 +63,12 @@ methodDraw.addExtension("panzoom", function () {
 
                     if ($panzoom && $panzoom.panzoom("isDisabled")) {
                         $panzoom.panzoom("enable");
+                        if (isMobile) return;
+                        var svg = $("#svgcanvas");
+
+                        svg.css({
+                            cursor: "zoom-in"
+                        });
                     }
                     else if (!$panzoom) {
                         $panzoom = $("#svgroot").panzoom({
@@ -114,31 +82,31 @@ methodDraw.addExtension("panzoom", function () {
                         });
 
                         var options = {
-                            preventDefault: true
+                            preventDefault: true,
+                            inputClass: Hammer.SingleTouchInput,
+                            transform_always_block: true
                         };
                         var hammer = new Hammer(workarea[0], options);
 
                         hammer.get('pinch').set({ enable: true });
                         hammer.on("pinch", function (e) {
-                            alert(e.scale);
-                            $panzoom.panzoom("zoom", e.scale);
+                            zoom = e.scale;
+                            if (zoom < 0.5) zoom = 0.5;
+                            else if (zoom > 16) zoom = 16;
+                            $panzoom.panzoom("zoom", zoom);
                             workarea.attr({
-                                width: 1920 * e.scale * 2,
-                                height: 1040 * e.scale * 2
+                                width: 1920 * zoom * 2,
+                                height: 1040 * zoom * 2
                             });
                             workarea.css({
                                 'transform-origin': '0% 0% 0px'
                             });
                             $("#svgcanvas").css({
-                                width: 1920 * e.scale,
-                                height: 1040 * e.scale
+                                width: 1920 * zoom,
+                                height: 1040 * zoom
                             })
                         });
-                        if (isMobile)  {
-
-
-                            return;
-                        }
+                        if (isMobile) return;
                         workarea.bind("mouseup", function (e) {
 
                             var mode = canv.getMode();

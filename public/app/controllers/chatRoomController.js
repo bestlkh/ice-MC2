@@ -60,12 +60,18 @@ angular.module('Controllers')
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;
+	$scope.enableVerbose = false;
 
 	$scope.onSettingsClick = function () {
 
         $scope.hideSettings = !$scope.hideSettings;
 
 
+    };
+
+	$scope.onClickDetails = function () {
+		$scope.enableVerbose = !$scope.enableVerbose;
+		console.log($scope.enableVerbose);
     };
 
 	$(document).bind("mouseup", function (e) {

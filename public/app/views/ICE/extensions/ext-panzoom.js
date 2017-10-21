@@ -49,6 +49,7 @@ methodDraw.addExtension("panzoom", function () {
 
 
                     canv.setMode("pan");
+                    var workarea = $("#svgroot");
                     if ($panzoom && $panzoom.panzoom("isDisabled")) {
                         $panzoom.panzoom("enable");
                         if (isMobile) return;

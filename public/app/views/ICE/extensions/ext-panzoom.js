@@ -83,10 +83,10 @@ methodDraw.addExtension("panzoom", function () {
 
                         var options = {
                             preventDefault: true,
-                            inputClass: Hammer.SingleTouchInput,
+
                             transform_always_block: true
                         };
-                        var hammer = new Hammer(workarea[0], options);
+                        var hammer = new Hammer(document, options);
 
                         hammer.get('pinch').set({ enable: true });
                         hammer.on("pinch", function (e) {

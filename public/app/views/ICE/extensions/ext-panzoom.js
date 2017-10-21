@@ -93,6 +93,7 @@ methodDraw.addExtension("panzoom", function () {
                             zoom = e.scale;
                             if (zoom < 0.5) zoom = 0.5;
                             else if (zoom > 16) zoom = 16;
+                            console.log(zoom);
                             $panzoom.panzoom("zoom", zoom);
                             workarea.attr({
                                 width: 1920 * zoom * 2,

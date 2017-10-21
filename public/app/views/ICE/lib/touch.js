@@ -22,9 +22,9 @@ function touchHandler(event)
                               first.clientX, first.clientY, false, 
                               false, false, false, 0/*left*/, null);
     
-    //if(touches.length < 2) {
-      //first.target.dispatchEvent(simulatedEvent);
-    //}
-    //event.preventDefault();
+    if(touches.length < 2) {
+      first.target.dispatchEvent(simulatedEvent);
+    }
+    event.preventDefault();
     
 }

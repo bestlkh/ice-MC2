@@ -52,6 +52,9 @@ methodDraw.addExtension("panzoom", function () {
                     var workarea = $("#svgroot");
                     if ($panzoom && $panzoom.panzoom("isDisabled")) {
                         $panzoom.panzoom("enable");
+                        workarea.css({
+                            'transform-origin': '0% 0% 0px'
+                        });
                         if (isMobile) return;
                         var svg = $("#svgcanvas");
 
@@ -70,11 +73,6 @@ methodDraw.addExtension("panzoom", function () {
                             animate: true
                         });
 
-                        var options = {
-                            preventDefault: true,
-                            transform_always_block: true,
-                            domEvents: true
-                        };
                         var mc = new Hammer.Manager(workarea[0]);
                         mc.add(new Hammer.Pan({threshold: 0, pointers: 0}));
 
@@ -94,15 +92,15 @@ methodDraw.addExtension("panzoom", function () {
                             console.log(zoom);
                             $panzoom.panzoom("zoom", zoom);
                             workarea.attr({
-                                width: 1920 * zoom * 2,
-                                height: 1040 * zoom * 2
+                                width: width * zoom * 2,
+                                height: height * zoom * 2
                             });
                             workarea.css({
                                 'transform-origin': '0% 0% 0px'
                             });
                             $("#svgcanvas").css({
-                                width: 1920 * zoom,
-                                height: 1040 * zoom
+                                width: width * zoom,
+                                height: height * zoom
                             })
                         });
                     }
@@ -154,15 +152,15 @@ methodDraw.addExtension("panzoom", function () {
 
                                 $panzoom.panzoom("zoom", zoom);
                                 workarea.attr({
-                                    width: 1920 * zoom * 2,
-                                    height: 1040 * zoom * 2
+                                    width: width * zoom * 2,
+                                    height: height * zoom * 2
                                 });
                                 workarea.css({
                                     'transform-origin': '0% 0% 0px'
                                 });
                                 $("#svgcanvas").css({
-                                    width: 1920 * zoom,
-                                    height: 1040 * zoom
+                                    width: width * zoom,
+                                    height: height * zoom
                                 })
                             }
 

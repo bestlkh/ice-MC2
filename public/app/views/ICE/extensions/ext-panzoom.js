@@ -71,7 +71,7 @@ methodDraw.addExtension("panzoom", function () {
                         });
                     }
                     else if (!$panzoom) {
-                        $panzoom = $("#svgroot").panzoom({
+                        $panzoom = workarea.panzoom({
 
 
                             transition: true,
@@ -86,11 +86,19 @@ methodDraw.addExtension("panzoom", function () {
                             transform_always_block: true,
                             domEvents: true
                         };
-                        var hammer = new Hammer(workarea[0], options);
+                        var mc = new Hammer.Manager(workarea[0]);
+                        mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
 
-                        hammer.get('pinch').set({ enable: true });
-                        workarea.on("pinch", function (e) {
-                            console.log(e.originalEvent.gesture.scale);
+                        mc.add(new Hammer.Swipe()).recognizeWith(mc.get('pan'));
+                        mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
+                        mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
+
+                        mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+                        mc.add(new Hammer.Tap());
+
+                        //mc.get('pinch').set({ enable: true });
+                        mc.on("pinchstart pinchmove", function (e) {
+                            console.log(e.scale);
                             zoom = e.scale;
                             if (zoom < 0.5) zoom = 0.5;
                             else if (zoom > 16) zoom = 16;

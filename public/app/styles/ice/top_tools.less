@@ -1,0 +1,68 @@
+#tools_top {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background: #2f2f2c;
+  right: 0;
+  top: 20px;
+  border-bottom: none;
+  overflow: visible;
+  padding: 0 0 0 15px;
+  #marker_panel {
+    * {
+      float: left;
+    }
+    h4 {
+      float: none;
+    }
+    .dropdown {
+      .icon_label {
+        width: 36px;
+        height: 20px;
+        margin-top: 2px;
+        border: solid #3f3f3c 1px;
+        text-align: center;
+        img {
+          float: none;
+        }
+      }
+      button {
+        margin-top: 2px;
+      }
+    }
+    #marker_panel_title {
+      float: none;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+  }
+  h4 {
+    color: #fff;
+    font-weight: normal;
+    margin: 0;
+    padding: 10px 0 5px 0;
+  }
+  .dropdown {
+    .icon_label {
+      border: 1px solid transparent;
+      height: auto;
+    }
+  }
+  &.multiselected {
+    #align_tools {
+      display: none;
+    }
+    #multiselected_panel {
+      display: block !important;
+      .hidable {
+        display: none;
+      }
+    }
+  }
+}
+
+.touch {
+  #tools_top {
+    top: 30px;
+  }
+}

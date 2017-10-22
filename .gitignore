@@ -101,3 +101,6 @@ public/app/upload/doc/
 public/app/upload/images/
 public/app/upload/music/
 
+
+app/styles/chatroom/*.min.css
+app/styles/ice/*.min.css

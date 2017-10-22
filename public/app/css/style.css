@@ -46,6 +46,8 @@
 	width: 20px;
 	position: relative;
 }
+
+
 .squaredFour label {
 	width: 20px;
 	height: 20px;
@@ -57,6 +59,7 @@
 	border-radius: 4px;
 	border: 1px solid #e0e0e0
 }
+
 .squaredFour label:after {
 	content: '';
 	width: 9px;
@@ -85,7 +88,6 @@
 .squaredFour input[type=checkbox]:checked + label {
 	background-color: #f39c12;
 	border-color: transparent;
-
 }
 
 .chat-menu .btn-flat:hover {
@@ -410,9 +412,9 @@ input {
 }
 
 .button-not2:hover {
-	background-color: #ed8355;
-	color: #fff;
-}
+	 background-color: #ed8355;
+	 color: #fff;
+ }
 
 .card {
 	background-color: #fff;

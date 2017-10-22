@@ -1,0 +1,367 @@
+#tools_left {
+  position: absolute;
+  border-right: none;
+  width: 50px;
+  top: 30px;
+  bottom: 0;
+  left: 0;
+  background: #2F2F2C; /* Needed so flyout icons don't appear on the left */
+  z-index: 4;
+  .tool_button {
+    background: #2f2f2c;
+    position: relative;
+    &.loaded {
+      background-color: #ccc;
+      &:hover {
+        background-color: #fff;
+      }
+    }
+    &:after {
+      position: absolute;
+      content: '';
+      border: solid #2f2f2c 2px;
+      top: -1px;
+      left: -1px;
+      width: 26px;
+      height: 26px;
+      z-index: 0;
+    }
+  }
+  .tool_button_current {
+    background-color: #0cf;
+    &:after {
+      position: absolute;
+      content: '';
+      border: solid #2f2f2c 2px;
+      top: -1px;
+      left: -1px;
+      width: 26px;
+      height: 26px;
+      z-index: 0;
+    }
+  }
+  .tool_button, .tool_button_current {
+    position: relative;
+    z-index: 11;
+  }
+  &.mobile {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    .tool_button_current {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .tool_button {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}
+
+#color_tools {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin: 6px 6px 0 6px;
+  #tool_fill {
+    .color_block {
+      #fill_bg {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        right: 1px;
+      }
+      & > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      &:hover {
+        border-color: #fff;
+      }
+    }
+  }
+  #tool_stroke {
+    .color_block {
+      width: 24px;
+      height: 24px;
+      overflow: hidden;
+      border: solid #ccc 1px;
+      #stroke_bg {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        right: 1px;
+      }
+      &:hover {
+        border-color: #fff;
+        #stroke_color {
+          &:after {
+            background: #fff;
+          }
+        }
+      }
+      & > div {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
+  #tool_switch {
+    cursor: pointer;
+    opacity: 0.7;
+    width: 11px;
+    height: 11px;
+    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABV0RVh0Q3JlYXRpb24gVGltZQA2LzE0LzEyP6j5+gAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAB4SURBVBiVjZHRCYUwDEVvxIF0kZKN7EjiIrrReR/PSNSKXiikcE5JUtMeADMzXQIcdRfgFWqlyyB7ap1wL+0HAnIv1DqRJUBxTkLUWXIvh9AHkIeb58UkIUnDMH4ZR0otCfhv4ynbtp7ut722ZniFG8L9xx4Ek6QfN9huARmYwR0AAAAASUVORK5CYII=) top left no-repeat;
+    position: absolute;
+    top: -2px;
+    left: 28px;
+  }
+  #cross {
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .icon_label {
+    padding: 0;
+    width: 24px;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+  }
+  div {
+    &#workarea {
+      top: 40px;
+      left: 0px;
+    }
+  }
+}
+
+#tool_fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  &.active {
+    z-index: 2;
+  }
+  .color_block {
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    border: solid #ccc 1px;
+  }
+}
+
+#tool_stroke {
+  top: 14px;
+  left: 14px;
+  &.active {
+    z-index: 2;
+  }
+}
+
+#tool_fill, #tool_stroke, #tool_canvas {
+  box-shadow: 0 0 0 1px #2f2f2c;
+  position: absolute;
+}
+
+#color_canvas_tools {
+  float: left;
+  cursor: pointer;
+}
+
+#use_panel .tool_button, #path_node_panel .tool_button {
+  color: #999;
+  border: solid #3F3F3C 1px;
+  border-radius: 3px;
+  padding: 3px 10px 3px 40px;
+  background: transparent;
+  position: relative;
+  margin-top: 10px;
+  width: 90px;
+  height: 23px;
+  line-height: 24px;
+}
+
+#use_panel {
+  .tool_button {
+    padding-left: 10px;
+    margin-bottom: 10px;
+    width: 124px;
+  }
+}
+
+#path_node_panel {
+  .tool_button {
+    img, svg {
+      position: absolute;
+      left: 5px;
+      top: 3px;
+    }
+  }
+}
+
+#stroke_color {
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 8px;
+    height: 8px;
+    left: 8px;
+    top: 8px;
+    background: #ccc;
+    box-shadow: 0 0 0 1px #000;
+  }
+}
+
+#linkLabel {
+  & > svg {
+    padding: 0;
+    width: 24px;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+  }
+}
+
+#palette {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  left: 10px;
+  bottom: 5px;
+  width: 410px;
+  right: 145px;
+  height: 30px;
+}
+
+.palette_item {
+  height: 20%;
+  width: 5.2%;
+  float: left;
+  cursor: url(../../views/ICE/images/eyedropper.png) 0 16, crosshair;
+  &.transparent, &.white, &.black {
+    background: #fff;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: -10px;
+    top: 0;
+  }
+  &.transparent {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAVdEVYdENyZWF0aW9uIFRpbWUAOC8yMi8xMg1cp6sAAABESURBVBiVjdBBCgAgCETRr/e/87SJKFPLnfIcQRMIwMBIShIAvgZzoSrfkzrs8WyF1+kX9r3p8AE7nL7kSpSshN+JEQ8GixkF0mSevgAAAABJRU5ErkJggg==);
+  }
+  &.black {
+    background: #000;
+    top: 10px;
+  }
+  &.white {
+    background: #fff;
+    top: 20px;
+  }
+}
+
+.tool_button,
+.tool_button_current,
+.tool_button_pressed {
+  cursor: pointer;
+}
+
+.tool_button:hover,
+.push_button:hover,
+.buttonup:hover,
+.buttondown,
+.tool_button_current,
+.push_button_pressed {
+  background-color: #fff;
+}
+
+.tool_button.disabled,
+.tool_button.disabled:hover {
+  opacity: 0.3;
+  background-color: #aaa;
+}
+
+.tool_button,
+.push_button,
+.tool_button_current,
+.push_button_pressed {
+  height: 27px;
+  width: 27px;
+  border: solid #2f2f2c 8px;
+  border-left-width: 13px;
+  margin: 0;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+#tool_image {
+  overflow: hidden;
+}
+
+#tool_open input,
+#tool_import input,
+#tool_import_bitmap input {
+  position: absolute;
+  opacity: 0;
+  font-size: 10em;
+  top: -5px;
+  right: -5px;
+  margin: 0;
+  cursor: pointer; /* Sadly doesn't appear to have an effect */
+}
+
+#tool_bold span,  #tool_italic span {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+  background: #ccc;
+  opacity: 0;
+}
+
+#tool_deletebutton {
+  background-size: 25px !important;
+  background-position: center !important;
+  background-color: transparent !important;
+  background-repeat: no-repeat !important;
+  &:hover {
+    background: #2f2f2c;
+  }
+}
+
+.tool_button {
+  &.mobile {
+    display: inline-block;
+  }
+}
+
+.flyout_arrow_horiz {
+  position: absolute;
+  bottom: -1px;
+  right: 0; /* hiding the flyout arrow */
+  z-index: 10;
+}
+
+.flyout_arrow_horiz2 {
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  z-index: 10;
+}
+
+#tool_toggle_keyboard {
+  display: none;
+}
+
+@media (max-width: 732px){
+  #tool_toggle_keyboard {
+    display: inline-block;
+  }
+}

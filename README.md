@@ -12,6 +12,8 @@ Software needed:
 
 #### Less.js CSS Pre-processor
 
+**Old CSS files are still linked for compatibility. But please start using LESS.**
+
 Less.js is used for development, make sure you have Less.js CLI installed using NPM.
 
 ```bash

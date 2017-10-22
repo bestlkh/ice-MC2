@@ -31,3 +31,5 @@ I highly recommend using JetBrains WebStorm as your IDE, simply add a Less file 
 Example file watcher setup (if you are using Windows, locate `lessc.cmd` and use that as `Program`):
 
 ![](https://i.imgur.com/DTFarw3.png)
+
+If you prefer another IDE, consider `https://www.npmjs.com/package/less-watcher2` or `http://winless.org`.

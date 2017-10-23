@@ -294,25 +294,25 @@
                       var webkit = !!ua.match(/WebKit/i);
                       var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
                       document.getElementById('textArea').onfocus = function() {
-                        if (iOSSafari) {
-                          var heights = window.innerHeight;
-                          var chatHeight = document.getElementById("chat_body_div").style.height;
-                          var newHeight = chatHeight.substring(0, chatHeight.indexOf("px")) - 260;
-                          newHeight = newHeight + "px";
-                          document.getElementById("chat_body_div").style.height = newHeight;
-                          setTimeout(function() { window.scroll(0,0);}, 100);
-                        }
+//                        if (iOSSafari) {
+//                          var heights = window.innerHeight;
+//                          var chatHeight = document.getElementById("chat_body_div").style.height;
+//                          var newHeight = chatHeight.substring(0, chatHeight.indexOf("px")) - 260;
+//                          newHeight = newHeight + "px";
+//                          document.getElementById("chat_body_div").style.height = newHeight;
+//                          setTimeout(function() { window.scroll(0,0);}, 100);
+//                        }
                       };
 
                       document.getElementById('textArea').onblur = function() {
-                        if (iOSSafari) {
-                          var heights = window.innerHeight;
-                          var chatHeight = document.getElementById("chat_body_div").style.height;
-                          var newHeight = Number(chatHeight.substring(0, chatHeight.indexOf("px"))) + 260;
-                          newHeight = newHeight + "px";
-                          document.getElementById("chat_body_div").style.height = newHeight; 
-                          setTimeout(function() { window.scroll(0,0);}, 100);
-                        }
+//                        if (iOSSafari) {
+//                          var heights = window.innerHeight;
+//                          var chatHeight = document.getElementById("chat_body_div").style.height;
+//                          var newHeight = Number(chatHeight.substring(0, chatHeight.indexOf("px"))) + 260;
+//                          newHeight = newHeight + "px";
+//                          document.getElementById("chat_body_div").style.height = newHeight;
+//                          setTimeout(function() { window.scroll(0,0);}, 100);
+//                        }
                       };
                     </script>
                     <span class="input-group-btn">
@@ -324,7 +324,10 @@
               </div><!-- /.box -->
             </div>
 
-            <script src="app/js/chatroomPlus.js"></script>     
+            <script src="app/js/chatroomPlus.js"></script>
+            <script>
+              fireEventChain(chatRoomLoadedHandlers);
+            </script>
       </div>
     </div><!-- /.content --> 
   </div><!-- /.container -->

@@ -286,30 +286,13 @@
                   <span class="input-group-btn" style="position:relative">
                     <button type="button" class="accordion btn btn-warning btn-flat">☺+</button>
                   </span>
-                    <textarea rows=1 id="textArea" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
+                    <textarea rows=1 id="textArea" class="chat-text-box" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
                     </textarea>
                     <script>
                       var ua = window.navigator.userAgent;
                       var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
                       var webkit = !!ua.match(/WebKit/i);
                       var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-                      document.getElementById('textArea').onfocus = function() {
-                        setTimeout(function(){
-                            $("#chat_body_div").css({
-                                height: window.innerHeight - 100
-                            });
-                            window.scrollTo(0, 0);
-                        }, 500);
-                      };
-
-                      document.getElementById('textArea').onblur = function() {
-                          setTimeout(function(){
-                              $("#chat_body_div").css({
-                                  height: window.innerHeight - 100
-                              });
-                              window.scrollTo(0, 0);
-                          }, 500);
-                      };
                     </script>
                     <span class="input-group-btn">
                       <button type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>
@@ -325,3 +308,7 @@
     </div><!-- /.content --> 
   </div><!-- /.container -->
 </div><!-- /.content-wrapper -->
+<script>
+  // Fire interface loaded event
+  fireEventChain(chatRoomInterfaceLoadedHandlers);
+</script>

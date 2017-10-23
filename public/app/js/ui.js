@@ -8,3 +8,22 @@ onMainLoop(function(){
         // window.scrollTo(0, 0);
     }
 });
+
+// Change interface size to adapt the soft keyboard
+onChatTextBoxFocus(function(e) {
+    setTimeout(function(){
+        $("#chat_body_div").css({
+            height: window.innerHeight - 100
+        });
+        window.scrollTo(0, 0);
+    }, 500);
+});
+
+onChatTextBoxBlur(function(e){
+    setTimeout(function(){
+        $("#chat_body_div").css({
+            height: window.innerHeight - 100
+        });
+        window.scrollTo(0, 0);
+    }, 500);
+});

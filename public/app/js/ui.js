@@ -4,8 +4,10 @@ onMainLoop(function(){
     var webkit = !!ua.match(/WebKit/i);
     var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
     if(iOSSafari){
-        // Weird bug on iOS Safari, so just keep scrolling to top
-        // window.scrollTo(0, 0);
+        // Make sure the chat-wrapper do not go over the screen
+        $("#chat-wrapper").css({
+            'height': window.innerHeight
+        });
     }
 });
 
@@ -26,4 +28,8 @@ onChatTextBoxBlur(function(e){
         });
         window.scrollTo(0, 0);
     }, 500);
+});
+
+$(window).on('resize', function(){
+   window.scrollTo(0, 0);
 });

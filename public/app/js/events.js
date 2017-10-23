@@ -14,16 +14,16 @@ function onTouchMove(func){
     touchMoveHandlers.push(func);
 }
 
+function onChatRoomInterfaceLoaded(func){
+    chatRoomInterfaceLoadedHandlers.push(func);
+}
+
 function onChatTextBoxFocus(func){
     chatTextBoxFocusHandlers.push(func);
 }
 
 function onChatTextBoxBlur(func){
     chatTextBoxBlurHandlers.push(func);
-}
-
-function onChatRoomInterfaceLoaded(func){
-    chatRoomInterfaceLoadedHandlers.push(func);
 }
 
 function fireEventChain(chain, e){

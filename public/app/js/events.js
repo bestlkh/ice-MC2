@@ -20,6 +20,7 @@ setInterval(function(){
     fireEventChain(mainLoopHandlers);
 }, 100);
 
-document.ontouchmove = function(e){
+
+$(document).bind('touchmove', function(e){
     fireEventChain(touchMoveHandlers, e);
-};
+});

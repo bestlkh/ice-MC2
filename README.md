@@ -2,34 +2,11 @@
 
 A collaborative math equation editing software.
 
-### Setup Your Environment
-
-Software needed:
-
-* Node.js / NPM
-* Less.js `npm install less -g`
-* Less.js clean CSS plugin `npm install less-plugin-clean-css -g`
-
-#### Less.js CSS Pre-processor
-
-**Old CSS files are still linked for compatibility. But please start using LESS.**
-
-Less.js is used for development, make sure you have Less.js CLI installed using NPM.
-
-```bash
-$ npm install less -g
-```
-
-All less files are located under `app/styles`.
-
-You must compile two files:
-* `app/styles/chatroom/main.less` compile to `app/styles/chatroom/main.min.css`
-* `app/styles/ice/main.less` compile to `app/styles/ice/main.min.css`
-
-I highly recommend using JetBrains WebStorm as your IDE, simply add a Less file watcher, and you are done.
-
-Example file watcher setup (if you are using Windows, locate `lessc.cmd` and use that as `Program`):
-
-![](https://i.imgur.com/DTFarw3.png)
-
-If you prefer another IDE, consider `https://www.npmjs.com/package/less-watcher2` or `http://winless.org`.
+## Wiki Links
+* [Development Environment Setup & Deployment Instructions](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions)
+   * [Required Software](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions#required-software)
+   * [Development Environment Setup](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions#development-environment-setup)
+   * [Deployment Environment Setup](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions#deployment-environment-setup)
+   
+* [Chat Room Global Events](https://github.com/bestlkh/ice-MC2/wiki/Chat-Room-Global-Events)
+* [ICE Global Events](https://github.com/bestlkh/ice-MC2/wiki/ICE-Global-Events)

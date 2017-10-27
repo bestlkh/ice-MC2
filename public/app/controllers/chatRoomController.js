@@ -60,12 +60,18 @@ angular.module('Controllers')
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;
+	$scope.enableVerbose = false;
 
 	$scope.onSettingsClick = function () {
 
         $scope.hideSettings = !$scope.hideSettings;
 
 
+    };
+
+	$scope.onClickDetails = function () {
+		$scope.enableVerbose = !$scope.enableVerbose;
+		//console.log($scope.enableVerbose);
     };
 
 	$(document).bind("mouseup", function (e) {
@@ -253,8 +259,8 @@ angular.module('Controllers')
 	// recieving new text message
 	$socket.on("new message", function(data){
         data.ownMsg = (data.username === $rootScope.username);
-        console.log(data.ownMsg);
-
+        console.log(data);
+		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messeges.push(data);
 		// Updates chatlog with relevant message history
 		chatLog += "\r";

@@ -80,7 +80,7 @@
  	#editorframe{
  		display:none;
 		width:100%;
-		height: auto; 
+		height: auto;
 		float: left;
 	}
 
@@ -135,3 +135,8 @@
 	border: 0;
 	width: 20px;
 }
+
+#workarea {
+	width: calc(100vw - 50px)
+}
+

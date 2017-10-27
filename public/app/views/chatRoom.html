@@ -1,9 +1,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
 <!-- Full Width Column -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
 <div ng-if="isLoading">
   <wave-spinner></wave-spinner>
 </div>
-<div id="chat-wrapper" class="content-wrapper" style="height:100vh">
+<div id="chat-wrapper" class="content-wrapper">
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
@@ -59,6 +60,15 @@
                       <div id="downloadLogsButton" class="btn-flat" onclick="PDFDL();">DL</div>
                       <div id="downloadLogsButton" class=" btn-flat" onclick="imageOpen();">IMG</div>
                       <div class="btn-flat" ng-click="logout()">Logout</div>
+                      <div class="btn-flat" style="display: flex;" ng-click="onClickDetails()">
+                        <div class="squaredFour" style="margin-right: 5px">
+
+                          <input type="checkbox" value="None" id="squaredFour" name="check" ng-model="enableVerbose"/>
+                          <label for="squaredFour"></label>
+
+                        </div>
+                        <label>Enable Details</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -69,10 +79,9 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
-                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}"> 
-                    {{console.log(messege.type)}}
-                      <div class="system-message" ng-class="{'error': messege.error}" ng-if="messege.type === 'system'">
-                      {{messege.msg}}
+                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
+                      <div class="system-message" ng-class="{'error': messege.error}" ng-if="(messege.type === 'system') && !(messege.hidden && !enableVerbose)">
+                      {{messege.hidden ? "["+messege.timeFormatted+"] "+messege.msg : messege.msg}}
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>
@@ -277,34 +286,13 @@
                   <span class="input-group-btn" style="position:relative">
                     <button type="button" class="accordion btn btn-warning btn-flat">☺+</button>
                   </span>
-                    <textarea rows=1 id="textArea" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
+                    <textarea rows=1 id="textArea" class="chat-text-box" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
                     </textarea>
                     <script>
                       var ua = window.navigator.userAgent;
                       var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
                       var webkit = !!ua.match(/WebKit/i);
                       var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-                      document.getElementById('textArea').onfocus = function() {
-                        if (iOSSafari) {
-                          var heights = window.innerHeight;
-                          var chatHeight = document.getElementById("chat_body_div").style.height;
-                          var newHeight = chatHeight.substring(0, chatHeight.indexOf("px")) - 260;
-                          newHeight = newHeight + "px";
-                          document.getElementById("chat_body_div").style.height = newHeight;
-                          setTimeout(function() { window.scroll(0,0);}, 100);
-                        }
-                      };
-
-                      document.getElementById('textArea').onblur = function() {
-                        if (iOSSafari) {
-                          var heights = window.innerHeight;
-                          var chatHeight = document.getElementById("chat_body_div").style.height;
-                          var newHeight = Number(chatHeight.substring(0, chatHeight.indexOf("px"))) + 260;
-                          newHeight = newHeight + "px";
-                          document.getElementById("chat_body_div").style.height = newHeight; 
-                          setTimeout(function() { window.scroll(0,0);}, 100);
-                        }
-                      };
                     </script>
                     <span class="input-group-btn">
                       <button type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>
@@ -320,3 +308,7 @@
     </div><!-- /.content --> 
   </div><!-- /.container -->
 </div><!-- /.content-wrapper -->
+<script>
+  // Fire interface loaded event
+  fireEventChain(chatRoomInterfaceLoadedHandlers);
+</script>

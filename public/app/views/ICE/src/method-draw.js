@@ -161,9 +161,6 @@ var SOTP = 0;
       $("body").toggleClass("touch", svgedit.browser.isTouch());
       $("#canvas_width").val(curConfig.dimensions[0]);
       $("#canvas_height").val(curConfig.dimensions[1]);
-      $('.touch #menu-button').on('mouseenter touchstart', function() {
-        $(document.body).toggleClass('menu-open');
-      });
 
       var extFunc = function() {
         $.each(curConfig.extensions, function() {
@@ -3951,7 +3948,7 @@ var SOTP = 0;
         h = Math.max(h_orig, svgCanvas.contentH * zoom * multi);
 
         if(true || w == w_orig && h == h_orig) {
-          workarea.css('overflow','hidden');
+          workarea.css('overflow','auto');
         } else {
           workarea.css('overflow','scroll');
         }

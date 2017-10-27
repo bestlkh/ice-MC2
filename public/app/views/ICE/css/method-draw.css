@@ -84,7 +84,7 @@ display: none;
 .hamburger {
   position: relative;
   width: 25px;
-  height: 10px; 
+  height: 10px;
   transition: transform 750ms ease-in-out;
 }
 
@@ -128,14 +128,14 @@ display: none;
 }
 
 .menu-open .hamburger::before {
-  transform: translate3d(-4px, 1px, 0) rotateZ(-45deg);  
+  transform: translate3d(-4px, 1px, 0) rotateZ(-45deg);
 }
 .menu-open .hamburger .inner {
-  transform: rotateY(-90deg); 
+  transform: rotateY(-90deg);
   transition: transform 375ms, background-color 750ms ease-in-out;
 }
 .menu-open .hamburger::after {
-  transform: translate3d(-4px, -1px, 0) rotateZ(45deg);  
+  transform: translate3d(-4px, -1px, 0) rotateZ(45deg);
 }
 
 nav {
@@ -280,29 +280,29 @@ nav li:nth-of-type(5) {
 
 @keyframes wind {
   0%, 100% {
-    transform: none; 
+    transform: none;
   }
   20% {
-    transform: rotateX(5deg) rotateY(8deg); 
+    transform: rotateX(5deg) rotateY(8deg);
   }
   40% {
-    transform: rotateX(-2deg); 
+    transform: rotateX(-2deg);
   }
   60% {
-    transform: rotateY(-3deg) rotateX(7deg); 
+    transform: rotateY(-3deg) rotateX(7deg);
   }
   80% {
-    transform: rotateY(-4deg) rotateX(2deg); 
+    transform: rotateY(-4deg) rotateX(2deg);
   }
 }
 .touch .switchbtn{
-position: absolute;
-    display: inline-block;
-    right: 20px;
-    width: 40px;
-    height: 32px;
-    background: none;
-  }
+     position: absolute;
+     display: inline-block;
+     right: 20px;
+     width: 40px;
+     height: 32px;
+     background: none;
+   }
 /* menu */
  #menu_bar {
     padding: 0 0 0 50px;
@@ -1103,8 +1103,8 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
 }
 
  #cur_context_panel a:hover {
-  text-decoration: underline;
-}
+   text-decoration: underline;
+ }
 
 
  #tools_left .tool_button,
@@ -2344,9 +2344,9 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
 }
 
  .draginput input:focus+span {
-  z-index: 10;
-  color:#fff;
-}
+   z-index: 10;
+   color:#fff;
+ }
 
 .draginput .push_bottom {
   bottom: 0;

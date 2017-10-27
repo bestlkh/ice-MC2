@@ -10,11 +10,18 @@
 <!{else}-->
   <link rel="stylesheet" href="lib/jgraduate/css/jPicker.css" type="text/css"/>
   <link rel="stylesheet" href="lib/jgraduate/css/jgraduate.css" type="text/css"/>
+
+
+  <!--Will be deleted in the future-->
   <link rel="stylesheet" href="css/method-draw.css" type="text/css"/>
   <link rel="stylesheet" href="css/fonts.css" type="text/css"/>
   <link rel="stylesheet" href="css/cEmoji.css" type="text/css"/>
   <link rel="stylesheet" href="css/mobile.min.css" type="text/css"/>
   <link rel="stylesheet" href="../../css/ifrm.css" type="text/css"/>
+
+
+
+  <link rel="stylesheet" href="../../styles/ice/main.min.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <!--{endif}-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
@@ -22,6 +29,11 @@
 
 
   <script type="text/javascript" src="lib/jquery.js"></script>
+  <script src="lib/jquery.panzoom.fixed.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
+
+
+
 
 
 <!--{if svg_edit_release}>
@@ -35,6 +47,8 @@
   <script type="text/javascript" src="lib/contextmenu/jquery.contextMenu.js"></script>
   <script type="text/javascript" src="lib/jquery-ui/jquery-ui-1.8.17.custom.min.js"></script>
   <script type="text/javascript" src="src/const.js"></script>
+  <script type="text/javascript" src="src/events.js"></script>
+  <script type="text/javascript" src="src/hamburger-menu.js"></script>
   <script type="text/javascript" src="src/browser.js"></script>
   <script type="text/javascript" src="src/svgtransformlist.js"></script>
   <script type="text/javascript" src="src/math.js"></script>
@@ -60,6 +74,7 @@
   <!--<script type="text/javascript" src="extensions/ext-websocket.js"></script> -->
   <!-- <script type="text/javascript" src="extensions/ext-mathsymbols.js"></script> -->
   <script type="text/javascript" src="extensions/ext-grid.js"></script>
+  <script type="text/javascript" src="extensions/ext-panzoom.js"></script>
   <script type="text/javascript" src="lib/requestanimationframe.js"></script>
   <script type="text/javascript" src="lib/taphold.js"></script>
   <script type="text/javascript" src="lib/filesaver.js"></script>
@@ -76,6 +91,7 @@
   <script type="text/javascript" src="../recognition/operatorSymbol.js"></script>
   <script type="text/javascript" src="../../js/ifrm.js"></script>
   <!--<script type="text/javascript" src="../../controllers/chatRoomController.js"></script>-->
+
   <script>
     $("html").css({
       "touch-action": "pan-down"
@@ -106,7 +122,7 @@
   </div>
 </div>
 
-<div id="workarea">
+<div id="workarea" style="overflow: scroll;">
 <div id="svgcanvas" style="position:relative">
 
 </div>
@@ -117,7 +133,7 @@
   <div class="hamburger"><div class="inner"></div></div>
 </div>
       <nav>
-        <ul>
+        <ul id="hamburger-menu">
           <li>File
                <ul class="second-level-menu">
                     <div class="menu_list" id="file_menu">

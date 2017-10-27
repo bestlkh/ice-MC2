@@ -1,0 +1,89 @@
+/** chatroom/chat.less
+ * Global stylesheet, anything that cannot be categorised will be moved here.
+ */
+
+body {
+  overflow: hidden;
+}
+
+// Remove margin and padding for every element
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#editorframe {
+  height: 100vh;
+}
+
+#chatframe {
+  height: 100%;
+  overflow: hidden;
+}
+
+.selector-wrapper2 {
+  width: auto;
+  margin: 20px auto 15px;
+  display: flex;
+  justify-content: center;
+  height: 40px;
+}
+
+.selector-wrapper2>div {
+  width: 133px;
+  padding: 7px;
+  text-align: center;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.1s linear, border 0.1s linear, color 0.1s linear;
+  //margin: 0 calc((100% - 266px) / 6);
+  line-height: 23px;
+  color: #8a8a8a;
+  font-weight: 700;
+  font-size: 13px;
+  border: 2px transparent solid;
+}
+
+
+input {
+  margin: 10px auto;
+}
+
+.join-button2 {
+  &:hover {
+    color: #ed8355;
+  }
+}
+
+.create-button2 {
+  &:hover {
+    color: #ed8355;
+  }
+}
+
+.button-active2 {
+  background-color: #ed8355 !important;
+  background-image: none;
+  color: #fff !important;
+  font-size: 14px;
+  line-height: inherit;
+}
+
+.button-not2 {
+  background-color: transparent;
+  border-radius: 50%;
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #a0a0a0;
+  &:hover {
+    background-color: #ed8355;
+    color: #fff;
+  }
+}
+
+.card {
+  background-color: #fff;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+  transition: all 0.3s ease-in;
+}

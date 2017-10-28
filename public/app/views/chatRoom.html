@@ -79,14 +79,14 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
-                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
+                  <div ng-repeat="messege in messeges" ng-if="(messege.type === 'chat') || ((messege.type === 'system') && !(messege.hidden && !enableVerbose))" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
                       <div class="system-message" ng-class="{'error': messege.error}" ng-if="(messege.type === 'system') && !(messege.hidden && !enableVerbose)">
                       {{messege.hidden ? "["+messege.timeFormatted+"] "+messege.msg : messege.msg}}
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>
-                        <span class='direct-chat-name' 
-                         ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
+                        <span ng-style="{'color': messege.isTA ? 'rgb(50, 205, 50)' : '#515151'}" class='direct-chat-name'
+                         ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : ""))+((messege.isTA ? " (TA)" : ""))}}</span>
                         <span class='direct-chat-timestamp' ng-class="{'pull-right': messege.ownMsg, 'pull-left': !messege.ownMsg}">{{ messege.msgTime }}</span>
                       </div><!-- /.direct-chat-info -->
                       <div class="direct-chat-img" style="position:relative">
@@ -146,10 +146,11 @@
                                   <span class="decs-text" ng-show="messege.showme"><b>File :</b> {{ messege.filename}}</span>
                                   <span class="decs-text" ng-show="messege.showme"><a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>Open in Editor</i><i class="fa fa-download dw-icon"></i></a>
                                   <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>&nbsp;&nbsp;Open in Editor</i> <i class="fa fa-download dw-icon"></i></a>
-                                  <span class="decs-text" ng-show="messege.showme"><a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>Download</i><i class="fa fa-download dw-icon"></i></a>
+                                    <span class="decs-text" ng-show="messege.showme"><a id ="{{messege.dwid}}" class="decs-text" ng-show="messege.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>Download</i><i class="fa fa-download dw-icon"></i></a></span>
                                   <a id ="{{messege.dwid}}" class="decs-text" ng-show="!messege.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>&nbsp;&nbsp;Download</i> <i class="fa fa-download dw-icon"></i></a>
                                   <a id ="{{messege.dwid}}A" class="decs-text hidden-link" href="{{ messege.serverfilename }}"  download="{{ messege.serverfilename }}"><i>Hidden Link</i></a></span>
                                 </div>
+
                               </div><!-- Audio File Close -->
 
                               <!-- Doc File Open -->

@@ -32,6 +32,7 @@
 
             <div> Email </div>
             <div>Token</div>
+            <div>TA</div>
         </div>
         <div class="list-wrapper" ng-repeat="student in students">
             <div class="student-item" ng-if="checkInclude(student)">
@@ -39,6 +40,7 @@
 
                 <div>{{student.email}}</div>
                 <div>{{student.token}}</div>
+                <div>{{student.isTA ? "Yes" : "No"}}</div>
             </div>
         </div>
 
@@ -46,7 +48,7 @@
     <div class="import-overlay" ng-if="!hideOverlay" ng-click="onOverlayClick($event)">
         <div class="import-wrapper" ng-if="!hideImport">
             <header> Import student list </header>
-            <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
+            <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>, or <span>isTA</span> (not required).</div>
             <form ng-submit="onImportSubmit()">
                 <div class="form-wrapper">
                     <div class="">
@@ -86,6 +88,12 @@
                             Email:
                         </div>
                         <input type="text" ng-model="student.email" required/>
+                        <div style="display: flex; justify-content: space-between;">
+                            TA:
+                            <md-switch ng-model="student.isTA" aria-label="Switch 1" class="md-warn" style="margin: 0;">
+                            </md-switch>
+                        </div>
+
                     </div>
 
                 </div>

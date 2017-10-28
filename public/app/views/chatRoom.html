@@ -85,8 +85,8 @@
                     </div>
                     <div ng-if="messege.type === 'chat'">
                       <div class='direct-chat-info clearfix'>
-                        <span class='direct-chat-name' 
-                         ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
+                        <span ng-style="{'color': messege.isTA ? 'rgb(50, 205, 50)' : '#515151'}" class='direct-chat-name'
+                         ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : ""))+((messege.isTA ? " (TA)" : ""))}}</span>
                         <span class='direct-chat-timestamp' ng-class="{'pull-right': messege.ownMsg, 'pull-left': !messege.ownMsg}">{{ messege.msgTime }}</span>
                       </div><!-- /.direct-chat-info -->
                       <div class="direct-chat-img" style="position:relative">

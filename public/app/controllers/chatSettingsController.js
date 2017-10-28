@@ -3,23 +3,42 @@ angular.module('Controllers')
         $rootScope.tabActive = "cs";
 
         $scope.settings = {};
+        $scope.originalSettings = {};
 
         $scope.block = {
-            roomName: true
+            roomName: true,
+            save: true
         };
 
         $.ajax({
             url: "/v1/api/settings/chat",
             success: function (result) {
                 $scope.settings = result;
+                $scope.originalSettings = jQuery.extend({}, result);
                 $scope.$apply();
-                console.log(result);
+
+                $scope.$watch("settings", function () {
+                    $scope.onFormChange();
+                }, true);
             }
         });
 
         $scope.test = function (test) {
             console.log(typeof(test));
         };
+
+        $scope.onFormChange = function () {
+            $scope.block.save = (checkSettings());
+        };
+
+        function checkSettings() {
+            for (var key in $scope.settings) {
+                if ($scope.settings[key] !== $scope.originalSettings[key]) return false;
+            }
+            return true;
+        }
+
+
 
         $scope.checkType = function (setting, type) {
             return typeof(setting) === type;

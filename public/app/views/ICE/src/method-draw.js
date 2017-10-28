@@ -3947,11 +3947,13 @@ var SOTP = 0;
         w = Math.max(w_orig, svgCanvas.contentW * zoom * multi);
         h = Math.max(h_orig, svgCanvas.contentH * zoom * multi);
 
-        if(true || w == w_orig && h == h_orig) {
-          workarea.css('overflow','auto');
-        } else {
-          workarea.css('overflow','scroll');
-        }
+        // if(true || w == w_orig && h == h_orig) {
+        //   workarea.css('overflow','hidden');
+        // } else {
+        //   workarea.css('overflow','hidden');
+        // }
+
+          workarea.css('overflow','hidden');
 
         var old_can_y = cnvs.height()/2;
         var old_can_x = cnvs.width()/2;

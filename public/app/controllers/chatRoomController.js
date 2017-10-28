@@ -244,9 +244,7 @@ angular.module('Controllers')
 	};
 
 	$scope.deleteMsg = function(msg){
-		console.log(msg);
-		$socket.emit("delete-message", msg, function(data){
-		});
+			$socket.emit("delete-message", msg, function(data){});
 	};
 
 	$socket.on("new message multi", function (data) {

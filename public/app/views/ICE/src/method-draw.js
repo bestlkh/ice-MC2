@@ -2222,9 +2222,14 @@ var SOTP = 0;
 
       var clickConvert = function(){
         if (toolButtonClick('#tool_convert')) {
-          getBST();
-          if($(window).width() <= 732)
+          var tex = getBST();
+          if($(window).width() <= 732) {
             clickSwap();
+            parent.document.getElementById('textArea').value  = tex;
+          } else {
+            parent.preview.document.getElementById("mathjax_viewer").value = tex;
+            parent.preview.document.getElementById("mathjax_viewer").onchange();
+          }
         }
       };
 

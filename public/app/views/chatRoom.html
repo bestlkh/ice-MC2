@@ -8,8 +8,12 @@
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
-    <iframe id="editor-frame" style="width:100%; height:100vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+    <iframe name="editor" id="editor-frame" style="width:100%; height:70vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+    <iframe name="preview" id="preview-frame" style="width:100%; height:30vh;" src = "/app/views/preview.html"></iframe>
     <script type="text/javascript">//<![CDATA[ 
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+              document.getElementById("preview-frame").style.display = "none";
+            }       
             function resizeEditor()
             {
               var ua = window.navigator.userAgent;
@@ -172,6 +176,9 @@
                         </div><!-- /.item-->
                       </div><!-- /.direct-chat-text -->
                     </div>
+                    <div class="delete-message-button" ng-if="isAdmin && (messege.type === 'chat')">
+                      <button ng-click="deleteMsg(messege)">delete</button>
+                    </div>
                   </div><!-- /.direct-chat-msg -->
                 </div><!--/.direct-chat-messages-->
 
@@ -296,7 +303,7 @@
                       var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
                     </script>
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>
+                      <button id="chat-send-button" type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>
                     </span>
                   </div>
                 </form>

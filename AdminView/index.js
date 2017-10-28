@@ -82,6 +82,7 @@ AdminView.prototype.setupRoute = function () {
 var Student = function (student) {
     this.utorid = student.utorid;
     this.email = student.email;
+    this.isTA = student.isTA;
 };
 
 var ChatSetting = function (settings) {

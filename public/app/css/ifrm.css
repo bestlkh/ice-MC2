@@ -10,13 +10,7 @@
 	float: right;
 }
 
-#dragbar{
-	background-color:#2f2f2c;
-	height:100%;
-	float: left;
-	width: 10px;
-	cursor: col-resize;
- }
+
  #ghostbar{
 	 width:3px;
 	 background-color:#000;

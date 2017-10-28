@@ -8,8 +8,7 @@ angular.module('Controllers')
                 element.bind("change", function (changeEvent) {
                     scope.$apply(function () {
                         scope.fileread = changeEvent.target.files[0];
-                        // or all selected files:
-                        // scope.fileread = changeEvent.target.files;
+
                     });
                 });
             }
@@ -78,6 +77,7 @@ angular.module('Controllers')
                     contentType: "application/json",
                     success: function (result) {
                         $scope.Actions.getStudentList();
+                        $scope.student = {};
                         $scope.hideAdd = $scope.hideOverlay = true;
                     }
                 })

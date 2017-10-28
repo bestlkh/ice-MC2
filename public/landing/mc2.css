@@ -1203,7 +1203,7 @@ input[type="submit"]:hover {
 	margin: auto;
 }
 
-.add-wrapper div {
+.add-wrapper>div {
 	text-align: left;
 	margin: 8px 0 3px 0;
 }
@@ -1217,6 +1217,10 @@ input[type="submit"]:hover {
 
 .add-wrapper input:focus {
 	border-color: #5d6795;
+}
+
+.disabled {
+	background-color: #575757 !important;
 }
 
 @keyframes OpenPulse {

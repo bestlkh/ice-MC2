@@ -151,9 +151,11 @@ ios.on('connection', function(socket){
         var room = findRoom(roomName);
 		if (room && room.admin) {
             MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
+            	var admin = room.admin;
+            	if (!admin) return;
                 db.collection("chatHistory").updateOne({
                     sessionId: room.sessionId,
-                    owner: room.admin.handshake.session.username,
+                    owner: admin.handshake.session.username,
                     roomName: roomName
                 }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
 
@@ -242,6 +244,7 @@ ios.on('connection', function(socket){
                                 if (!student) return callback({success: false, message: "Invalid id."});
 
                                 setSessionVar("utorid", student.utorid);
+                                setSessionVar("isTA", student.isTA);
                             })
                         });
                     });
@@ -284,6 +287,7 @@ ios.on('connection', function(socket){
 			data.userAvatar = socket.handshake.session.userAvatar;
 			data.initials = data.username.slice(0, 2);
 			data.msgTime = moment().format('LT');
+			data.isTA = socket.handshake.session.isTA;
 			data.isInstructor = false;
 
             data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;

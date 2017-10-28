@@ -243,6 +243,12 @@ angular.module('Controllers')
 		}
 	};
 
+	$scope.deleteMsg = function(msg){
+		console.log(msg);
+		$socket.emit("delete-message", msg, function(data){
+		});
+	};
+
 	$socket.on("new message multi", function (data) {
 		data.forEach(function (message) {
 
@@ -259,12 +265,27 @@ angular.module('Controllers')
 	// recieving new text message
 	$socket.on("new message", function(data){
         data.ownMsg = (data.username === $rootScope.username);
-        console.log(data);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messeges.push(data);
 		// Updates chatlog with relevant message history
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
+		chatLog += "\n";
+	});
+
+	// recieving new text message delete request
+	$socket.on("delete message", function(data){
+		data.ownMsg = (data.username === $rootScope.username);
+		data.timeFormatted = moment(data.timestamp).format("LTS");
+		var messegeIndex = $scope.messeges.findIndex(function(item, i) {
+			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+		});
+		if (messegeIndex > -1) {
+			$scope.messeges.splice(messegeIndex, 1);
+		}
+		// Updates chatlog with relevant message history
+		chatLog += "\r";
+		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg + "###DELETED###";
 		chatLog += "\n";
 	});
 
@@ -389,7 +410,6 @@ angular.module('Controllers')
 					alert("Image size too big, please use an image under 25MB");
 					continue;
 				}
-				console.log(file);
                 var dateString = formatAMPM(new Date());            
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var image = {

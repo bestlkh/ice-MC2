@@ -176,6 +176,9 @@
                         </div><!-- /.item-->
                       </div><!-- /.direct-chat-text -->
                     </div>
+                    <div class="delete-message-button" ng-if="isAdmin && (messege.type === 'chat')">
+                      <button ng-click="deleteMsg(messege)">delete</button>
+                    </div>
                   </div><!-- /.direct-chat-msg -->
                 </div><!--/.direct-chat-messages-->
 

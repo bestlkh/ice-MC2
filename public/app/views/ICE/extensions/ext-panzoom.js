@@ -14,6 +14,10 @@ methodDraw.addExtension("panzoom", function () {
     var zoom = 1;
     var zoomInc = 0.25;
 
+    var workarea = $("#svgcontent");
+    var width = workarea.attr("width");
+    var height = workarea.attr("height");
+
     var isMobile = false;
     if ($(window).width() <= 732) isMobile = true;
 
@@ -153,6 +157,9 @@ methodDraw.addExtension("panzoom", function () {
                                 else if (zoom > 16) zoom = 16;
 
                                 $panzoom.panzoom("zoom", zoom);
+
+
+
                                 workarea.attr({
                                     width: width * zoom * 2,
                                     height: height * zoom * 2
@@ -160,6 +167,7 @@ methodDraw.addExtension("panzoom", function () {
                                 workarea.css({
                                     'transform-origin': '0% 0% 0px'
                                 });
+                                console.log("test");
                                 $("#svgcanvas").css({
                                     width: width * zoom,
                                     height: height * zoom

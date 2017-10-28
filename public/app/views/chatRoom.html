@@ -83,10 +83,10 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
-                  <div class="direct-message-container" ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
                   <div ng-repeat="messege in messeges" ng-if="(messege.type === 'chat') || ((messege.type === 'system') && !(messege.hidden && !enableVerbose))" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
-                      {{messege.hidden ? "["+messege.timeFormatted+"] "+messege.msg : messege.msg}}
-                    </div>
+
+                    <!--{{messege.hidden ? "["+messege.timeFormatted+"] "+messege.msg : messege.msg}}-->
+                    <!--</div>-->
                     <div ng-if="messege.type === 'chat'">
 
                       <!--Chat Information-->

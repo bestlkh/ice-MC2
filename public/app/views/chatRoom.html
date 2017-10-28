@@ -79,26 +79,38 @@
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" id="dcs" scroll-bottom="messeges">
                   <!-- Message. Default to the left -->
-                  <div ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
+                  <div class="direct-message-container" ng-repeat="messege in messeges" ng-class="{'direct-chat-msg' : true, 'right' : messege.ownMsg, 'wordwrap' : true}">
                       <div class="system-message" ng-class="{'error': messege.error}" ng-if="(messege.type === 'system') && !(messege.hidden && !enableVerbose)">
                       {{messege.hidden ? "["+messege.timeFormatted+"] "+messege.msg : messege.msg}}
                     </div>
                     <div ng-if="messege.type === 'chat'">
-                      <div class='direct-chat-info clearfix'>
+
+                      <!--Chat Information-->
+
+                      <div class='direct-chat-info clearfix' ng-class="{ 'text-right': messege.ownMsg }">
+                        <span class='direct-chat-timestamp' ng-hide="messege.ownMsg">{{ messege.msgTime }}</span>
                         <span class='direct-chat-name' 
-                         ng-class="{'admin': messege.isInstructor, 'pull-right': !messege.ownMsg, 'pull-left': messege.ownMsg}">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
-                        <span class='direct-chat-timestamp' ng-class="{'pull-right': messege.ownMsg, 'pull-left': !messege.ownMsg}">{{ messege.msgTime }}</span>
+                         ng-class="{ 'admin': messege.isInstructor }">{{ messege.username+((messege.isInstructor ? " (Instructor)" : "")) }}</span>
+                        <span class='direct-chat-timestamp' ng-hide="!messege.ownMsg">{{ messege.msgTime }}</span>
                       </div><!-- /.direct-chat-info -->
-                      <div class="direct-chat-img" style="position:relative">
-                        <img class="direct-chat-img" ng-src="app/css/dist/img/{{messege.userAvatar}}" alt="message user image"></img><!-- /.direct-chat-img -->
 
-                        <span class="nicknames"> {{messege.initials}} </span>
 
-                      </div>
-                      <div ng-class="{'direct-chat-text' : true, 'text-right' : messege.ownMsg}" ng-style = "{'background-color': messege.isInstructor ? '#32CD32' : '#f39c12', 'border-color': messege.isInstructor ? '#32CD32' : '#f39c12'}" >
-                        <div ng-hide="hasFile">{{ messege.msg }}</div>
-                        <!-- {{ messege.sendfile }} Media File Messeges -->
-                        <div class="item" ng-show="messege.hasFile">
+                      <!-- Text message -->
+                      <div ng-class="{'direct-chat-text' : true, 'text-right' : messege.ownMsg}">
+
+                        <div class="direct-chat-img" style="position:relative">
+                          <img class="direct-chat-img" ng-src="app/css/dist/img/{{messege.userAvatar}}" alt="message user image"></img><!-- /.direct-chat-img -->
+
+                          <span class="nicknames"> {{messege.initials}} </span>
+
+                        </div>
+
+                        <!-- Inner container to achieve dynamic message width -->
+                        <div class="direct-chat-text-inner" ng-style = "{'background-color': messege.isInstructor ? '#32CD32' : '#f39c12','border-color': messege.isInstructor ? '#32CD32' : '#f39c12'}" >
+                          <div ng-hide="hasFile">{{ messege.msg }}</div>
+
+                          <!-- {{ messege.sendfile }} Media File Messeges -->
+                          <div class="item" ng-show="messege.hasFile">
                             <div class="attachment clearfix">
                             <!-- Image File Open -->
                               <div ng-class="{'filename' : true,'chat-msg' : true}" ng-show="messege.isImageFile">
@@ -169,7 +181,10 @@
                               </div><!-- Doc file Close -->
                             </div><!-- /.attachment -->
                         </div><!-- /.item-->
+
+                        </div>
                       </div><!-- /.direct-chat-text -->
+
                     </div>
                   </div><!-- /.direct-chat-msg -->
                 </div><!--/.direct-chat-messages-->

@@ -1,0 +1,114 @@
+.direct-chat {
+  .box-body {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    position: relative;
+    overflow-x: hidden;
+    padding: 0;
+    height: 100vh;
+  }
+
+  &.chat-pane-open {
+    .direct-chat-contacts {
+      -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      -o-transform: translate(0, 0);
+      transform: translate(0, 0);
+    }
+  }
+}
+
+.direct-chat-messages {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+  padding: 10px;
+  height: calc(~"100vh - 41px - 60px") !important;
+  overflow: auto;
+}
+
+.direct-chat-msg,
+.direct-chat-text {
+  display: block;
+}
+
+.direct-chat-text-inner {
+  display: inline-block;
+}
+
+//.direct-chat-text {
+//  border-radius: 5px;
+//  position: relative;
+//  padding: 5px 10px;
+//  background: #d2d6de;
+//  border: 1px solid #d2d6de;
+//  margin: 5px 0 0 50px;
+//  color: #444444;
+//}
+
+//.direct-chat-text:after,
+//.direct-chat-text:before {
+//  position: absolute;
+//  right: 100%;
+//  top: 15px;
+//  border: solid transparent;
+//  border-right-color: #d2d6de;
+//  content: ' ';
+//  height: 0;
+//  width: 0;
+//  pointer-events: none;
+//}
+//.direct-chat-text:after {
+//  border-width: 5px;
+//  margin-top: -5px;
+//}
+//.direct-chat-text:before {
+//  border-width: 6px;
+//  margin-top: -6px;
+//}
+
+//.right .direct-chat-text {
+//  margin-right: 50px;
+//  margin-left: 0;
+//}
+//.right .direct-chat-text:after,
+//.right .direct-chat-text:before {
+//  right: auto;
+//  left: 100%;
+//  border-right-color: transparent;
+//  border-left-color: #d2d6de;
+//}
+
+.direct-chat-text {
+  display: block;
+  vertical-align: bottom;
+  position: relative;
+  &.text-right {
+    text-align: right;
+    .direct-chat-text-inner {
+      margin-right: 10px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 0;
+    }
+  }
+  .direct-chat-text-inner {
+    padding: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-left: 10px;
+    border-radius: 20px;
+    border-top-left-radius: 0;
+    max-width: 70%;
+    overflow: hidden;
+    color: white;
+    margin-top: 10px;
+  }
+}
+.direct-chat-name {
+  opacity: 0.5 !important;
+}
+.direct-chat-info {
+  display: block;
+  padding-bottom: 5px;
+}

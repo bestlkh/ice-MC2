@@ -97,10 +97,14 @@
 }
 
 #workarea {
-  width: 100vw;
+  width: calc(~"100vw - 50px");
 }
 
 @media only screen and (max-device-width: 732px) {
+  #workarea {
+    width: 100vw;
+  }
+
   #editorframe {
     display: none;
     width: 100%;

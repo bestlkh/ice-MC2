@@ -1,0 +1,122 @@
+.contextMenu {
+  position: absolute;
+  z-index: 99999;
+  border: solid 1px rgba(0,0,0,.33);
+  background: rgba(255,255,255,.95);
+  padding: 5px 0;
+  margin: 0px;
+  display: none;
+  font: 12px/15px 'Lucida Sans', 'Lucida Grande', Helvetica, Verdana, sans-serif;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -moz-box-shadow: 2px 5px 10px rgba(0,0,0,.3);
+  -webkit-box-shadow: 2px 5px 10px rgba(0,0,0,.3);
+  box-shadow: 2px 5px 10px rgba(0,0,0,.3);
+  li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    &.separator {
+      border-top: solid 1px #E3E3E3;
+      padding-top: 5px;
+      margin-top: 5px;
+    }
+    &.hover {
+      a {
+        background-color: #2e5dea;
+        color: white;
+        cursor: default;
+      }
+      &.disabled {
+        a {
+          background-color: transparent;
+        }
+      }
+    }
+    &.disabled {
+      a {
+        color: #999;
+      }
+    }
+  }
+  .shortcut {
+    width: 115px;
+    text-align:right;
+    float:right;
+  }
+  a {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    color: #222;
+    text-decoration: none;
+    display: block;
+    line-height: 20px;
+    height: 20px;
+    background-position: 6px center;
+    background-repeat: no-repeat;
+    outline: none;
+    padding: 0px 15px 1px 20px;
+  }
+}
+
+.touch {
+  .contextMenu {
+    border: solid 5px rgba(0,0,0,.7);
+    padding: 0;
+    margin: 0 0 0 20px;
+    font: 18px/24px sans-serif;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 5px 20px 3px #000;
+    box-shadow: 2px 5px 20px rgba(0,0,0,0.5);
+    &:after {
+      content: '';
+      width: 0;
+      height: 0;
+      border: solid transparent 10px;
+      border-right-color: rgba(0,0,0,.7);
+      position: absolute;
+      top: 50%;
+      left: -25px;
+      margin-top: -10px;
+      z-index: 1000;
+    }
+    .shortcut {
+      display: none;
+    }
+    a {
+      padding: 0 15px;
+      font-weight: bold;
+      border-top: solid 1px #E3E3E3;
+      height: 40px;
+      line-height: 40px;
+      min-width: 200px;
+    }
+    li {
+      &.disabled {
+        a {
+          display: none;
+        }
+      }
+      &.separator {
+        border-top: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+  .shortcut {
+    display: none;
+  }
+}
+
+#menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: #000;
+  z-index: 10;
+  color: #fff;
+}

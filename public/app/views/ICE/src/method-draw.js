@@ -2227,8 +2227,7 @@ var SOTP = 0;
             clickSwap();
             parent.document.getElementById('textArea').value  = tex;
           } else {
-            parent.preview.document.getElementById("mathjax_viewer").value = tex;
-            parent.preview.document.getElementById("mathjax_viewer").onchange();
+            parent.preview.window.editor.setValue(tex);
           }
         }
       };

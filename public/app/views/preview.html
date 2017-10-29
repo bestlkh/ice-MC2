@@ -1,81 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dynamic Preview of Textarea with MathJax Content</title>
-<!-- Copyright (c) 2012-2017 The MathJax Consortium -->
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<script type="text/javascript" src="/app/js/mathjax_preview.js"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    showProcessingMessages: false,
-    tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-    SVG: {
-      scale: 150
-    }
-  });
-  MathJax.Hub.setRenderer("SVG");
-</script>
-
-  <style>
-    body{
-      font-size: 3;
-      background-color:white;
-    }
-    h2{
-      font-size: 3;
-      font-family: 'Lucida Sans';
-      color: grey;
-      
-    }
-    
-    textarea{
-    background-color: lightgrey;
-    font-family: Lucida Sans;
-    font-size: 4;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    width: 100%;
-    height: 100%;
-    }
-
-  </style>
+    <title>Dynamic Preview of Textarea with MathJax Content</title>
+    <!-- Copyright (c) 2012-2017 The MathJax Consortium -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/app/styles/latex-preview/main.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script src="/app/js/latex-preview/events.js"></script>
+    <script src="/app/js/latex-preview/ui.js"></script>
+    <script type="text/javascript" src="/app/js/latex-preview/mathjax_preview.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    <!--MathJaX Configurations-->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+          SVG: {
+            scale: 150
+          }
+        });
+        MathJax.Hub.setRenderer("SVG");
+    </script>
 </head>
 <body>
-<div style="display: flex; width: 100%; overflow: hidden;">
-  <div style="width:50%; float: left;">
-    <textarea id="mathjax_viewer" cols="40" rows="10" onchange="Preview.CreatePreview()" onkeyup="Preview.CreatePreview()" style="margin-top:5px"></textarea>
-  </div>
-
-  <div id="MathPreview" style=" border:1px solid; padding: 3px; width:50%; margin:5px"></div>
-  <div id="MathBuffer" style="border:1px solid; padding: 3px; width:50%; margin:5px; 
-  visibility:hidden; position:absolute; top:0; left: 0"></div>
-</div>
-
-<div>
-    <button id="preview-send">send</button>
-</div>
-
+    <textarea id="mathjax-viewer" cols="40" rows="10" onchange="Preview.CreatePreview()"
+              onkeyup="Preview.CreatePreview()" style="margin-top:5px"></textarea>
+    <div id="math-preview"></div>
+    <div id="math-buffer"></div>
+    <button id="preview-send">Send to Chat <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 
 
 </body>
 <script>
-  setTimeout(function () {
+    setTimeout(function () {
         Preview.Init();
     }, 2000);
 
-    document.getElementById("preview-send").onclick = function() {
-        if(document.getElementById('mathjax_viewer').value) {
-            parent.document.getElementById('textArea').value = document.getElementById('mathjax_viewer').value;
+    document.getElementById("preview-send").onclick = function () {
+        if (editor.getValue()) {
+            parent.document.getElementById('textArea').value = editor.getValue();
             parent.document.getElementById('chat-send-button').click();
         } else {
             alert("nothing to send");
         }
     }
-
+    var editor = ace.edit("mathjax-viewer");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/latex");
+    editor.getSession().on('change', function(e) {
+        Preview.CreatePreview()
+    });
 </script>
 </html>

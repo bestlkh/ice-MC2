@@ -2,6 +2,8 @@
  * Global stylesheet, anything that cannot be categorised will be moved here.
  */
 
+@import "variables";
+
 body {
   overflow: hidden;
 }
@@ -14,6 +16,7 @@ body {
 
 #editorframe {
   height: 100vh;
+  background-color: @primary-color;
 }
 
 #chatframe {
@@ -95,4 +98,10 @@ input {
   float: left;
   width: 10px;
   cursor: col-resize;
+}
+
+#preview-frame {
+  margin: 0;
+  border: none;
+  left: 0;
 }

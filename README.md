@@ -10,3 +10,4 @@ A collaborative math equation editing software.
    
 * [Chat Room Global Events](https://github.com/bestlkh/ice-MC2/wiki/Chat-Room-Global-Events)
 * [ICE Global Events](https://github.com/bestlkh/ice-MC2/wiki/ICE-Global-Events)
+* [LaTeX Preview Global Events](https://github.com/bestlkh/ice-MC2/wiki/LaTeX-Preview-Global-Events)

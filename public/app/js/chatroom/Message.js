@@ -8,6 +8,7 @@
 
 var Message = function(raw_data){
     this.raw_data = raw_data;
+    this.text = new MessageText(raw_data.msg);
 
     /**
      * Is this a chat message?
@@ -79,13 +80,56 @@ var Message = function(raw_data){
         return this.raw_data.initials;
     };
 
+    this.getUsername = function(){
+        return this.raw_data.username;
+    };
+
+
     /**
      * Get text version of the message.
      * @returns {*|string|string}
      */
     this.getText = function(){
-        return this.raw_data.msg;
+        return this.text;
     };
 
+    /**
+     * Does this message have file?
+     * @returns {*}
+     */
+    this.hasFile = function(){
+        return this.raw_data.hasFile;
+    };
+
+    /**
+     * is attachment an image file?
+     * @returns {*|boolean}
+     */
+    this.isImageFile = function(){
+        return this.raw_data.isImageFile;
+    };
+
+    /**
+     * Get attachment file name.
+     */
+    this.getFileName = function(){
+        return this.raw_data.filename;
+    };
+
+    /**
+     * Is attachment an audio file.
+     * @returns {boolean|*}
+     */
+    this.isAudioFile = function(){
+        return this.raw_data.isMusicFile;
+    };
+
+    /**
+     * Is attachment a PDF?
+     * @returns {boolean|*}
+     */
+    this.isPdfFile = function(){
+        return this.raw_data.isPDFFile;
+    };
 
 };

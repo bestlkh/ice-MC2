@@ -55,6 +55,7 @@ angular.module('Controllers')
 	$scope.chatMsg = "";
 	$scope.users = [];
 	$scope.messages = [];
+	$scope.allMsg = [];
 
 	$scope.hideSettings = true;
 	$scope.settingTimeout = null;
@@ -269,11 +270,7 @@ angular.module('Controllers')
      * @returns {Array}
      */
 	$scope.getAllMsg = function(){
-		var result = [];
-		for(var i = 0; i < $scope.messages.length; i++) {
-            result.push(new Message($scope.messages[i]));
-        }
-        return result;
+		return $scope.allMsg;
 	};
 
 	$socket.on("new message multi", function (data) {
@@ -282,6 +279,7 @@ angular.module('Controllers')
 			message.ownMsg = (message.username === $rootScope.username);
 
             $scope.messages.push(message);
+            $scope.allMsg.push(new Message(message));
             // Updates chatlog with relevant message history
             chatLog += "\r";
             chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
@@ -294,6 +292,7 @@ angular.module('Controllers')
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
+		$scope.allMsg.push(new Message(data));
 		// Updates chatlog with relevant message history
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
@@ -305,7 +304,7 @@ angular.module('Controllers')
 		data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		var messageIndex = $scope.messages.findIndex(function(item, i) {
-			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+			return (item.getTime() === data.msgTime && item.getUsername() === data.username && item.getText() === data.msg);
 		});
 		if (messageIndex > -1) {
 			$scope.messages.splice(messageIndex, 1);
@@ -358,6 +357,7 @@ angular.module('Controllers')
 			checkmessagesImage(data);
 		}else{
 			$scope.messages.push(data);
+			$scope.allMsg.push(new Message(data));
 		}
 	});
 

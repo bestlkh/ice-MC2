@@ -217,6 +217,9 @@ angular.module('Controllers')
 // ====================================== Messege Sending Code ============================
 	// sending text message function
 
+    /**
+	 * Automatically detect current message, and send it to the chat room.
+     */
 	$scope.sendMsg = function(){
         var textarea = document.getElementById("textArea");
 		if ($scope.chatMsg || textarea.value) {
@@ -230,17 +233,31 @@ angular.module('Controllers')
 			}
 			$scope.isFileSelected = false;
 			$scope.isMsg = true;
-			var dateString = formatAMPM(new Date());
-			$socket.emit("send-message",{ msg : message, hasMsg : $scope.isMsg , hasFile : $scope.isFileSelected}, function(data){
-				//delivery report code goes here
-				if (data.success == true) {
-					$scope.chatMsg = "";
-					$scope.setFocus = true;				
-				}
+            $scope.sendMsgManual(message, $scope.isMsg, $scope.isFileSelected, function(data){
+                //delivery report code goes here
+                if (data.success) {
+                    $scope.chatMsg = "";
+                    $scope.setFocus = true;
+                }
 			});
-		}else{
+		} else {
 			$scope.isMsgBoxEmpty = true;
 		}
+	};
+
+    /**
+	 * Manually send a message to the chat room
+     * @param msg
+     * @param hasMsg
+     * @param hasFile
+     * @param callback
+     */
+	$scope.sendMsgManual = function(msg, hasMsg, hasFile, callback){
+		$socket.emit("send-message", {
+			msg: msg,
+			hasMsg: hasMsg,
+			hasFile: hasFile
+		}, callback);
 	};
 
 	$scope.deleteMsg = function(msg){

@@ -264,6 +264,18 @@ angular.module('Controllers')
 			$socket.emit("delete-message", msg, function(data){});
 	};
 
+    /**
+	 * Get a list of messages wrapped with Message class.
+     * @returns {Array}
+     */
+	$scope.getAllMsg = function(){
+		var result = [];
+		for(var i = 0; i < $scope.messages.length; i++) {
+            result.push(new Message($scope.messages[i]));
+        }
+        return result;
+	};
+
 	$socket.on("new message multi", function (data) {
 		data.forEach(function (message) {
 

@@ -54,7 +54,7 @@ angular.module('Controllers')
 	$scope.setFocus = true;
 	$scope.chatMsg = "";
 	$scope.users = [];
-	$scope.messeges = [];
+	$scope.messages = [];
 
 	$scope.hideSettings = true;
 	$scope.settingTimeout = null;
@@ -86,7 +86,7 @@ angular.module('Controllers')
 	$socket.on("connect", function () {
 		//console.log("connect");
 		if ($scope.disconnected) {
-			$scope.messeges.push({type: "system", msg: "Reconnected to chat."});
+			$scope.messages.push({type: "system", msg: "Reconnected to chat."});
 			$scope.disconnected = false;
             $socket.emit('join-room', {roomId: $routeParams.roomId}, function(data) {
                 if (!data.success) {
@@ -96,7 +96,7 @@ angular.module('Controllers')
                     $rootScope.error = data.message;
                     return $location.path('/v1/');
                 }
-                //$scope.messeges.push(data);
+                //$scope.messages.push(data);
                 $scope.isLoading = false;
             });
 		}
@@ -121,7 +121,7 @@ angular.module('Controllers')
                         $rootScope.error = data.message;
                         return $location.path('/v1/');
                     }
-                    //$scope.messeges.push(data);
+                    //$scope.messages.push(data);
                     chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
                 });
             } else {
@@ -139,7 +139,7 @@ angular.module('Controllers')
                 $rootScope.error = data.message;
                 return $location.path('/v1/');
             }
-            //$scope.messeges.push(data);
+            //$scope.messages.push(data);
             $scope.isLoading = false;
             chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
         });
@@ -211,10 +211,10 @@ angular.module('Controllers')
 
     $socket.on("disconnect", function () {
     	$scope.disconnected = true;
-    	$scope.messeges.push({msg: "Disconnected from chat room.", error: true, type: "system"});
+    	$scope.messages.push({msg: "Disconnected from chat room.", error: true, type: "system"});
     });
 
-// ====================================== Messege Sending Code ============================
+// ====================================== message Sending Code ============================
 	// sending text message function
 
     /**
@@ -269,7 +269,7 @@ angular.module('Controllers')
 
 			message.ownMsg = (message.username === $rootScope.username);
 
-            $scope.messeges.push(message);
+            $scope.messages.push(message);
             // Updates chatlog with relevant message history
             chatLog += "\r";
             chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
@@ -281,7 +281,7 @@ angular.module('Controllers')
 	$socket.on("new message", function(data){
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
-		$scope.messeges.push(data);
+		$scope.messages.push(data);
 		// Updates chatlog with relevant message history
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
@@ -292,11 +292,11 @@ angular.module('Controllers')
 	$socket.on("delete message", function(data){
 		data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
-		var messegeIndex = $scope.messeges.findIndex(function(item, i) {
+		var messageIndex = $scope.messages.findIndex(function(item, i) {
 			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
 		});
-		if (messegeIndex > -1) {
-			$scope.messeges.splice(messegeIndex, 1);
+		if (messageIndex > -1) {
+			$scope.messages.splice(messageIndex, 1);
 		}
 		// Updates chatlog with relevant message history
 		chatLog += "\r";
@@ -343,23 +343,23 @@ angular.module('Controllers')
 			data.ownMsg = false;
 		}
 		if(data.ownMsg && data.repeatMsg){
-			checkMessegesImage(data);
+			checkmessagesImage(data);
 		}else{
-			$scope.messeges.push(data);
+			$scope.messages.push(data);
 		}
 	});
 
 	// replacing spinning wheel in sender message after image message delivered to everyone.
-	function checkMessegesImage(msg){
-		for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "image") {
-					if($scope.messeges[i].dwid === msg.dwid){
-						$scope.messeges[i].showme = false;
-						$scope.messeges[i].filename = msg.filename;
-						$scope.messeges[i].size = msg.size;
-						$scope.messeges[i].imgsrc = msg.serverfilename;
-						$scope.messeges[i].serverfilename = msg.serverfilename;
+	function checkmessagesImage(msg){
+		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "image") {
+					if($scope.messages[i].dwid === msg.dwid){
+						$scope.messages[i].showme = false;
+						$scope.messages[i].filename = msg.filename;
+						$scope.messages[i].size = msg.size;
+						$scope.messages[i].imgsrc = msg.serverfilename;
+						$scope.messages[i].serverfilename = msg.serverfilename;
 						break;	
 					}
 				}						
@@ -387,11 +387,11 @@ angular.module('Controllers')
 	// download image if it exists on server else return error message
 	$scope.downloadImage = function(ev, elem){		
 		var search_id = elem.id;
-    	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "image") {
-					if($scope.messeges[i].dwid === search_id){
-						$http.post("/v1/getfile",$scope.messeges[i]).success(function (response){
+    	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "image") {
+					if($scope.messages[i].dwid === search_id){
+						$http.post("/v1/getfile",$scope.messages[i]).success(function (response){
 					    	if(!response.isExpired){
 					    		var linkID = "#" + search_id + "A";
 					    		$(linkID).find('i').click();
@@ -495,23 +495,23 @@ angular.module('Controllers')
 			data.ownMsg = false;
 		}
 		if((data.username == $rootScope.username) && data.repeatMsg){	
-			checkMessegesMusic(data);
+			checkmessagesMusic(data);
 		}else{
-			$scope.messeges.push(data);
+			$scope.messages.push(data);
 		}
 	});
 
 	// replacing spinning wheel in sender message after music message delivered to everyone.
-	function checkMessegesMusic(msg){
-		for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "music") {					
-					if($scope.messeges[i].dwid === msg.dwid){
-						$scope.messeges[i].showme = true;
-						$scope.messeges[i].serverfilename = msg.serverfilename;
-						$scope.messeges[i].filename = msg.filename;
-						$scope.messeges[i].size = msg.size;
-						$scope.messeges[i].dwimgsrc = "app/images/musicplay_icon.png";
+	function checkmessagesMusic(msg){
+		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "music") {					
+					if($scope.messages[i].dwid === msg.dwid){
+						$scope.messages[i].showme = true;
+						$scope.messages[i].serverfilename = msg.serverfilename;
+						$scope.messages[i].filename = msg.filename;
+						$scope.messages[i].size = msg.size;
+						$scope.messages[i].dwimgsrc = "app/images/musicplay_icon.png";
 						break;	
 					}
 				}						
@@ -522,11 +522,11 @@ angular.module('Controllers')
 	// download music file if it exists on server else return error message
 	$scope.downloadMusic = function(ev, elem){
 		var search_id = elem.id;
-    	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "music") {
-					if($scope.messeges[i].dwid === search_id){
-						$http.post("/v1/getfile",$scope.messeges[i]).success(function (response){
+    	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "music") {
+					if($scope.messages[i].dwid === search_id){
+						$http.post("/v1/getfile",$scope.messages[i]).success(function (response){
 					    	if(!response.isExpired){
 					    		var linkID = "#" + search_id + "A";
 					    		$(linkID).find('i').click();
@@ -640,23 +640,23 @@ angular.module('Controllers')
 			data.ownMsg = false;
 		}
 		if((data.username == $rootScope.username) && data.repeatMsg){	
-			checkMessegesPDF(data);
+			checkmessagesPDF(data);
 		}else{
-			$scope.messeges.push(data);
+			$scope.messages.push(data);
 		}
 	});
 
 	// replacing spinning wheel in sender message after document message delivered to everyone.
-	function checkMessegesPDF(msg){
-		for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "PDF") {
-					if($scope.messeges[i].dwid === msg.dwid){
-						$scope.messeges[i].showme = true;
-						$scope.messeges[i].serverfilename = msg.serverfilename;
-						$scope.messeges[i].filename = msg.filename;
-						$scope.messeges[i].size = msg.size;
-						$scope.messeges[i].dwimgsrc = "app/images/doc_icon.png";
+	function checkmessagesPDF(msg){
+		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "PDF") {
+					if($scope.messages[i].dwid === msg.dwid){
+						$scope.messages[i].showme = true;
+						$scope.messages[i].serverfilename = msg.serverfilename;
+						$scope.messages[i].filename = msg.filename;
+						$scope.messages[i].size = msg.size;
+						$scope.messages[i].dwimgsrc = "app/images/doc_icon.png";
 						break;	
 					}
 				}						
@@ -683,11 +683,11 @@ angular.module('Controllers')
 	// download document file if it exists on server else return error message
 	$scope.downloadPDF = function(ev, elem){
 		var search_id = elem.id;
-    	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "PDF") {
-					if($scope.messeges[i].dwid === search_id){
-						$http.post("/v1/getfile",$scope.messeges[i]).success(function (response){
+    	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "PDF") {
+					if($scope.messages[i].dwid === search_id){
+						$http.post("/v1/getfile",$scope.messages[i]).success(function (response){
 					    	if(!response.isExpired){
 					    		var linkID = "#" + search_id + "A";
 					    		$(linkID).find('i').click();

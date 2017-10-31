@@ -63,6 +63,8 @@ angular.module('Controllers')
 	$scope.disconnected = false;
 	$scope.enableVerbose = false;
 
+	$scope.showMenuMessage = null;
+
 	$scope.onSettingsClick = function () {
 
         $scope.hideSettings = !$scope.hideSettings;
@@ -271,6 +273,19 @@ angular.module('Controllers')
      */
 	$scope.getAllMsg = function(){
 		return $scope.allMsg;
+	};
+
+    /**
+	 * Show submenu for a message
+     * @param message
+     */
+	$scope.showMessageMenu = function($event, message){
+		$event.stopPropagation();
+		$scope.showMenuMessage = message;
+	};
+
+	$scope.resetMessageMenu = function(){
+		$scope.showMenuMessage = null;
 	};
 
 	$socket.on("new message multi", function (data) {

@@ -208,15 +208,12 @@
                         </div>
 
                         <div class="direct-chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
-                          <button><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                          <button><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                          <button ng-click="deleteMsg(message.raw_data)" ng-if="isAdmin && message.isChat()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                          <button ng-click="showMessageDetails(message)"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                         </div>
 
                       </div><!-- /.direct-chat-text -->
 
-                    </div>
-                    <div class="delete-message-button" ng-if="isAdmin && (message.type === 'chat')">
-                      <button ng-click="deleteMsg(message)">delete</button>
                     </div>
                   </div><!-- /.direct-chat-msg -->
                 </div><!--/.direct-chat-messages-->

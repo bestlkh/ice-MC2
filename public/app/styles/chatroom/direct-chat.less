@@ -33,8 +33,13 @@
   display: block;
 }
 
-.direct-chat-text-inner {
-  display: inline-block;
+@keyframes direct-chat-text-inner-enter {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 //.direct-chat-text {
@@ -90,6 +95,7 @@
       margin-right: 10px;
       border-top-left-radius: 20px;
       border-top-right-radius: 0;
+      transform-origin: 100% 0;
     }
   }
   .direct-chat-text-inner {
@@ -103,6 +109,13 @@
     overflow: hidden;
     color: white;
     margin-top: 10px;
+    display: inline-block;
+    animation-name: direct-chat-text-inner-enter;
+    animation-duration: 0.2s;
+    transform: scale(0);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+    transform-origin: 0 0;
   }
   .inline-image {
     max-width: 100%;

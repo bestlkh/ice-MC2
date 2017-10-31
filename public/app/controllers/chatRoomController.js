@@ -63,6 +63,8 @@ angular.module('Controllers')
 	$scope.disconnected = false;
 	$scope.enableVerbose = false;
 
+	$scope.showMenuMessage = null;
+
 	$scope.onSettingsClick = function () {
 
         $scope.hideSettings = !$scope.hideSettings;
@@ -273,6 +275,31 @@ angular.module('Controllers')
 		return $scope.allMsg;
 	};
 
+    /**
+	 * Show submenu for a message
+     * @param message
+     */
+	$scope.showMessageMenu = function($event, message){
+		$event.stopPropagation();
+		$scope.showMenuMessage = message;
+	};
+
+	$scope.showMessageDetails = function(message){
+		var text = "Message sent by " + message.getUsername() + "\n";
+		text += "Time: " + message.getTime() + "\n";
+		if(message.getText().isImage()){
+			text += "Message is a base64 image.";
+		} else {
+            text += "Message raw body: " + message.getText().getRaw();
+		}
+
+		alert(text);
+	};
+
+	$scope.resetMessageMenu = function(){
+		$scope.showMenuMessage = null;
+	};
+
 	$socket.on("new message multi", function (data) {
 		data.forEach(function (message) {
 
@@ -304,10 +331,12 @@ angular.module('Controllers')
 		data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		var messageIndex = $scope.messages.findIndex(function(item, i) {
-			return (item.getTime() === data.msgTime && item.getUsername() === data.username && item.getText() === data.msg);
+			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
 		});
 		if (messageIndex > -1) {
+			// Splice both raw and wrapped version
 			$scope.messages.splice(messageIndex, 1);
+            $scope.allMsg.splice(messageIndex, 1);
 		}
 		// Updates chatlog with relevant message history
 		chatLog += "\r";

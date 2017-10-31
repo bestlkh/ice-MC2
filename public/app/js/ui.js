@@ -18,6 +18,13 @@ onChatTextBoxFocus(function(e) {
             height: window.innerHeight - 100
         });
         window.scrollTo(0, 0);
+
+        setTimeout(function(){
+            $(".direct-chat-messages").scrollTop($(".direct-chat-messages")[0].scrollHeight);
+            $("#chat_body_div").animate({
+                scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+            });
+        }, 300);
     }, 500);
 });
 

@@ -203,10 +203,7 @@ angular.module('Controllers')
     };
 
     $scope.hambugerOpen = function() {
-
-
 	    	if(!angular.element(document.querySelector("#chat-wrapper")).hasClass("menu-open")){
-	    		  	console.log("hello")
 	    		angular.element(document.querySelector("#chat-wrapper")).addClass("menu-open");
 	    	}
 

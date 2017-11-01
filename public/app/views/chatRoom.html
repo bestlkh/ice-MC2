@@ -44,24 +44,22 @@
                   <div class="hamburger"><div class="inner"></div></div>
                 </div>
 
-                <div class = "nav">
+                <nav class="mobile">
                   <ul id="hamburger-menu" ng-style="{'pointer-events': isMenuOpened ? 'all' : 'none'}" >
-                    <li>File</li>
-                    <li>Edit</li>
-                    <li>Object</li>
+                    <li onclick="simulateFullScreen()">Full Screen</li>
+                    <li ngf-select ng-model="Files">Attach</li>
+                    <li data-toggle="tooltip" data-widget="chat-pane-toggle" title="Contacts" ng-click="toggleCustom()">Friends</li>
+                    <li>Enable Details</li>
+                    <li>Log Out</li>
                   </ul>
-                </div>
+                </nav>
                
                 <!-- MathJax CDN from CloudFlare-->
                 <script type="text/javascript" async
                 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
                 <div class="box-tools pull-right">
                   <!-- Any File Select Button -->
-
-                  <button class="btn btn-box-tool glyphicon glyphicon-fullscreen" id="goFS" onclick="simulateFullScreen();"></button>
-
                   <button class="btn btn-box-tool mobile" data-widget="" onclick="swapFrame();">f(x)</button>
-                                                     
                   <button class="btn btn-box-tool mobile" id = "downloadLogBtn" 
                   ng-style= "{'display': isAdmin ? 'block' : 'none'}" data-widget="" onclick="downloadLogs();">⇲</button>
 

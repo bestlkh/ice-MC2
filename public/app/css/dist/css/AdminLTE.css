@@ -1776,7 +1776,7 @@ a:focus {
   transform: translate3d(-4px, -1px, 0) rotateZ(45deg);
 }
 
-.nav {
+nav {
   position: none;
   top: 0px;
   left: -5px;
@@ -1816,6 +1816,7 @@ nav ul {
   top: 43px;
   left: -5px;
   pointer-events: all;
+  z-index: 3;
 }
 
 nav li {

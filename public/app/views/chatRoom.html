@@ -4,7 +4,7 @@
 <div ng-if="isLoading">
   <wave-spinner></wave-spinner>
 </div>
-<div id="chat-wrapper" class="content-wrapper">
+<div id="chat-wrapper" class="content-wrapper" ng-class="{'menu-open': isMenuOpened}">
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
@@ -40,7 +40,18 @@
             <div class="col-sm-12">
               <div class="box box-warning direct-chat direct-chat-warning" >
               <div class="box-header with-border">
-                <h3 class="box-title">MC² = Engagement</h3>
+                <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
+                  <div class="hamburger"><div class="inner"></div></div>
+                </div>
+
+                <div class = "nav">
+                  <ul id="hamburger-menu" ng-style="{'pointer-events': isMenuOpened ? 'all' : 'none'}" >
+                    <li>File</li>
+                    <li>Edit</li>
+                    <li>Object</li>
+                  </ul>
+                </div>
+               
                 <!-- MathJax CDN from CloudFlare-->
                 <script type="text/javascript" async
                 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>

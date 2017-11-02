@@ -96,7 +96,7 @@
               </div><!-- /.box-header -->
               <div id="chat_body_div" class="box-body" >
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" id="dcs" scroll-bottom="messages">
+                <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
                   <!-- Message. Default to the left -->
                   <div ng-repeat="message in getAllMsg()"
                        ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
@@ -128,7 +128,13 @@
                         </div>
 
                         <!-- Inner container to achieve dynamic message width -->
-                        <div class="direct-chat-text-inner" ng-style = "{'background-color': message.isInstructor() ? '#32CD32' : '#f39c12','border-color': message.isInstructor() ? '#32CD32' : '#f39c12'}" >
+                        <div class="direct-chat-text-inner"
+                             ng-click="showMessageMenu($event, message)"
+                             ng-class="{
+                              'instructor-message': message.isInstructor(),
+                              'darken-background': message == showMenuMessage
+                             }" >
+
                           <div ng-hide="message.hasFile()">
                             <div ng-if="message.getText().isImage()">
                               <img ng-src="{{ message.getText().getImage() }}" class="inline-image" />
@@ -215,11 +221,14 @@
                         </div><!-- /.item-->
 
                         </div>
+
+                        <div class="direct-chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
+                          <button ng-click="deleteMsg(message.raw_data)" ng-if="isAdmin && message.isChat()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                          <button ng-click="showMessageDetails(message)"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                        </div>
+
                       </div><!-- /.direct-chat-text -->
 
-                    </div>
-                    <div class="delete-message-button" ng-if="isAdmin && (message.type === 'chat')">
-                      <button ng-click="deleteMsg(message)">delete</button>
                     </div>
                   </div><!-- /.direct-chat-msg -->
                 </div><!--/.direct-chat-messages-->

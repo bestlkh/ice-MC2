@@ -73,7 +73,10 @@ angular.module('Controllers')
     };
 
 	$scope.onMenuClick = function () {
-	$scope.isMenuOpened = !$scope.isMenuOpened;
+		$scope.isMenuOpened = !$scope.isMenuOpened;
+			if(angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){
+				angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");	
+			}
     };
 
 	$(document).bind("mouseup", function (e) {

@@ -298,6 +298,7 @@ nav li:nth-of-type(5) {
 .touch .switchbtn{
      position: absolute;
      display: inline-block;
+     top: -5px;
      right: 20px;
      width: 40px;
      height: 32px;
@@ -344,9 +345,9 @@ nav li:nth-of-type(5) {
   display: block;
   color: white;
   position: absolute;
-  left: 44%;
+  left: 47%;
   top: 15px;
-
+  font-weight: bold;
 }
 
 .menu_title {

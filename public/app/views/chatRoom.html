@@ -4,7 +4,7 @@
 <div ng-if="isLoading">
   <wave-spinner></wave-spinner>
 </div>
-<div id="chat-wrapper" class="content-wrapper">
+<div id="chat-wrapper" class="content-wrapper" ng-class="{'menu-open': isMenuOpened}">
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
@@ -40,26 +40,37 @@
             <div class="col-sm-12">
               <div class="box box-warning direct-chat direct-chat-warning" >
               <div class="box-header with-border">
-                <h3 class="box-title">MC² = Engagement</h3>
+                <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
+                  <div class="hamburger"><div class="inner"></div></div>
+                </div>
+
+                <nav class="mobile">
+                  <ul id="hamburger-menu" ng-style="{'pointer-events': isMenuOpened ? 'all' : 'none'}" >
+                    <li onclick="simulateFullScreen()">Full Screen</li>
+                    <li ngf-select ng-model="Files">Attach</li>
+                    <li data-toggle="tooltip" data-widget="chat-pane-toggle" title="Contacts" ng-click="toggleCustom()">Friends</li>
+                    <li ng-model="enableVerbose" value="None" id="squaredFour" name="check" >Enable Details</li>
+                    <li ng-click="logout()">Log Out</li>
+                  </ul>
+                </nav>
+               
                 <!-- MathJax CDN from CloudFlare-->
                 <script type="text/javascript" async
                 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+                <div class="menu_logo mobile">MC2</div>                
                 <div class="box-tools pull-right">
                   <!-- Any File Select Button -->
-
-                  <button class="btn btn-box-tool glyphicon glyphicon-fullscreen" id="goFS" onclick="simulateFullScreen();"></button>
-
-                  <button class="btn btn-box-tool mobile" data-widget="" onclick="swapFrame();">f(x)</button>
+                  <button class="btn btn-box-expand mobile" data-widget="" onclick="swapFrame();">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                                      
-                  <button class="btn btn-box-tool mobile" id = "downloadLogBtn" 
-                  ng-style= "{'display': isAdmin ? 'block' : 'none'}" data-widget="" onclick="downloadLogs();">⇲</button>
+                  <button class="btn btn-box-tool desktop" id="downloadLogBtn" ng-style="{'display': isAdmin ? 'block' : 'none'}" data-widget="" onclick="downloadLogs();" style="display: none;">⇲</button>
 
-                  <button class="btn btn-box-tool mobile" data-widget="" ngf-select ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>
+                  <button class="btn btn-box-tool desktop ng-pristine ng-untouched ng-valid" data-widget="" ngf-select="" ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>
                   <!-- online member list mobile -->
-                  <button style="display: inline-block;" class="btn btn-box-tool toggle-contact-icon" data-toggle="tooltip" data-widget="chat-pane-toggle" title="Contacts" ng-click="toggleCustom()"><i class="fa fa-comments"></i></button>
+                  <button class="btn btn-box-tool desktop" data-toggle="tooltip" data-widget="chat-pane-toggle" title="" ng-click="toggleCustom()" data-original-title="Contacts"><i class="fa fa-comments"></i></button>
 
-                  <div class="chat-settings" style="margin:0" ng-click="onSettingsClick()">
-                    <div class="chat-menu" ng-class="{'hidden': hideSettings}">
+                  <div class="chat-settings desktop" style="margin:0" ng-click="onSettingsClick()">
+                    <div class="chat-menu hidden" ng-class="{'hidden': hideSettings}">
 
                       <div id="downloadLogsButton" class="btn-flat" onclick="PDFDL();">DL</div>
                       <div id="downloadLogsButton" class=" btn-flat" onclick="imageOpen();">IMG</div>
@@ -67,7 +78,7 @@
                       <div class="btn-flat" style="display: flex;" ng-click="onClickDetails()">
                         <div class="squaredFour" style="margin-right: 5px">
 
-                          <input type="checkbox" value="None" id="squaredFour" name="check" ng-model="enableVerbose"/>
+                          <input type="checkbox" value="None" id="squaredFour" name="check" ng-model="enableVerbose" class="ng-untouched ng-valid ng-dirty">
                           <label for="squaredFour"></label>
 
                         </div>
@@ -76,6 +87,10 @@
                     </div>
                   </div>
                 </div>
+
+
+
+
 
 
               </div><!-- /.box-header -->

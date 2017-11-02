@@ -66,15 +66,19 @@ angular.module('Controllers')
 	$scope.showMenuMessage = null;
 
 	$scope.onSettingsClick = function () {
-
         $scope.hideSettings = !$scope.hideSettings;
-
-
     };
 
 	$scope.onClickDetails = function () {
 		$scope.enableVerbose = !$scope.enableVerbose;
 		//console.log($scope.enableVerbose);
+    };
+
+	$scope.onMenuClick = function () {
+		$scope.isMenuOpened = !$scope.isMenuOpened;
+			if(angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){
+				angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");	
+			}
     };
 
 	$(document).bind("mouseup", function (e) {
@@ -201,6 +205,17 @@ angular.module('Controllers')
         		angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");        		
         	}
         }        
+    };
+
+    $scope.hambugerOpen = function() {
+	    	if(!angular.element(document.querySelector("#chat-wrapper")).hasClass("menu-open")){
+	    		angular.element(document.querySelector("#chat-wrapper")).addClass("menu-open");
+	    	}
+
+    	  if (angular.element(document.querySelector("#chat-wrapper")).hasClass("menu-open")) {
+    		  angular.element(document.querySelector("#chat-wrapper")).removeClass("menu-open");        		
+    	  }
+
     };
 
     $scope.logout = function () {

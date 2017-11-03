@@ -10,8 +10,8 @@ var Preview = {
   //  Get the preview and buffer DIV's
   //
   Init: function () {
-    this.preview = document.getElementById("MathPreview");
-    this.buffer = document.getElementById("MathBuffer");
+    this.preview = document.getElementById("math-preview");
+    this.buffer = document.getElementById("math-buffer");
   },
   //
   //  Switch the buffer and preview, and display the right one.
@@ -46,7 +46,7 @@ var Preview = {
   CreatePreview: function () {
     Preview.timeout = null;
     if (this.mjPending) return;
-    var text = document.getElementById("mathjax_viewer").value;
+    var text = editor.getValue();
     if (text === this.oldtext) return;
     if (this.mjRunning) {
       this.mjPending = true;

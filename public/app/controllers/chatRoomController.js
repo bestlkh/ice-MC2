@@ -258,6 +258,9 @@ angular.module('Controllers')
                     $scope.setFocus = true;
                 }
 			});
+            $("#chat_body_div").animate({
+                scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+            });
 		} else {
 			$scope.isMsgBoxEmpty = true;
 		}
@@ -327,6 +330,9 @@ angular.module('Controllers')
             chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
             chatLog += "\n";
         });
+        $("#chat_body_div").animate({
+            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        });
     });
 
 	// recieving new text message
@@ -339,6 +345,9 @@ angular.module('Controllers')
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
 		chatLog += "\n";
+        $("#chat_body_div").animate({
+            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        });
 	});
 
 	// recieving new text message delete request

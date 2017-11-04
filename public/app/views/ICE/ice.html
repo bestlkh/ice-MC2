@@ -91,6 +91,13 @@
   <script type="text/javascript" src="../../js/ifrm.js"></script>
   <!--<script type="text/javascript" src="../../controllers/chatRoomController.js"></script>-->
 
+  <!--canvg library-->
+  <script type="text/javascript" src="http://canvg.github.io/canvg/rgbcolor.js"></script>
+  <script type="text/javascript" src="http://canvg.github.io/canvg/StackBlur.js"></script>
+  <script type="text/javascript" src="http://canvg.github.io/canvg/canvg.js"></script>
+
+
+  <!--UI library-->
   <script type="text/javascript" src="../../js/lib/ui/ui.bundle.js"></script>
 
   <script>
@@ -105,6 +112,9 @@
 <title>MC2 Editor</title>
 </head>
 <body>
+
+<canvas id="export-dump-canvas" style="z-index: 9999999; position: absolute; left: 100px; display: none;"></canvas>
+
 <div id="svg_editor">
 
 <div id="rulers">
@@ -635,38 +645,6 @@
 </div> <!-- tools_left -->
 
 
-
-<script>
-    // Initialize left toolbar
-    leftToolbar = new ui.Toolbar($("#tools_left"));
-    leftToolbar._getToolButtonMarkup = function(config){
-        return "<div class='tool_button' id='" + config.id + "' title='" + config.title + "' style='" + config.style + "'></div>";
-    };
-    leftToolbar.addButton({
-        id: 'tool_select',
-        title: 'Select Tool [V]'
-    });
-    leftToolbar.addButton({
-        id: 'tool_fhpath',
-        title: 'Pencil Tool [P]'
-    });
-    leftToolbar.addButton({
-        id: 'tool_deletebutton',
-        title: 'Undo/Delete Tool [U]',
-        style: 'background-image: url(images/undo-arrow.svg);'
-    });
-    leftToolbar.addButton({
-        id: 'tool_convert',
-        title: 'Convert Tool [C]',
-        style: 'background-image: url(images/swap.png);'
-    });
-    leftToolbar.addButton({
-        id: 'tool_toggle_keyboard',
-        title: 'Show/Hide Keyboard',
-        style: 'background-image: url(images/keyboard-up.svg);'
-    });
-</script>
-
   <div class="tool_button" id="tool_rect" title="Square/Rect Tool [R]" style="visibility: hidden"></div>
   <div class="tool_button" id="tool_ellipse" title="Ellipse/Circle Tool [C]" style="visibility: hidden"></div>
   <div class="tool_button" id="tool_path" title="Path Tool [P]" style="visibility: hidden"></div>
@@ -978,9 +956,9 @@ document.onmouseup=Function("MoveEnabled=false");
 <!-- End Floating layer -->
 
 
+<!--Load scripts last to prevent blocking-->
 
-
-
+<script type="text/javascript" src="../../js/ice/ui.js"></script>
 
 
 

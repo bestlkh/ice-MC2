@@ -285,6 +285,14 @@ angular.module('Controllers')
 			$socket.emit("delete-message", msg, function(data){});
 	};
 
+	$scope.openBase64ImageInNewTab = function(img){
+        var image = new Image();
+        image.src = img;
+
+        var w = window.open("");
+        w.document.write(image.outerHTML);
+	};
+
     /**
 	 * Get a list of messages wrapped with Message class.
      * @returns {Array}

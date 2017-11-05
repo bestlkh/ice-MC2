@@ -293,16 +293,13 @@ function hor(ls, s) {
 
 function getTex(bst) {
     var result = "";
-    //if (!bst) {
-      //  return result;
-    //}
-    //console.log(bst);
     if (bst.symbols){
         if (bst.region_name == 'root') {
             result += "$$";
         }
         for (var i = 0; i < bst.symbols.length; i++) {
-            result += getTex(bst.symbols[i]);
+            var lastTex = getTex(bst.symbols[i]);
+            result += lastTex;
         }
         if (bst.region_name == 'root') {
             result += "$$";
@@ -315,21 +312,29 @@ function getTex(bst) {
 
     if (type === "limit") {
         result += TEX_TEXT[value] + " ";
-        if(bst.region.bleft.hasElement() || bst.region.below.hasElement() || bst.region.subsc.hasElement())
+        if(bst.hasAnyBottom())
             result += "_{" + getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc) + "} ";
-        if(bst.region.tleft.hasElement() || bst.region.above.hasElement() || bst.region.supers.hasElement())
+        if(bst.hasAnyTop())
         result += "^{" + getTex(bst.region.tleft) + getTex(bst.region.above) + getTex(bst.region.supers) + "} ";
     } else if (type === "fraction") {
-        result += TEX_TEXT[value];
-        result += "{" 
-        if (bst.region.above.hasElement()) {
-            result += getTex(bst.region.above);
-         } 
-        result += "}{";
-        if (bst.region.below.hasElement()) {
-            result += getTex(bst.region.below);
+        if (bst.hasAnyTop() && bst.hasAnyBottom()) {
+            result += TEX_TEXT["fraction"];
+            result += "{" 
+            result += getTex(bst.region.tleft) + getTex(bst.region.above) + getTex(bst.region.supers);
+            result += "}{";
+            result += getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc);
+            result += "} ";
+         } else if (bst.hasAnyBottom()) {
+            result += TEX_TEXT['overline'];
+            result += "{" + getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc) + "}";
+        } else if (bst.hasAnyTop()) {
+            result += TEX_TEXT['underline'];
+            result += "{" + getTex(bst.region.tleft) + getTex(bst.region.above) + getTex(bst.region.supers) + "}";
         }
-        result += "} ";
+        else {
+            result += ' - ';
+        }
+
 
     } else if (type === "root") {
         result += TEX_TEXT[value] + "{" + getTex(bst.region.contains) + "} ";
@@ -350,7 +355,7 @@ function getTex(bst) {
             }
         }
     } else if (type == "operator") {
-        result += value;
+        result += TEX_TEXT[value];
     } else {
         result += value;
         if (bst.region.supers.hasElement()) {

@@ -31,6 +31,14 @@ function Symbol(x, y, width, height, value) {
 
 }
 
+Symbol.prototype.hasAnyTop = function() {
+    return this.region.tleft.hasElement() || this.region.above.hasElement() || this.region.supers.hasElement();
+}
+
+Symbol.prototype.hasAnyBottom = function() {
+    return this.region.bleft.hasElement() || this.region.below.hasElement() || this.region.subsc.hasElement();
+}
+
 Symbol.prototype.setWall = function(wall) {
     this.wall.top = wall.top;
     this.wall.bottom = wall.bottom;

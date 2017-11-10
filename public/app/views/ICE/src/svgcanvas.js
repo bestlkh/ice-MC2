@@ -258,7 +258,7 @@ keyHash[">"] = ['>', '2265', '2267', '226B', '226F'];
 keyHash["="] = ['=', '2260', '2261', '2243', '2248', '2245', '221D'];
 keyHash["~"] = ['~', '2243', '2248', '2245'];
 keyHash["+"] = ['+', 'B1', '2213', '2295'];
-keyHash["-"] = ['-', 'B1', '2213', '2296'];
+keyHash["—"] = ['—', 'B1', '2213', '2296'];
 keyHash["*"] = ['+', 'D7', '2297'];
 keyHash["/"] = ['/', 'F7', '2298'];
 keyHash["."] = ['.', '95', '2218', '2235', '2234'];
@@ -10132,6 +10132,11 @@ var moveCursorAbs = this.moveCursorAbs;
 		//selectOnly([newText]);
 		//clearSelection();
     //addToSelection([newText]);
+
+    /* TODO: Adjust height for the line
+    if (newText.textContent === '—') {
+      console.log(1);
+    }*/ 
     svgCanvas.runExtensions('elementChanged', {
       elems: [newText]
     });

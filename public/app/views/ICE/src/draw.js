@@ -315,8 +315,11 @@ svgedit.draw.Drawing.prototype.setCurrentLayer = function(name) {
     if (name == this.getLayerName(i)) {
       if (this.current_layer != this.all_layers[i][1]) {
         this.current_layer.setAttribute("style", "pointer-events:none");
+        // Remove and add .active-layer class so we can reference it in other functions.
+        this.current_layer.classList.remove("active-layer");
         this.current_layer = this.all_layers[i][1];
         this.current_layer.setAttribute("style", "pointer-events:all");
+        this.current_layer.classList.add("active-layer");
       }
       return true;
     }

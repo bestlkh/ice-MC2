@@ -2426,27 +2426,28 @@ var SOTP = 0;
       };
 
       var sendAsImage = function(){
-          svg = $("<svg></svg>");
+          var parser = new DOMParser();
+          var svg = parser.parseFromString("<svg>" + $("#svgcontent").html() + "</svg>", "image/svg+xml");
           canvas = document.getElementById('export-dump-canvas');
-          svg.html($("#svgcontent").html());
-          var bBox = $("#svgcontent")[0].getBBox();
-          var viewBox = [bBox.x, bBox.y, bBox.width, bBox.height].join(" ");
-          svg.attr("viewBox", viewBox);
-          console.log(svg[0].outerHTML);
-          canvg(canvas, svg[0].outerHTML, {
-              renderCallback: function(){
-                setTimeout(function(){
-                  $(parent.document.getElementById('textArea')).val("[mc2-image]" + canvas.toDataURL());
-                  $(parent.document.getElementById('chat-send-button')).click();
-                }, 500);
-                if(MobileUI.mounted){
-                    swapParentFrame();
-                }
-              },
-              forceRedraw: function(){
-                return true;
-              }
-          });
+          console.log(svg.querySelector("svg > g"));
+          // var bBox = $("#svgcontent")[0].getBBox();
+          // var viewBox = [bBox.x, bBox.y, bBox.width, bBox.height].join(" ");
+          // svg.attr("viewBox", viewBox);
+          // console.log(svg[0].outerHTML);
+          // canvg(canvas, svg[0].outerHTML, {
+          //     renderCallback: function(){
+          //       setTimeout(function(){
+          //         $(parent.document.getElementById('textArea')).val("[mc2-image]" + canvas.toDataURL());
+          //         $(parent.document.getElementById('chat-send-button')).click();
+          //       }, 500);
+          //       if(MobileUI.mounted){
+          //           swapParentFrame();
+          //       }
+          //     },
+          //     forceRedraw: function(){
+          //       return true;
+          //     }
+          // });
       };
 
       var rotateSelected = function(cw,step) {

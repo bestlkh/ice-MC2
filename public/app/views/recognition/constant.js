@@ -25,21 +25,28 @@ const BRACKET_TYPES = {
 };
 
 const TEX_TEXT = {
-    'sum': '\\sum',
-    'fraction': '\\frac',
-    'root': '\\sqrt',
-    'integral': '\\int',
-    'lbracket': '\\left(',
-    'rbracket': '\\right)',
-    '(': '\\left(',
-    ')': '\\right)'
+    'sum': ' \\sum ',
+    '∑': ' \\sum ',
+    'fraction': ' \\frac ',
+    'root': ' \\sqrt ',
+    'integral': ' \\int',
+    '∫': ' \\int ',
+    'lbracket': ' \\left( ',
+    'rbracket': ' \\right) ',
+    '(': ' \\left( ',
+    ')': ' \\right) ',
+    '±': ' \\pm ',
+    '∓': ' \\mp ',
+    '—': ' - ',
+    'overline': ' \\overline ',
+    'underline': ' \\underline ',
 };
 
 const BRACKET = ["lbracket", "(", ")", "rbracket"];
-const LINE = ["fraction"];
+const LINE = ["fraction", "—"];
 const ROOT = ["root"];
-const LIMIT = ["sum", "integral"];
-const OPERATOR = ["+", "-"]
+const LIMIT = ["sum", "∑", "integral", "∫"];
+const OPERATOR = ["+", "±", "∓"]
 
 function getSymbolType(value) {
     if (BRACKET.indexOf(value) != -1) {

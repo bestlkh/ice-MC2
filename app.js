@@ -13,6 +13,7 @@ const uuidv4 = require('uuid-v4');
 var moment = require("moment");
 
 const AdminView = require("./AdminView");
+const ChatNsp = require("./chatNsp").ChatNsp;
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -107,10 +108,14 @@ function findRoom(roomId) {
 	return ios.sockets.adapter.rooms[roomId];
 }
 
-ios.timeOuts = {};
+//ios.timeOuts = {};
+
+var chat = new ChatNsp("", ios);
 
 //sockets handling
-ios.on('connection', function(socket){
+
+
+chat.on('connection', function(socket){
 
     // if (socket.handshake.session.id) {
     // 	console.log("clearing timeout: "+socket.handshake.session.id);
@@ -155,7 +160,7 @@ ios.on('connection', function(socket){
             	if (!admin) return;
                 db.collection("chatHistory").updateOne({
                     sessionId: room.sessionId,
-                    owner: admin.handshake.session.username,
+                    owner: admin,
                     roomName: roomName
                 }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
 
@@ -192,13 +197,25 @@ ios.on('connection', function(socket){
                     	socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
 					else socket.handshake.session.isInstructor = false;
 
-					if (socket.handshake.session.isAdmin && !socket.handshake.session.isInstructor) {
-                        ios.sockets.adapter.rooms[data.roomId].admin = socket;
-						if (!room.sessionId) room.sessionId = uuidv4();
-						room.inviteOnly = socket.handshake.session.settings.chat.invite;
-						if (socket.handshake.session.connectedRoom && findRoom(socket.handshake.session.connectedRoom)) {
-							findRoom(socket.handshake.session.connectedRoom).admin = null;
+					if (socket.handshake.session.isAdmin && !room.sessionId) {
+						if (socket.handshake.session.isBot) {
+                            ios.sockets.adapter.rooms[data.roomId].admin = socket.handshake.session.owner;
+
+                            MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
+
+                                db.collection('settings').findOne({user: socket.handshake.session.owner}, function (err, settings) {
+                                    room.inviteOnly = settings.chat.invite;
+                                });
+                            });
 						}
+						else {
+                            ios.sockets.adapter.rooms[data.roomId].admin = socket.handshake.session.username;
+
+
+                            if (socket.handshake.session.settings) room.inviteOnly = socket.handshake.session.settings.chat.invite;
+                        }
+
+                        room.sessionId = uuidv4();
 
 					}
 
@@ -220,6 +237,7 @@ ios.on('connection', function(socket){
             destroySession();
             callback({success: false});
 		}
+		console.log(chat.nsp.adapter.rooms);
     });
 
 
@@ -244,7 +262,7 @@ ios.on('connection', function(socket){
                                 if (!student) return callback({success: false, message: "Invalid id."});
 
                                 setSessionVar("utorid", student.utorid);
-                                setSessionVar("isTA", student.isTA);
+                                //setSessionVar("isTA", student.isTA);
                             })
                         });
                     });
@@ -317,8 +335,8 @@ ios.on('connection', function(socket){
 
 		callback({});
     });
-	
-	// disconnect user handling 
+
+	// disconnect user handling
 	socket.on('disconnect', function () {
 		//delete nickname[socket.username];
 

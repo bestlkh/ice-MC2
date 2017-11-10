@@ -5,9 +5,9 @@ var App = angular.module('Admin',['ngRoute','ngStorage','socket.io','Controllers
 App.config(function ($routeProvider, $locationProvider){
     //$socketProvider.setConnectionUrl('http://142.1.93.22:8080'); // Socket URL
     $routeProvider	// AngularJS Routes
-        .when('/mail', {
-            templateUrl: '/app/views/admin/mail.html',
-            controller: 'mailController'
+        .when('/ta', {
+            templateUrl: '/app/views/admin/ta.html',
+            controller: 'taController'
         })
         .when('/chat', {
             templateUrl: '/app/views/admin/chat.html',
@@ -20,6 +20,10 @@ App.config(function ($routeProvider, $locationProvider){
         .when('/students', {
             templateUrl: '/app/views/admin/students.html',
             controller: 'studentsController'
+        })
+        .when("/classrooms", {
+            templateUrl: '/app/views/admin/class.html',
+            controller: 'classController'
         })
         .otherwise({
             redirectTo: '/chat',	// Default Route

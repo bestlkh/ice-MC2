@@ -12,6 +12,8 @@ const nodemailer = require('nodemailer');
 var request = require('request');
 var outlook = require("node-outlook");
 
+var Bot = require("./bot.js");
+
 outlook.base.setApiEndpoint("https://outlook.office.com/api/v2.0");
 
 function findOne(list, params) {
@@ -56,8 +58,9 @@ function AdminView(socketController, expressApp) {
 
     this.controllers = {};
     this.ios.tracking = {};
-    this.callbacks = {};
-	this.oauthTokens = {};
+    this.oauthTokens = {};
+
+	this.secrets = [];
 
     this.app.use(bodyParser.json());
 
@@ -170,71 +173,6 @@ AdminView.prototype.setupApi = function () {
         else return next();
     };
 
-    // TODO: Potentially spoof token so client doesnt get real/full token
-    this.app.get("/v1/api/admin/auth/start", checkAuth, function (req, res) {
-        req.session.callbackId = uuidv4();
-        this.callbacks[req.session.callbackId] = function (err, json) {
-            if (err) return res.status(400).json({status: 400, message: "Oauth failed due to user input."});
-            request({
-                    url: "https://outlook.office.com/api/v2.0/me",
-                    headers: {
-                        'Authorization': "Bearer " + json["access_token"]
-                    }
-                }, function (err, http, body) {
-                    body = JSON.parse(body);
-                    if (!body || body.error) return res.status(500).json({
-                        status: 500,
-                        message: "Server could not resolve request."
-                    });
-
-                    req.session.user.outlook = json;
-                    req.session.user.outlook.email = body['EmailAddress'];
-                    req.session.user.outlook.name = body['Display'];
-                    return res.json(req.session.user.outlook);
-                }
-            );
-
-        };
-        req.session.save();
-    }.bind(this));
-
-    this.app.get("/admin/auth/outlook", checkAuth,
-        function (req, res) {
-            res.redirect(constants.oauth.authURL);
-        }
-    );
-
-    this.app.get("/v1/api/admin/auth/outlook/callback", checkAuth,
-        function (req, res) {
-            if (req.query.error) {
-                this.callbacks[req.session.callbackId](req.query.error, null);
-            }
-            if (!req.query.code) return res.status(400).json({status: 400, message: "Invalide parameters."});
-            request.post({
-                url: constants.oauth.tokenURL, form: {
-                    "client_id": constants.oauth.appId,
-                    "client_secret": constants.oauth.secret,
-                    "code": req.query.code,
-                    "redirect_uri": constants.oauth.callbackURL,
-                    "grant_type": "authorization_code"
-                }
-            }, function (err, httpResponse, body) {
-                body = JSON.parse(body);
-                console.log(body.error);
-                if (body.error) return res.status(500).json({
-                    status: 500,
-                    message: "Server could not resolve request."
-                });
-
-                console.log(req.session.callbackId);
-                this.callbacks[req.session.callbackId](null, body);
-                delete this.callbacks[req.session.callbackId];
-                res.end("<html><script>window.close()</script><body>Successfully authenticated, you can close this window</body></html>");
-
-            }.bind(this))
-        }.bind(this));
-
-
 
     this.app.get("/v1/api/admin/resetTokens", checkAuth, function(req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
@@ -263,136 +201,61 @@ AdminView.prototype.setupApi = function () {
         }.bind(this));
     }.bind(this));
 
-
-
-    // TODO: Add email/password login to admin view mail settings
-    this.app.get("/v1/api/admin/sendEmail", checkAuth, function (req, res) {
-        if (false && (!req.session.user.outlook || !req.session.user.outlook["access_token"])) return res.status(400).json({
-            status: 400,
-            message: "Invalid outlook access token"
-        });
+    this.app.get("/v1/api/classrooms", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
-                db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
-                    var urls;
-                    if (!this.ios.tracking[settings.chat.roomName] || !this.ios.tracking[settings.chat.roomName].trackingIds) {
-                        urls = generateURLs(list.students);
-                        this.ios.tracking[settings.chat.roomName] = {trackingIds: urls};
-                    }
-                    urls = this.ios.tracking[settings.chat.roomName].trackingIds;
-                    console.log(urls);
-                    outlook.base.setAnchorMailbox(req.session.user.outlook.email);
-                    // transporter = nodemailer.createTransport({
-                    //     host: constants.smtp.host,
-                    //     secureConnection: false,
-                    //     port: 587,
-                    //     auth: {
-                    //         type: 'OAuth2',
-                    //         user: req.session.user.outlook.email,
-                    //         accessToken: req.session.user.outlook["access_token"]
-                    //     },
-                    //     tls: {
-                    //         ciphers:'SSLv3'
-                    //     }
-                    // });
+            db.collection("classrooms").find({owner: req.session.user.username}).toArray(function (err, crs) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                res.json(crs);
+            });
+        });
+
+    });
+
+    function Classroom(data) {
+        this.name = data.name;
+        this.invite = data.invite;
+        this.roomName = data.roomName;
+    }
+
+    this.app.post("/v1/api/classrooms", checkAuth, function (req, res) {
+        var classroom = new Classroom(req.body);
+
+        classroom.owner = req.session.user.username;
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("classrooms").findOne({owner: req.session.user.username, name: classroom.name}, function (err, cr) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                if (cr) return res.status(400).json({status: 400, message: "Classroom with that name already exists"});
+                db.collection("classrooms").insertOne(classroom, function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                    res.json({});
+                });
+            });
 
 
-                    var userInfo = {
-                        email: req.session.user.outlook.email
-                    };
-
-                    var count = 0;
-                    var ids = Object.keys(urls);
-
-                    var results = {};
-
-                    function sendMail(id, callback) {
-                        var mailOptions = {
-                            Importance: "High",
-                            Subject: 'MC2 Invitation', // Subject line
-                            Body: {
-                                Content: constants.emailTemplate.replace("{link}", "https://ice.trentu.ca/#/v1/" + settings.chat.roomName + "?token=" + id)
-                            },
-                            ToRecipients: [
-                                {
-                                    EmailAddress: {
-                                        Address: urls[id].email
-                                    }
-                                }
-                            ]
-                        };
-
-                        outlook.mail.sendNewMessage({
-                            token: req.session.user.outlook["access_token"],
-                            message: mailOptions,
-                            user: userInfo
-                        }, function (err, result) {
-                            if (err)  {
-                                results[urls[id].utorid] = err;
-                            } else results[urls[id].utorid] = result;
-                            count++;
-                            if (count === ids.length) {
-                                return callback(null, results);
-                            }
-                            sendMail(ids[count], callback)
-                        });
-                    }
+        });
+    });
 
 
-                    sendMail(ids[count], function (err, data) {
-                        if (err) res.status(500).json({status: 500, message: "Server could not resolve request."});
-                        res.json({success: true, details: data});
-                    });
-
-
-                    // Promise.all(Object.keys(urls).map(function (id) {
-                    //     return new Promise(function (resolve, rej) {
-                    //         var mailOptions = {
-                    //             Importance: "High",
-                    //             Subject: 'MC2 Invitation', // Subject line
-                    //             Body: {
-                    //                 Content: constants.emailTemplate.replace("{link}", "https://ice.trentu.ca/#/v1/" + settings.chat.roomName + "?trackId=" + id)
-                    //             },
-                    //             ToRecipients: [
-                    //                 {
-                    //                     EmailAddress: {
-                    //                         Address: urls[id].email
-                    //                     }
-                    //                 }
-                    //             ]
-                    //         };
-                    //
-                    //         outlook.mail.sendNewMessage({
-                    //             token: req.session.user.outlook["access_token"],
-                    //             message: mailOptions,
-                    //             user: userInfo
-                    //         }, function (err, result) {
-                    //
-                    //             if (err && err.indexOf("503") === -1) return rej(err);
-                    //             resolve(result);
-                    //         });
-                    //
-                    //         // transporter.sendMail(mailOptions, function (err, info) {
-                    //         //     console.log(err);
-                    //         //     if (err) return rej(err);
-                    //         //     resolve(info);
-                    //         // });
-                    //     });
-
-                    // })).then(function (details) {
-                    //     res.json({success: true, details: details});
-                    // }).catch(function (err) {
-                    //     res.status(500).json({status: 500, message: "Server could not resolve request."});
-                    // });
-
-
-                }.bind(this));
-            }.bind(this));
-
-        }.bind(this));
-    }.bind(this));
-
-
+    // this.app.get("/admin/client/test", function (req, res) {
+    //
+    //     var secret = uuidv4();
+    //     this.secrets.push(secret);
+    //     var bot = new Bot({name: uuidv4(), host: "http://localhost", port: 8080, timeout: 5000});
+    //
+    //     bot.connect(function (result) {
+    //         console.log(result);
+    //
+    //         bot.join('test', function (result) {
+    //             console.log(result);
+    //         });
+    //     });
+    //
+    //     bot.on("new message", function (data) {
+    //        console.log(data);
+    //     });
+    //
+    //     res.end("end");
+    // }.bind(this));
 
     var getUserTracking = function (req, res, next) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
@@ -416,12 +279,6 @@ AdminView.prototype.setupApi = function () {
     };
 
     this.app.get("/v1/api/room/:roomName/track/:code", getUserTracking, function (req, res) {
-
-        // if (!this.ios.tracking[req.params.roomName] || !this.ios.tracking[req.params.roomName].trackingIds) return res.status(404).json({
-        //     status: 404,
-        //     message: "Requested registration id cannot be found."
-        // });
-
 
         var resp = req.student;
 
@@ -489,7 +346,11 @@ AdminView.prototype.setupApi = function () {
                     $set: {students: data}
                 }, {upsert: true}, function (err, result) {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                    res.json(data);
+                    var resp = {};
+                    result = result.result;
+                    resp.amount = result.n;
+                    resp["n_successful"] = result.ok;
+                    res.json(resp);
                     db.close();
                 });
 
@@ -560,7 +421,38 @@ AdminView.prototype.setupApi = function () {
             }.bind(this));
 
         }.bind(this));
-    }.bind(this))
+    }.bind(this));
+
+    function TA (ta) {
+        this.name = ta.name;
+        this.token = ta.token ? ta.token : uuidv4();
+    }
+
+    this.app.post("/v1/api/ta", checkAuth, function (req, res) {
+        var ta = new TA(req.body);
+
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            db.collection("ta").updateOne({owner: req.session.user.username}, {$push: {tas: ta}}, {upsert: true}, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+                res.json({});
+
+            });
+        });
+    });
+
+    this.app.get("/v1/api/ta", checkAuth, function (req, res) {
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            db.collection("ta").findOne({owner: req.session.user.username}, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+                res.json(result ? result.tas : []);
+
+            });
+        });
+    });
 
 };
 
@@ -596,7 +488,7 @@ AdminView.prototype.setupSocket = function () {
                 MongoClient.connect(constants.dbUrl, function (err, db) {
                     db.collection("chatHistory").updateOne({
                         sessionId: room.sessionId,
-                        owner: room.admin.handshake.session.username,
+                        owner: room.admin,
                         roomName: socket.handshake.session.connectedRoom
                     }, {$push: {messages: data}}, {upsert: true}, function (err, result) {
 
@@ -629,6 +521,17 @@ AdminView.prototype.setupSocket = function () {
                 var token = uuidv4();
                 this.oauthTokens[token] = {roomName: data.roomName};
                 callback({token: token});
+            }
+
+        }.bind(this));
+
+        socket.on("new bot", function (data, callback) {
+            if (this.secrets.indexOf(data.secret) !== -1) {
+                setSessionVars({username: data.username, userAvatar: data.userAvatar, isAdmin: true, isBot: true, owner: data.owner});
+                callback({success: true});
+            } else {
+                setSessionVars({username: data.username, userAvatar: data.userAvatar, isBot: true});
+                callback({success: true});
             }
 
         }.bind(this));

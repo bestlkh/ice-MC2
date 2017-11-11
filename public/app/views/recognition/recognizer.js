@@ -303,6 +303,7 @@ function getTex(bst) {
         }
         if (bst.region_name == 'root') {
             result += "$$";
+            result = result.replace(/cos|sin|tan|cosh|sinh|tanh|arcsin|arccos|arctan/gi, function(x) {return " \\" + x + " ";})
         }
         return result;
     }

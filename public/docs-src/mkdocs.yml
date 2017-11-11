@@ -1,0 +1,18 @@
+site_name: MC^2 Documentation
+pages:
+  - Index: 'index.md'
+  - UI Library:
+    - Overview: 'ui-library/overview.md'
+
+  - Classes:
+    - UI.BasicControl: 'ui-library/controls/basic-control.md'
+theme:
+  name: 'material'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - toc:
+      permalink: true

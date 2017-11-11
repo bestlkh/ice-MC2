@@ -2426,18 +2426,20 @@ var SOTP = 0;
       };
 
       var sendAsImage = function(){
-          svg = $("<svg></svg>");
+          var svgSource = "<svg id='pre-render-svg' style='background-color: #FFFFFF;'><g>" + $("#svgcontent").find(".active-layer").html() + "</g></svg>";
+          $("body").append(svgSource);
+          $("#pre-render-svg").find("#math_cursor").remove();
+          var bbox = $("#pre-render-svg").children("g")[0].getBBox();
+          $("#pre-render-svg").find("g").prepend('<rect width="3000" height="3000" x="-500" y="-500" stroke="#000" fill="white" style="pointer-events:none" opacity="1"></rect>');
+          $("#pre-render-svg")[0].setAttribute("viewBox", (parseInt(bbox.x) - 20) + " " + (parseInt(bbox.y) - 20) + " " + (parseInt(bbox.width) + 40) + " " + (parseInt(bbox.height) + 40));
           canvas = document.getElementById('export-dump-canvas');
-          svg.html($("#svgcontent").html());
-          var bBox = $("#svgcontent")[0].getBBox();
-          var viewBox = [bBox.x, bBox.y, bBox.width, bBox.height].join(" ");
-          svg.attr("viewBox", viewBox);
-          console.log(svg[0].outerHTML);
-          canvg(canvas, svg[0].outerHTML, {
+          console.log($("#pre-render-svg")[0].outerHTML);
+          canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
               renderCallback: function(){
                 setTimeout(function(){
                   $(parent.document.getElementById('textArea')).val("[mc2-image]" + canvas.toDataURL());
                   $(parent.document.getElementById('chat-send-button')).click();
+                  $("#pre-render-svg").remove();
                 }, 500);
                 if(MobileUI.mounted){
                     swapParentFrame();
@@ -2445,7 +2447,8 @@ var SOTP = 0;
               },
               forceRedraw: function(){
                 return true;
-              }
+              },
+              ignoreDimensions: false
           });
       };
 

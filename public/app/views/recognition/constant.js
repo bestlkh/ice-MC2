@@ -37,16 +37,24 @@ const TEX_TEXT = {
     ')': ' \\right) ',
     '±': ' \\pm ',
     '∓': ' \\mp ',
+    '+': ' + ',
+    '×': ' \\times ',
     '—': ' - ',
     'overline': ' \\overline ',
     'underline': ' \\underline ',
+    '<': ' \\lt ',
+    '≤': ' \\le ',
+    '>': ' \\gt ',
+    '≥': ' \\ge ',
+    '=': ' = ',
+    '→': ' \\to '
 };
 
 const BRACKET = ["lbracket", "(", ")", "rbracket"];
 const LINE = ["fraction", "—"];
 const ROOT = ["root"];
-const LIMIT = ["sum", "∑", "integral", "∫"];
-const OPERATOR = ["+", "±", "∓"]
+const LIMIT = ["sum", "∑", "integral", "∫", "lim"];
+const OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→']
 
 function getSymbolType(value) {
     if (BRACKET.indexOf(value) != -1) {

@@ -37,6 +37,10 @@ class BasicControl {
         this._preventDefaultClick = val;
     }
 
+    get preventDefaultClick(){
+        return this._preventDefaultClick;
+    }
+
     /**
      * Set onClick event handler.
      * @param func

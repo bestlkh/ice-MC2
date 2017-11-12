@@ -14,6 +14,7 @@ var moment = require("moment");
 
 const AdminView = require("./AdminView");
 const ChatNsp = require("./chatNsp").ChatNsp;
+const LectureNsp = require("./chatNsp").LectureNsp;
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -237,7 +238,7 @@ chat.on('connection', function(socket){
             destroySession();
             callback({success: false});
 		}
-		console.log(chat.nsp.adapter.rooms);
+
     });
 
 
@@ -365,6 +366,13 @@ chat.on('connection', function(socket){
         ios.sockets.to(socket.handshake.session.connectedRoom).emit('online-members', online_member);
     });
 });
+
+var test = new LectureNsp("test", "test", ios);
+test.nsp.use(sharedsession(session, {
+    autoSave:true
+}));
+test.listen();
+
 
 // route for uploading images asynchronously
 app.post('/v1/uploadImage',function (req, res){

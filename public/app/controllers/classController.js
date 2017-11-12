@@ -1,5 +1,5 @@
 angular.module('Controllers')
-    .controller("classController", function ($scope, $rootScope, $routeParams, $window) {
+    .controller("classController", function ($scope, $rootScope, $routeParams, $window, $socket, $location) {
         $rootScope.tabActive = "class";
 
         $scope.hideOverlay = true;
@@ -109,7 +109,37 @@ angular.module('Controllers')
             }
         };
 
+        $scope.startStatus = function () {
+
+            var socket = io($location.host() +":"+ $location.port()+"/"+$rootScope.user.username, {timeout: 5000, reconnectionAttempts: 10, reconnectionDelay: 2000});
+            socket.on("connect", function () {
+                $rootScope.statusController = setInterval(function() {
+
+                        socket.emit("get-status", function (data) {
+
+                            for (var room in data) {
+                                for (var i = 0; i < $scope.classrooms.length; i++) {
+                                    if ($scope.classrooms[i].roomName !== room) continue;
+                                    $scope.classrooms[i].online = data[room].online;
+                                }
+                            }
+
+                            $scope.$apply();
+
+
+                    });
+
+                }, 1000);
+            });
+        };
+
+        $scope.$on('$destroy', function() {
+            clearInterval($rootScope.statusController);
+        });
+
+
         $scope.Actions.getClassList();
+
 
         if (!$rootScope.user) {
             $.ajax({
@@ -117,7 +147,11 @@ angular.module('Controllers')
                 success: function (result) {
                     $rootScope.user = result;
                     $scope.$apply();
+
+                    $scope.startStatus();
                 }
             })
+        } else {
+            $scope.startStatus();
         }
     });

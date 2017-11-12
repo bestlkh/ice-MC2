@@ -236,26 +236,34 @@ AdminView.prototype.setupApi = function () {
     });
 
 
-    // this.app.get("/admin/client/test", function (req, res) {
-    //
-    //     var secret = uuidv4();
-    //     this.secrets.push(secret);
-    //     var bot = new Bot({name: uuidv4(), host: "http://localhost", port: 8080, timeout: 5000});
-    //
-    //     bot.connect(function (result) {
-    //         console.log(result);
-    //
-    //         bot.join('test', function (result) {
-    //             console.log(result);
-    //         });
-    //     });
-    //
-    //     bot.on("new message", function (data) {
-    //        console.log(data);
-    //     });
-    //
-    //     res.end("end");
-    // }.bind(this));
+    this.app.get("/admin/client/test", function (req, res) {
+
+        var secret = uuidv4();
+        this.secrets.push(secret);
+        var bot = new Bot({name: uuidv4(), host: "http://localhost", port: 8080, timeout: 5000, nsp: "/test"});
+
+        bot.connect({username: "BOT", initials: "bo", userAvatar: 'avatar1.jpg', roomId: "test2"}, function (result) {
+            console.log(result);
+
+            bot.join('test2', function (result) {
+                console.log(result);
+
+                bot.emit("send-message", {msg: "hello world!", hasMsg: true}, function (result) {
+                    console.log(result);
+                });
+            });
+
+            bot.on("new message", function (data) {
+                console.log(data);
+            });
+
+
+        });
+
+
+
+        res.end("end");
+    }.bind(this));
 
     var getUserTracking = function (req, res, next) {
         MongoClient.connect(constants.dbUrl, function (err, db) {

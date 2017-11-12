@@ -70,7 +70,7 @@
         <div class="card class-card purple-button" ng-repeat="classroom in classrooms"  ng-if="checkInclude(classroom)" ng-click="select(classroom)" ng-class="{'purple-border': selected === classroom}">
             <header>{{classroom.name}}</header>
 
-            <div class="status green-text">10 online</div>
+            <div class="status green-text">{{classroom.online ? classroom.online : "0"}} online</div>
         </div>
     </div>
 

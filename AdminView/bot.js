@@ -11,12 +11,14 @@ function Bot(params) {
     this.host = params.host;
     this.port = params.port;
 
-    this.socket = io(this.host+":"+this.port, {timeout: params.timeout, reconnectionAttempts: 10, reconnectionDelay: 2000});
+    this.nsp = params.nsp;
+
+    this.socket = io(this.host+":"+this.port+this.nsp, {timeout: params.timeout, reconnectionAttempts: 10, reconnectionDelay: 2000});
 }
 
-Bot.prototype.connect = function (callback) {
+Bot.prototype.connect = function (data, callback) {
     this.socket.on("connect", function () {
-        this.socket.emit("new bot", {username: this.name, userAvatar: 'avatar1.jpg', secret: this.secret, owner: this.owner}, function (result) {
+        this.socket.emit("new user", data, function (result) {
 
             callback(result);
 
@@ -33,8 +35,8 @@ Bot.prototype.on = function (event, callback) {
     this.socket.on(event, callback);
 };
 
-Bot.prototype.emit = function (event, data) {
-    this.socket.emit(event, data);
+Bot.prototype.emit = function (event, data, callback) {
+    this.socket.emit(event, data, callback);
 };
 
 Bot.prototype.join = function (roomName, callback) {

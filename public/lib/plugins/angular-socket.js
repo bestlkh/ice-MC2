@@ -61,10 +61,17 @@ module.provider('$socket', function $socketProvider() {
         // console.log(ioConfig);
         // console.log(ioUrl);
         var socket = null;
+        var cUrl = "";
                 
         return {
             connect: function (url) {
+                cUrl = url;
                 socket = io(url, ioConfig);
+            },
+            disconnect: function () {
+                socket.off();
+                socket.disconnect();
+                socket = io(cUrl, ioConfig);
             },
             on : function on(event, callback){
                 socket.on(event, function(){

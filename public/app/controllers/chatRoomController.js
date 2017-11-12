@@ -109,6 +109,11 @@ angular.module('Controllers')
 		}
     });
 
+	$scope.$on("$destroy", function () {
+		$socket.disconnect();
+
+    });
+
 	// redirection if user is not logged in.
     if(!$rootScope.loggedIn){
 

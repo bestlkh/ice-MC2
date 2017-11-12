@@ -3,7 +3,7 @@ var App = angular.module('ChatRoom',['ngResource','ngRoute','ngStorage','socket.
 
 }]);
 App.config(function ($routeProvider, $socketProvider, $locationProvider){
-
+	$socketProvider.setForceNewConnection(true);
 	$routeProvider	// AngularJS Routes
 	.when('/v1/:roomId', {
 		templateUrl: 'app/views/login.html',

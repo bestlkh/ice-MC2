@@ -336,6 +336,7 @@ LectureNsp.prototype.listen = function () {
                 online_member.push(temp1);
             }
             this.nsp.to(socket.connectedRoom).emit('online-members', online_member);
+
         }.bind(this));
 
         socket.on("get-status", function (callback) {
@@ -369,10 +370,12 @@ LectureNsp.prototype.getStatus = function (callback) {
             classrooms.forEach(function (room) {
 
                 var adapter = this.findRoomAdapter(room.roomName);
-                if (!adapter) return;
+                var count = 0;
+                if (!adapter) count = 0;
+                else count = Object.keys(adapter.sockets).length;
 
                 status[room.roomName] = {
-                    online: Object.keys(adapter.sockets).length
+                    online: count
                 };
 
             }.bind(this));

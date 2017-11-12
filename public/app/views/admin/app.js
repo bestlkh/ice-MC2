@@ -65,4 +65,6 @@ App.config(function ($routeProvider, $locationProvider){
     bindings: {
         user: '='
     }
+}).run(function ($socket) {
+    $socket.connect(null);
 });

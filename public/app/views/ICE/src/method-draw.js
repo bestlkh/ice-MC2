@@ -2222,9 +2222,13 @@ var SOTP = 0;
 
       var clickConvert = function(){
         if (toolButtonClick('#tool_convert')) {
-          getBST();
-          if($(window).width() <= 732)
+          var tex = getBST();
+          if($(window).width() <= 732) {
             clickSwap();
+            parent.document.getElementById('textArea').value  = tex;
+          } else {
+            parent.preview.window.editor.setValue(tex);
+          }
         }
       };
 
@@ -2419,6 +2423,33 @@ var SOTP = 0;
 
       var selectPrev = function() {
         svgCanvas.cycleElement(0);
+      };
+
+      var sendAsImage = function(){
+          var svgSource = "<svg id='pre-render-svg' style='background-color: #FFFFFF;'><g>" + $("#svgcontent").find(".active-layer").html() + "</g></svg>";
+          $("body").append(svgSource);
+          $("#pre-render-svg").find("#math_cursor").remove();
+          var bbox = $("#pre-render-svg").children("g")[0].getBBox();
+          $("#pre-render-svg").find("g").prepend('<rect width="3000" height="3000" x="-500" y="-500" stroke="#000" fill="white" style="pointer-events:none" opacity="1"></rect>');
+          $("#pre-render-svg")[0].setAttribute("viewBox", (parseInt(bbox.x) - 20) + " " + (parseInt(bbox.y) - 20) + " " + (parseInt(bbox.width) + 40) + " " + (parseInt(bbox.height) + 40));
+          canvas = document.getElementById('export-dump-canvas');
+          console.log($("#pre-render-svg")[0].outerHTML);
+          canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
+              renderCallback: function(){
+                setTimeout(function(){
+                  $(parent.document.getElementById('textArea')).val("[mc2-image]" + canvas.toDataURL());
+                  $(parent.document.getElementById('chat-send-button')).click();
+                  $("#pre-render-svg").remove();
+                }, 500);
+                if(MobileUI.mounted){
+                    swapParentFrame();
+                }
+              },
+              forceRedraw: function(){
+                return true;
+              },
+              ignoreDimensions: false
+          });
       };
 
       var rotateSelected = function(cw,step) {
@@ -3396,6 +3427,7 @@ var SOTP = 0;
         //  {sel:'#tool_italic', fn: clickItalic, evt: 'mousedown',  key: [modKey + 'I', true]},
           //{sel:'#sidepanel_handle', fn: toggleSidePanel, key: ['X']},
           {sel:'#copy_save_done', fn: cancelOverlays, evt: 'click'},
+          {sel:'#tool_send_as_image', fn: sendAsImage, evt: 'click'},
 
           // Shortcuts not associated with buttons
 
@@ -3497,15 +3529,19 @@ var SOTP = 0;
   					{key: ['6', true], fn: function(){svgCanvas.keyPressed('6');}},
   					{key: ['7', true], fn: function(){svgCanvas.keyPressed('7');}},
   					{key: ['8', true], fn: function(){svgCanvas.keyPressed('8');}},
-  					{key: ['9', true], fn: function(){svgCanvas.keyPressed('9');}},
+            {key: ['9', true], fn: function(){svgCanvas.keyPressed('9');}},
+            {key: ['shift+8', true], fn: function(){svgCanvas.keyPressed('×');}},
+            {key: [String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('.');}},
+            {key: [String.fromCharCode(191), true], fn: function(){svgCanvas.keyPressed('//');}},
+            {key: ['ctrl+space', true], fn: function() {var at = svgCanvas.toggleAutoSpacing(); alert("Auto-spacing is " +  (at ? "on" : "off") + ".")}},
   				//	{key: ['<', true], fn: function(){svgCanvas.keyPressed('<');}},
   				//	{key: ['>', true], fn: function(){svgCanvas.keyPressed('>');}},
             {key: ['shift+,', true], fn: function(){svgCanvas.keyPressed('<');}},
             {key: ['shift+.', true], fn: function(){svgCanvas.keyPressed('>');}},
   					{key: '.', fn: function(){svgCanvas.keyPressed('.');}},
   					{key: 'space', fn: function(){svgCanvas.keyPressed(' ');}},
-  					{key: '-', fn: function(){svgCanvas.keyPressed('-');}},
-            {key: String.fromCharCode(189), fn: function(){svgCanvas.keyPressed('-');}},
+  					{key: '-', fn: function(){svgCanvas.keyPressed('—');}},
+            {key: String.fromCharCode(189), fn: function(){svgCanvas.keyPressed('—');}},
   					{key: 'shift+(', fn: function(){svgCanvas.keyPressed('(');}},
   					{key: 'shift+)', fn: function(){svgCanvas.keyPressed(')');}},
   					{key: '[', fn: function(){svgCanvas.keyPressed('[');}},

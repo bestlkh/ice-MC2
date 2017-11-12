@@ -2,6 +2,8 @@
  * Global stylesheet, anything that cannot be categorised will be moved here.
  */
 
+@import "variables";
+
 body {
   overflow: hidden;
 }
@@ -14,6 +16,7 @@ body {
 
 #editorframe {
   height: 100vh;
+  background-color: @primary-color;
 }
 
 #chatframe {
@@ -86,4 +89,19 @@ input {
   background-color: #fff;
   box-shadow:0 1px 3px rgba(0,0,0,.1);
   transition: all 0.3s ease-in;
+}
+
+// Vertical resize bar for chat window
+#dragbar{
+  background-color:#2f2f2c;
+  height:100vh;
+  float: left;
+  width: 10px;
+  cursor: col-resize;
+}
+
+#preview-frame {
+  margin: 0;
+  border: none;
+  left: 0;
 }

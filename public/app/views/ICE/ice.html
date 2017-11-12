@@ -35,7 +35,6 @@
 
 
 
-
 <!--{if svg_edit_release}>
   <script type="text/javascript" src="method-draw.compiled.js"></script>
 <!{else}-->
@@ -92,6 +91,15 @@
   <script type="text/javascript" src="../../js/ifrm.js"></script>
   <!--<script type="text/javascript" src="../../controllers/chatRoomController.js"></script>-->
 
+  <!--canvg library-->
+  <script type="text/javascript" src="http://canvg.github.io/canvg/rgbcolor.js"></script>
+  <script type="text/javascript" src="http://canvg.github.io/canvg/StackBlur.js"></script>
+  <script type="text/javascript" src="http://canvg.github.io/canvg/canvg.js"></script>
+
+
+  <!--UI library-->
+  <script type="text/javascript" src="../../js/lib/ui/ui.bundle.js"></script>
+
   <script>
     $("html").css({
       "touch-action": "pan-down"
@@ -104,6 +112,9 @@
 <title>MC2 Editor</title>
 </head>
 <body>
+
+<canvas id="export-dump-canvas" style="z-index: 9999999; position: absolute; left: 100px; display: none;"></canvas>
+
 <div id="svg_editor">
 
 <div id="rulers">
@@ -612,16 +623,6 @@
 
 
 <div id="tools_left" class="tools_panel">
-
-    <div class="tool_button" id="tool_select" title="Select Tool [V]"></div>
-    <div class="tool_button" id="tool_fhpath" title="Pencil Tool [P]"></div>
-    <!--This button does not make sense since we moved to horizontal-->
-    <!--<div class="tool_button" id="tool_selectpath" style="background-image: url('images/t_select.png');" title="Select/Path Tool[S]"></div>-->
-    <div class="tool_button" id="tool_deletebutton" style="background-image: url('images/undo-arrow.svg');" title="Undo/Delete Tool[U]"></div>
-  <!--
-  <div class="tool_button" id="tool_line" title="Line Tool [L]"></div>
-  -->
-
   <!-- does not display color palette as it is irrelevant -->
   <div id="color_tools" style="display:none">
         <div id="tool_switch" title="Switch stroke and fill colors [X]"></div>
@@ -641,9 +642,9 @@
           </div>
         </div>
   </div>
-  <div class="tool_button" id="tool_convert" style="background-image: url('images/swap.png');" title="Convert Tool [C]"></div>
-  <div class="tool_button" id="tool_toggle_keyboard" style="background-image: url('images/keyboard-up.svg');" title="Show/Hide Keyboard"></div>
 </div> <!-- tools_left -->
+
+
   <div class="tool_button" id="tool_rect" title="Square/Rect Tool [R]" style="visibility: hidden"></div>
   <div class="tool_button" id="tool_ellipse" title="Ellipse/Circle Tool [C]" style="visibility: hidden"></div>
   <div class="tool_button" id="tool_path" title="Path Tool [P]" style="visibility: hidden"></div>
@@ -955,9 +956,9 @@ document.onmouseup=Function("MoveEnabled=false");
 <!-- End Floating layer -->
 
 
+<!--Load scripts last to prevent blocking-->
 
-
-
+<script type="text/javascript" src="../../js/ice/ui.js"></script>
 
 
 

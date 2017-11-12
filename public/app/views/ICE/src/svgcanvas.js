@@ -254,12 +254,12 @@ keyHash["y"] = ['y', 'Y'];
 keyHash["z"] = ['z', 'Z', '2124', '3B6'];
 
 keyHash["<"] = ['<', '2264', '2266', '226A', '226E'];
-keyHash[">"] = ['>', '2265', '2267', '226B', '226F'];
+keyHash[">"] = ['>', '→', '2265', '2267', '226B', '226F'];
 keyHash["="] = ['=', '2260', '2261', '2243', '2248', '2245', '221D'];
 keyHash["~"] = ['~', '2243', '2248', '2245'];
 keyHash["+"] = ['+', 'B1', '2213', '2295'];
-keyHash["-"] = ['-', 'B1', '2213', '2296'];
-keyHash["*"] = ['+', 'D7', '2297'];
+keyHash["—"] = ['—', 'B1', '2213', '2296'];
+keyHash["×"] = ['×', '2297'];
 keyHash["/"] = ['/', 'F7', '2298'];
 keyHash["."] = ['.', '95', '2218', '2235', '2234'];
 keyHash["|"] = ['|', '2224', '2225', '2226'];
@@ -9911,7 +9911,8 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
     if(seqns.length == 0) {
-      pullAllAtCursor();
+      if(this.autoSpacing)
+        pullAllAtCursor();
       moveCursor(-1, 0);
       return;
     }
@@ -9923,10 +9924,12 @@ var moveCursorAbs = this.moveCursorAbs;
     })
     var t = seqns[0];
     if (math_cursor.getAttribute('x') - (getBBox(t).x + getBBox(t).width) > 5) {
-      pullAllAtCursor();
+      if(this.autoSpacing)
+        pullAllAtCursor();
       moveCursor(-1, 0);
     } else {
-      pullAllAtCursor(-1 * getBBox(t).width);
+      if(this.autoSpacing)
+        pullAllAtCursor(-1 * getBBox(t).width);
       math_cursor.setAttribute('x', getBBox(t).x);
       selectOnly([t], false);
       canvas.deleteSelectedElements();
@@ -9971,6 +9974,11 @@ var moveCursorAbs = this.moveCursorAbs;
         ToggleFloatingLayer('floatingContent',0);
     }, 2);
   }
+  this.autoSpacing = true;
+  this.toggleAutoSpacing = function(){
+    this.autoSpacing = !this.autoSpacing;
+    return this.autoSpacing;
+  }
 
 	this.keyPressed = function (key) {
     if (key=="\u21e6") {
@@ -9983,7 +9991,8 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
     if (key == " ") {
-      pushAllAtCursor();
+      if(this.autoSpacing)
+        pushAllAtCursor();
       moveCursorAbs(10, 0);
       return;
     }
@@ -10120,11 +10129,12 @@ var moveCursorAbs = this.moveCursorAbs;
     var diffWidth = Number(bbox.x) + Number(bbox.width) - Number(math_cursor.getAttribute('x')) + 1;
     var cloneNewText = newText.cloneNode(true);
     parentNewText.removeChild(newText);
-    if(diffWidth > 0)
-      pushAllAtCursor(diffWidth);
-    else
-      pullAllAtCursor(diffWidth);
-    //console.log(diffWidth);
+    if (this.autoSpacing) {
+      if(diffWidth > 0)
+        pushAllAtCursor(diffWidth);
+      else
+        pullAllAtCursor(diffWidth);
+    }
     parentNewText.appendChild(cloneNewText);
     newText = cloneNewText;
     math_cursor.setAttribute('x', bbox.x + bbox.width + 1);
@@ -10132,6 +10142,11 @@ var moveCursorAbs = this.moveCursorAbs;
 		//selectOnly([newText]);
 		//clearSelection();
     //addToSelection([newText]);
+
+    /* TODO: Adjust height for the line
+    if (newText.textContent === '—') {
+      console.log(1);
+    }*/ 
     svgCanvas.runExtensions('elementChanged', {
       elems: [newText]
     });

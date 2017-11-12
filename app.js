@@ -168,7 +168,24 @@ chat.on('connection', function(socket){
                 });
             });
         }
-    }
+	}
+	
+	function deleteMessage(roomName, message) {
+		ios.sockets.to(roomName).emit("delete message", message);
+		var room = findRoom(roomName);
+		if (room && room.admin) {
+			message.deleted = true;
+            MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
+                db.collection("chatHistory").updateOne({
+                    sessionId: room.sessionId,
+                    owner: room.admin.handshake.session.username,
+                    roomName: roomName
+                }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
+
+                });
+            });
+        }
+	}
 
 
 
@@ -329,6 +346,19 @@ chat.on('connection', function(socket){
 				socket.disconnect();
 			}
 		}
+	});
+
+
+	// delete message
+	socket.on('delete-message', function(data, callback){
+		var history = findRoom(socket.handshake.session.connectedRoom).messageHistory;
+		var index = history.findIndex(function(item, i) {
+			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+		});
+		if (index > -1)
+			history.splice(index, 1);
+		ios.sockets.to(socket.handshake.session.connectedRoom).emit('delete message', data);
+		callback({success:true});
 	});
 
 	socket.on("logout", function (callback) {

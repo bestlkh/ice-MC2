@@ -3393,7 +3393,7 @@ var SOTP = 0;
           {sel:'#tool_STC', fn: sendToChat, evt: 'mouseup'},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
-          {sel:'.tool_import', fn: clickImport, evt: 'click'},
+          {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},

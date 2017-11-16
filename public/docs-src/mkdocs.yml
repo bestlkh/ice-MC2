@@ -4,8 +4,13 @@ pages:
   - UI Library:
     - Overview: 'ui-library/overview.md'
 
+  - Alert Library:
+      - Overview: 'alert-library/overview.md'
+
   - Classes:
     - UI.BasicControl: 'ui-library/controls/basic-control.md'
+    - Alert.Alert: 'alert-library/dialogs/alert.md'
+    - Alert.Notification: 'alert-library/overlays/notification.md'
 theme:
   name: 'material'
 

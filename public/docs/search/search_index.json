@@ -1,0 +1,229 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "MC^2 Project Developer Documentation\n\u00b6\n\n\nAuthor\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n)\n\n\n\n\n\n\nThis documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.\n\n\nFull source of the project in available at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nProject Layout\n\u00b6\n\n\n+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script",
+            "title": "Index"
+        },
+        {
+            "location": "/#mc2-project-developer-documentation",
+            "text": "Author :   Jun   Zheng   ( junthehacker )   This documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.  Full source of the project in available at  https://github.com/bestlkh/ice-MC2 .",
+            "title": "MC^2 Project Developer Documentation"
+        },
+        {
+            "location": "/#project-layout",
+            "text": "+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script",
+            "title": "Project Layout"
+        },
+        {
+            "location": "/ui-library/overview/",
+            "text": "UI Library Overview\n\u00b6\n\n\nAuthor\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n)\n\n\n\n\n\n\n\n\nNote\n\n\nDependencies\n: jQuery Full Version\n\n\n\n\nUI Library is aimed to provide developers a better platform to write controls for MC^2 project.\n\n\nThe library has two main parts: \ncontrols\n and \nevents\n.\n\n\ncontrols\n is where all controls resides, for example: \nButton\n, \nToolbar\n etc.\n\n\nevents\n is where all custom events resides, for example: \nControlClickEvent\n, \nControlValueChangeEvent\n etc.\n\n\nControls\n\u00b6\n\n\n\n\nBasicControl",
+            "title": "Overview"
+        },
+        {
+            "location": "/ui-library/overview/#ui-library-overview",
+            "text": "Author :   Jun   Zheng   ( junthehacker )    Note  Dependencies : jQuery Full Version   UI Library is aimed to provide developers a better platform to write controls for MC^2 project.  The library has two main parts:  controls  and  events .  controls  is where all controls resides, for example:  Button ,  Toolbar  etc.  events  is where all custom events resides, for example:  ControlClickEvent ,  ControlValueChangeEvent  etc.",
+            "title": "UI Library Overview"
+        },
+        {
+            "location": "/ui-library/overview/#controls",
+            "text": "BasicControl",
+            "title": "Controls"
+        },
+        {
+            "location": "/alert-library/overview/",
+            "text": "Alert Library Overview\n\u00b6\n\n\n/ \nHome\n / Alert Library\n\n\nAuthors\nJun Zheng (junthehacker)\nDependencies\nAlertify.js CSS Theme\nAlertify is bundled with this plugin.\nAlert library provides some alert functionality that extends the default \nalert\n and \nprompt\n.\n\n\nAlert library is loaded in \nindex.html\n by default, but you can simply link the \nalert.bundle.js\n to include in your page. All classes are attatched to \nwindow.Alert\n.\n\n\nGet Started\n\u00b6\n\n\nDisplay Alert\n\u00b6\n\n\nvar\n \nmy_alert\n \n=\n \nnew\n \nAlert\n.\nAlert\n(\n\"Title\"\n,\n \n\"Message\"\n,\n \nfunction\n(){\n\n   \n// What happens if user press ok. \n\n\n});\n\n\nmy_alert\n.\nshow\n();\n\n\n\n\n\n\nDisplay Alert Without \nnew\n\u00b6\n\n\nAlert\n.\nAlert\n.\nspawn\n(\n\"Title\"\n,\n \n\"Message\"\n,\n \nfunction\n(){\n\n   \n// What happens if user press ok \n\n\n});\n\n\n\n\n\n\nNotifications are the same, just use \nAlert.Notification\n, for more information, checkout the detailed class doc.\n\n\nClasses\n\u00b6\n\n\nDialogs\n\u00b6\n\n\n\n\nAlert\n\n\n\n\nOverlays\n\u00b6\n\n\n\n\nNotification",
+            "title": "Overview"
+        },
+        {
+            "location": "/alert-library/overview/#alert-library-overview",
+            "text": "/  Home  / Alert Library  Authors Jun Zheng (junthehacker) Dependencies Alertify.js CSS Theme Alertify is bundled with this plugin. Alert library provides some alert functionality that extends the default  alert  and  prompt .  Alert library is loaded in  index.html  by default, but you can simply link the  alert.bundle.js  to include in your page. All classes are attatched to  window.Alert .",
+            "title": "Alert Library Overview"
+        },
+        {
+            "location": "/alert-library/overview/#get-started",
+            "text": "",
+            "title": "Get Started"
+        },
+        {
+            "location": "/alert-library/overview/#display-alert",
+            "text": "var   my_alert   =   new   Alert . Alert ( \"Title\" ,   \"Message\" ,   function (){ \n    // What happens if user press ok.   });  my_alert . show ();",
+            "title": "Display Alert"
+        },
+        {
+            "location": "/alert-library/overview/#display-alert-without-new",
+            "text": "Alert . Alert . spawn ( \"Title\" ,   \"Message\" ,   function (){ \n    // What happens if user press ok   });   Notifications are the same, just use  Alert.Notification , for more information, checkout the detailed class doc.",
+            "title": "Display Alert Without new"
+        },
+        {
+            "location": "/alert-library/overview/#classes",
+            "text": "",
+            "title": "Classes"
+        },
+        {
+            "location": "/alert-library/overview/#dialogs",
+            "text": "Alert",
+            "title": "Dialogs"
+        },
+        {
+            "location": "/alert-library/overview/#overlays",
+            "text": "Notification",
+            "title": "Overlays"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/",
+            "text": "UI.BasicControl\n\u00b6\n\n\n/ \nHome\n / \nUI Library\n / UI.BasicControl\n\n\nAuthors\nJun Zheng (junthehacker)\nBasic control class, this is the parent class for most controls.\n\n\nMostly useless by itself.\n\n\nProperties\n\u00b6\n\n\npublic\n \ndom\n\u00b6\n\n\nThe dom element this control is attatched to.\n\n\nprivate\n \nboolean\n \nget\n \nset\n \n_visible\n\u00b6\n\n\nThe visibility state of the control.\nWhen using the setter, it will automatically run jQuery show or hide method on dom.\n\n\nprivate\n \nboolean\n \nget\n \nset\n \n_preventDefaultClick\n\u00b6\n\n\nIf true, onClick event will prevent system default click event.\n\n\nprivate\n \nEventEmitter\n \n_onClickEmitter\n\u00b6\n\n\nonClick event emitter instance.\n\n\nMethods\n\u00b6\n\n\nconstructor\n(\ndom\n)\n\u00b6\n\n\nThe constructor for BasicControl class.\n\n\nlet\n \ncontrol\n \n=\n \nnew\n \nui\n.\nBasicControl\n(\n$\n(\n\"#dom\"\n));\n\n\n\n\n\n\nset\n \nonClick\n(\nfunc\n)\n\u00b6\n\n\nSet onClick event handler, you can set multiple handlers, they will be fired in order.\n\n\ncontrol\n.\nonClick\n \n=\n \nfunction\n(\ne\n){\n\n    \nconsole\n.\nlog\n(\n\"Clicked!\"\n);\n\n\n}",
+            "title": "UI.BasicControl"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#uibasiccontrol",
+            "text": "/  Home  /  UI Library  / UI.BasicControl  Authors Jun Zheng (junthehacker) Basic control class, this is the parent class for most controls.  Mostly useless by itself.",
+            "title": "UI.BasicControl"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#properties",
+            "text": "",
+            "title": "Properties"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#public-dom",
+            "text": "The dom element this control is attatched to.",
+            "title": "public dom"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#private-boolean-get-set-_visible",
+            "text": "The visibility state of the control.\nWhen using the setter, it will automatically run jQuery show or hide method on dom.",
+            "title": "private boolean get set _visible"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#private-boolean-get-set-_preventdefaultclick",
+            "text": "If true, onClick event will prevent system default click event.",
+            "title": "private boolean get set _preventDefaultClick"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#private-eventemitter-_onclickemitter",
+            "text": "onClick event emitter instance.",
+            "title": "private EventEmitter _onClickEmitter"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#methods",
+            "text": "",
+            "title": "Methods"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#constructordom",
+            "text": "The constructor for BasicControl class.  let   control   =   new   ui . BasicControl ( $ ( \"#dom\" ));",
+            "title": "constructor(dom)"
+        },
+        {
+            "location": "/ui-library/controls/basic-control/#set-onclickfunc",
+            "text": "Set onClick event handler, you can set multiple handlers, they will be fired in order.  control . onClick   =   function ( e ){ \n     console . log ( \"Clicked!\" );  }",
+            "title": "set onClick(func)"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/",
+            "text": "Alert.Alert\n\u00b6\n\n\n/ \nHome\n / \nAlert Library\n / Alert.Alert\n\n\nAuthors\nJun Zheng (junthehacker)\nAlert dialog class.\n\n\n\n\nProperties\n\u00b6\n\n\npublic\n \ntitle\n\u00b6\n\n\nThe title to display.\n\n\npublic\n \nmessage\n\u00b6\n\n\nThe message to display.\n\n\npublic\n \ncallback\n\u00b6\n\n\nCallback function after user presses OK.\n\n\nMethods\n\u00b6\n\n\nconstructor\n(\ntitle\n,\n \nmessage\n,\n \ncallback\n)\n\u00b6\n\n\nThe constructor, \nmessage\n and \ncallback\n are optional, if you only provide the \ntitle\n then it will become message.\n\n\nvar\n \nmy_alert\n \n=\n \nnew\n \nAlert\n.\nAlert\n(\n\"title\"\n,\n \n\"message\"\n,\n \nfunction\n(){\n\n   \n// code here \n\n\n});\n\n\n\n\n\n\nshow\n()\n\u00b6\n\n\nShow the alert instance.\n\n\nstatic\n \nspawn\n(\ntitle\n,\n \nmessage\n,\n \ncallback\n)\n\u00b6\n\n\nSpawn a anonymous alert instance.\n\n\nThe usage is same as constructor, this method does not return anything.",
+            "title": "Alert.Alert"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#alertalert",
+            "text": "/  Home  /  Alert Library  / Alert.Alert  Authors Jun Zheng (junthehacker) Alert dialog class.",
+            "title": "Alert.Alert"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#properties",
+            "text": "",
+            "title": "Properties"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#public-title",
+            "text": "The title to display.",
+            "title": "public title"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#public-message",
+            "text": "The message to display.",
+            "title": "public message"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#public-callback",
+            "text": "Callback function after user presses OK.",
+            "title": "public callback"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#methods",
+            "text": "",
+            "title": "Methods"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#constructortitle-message-callback",
+            "text": "The constructor,  message  and  callback  are optional, if you only provide the  title  then it will become message.  var   my_alert   =   new   Alert . Alert ( \"title\" ,   \"message\" ,   function (){ \n    // code here   });",
+            "title": "constructor(title, message, callback)"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#show",
+            "text": "Show the alert instance.",
+            "title": "show()"
+        },
+        {
+            "location": "/alert-library/dialogs/alert/#static-spawntitle-message-callback",
+            "text": "Spawn a anonymous alert instance.  The usage is same as constructor, this method does not return anything.",
+            "title": "static spawn(title, message, callback)"
+        },
+        {
+            "location": "/alert-library/overlays/notification/",
+            "text": "Alert.Notification\n\u00b6\n\n\n/ \nHome\n / \nAlert Library\n / Alert.Notification\n\n\nAuthors\nJun Zheng (junthehacker)\nNotification badge class.\n\n\n\n\nProperties\n\u00b6\n\n\npublic\n \nmessage\n\u00b6\n\n\nNotification message.\n\n\npublic\n \ntype\n\u00b6\n\n\nThe type of notification.\n\n\npublic\n \ndelay\n\u00b6\n\n\nTime in seconds until the notification is dismissed.\n\n\npublic\n \ncallback\n\u00b6\n\n\nCallback function message is dismissed.\n\n\nMethods\n\u00b6\n\n\nconstructor\n(\nmessage\n,\n \ntype\n,\n \ndelay\n,\n \ncallback\n)\n\u00b6\n\n\nThe constructor. \ntype\n, \ndelay\n and \ncallback\n are optional.\n\n\nvar\n \nmy_notification\n \n=\n \nnew\n \nAlert\n.\nNotification\n(\n\"message\"\n,\n \n\"success\"\n,\n \n5\n,\n \nfunction\n(){\n\n    \n// Code here\n\n\n});\n\n\n\n\n\n\nshow\n()\n\u00b6\n\n\nShow the notification instance.\n\n\nstatic\n \nspawn\n(\nmessage\n,\n \ntype\n,\n \ndelay\n,\n \ncallback\n)\n\u00b6\n\n\nSpawn a anonymous notification instance.\n\n\nThe usage is same as constructor, this method does not return anything.",
+            "title": "Alert.Notification"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#alertnotification",
+            "text": "/  Home  /  Alert Library  / Alert.Notification  Authors Jun Zheng (junthehacker) Notification badge class.",
+            "title": "Alert.Notification"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#properties",
+            "text": "",
+            "title": "Properties"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#public-message",
+            "text": "Notification message.",
+            "title": "public message"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#public-type",
+            "text": "The type of notification.",
+            "title": "public type"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#public-delay",
+            "text": "Time in seconds until the notification is dismissed.",
+            "title": "public delay"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#public-callback",
+            "text": "Callback function message is dismissed.",
+            "title": "public callback"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#methods",
+            "text": "",
+            "title": "Methods"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#constructormessage-type-delay-callback",
+            "text": "The constructor.  type ,  delay  and  callback  are optional.  var   my_notification   =   new   Alert . Notification ( \"message\" ,   \"success\" ,   5 ,   function (){ \n     // Code here  });",
+            "title": "constructor(message, type, delay, callback)"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#show",
+            "text": "Show the notification instance.",
+            "title": "show()"
+        },
+        {
+            "location": "/alert-library/overlays/notification/#static-spawnmessage-type-delay-callback",
+            "text": "Spawn a anonymous notification instance.  The usage is same as constructor, this method does not return anything.",
+            "title": "static spawn(message, type, delay, callback)"
+        }
+    ]
+}

@@ -304,8 +304,12 @@ function getTex(bst) {
         }
         if (bst.region_name == 'root') {
             result += "$$";
+<<<<<<< HEAD
             result = result.replace(/cos|sin|tan|cosh|sinh|tanh|arcsin|arccos|lim|arctan/gi, function(x) {return " \\" + x + " ";})
             
+=======
+            result = result.replace(/arcsin|arccos|arctan|cosh|sinh|tanh|cos|sin|tan/gi, function(x) {return " \\" + x + " ";})
+>>>>>>> master
         }
         return result;
     }

@@ -3533,7 +3533,7 @@ var SOTP = 0;
             {key: ['shift+8', true], fn: function(){svgCanvas.keyPressed('×');}},
             {key: [String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('.');}},
             {key: [String.fromCharCode(191), true], fn: function(){svgCanvas.keyPressed('//');}},
-            {key: ['ctrl+space', true], fn: function() {var at = svgCanvas.toggleAutoSpacing(); alert("Auto-spacing is " +  (at ? "on" : "off") + ".")}},
+            {key: ['ctrl+l', true], fn: function() {var at = svgCanvas.toggleAutoSpacing(); alert("Auto-spacing is " +  (at ? "on" : "off") + ".")}},
   				//	{key: ['<', true], fn: function(){svgCanvas.keyPressed('<');}},
   				//	{key: ['>', true], fn: function(){svgCanvas.keyPressed('>');}},
             {key: ['shift+,', true], fn: function(){svgCanvas.keyPressed('<');}},

@@ -12,6 +12,8 @@ function getExpression(eqns) {
         }
     }
     var items = [];
+    var limits = [];
+
     for (i = 0; i < eqns.length; i++) {
         if (eqns[i].textContent == " " || eqns[i].tagName == "g")
             continue;
@@ -21,6 +23,15 @@ function getExpression(eqns) {
         var width = rect.width;
         var height = rect.height;
         var value = eqns[i].nodeName == "path" ? eqns[i].id.split('_')[3] : eqns[i].textContent;
+        if(eqns[i].textContent == "l" || eqns[i].textContent == "i" || eqns[i].textContent ==  "m"){          
+            limits.push(eqns[i].textContent);   
+            if(limits.length == 3 && limits[0] == "l" && limits[1] == "i" && limits[2] == "m"){
+                value = "lim";
+            }
+        }else{
+            limits = [];
+        }
+                            
         var type = getSymbolType(value);
         switch (type) {
             case SYMBOL_TYPES.BRACKET:
@@ -295,6 +306,7 @@ function getTex(bst) {
 
     var result = "";
     if (bst.symbols){
+
         if (bst.region_name == 'root') {
             result += "$$";
         }
@@ -302,22 +314,21 @@ function getTex(bst) {
             var lastTex = getTex(bst.symbols[i]);
             result += lastTex;
         }
+        if(result.indexOf("lim")>=0){
+                result = result.replace('li ', ' ');
+            }
+    
         if (bst.region_name == 'root') {
             result += "$$";
-<<<<<<< HEAD
-            result = result.replace(/cos|sin|tan|cosh|sinh|tanh|arcsin|arccos|lim|arctan/gi, function(x) {return " \\" + x + " ";})
-            
-=======
             result = result.replace(/arcsin|arccos|arctan|cosh|sinh|tanh|cos|sin|tan/gi, function(x) {return " \\" + x + " ";})
->>>>>>> master
+
         }
         return result;
     }
     var value = bst.value;
     var symbol = bst;
     var type = bst.type;
-
-    if (type === "limit") {
+    if (type === "limit") {   
         result += TEX_TEXT[value] + " ";
         if(bst.hasAnyBottom())
             result += "_{" + getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc) + "} ";

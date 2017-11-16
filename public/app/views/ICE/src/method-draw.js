@@ -2532,6 +2532,7 @@ var SOTP = 0;
         svgCanvas.open();
       };
       var clickImport = function(){
+        $("#image-import-input").click();
       };
 
       var flash = function($menu){
@@ -3392,7 +3393,7 @@ var SOTP = 0;
           {sel:'#tool_STC', fn: sendToChat, evt: 'mouseup'},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
-          {sel:'#tool_import', fn: clickImport, evt: 'mouseup'},
+          {sel:'.tool_import', fn: clickImport, evt: 'click'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},
@@ -3580,7 +3581,12 @@ var SOTP = 0;
                 if (btn.length == 0) return true; // Skip if markup does not exist
                 if(opts.evt) {
                   if (svgedit.browser.isTouch() && opts.evt === "click") opts.evt = "mousedown"
-                  btn[opts.evt](opts.fn);
+                  if(opts.evt === "click"){
+                    btn.click(opts.fn);
+                  } else {
+                    btn.on('mousedown', opts.fn);
+                  }
+                  // btn[opts.evt](opts.fn);
                 }
 
                 // Add to parent flyout menu, if able to be displayed

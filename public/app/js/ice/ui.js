@@ -30,3 +30,34 @@ leftToolbar.addButton({
     title: 'Send as Image',
     style: 'background-image: url(images/send_as_img.png);'
 });
+
+$("#image-import-input").on('change', function(){
+    if (this.files && this.files[0]) {
+
+        var fileReader = new FileReader();
+
+        fileReader.addEventListener("load", function(e) {
+            console.log(e.target.result);
+            var image = new Image();
+            image.src = e.target.result;
+
+            image.onload = function() {
+                // access image size here
+                var newImage = svgCanvas.addSvgElementFromJson({
+                    "element": "image",
+                    "attr": {
+                        "x": 0,
+                        "y": 0,
+                        "width": this.width,
+                        "height": this.height,
+                        "id": svgCanvas.getNextId(),
+                        "style": "pointer-events:inherit"
+                    }
+                });
+                svgCanvas.setHref(newImage, e.target.result);
+            };
+        });
+
+        fileReader.readAsDataURL(this.files[0]);
+    }
+});

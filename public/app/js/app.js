@@ -3,7 +3,7 @@ var App = angular.module('ChatRoom',['ngResource','ngRoute','ngStorage','socket.
 
 }]);
 App.config(function ($routeProvider, $socketProvider, $locationProvider){
-	$socketProvider.setForceNewConnection(true);
+
 	$routeProvider	// AngularJS Routes
 	.when('/v1/:roomId', {
 		templateUrl: 'app/views/login.html',
@@ -21,5 +21,8 @@ App.config(function ($routeProvider, $socketProvider, $locationProvider){
 
     //$locationProvider.html5Mode(true);
 }).run(function ($location, $socket) {
-    $socket.connect($location.host() +":"+ $location.port()+"/"+$location.search().nsp);
+	var nsp = "";
+	if ($location.search().nsp)
+    	nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
 });

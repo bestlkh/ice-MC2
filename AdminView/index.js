@@ -483,28 +483,27 @@ AdminView.prototype.setupSocket = function () {
             socket.handshake.session.save();
         }
 
-        // TODO: Pontentially implement a frontend for chat history
-        socket.on('send-message', function (data, callback) {
-            var room = findRoom(socket.handshake.session.connectedRoom);
-            data.type = "chat";
-            if (socket.handshake.session.username && room.admin) {
-                data.username = socket.handshake.session.username;
-                data.userAvatar = socket.handshake.session.userAvatar;
-                data.initials = data.username.slice(0, 2);
-                data.timestamp = moment().valueOf();
-                if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
-                MongoClient.connect(constants.dbUrl, function (err, db) {
-                    db.collection("chatHistory").updateOne({
-                        sessionId: room.sessionId,
-                        owner: room.admin,
-                        roomName: socket.handshake.session.connectedRoom
-                    }, {$push: {messages: data}}, {upsert: true}, function (err, result) {
-
-                    });
-                });
-
-            }
-        });
+        // socket.on('send-message', function (data, callback) {
+        //     var room = findRoom(socket.handshake.session.connectedRoom);
+        //     data.type = "chat";
+        //     if (socket.handshake.session.username && room.admin) {
+        //         data.username = socket.handshake.session.username;
+        //         data.userAvatar = socket.handshake.session.userAvatar;
+        //         data.initials = data.username.slice(0, 2);
+        //         data.timestamp = moment().valueOf();
+        //         if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
+        //         MongoClient.connect(constants.dbUrl, function (err, db) {
+        //             db.collection("chatHistory").updateOne({
+        //                 sessionId: room.sessionId,
+        //                 owner: room.admin,
+        //                 roomName: socket.handshake.session.connectedRoom
+        //             }, {$push: {messages: data}}, {upsert: true}, function (err, result) {
+        //
+        //             });
+        //         });
+        //
+        //     }
+        // });
 
         socket.on("logout", function () {
             var room = findRoom(socket.handshake.session.connectedRoom);

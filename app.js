@@ -15,6 +15,7 @@ var moment = require("moment");
 const AdminView = require("./AdminView");
 const ChatNsp = require("./chatNsp").ChatNsp;
 const LectureNsp = require("./chatNsp").LectureNsp;
+const constants = require("./AdminView/constants");
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -313,12 +314,28 @@ chat.on('connection', function(socket){
     });
 });
 
-var test = new LectureNsp("test", "test", ios);
-test.nsp.use(sharedsession(session, {
-    autoSave:true
-}));
-test.listen();
+var setupNamespaces = function (callback) {
 
+    MongoClient.connect(constants.dbUrl, function (err, db) {
+        db.collection("users").find({}).toArray(function (err, users) {
+            users.forEach(function (user) {
+            	console.log(user.username+" nsp added.");
+                var nsp = new LectureNsp(user.username, user.username, ios);
+                nsp.nsp.use(sharedsession(session, {
+                    autoSave:true
+                }));
+                nsp.listen();
+                
+                callback(null, this.nsps);
+            }.bind(this));
+        }.bind(this))
+    }.bind(this));
+
+};
+
+setupNamespaces(function () {
+	
+});
 
 // route for uploading images asynchronously
 app.post('/v1/uploadImage',function (req, res){

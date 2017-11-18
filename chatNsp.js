@@ -277,8 +277,7 @@ LectureNsp.prototype.listen = function () {
                 data.userAvatar = socket.handshake.session.userAvatar;
                 data.initials = socket.handshake.session.initials;
                 data.msgTime = moment().format('LT');
-                data.timestamp = moment.valueOf();
-                data.isTA = socket.handshake.session.isTA;
+                data.timestamp = moment().valueOf();
                 data.isInstructor = false;
 
                 data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
@@ -317,25 +316,36 @@ LectureNsp.prototype.listen = function () {
 
             if (!socket.connectedRoom) return;
 
-            this.sendMessage(socket.connectedRoom, {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", timestamp: moment().valueOf(), type: "system", hidden: true});
+            if (socket.connectedRoom) socket.leave(socket.connectedRoom, function () {
+                this.sendMessage(socket.connectedRoom, {
+                    username: "[System]",
+                    msg: socket.handshake.session.username + " has left the room.",
+                    timestamp: moment().valueOf(),
+                    type: "system",
+                    hidden: true
+                });
 
-            //logout user after gone for 5min
-            // TODO: Maybe implement this but removed due to buggy
+                //logout user after gone for 5min
+                // TODO: Maybe implement this but removed due to buggy
 
-            // clearTimeout(ios.timeOuts[socket.handshake.session.id]);
-            // ios.timeOuts[socket.handshake.session.id] = setTimeout(function () {
-            // console.log("deleting session: "+socket.handshake.session.id);
-            // setSessionVars({username: null, userAvatar: null, connectedRoom: null, connected: false});
-            // }, 300000);
+                // clearTimeout(ios.timeOuts[socket.handshake.session.id]);
+                // ios.timeOuts[socket.handshake.session.id] = setTimeout(function () {
+                // console.log("deleting session: "+socket.handshake.session.id);
+                // setSessionVars({username: null, userAvatar: null, connectedRoom: null, connected: false});
+                // }, 300000);
 
-            var online_member = [];
-            var i = this.findRoomAdapter(socket.connectedRoom);
-            if (!i) return this.nsp.to(socket.connectedRoom).emit('online-members', online_member);
-            for (var clientId in i.sockets) {
-                temp1 = {"username": this.nsp.connected[clientId].username, "userAvatar":this.nsp.connected[clientId].userAvatar};
-                online_member.push(temp1);
-            }
-            this.nsp.to(socket.connectedRoom).emit('online-members', online_member);
+                var online_member = [];
+                var i = this.findRoomAdapter(socket.connectedRoom);
+                if (!i) return this.nsp.to(socket.connectedRoom).emit('online-members', online_member);
+                for (var clientId in i.sockets) {
+                    temp1 = {
+                        "username": this.nsp.connected[clientId].username,
+                        "userAvatar": this.nsp.connected[clientId].userAvatar
+                    };
+                    online_member.push(temp1);
+                }
+                this.nsp.to(socket.connectedRoom).emit('online-members', online_member);
+            }.bind(this));
 
         }.bind(this));
 
@@ -344,6 +354,17 @@ LectureNsp.prototype.listen = function () {
                 callback(result);
             });
         }.bind(this));
+
+        socket.on('delete-message', function(data, callback){
+            var history = findRoom(socket.connectedRoom).messageHistory;
+            var index = history.findIndex(function(item, i) {
+                return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+            });
+            if (index > -1)
+                history.splice(index, 1);
+            ios.sockets.to(socket.connectedRoom).emit('delete message', data);
+            callback({success:true});
+        });
 
     }.bind(this));
 

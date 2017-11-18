@@ -8,13 +8,11 @@ var csv = require('csv');
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require("mongodb").ObjectID;
-const nodemailer = require('nodemailer');
 var request = require('request');
 var outlook = require("node-outlook");
 
 var Bot = require("./bot.js");
-
-outlook.base.setApiEndpoint("https://outlook.office.com/api/v2.0");
+var LectureNsp = require("../chatNsp").LectureNsp;
 
 function findOne(list, params) {
     var result;
@@ -42,15 +40,6 @@ var sessionRedirect = function (req, res, next) {
     return next();
 };
 
-var transporter = nodemailer.createTransport({
-    host: constants.smtp.host,
-    secure: true,
-    requireTLS: true,
-    auth: {
-        user: constants.smtp.username,
-        pass: constants.smtp.password
-    }
-});
 
 function AdminView(socketController, expressApp) {
     this.ios = socketController;
@@ -61,6 +50,7 @@ function AdminView(socketController, expressApp) {
     this.oauthTokens = {};
 
 	this.secrets = [];
+	this.nsps = [];
 
     this.app.use(bodyParser.json());
 
@@ -254,7 +244,7 @@ AdminView.prototype.setupApi = function () {
             });
 
             bot.on("new message", function (data) {
-                console.log(data);
+                console.log("received message: ["+data.msgTime+"] "+data.username+": "+data.msg);
             });
 
 
@@ -564,6 +554,7 @@ AdminView.prototype.setupSocket = function () {
         }.bind(this));
     }.bind(this));
 };
+
 
 var checkPassword = function (user, password) {
     var hash = crypto.createHmac('sha512', user.salt);

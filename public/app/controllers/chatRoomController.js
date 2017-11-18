@@ -326,7 +326,9 @@ angular.module('Controllers')
 		Alert.Confirm.spawn("Are you sure?", "This will discard your current drawings.", function(){
 			var layer = $("#editor-frame").contents().find("#svgcontent .active-layer");
 			layer.html(source);
-			console.log(source);
+			if($(window).width() < 732){
+                swapFrame();
+			}
 		});
 	}
 

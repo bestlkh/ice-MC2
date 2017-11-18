@@ -33,6 +33,14 @@ angular.module('Controllers')
 
         $scope.students = [];
 
+        $scope.result = null;
+
+        $scope.test = false;
+
+        $scope.notif = null;
+
+        $scope.to = null;
+
         $scope.getBase64 = function (file, callback) {
             var reader = new FileReader();
 
@@ -62,9 +70,16 @@ angular.module('Controllers')
                     processData: false,
                     contentType: "application/json",
                     success: function (result) {
-                        $scope.students = result;
-                        $scope.hideImport = $scope.hideOverlay = true;
-                        $scope.$apply();
+                        $scope.hideImport = true;
+                        $scope.import.csv = null;
+                        $scope.Actions.getStudentList();
+                        $scope.result = result;
+
+                        $scope.newNotif("Successfully imported", true);
+                        setTimeout(function () {
+                            $scope.result.success = true;
+                            $scope.$apply();
+                        }, 50);
                     }
                 })
             },
@@ -79,9 +94,21 @@ angular.module('Controllers')
                         $scope.Actions.getStudentList();
                         $scope.student = {};
                         $scope.hideAdd = $scope.hideOverlay = true;
+
+                        $scope.newNotif("Successfully added", true);
                     }
                 })
             }
+        };
+
+        $scope.newNotif = function (message, success) {
+            $scope.notif = {message: message};
+
+            clearTimeout($scope.to);
+            $scope.to = setTimeout(function () {
+                $scope.notif = null;
+                $scope.$apply();
+            }, 5000);
         };
 
         $scope.checkInclude = function (student) {
@@ -108,11 +135,13 @@ angular.module('Controllers')
             var form = document.getElementsByClassName("import-wrapper")[0];
             if ($event.target !==  form && !form.contains($event.target)) {
                 $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
+                $scope.result = null;
             }
         };
 
         $scope.onCancelClick = function () {
             $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
+            $scope.result = null;
         };
 
         $scope.onImportSubmit = function () {
@@ -130,6 +159,8 @@ angular.module('Controllers')
                 url: "/v1/api/admin/students/generate",
                 success: function () {
                     $scope.Actions.getStudentList();
+
+                    $scope.newNotif("Tokens reset", true);
                 }
             })
         };

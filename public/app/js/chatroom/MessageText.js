@@ -1,10 +1,41 @@
 var MessageText = function(text){
-    this.text = text;
-    this.is_image = text.match(/^\[mc2-image\]/);
+
+    text = text.split("-----MC2 BEGIN ATTACHMENT-----");
+    this.text = text[0].replace(/^\n|\n$/g, '');
+    if(text.length > 1){
+        text = text[1].split("-----MC2 END ATTACHMENT-----");
+        this.raw_attachments = text[0].replace(/^\n|\n$/g, '');
+    } else {
+        this.raw_attachments = "e30=";
+    }
+
+    this.attachments = JSON.parse(atob(this.raw_attachments));
+
+
+    this.is_image = this.text.match(/^\[mc2-image\]/);
 
     this.getRaw = function(){
         return this.text;
     };
+
+    this.getRawAttachments = function(){
+        return this.raw_attachments;
+    };
+
+    this.getAttachments = function(){
+        return this.attachments;
+    };
+
+    this.hasSvgSource = function(){
+        return this.attachments['svg-source'];
+    };
+
+    this.getSvgSource = function(){
+        return atob(this.attachments['svg-source']);
+    };
+
+
+
 
     this.isImage = function(){
         return this.is_image;

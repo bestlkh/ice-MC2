@@ -7,6 +7,8 @@ pages:
   - Alert Library:
       - Overview: 'alert-library/overview.md'
 
+  - Message Format: 'message-format.md'
+
   - Classes:
     - UI.BasicControl: 'ui-library/controls/basic-control.md'
     - Alert.Alert: 'alert-library/dialogs/alert.md'

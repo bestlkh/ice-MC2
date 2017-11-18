@@ -233,6 +233,7 @@
                           <button ng-click="deleteMsg(message.raw_data)" ng-if="isAdmin && message.isChat()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                           <button ng-click="openBase64ImageInNewTab(message.getText().getImage())" ng-if="message.getText().isImage()"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
                           <button ng-click="showMessageDetails(message)"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                          <button ng-if="message.getText().hasSvgSource()">Edit</button>
                         </div>
 
                       </div><!-- /.direct-chat-text -->

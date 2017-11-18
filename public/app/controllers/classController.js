@@ -129,7 +129,7 @@ angular.module('Controllers')
 
                     });
 
-                }, 1000);
+                }, 500);
             });
         };
 

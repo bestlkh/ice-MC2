@@ -45,6 +45,11 @@ angular.module('Controllers',["ngRoute"])
         }
     };
 
+    var nsp = "";
+    if ($location.search().nsp)
+        nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
+
 
 		if ($rootScope.error) {
             $scope.isLoading = false;

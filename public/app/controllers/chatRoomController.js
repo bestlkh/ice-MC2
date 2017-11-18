@@ -322,6 +322,14 @@ angular.module('Controllers')
 		alert(text);
 	};
 
+	$scope.editSvgSource = function(source){
+		Alert.Confirm.spawn("Are you sure?", "This will discard your current drawings.", function(){
+			var layer = $("#editor-frame").contents().find("#svgcontent .active-layer");
+			layer.html(source);
+			console.log(source);
+		});
+	}
+
 	$scope.resetMessageMenu = function(){
 		$scope.showMenuMessage = null;
 	};

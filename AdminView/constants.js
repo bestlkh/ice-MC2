@@ -17,8 +17,7 @@ var constants = {
         callbackURL: 'https://ice.trentu.ca/v1/api/admin/auth/outlook/callback',
 
         tokenURL: "https://login.microsoftonline.com/common/oauth2/v2.0/token"
-    },
-    emailTemplate: "Dear STAB52 student,\n\nHere is a link to use MC2: {link}\nClick to access MC2.\n\nIf you have any technical problems, please send email to Wannie Chen(wannie.chen@mail.utoronto.ca) or Ryan Lee (khryan.lee@mail.utoronto.ca)"
+    }
 };
 
 constants.oauth.authURL = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id="+constants.oauth.appId+"&redirect_uri="+constants.oauth.callbackURL+"&response_type=code&scope="+constants.oauth.scope;

@@ -6,8 +6,12 @@
 </div>
 <div class="control-content">
     <div class="student-control-wrapper">
-        <input class="student-search" ng-model="search.value" ng-change="onSearchChange()"/>
-
+        <div style="display:flex;">
+            <input class="student-search" ng-model="search.value" ng-change="onSearchChange()"/>
+            <div class="notif-popup" ng-if="notif">
+                {{notif.message}}
+            </div>
+        </div>
         <div class="button-wrapper">
             <div class="line-button import-button" ng-click="onImportClick()">
                 Import
@@ -26,13 +30,12 @@
 
         </div>
     </div>
-    <div class="student-list" >
-        <div class="student-list-header">
+    <div class="table-list">
+        <div class="table-list-header">
             <div> Utorid </div>
 
             <div> Email </div>
             <div>Token</div>
-            <div>TA</div>
         </div>
         <div class="list-wrapper" ng-repeat="student in students">
             <div class="student-item" ng-if="checkInclude(student)">
@@ -40,18 +43,29 @@
 
                 <div>{{student.email}}</div>
                 <div>{{student.token}}</div>
-                <div>{{student.isTA ? "Yes" : "No"}}</div>
             </div>
         </div>
 
     </div>
-    <div class="import-overlay" ng-if="!hideOverlay" ng-click="onOverlayClick($event)">
-        <div class="import-wrapper" ng-if="!hideImport">
-            <header> Import student list </header>
-            <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>, or <span>isTA</span> (not required).</div>
+    <div class="import-overlay" ng-if="!hideOverlay" ng-click="onOverlayClick($event);">
+        <div class="import-wrapper" ng-if="result">
+            <div class="result-wrapper">
+                <div class="spin circle" ng-if="result.success">
+
+                </div>
+                <div class="tool-tip" style="margin: 10px;">
+                    <span>Success</span>
+                    <div>Imported <span>{{result['n_successful']}}</span> student(s)</div>
+                    <div><span>{{result.amount - result['n_successful']}}</span> failed</div>
+                </div>
+            </div>
+        </div>
+        <div class="import-wrapper" ng-if="!hideImport && !result">
+            <header> <span>Import student list</span> </header>
+            <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
             <form ng-submit="onImportSubmit()">
                 <div class="form-wrapper">
-                    <div class="">
+                    <div ng-if="!import.csv">
                         Upload student CSV file
                     </div>
                     <div ng-if="import.csv">
@@ -75,7 +89,7 @@
             </form>
         </div>
         <div class="import-wrapper" ng-if="!hideAdd">
-            <header> Add student to list </header>
+            <header> <span>Add student to list</span> </header>
             <form ng-submit="onAddSubmit()">
 
                 <div class="form-wrapper" style="border: 0;">
@@ -88,11 +102,6 @@
                             Email:
                         </div>
                         <input type="text" ng-model="student.email" required/>
-                        <div style="display: flex; justify-content: space-between;">
-                            TA:
-                            <md-switch ng-model="student.isTA" aria-label="Switch 1" class="md-warn" style="margin: 0;">
-                            </md-switch>
-                        </div>
 
                     </div>
 

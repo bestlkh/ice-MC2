@@ -109,11 +109,16 @@ angular.module('Controllers')
 		}
     });
 
+	$scope.$on("$destroy", function () {
+		$socket.disconnect();
+
+    });
+
 	// redirection if user is not logged in.
     if(!$rootScope.loggedIn){
 
         $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-
+			console.log(data);
             if (data.username) {
 
                 $rootScope.loggedIn = true;
@@ -156,6 +161,7 @@ angular.module('Controllers')
 // ================================== Online Members List ===============================
 
 	$socket.on("online-members", function(data){
+		console.log(data);
 		$scope.users = data;
 	});
 
@@ -193,8 +199,8 @@ angular.module('Controllers')
 	// toggle online member list mobile
  	$scope.custom = true;
     $scope.toggleCustom = function() {
-        $socket.emit('get-online-members',function(data){
-        });
+
+        $socket.emit('get-online-members', {roomName: $routeParams.roomId});
         $scope.custom = $scope.custom === false ? true: false;	
         if(!$scope.custom){
         	if(!angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){

@@ -1,9 +1,8 @@
 var App = angular.module('ChatRoom',['ngResource','ngRoute','ngStorage','socket.io','ngFileUpload','Controllers','Services', 'angular-spinkit'])
-.run(["$rootScope", function ($rootScope){
-	//$rootScope.baseUrl = 'http://192.168.10.8:8080'; //Application URL
+.run(["$rootScope", function ($rootScope, $location, $socket){
+
 }]);
 App.config(function ($routeProvider, $socketProvider, $locationProvider){
-	//$socketProvider.setConnectionUrl('http://192.168.10.8:8080'); // Socket URL
 
 	$routeProvider	// AngularJS Routes
 	.when('/v1/:roomId', {
@@ -21,4 +20,9 @@ App.config(function ($routeProvider, $socketProvider, $locationProvider){
     });
 
     //$locationProvider.html5Mode(true);
+}).run(function ($location, $socket) {
+	var nsp = "";
+	if ($location.search().nsp)
+    	nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
 });

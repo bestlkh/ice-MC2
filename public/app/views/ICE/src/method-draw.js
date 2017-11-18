@@ -2437,7 +2437,19 @@ var SOTP = 0;
           canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
               renderCallback: function(){
                 setTimeout(function(){
-                  $(parent.document.getElementById('textArea')).val("[mc2-image]" + canvas.toDataURL());
+
+                  var raw_message = "[mc2-image]" + canvas.toDataURL();
+                  // Add attachment to message
+                  raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+                  var message_attachment = {
+                    'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+                  };
+                  raw_message += btoa(JSON.stringify(message_attachment));
+                  raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+
+                  console.log(raw_message);
+
+                  $(parent.document.getElementById('textArea')).val(raw_message);
                   $(parent.document.getElementById('chat-send-button')).click();
                   $("#pre-render-svg").remove();
                 }, 500);

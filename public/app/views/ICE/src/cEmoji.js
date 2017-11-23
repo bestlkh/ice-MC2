@@ -69,5 +69,5 @@ function input(e){
 
 function typeset(e){
   document.getElementById("previewArea").innerHTML = e.placeholder + "<br>" + e.value;
-  MathJax.Hub.Typeset();
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }

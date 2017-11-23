@@ -20,7 +20,10 @@
         MathJax.Hub.Config({
           showProcessingMessages: false,
           tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+          CommonHTML: { linebreaks: { automatic: true, width: "container" } },
+          "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
           SVG: {
+            linebreaks: { automatic: true, width: "container" },
             scale: 150
           }
         });

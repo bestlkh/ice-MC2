@@ -57,13 +57,14 @@
                     MathJax.Hub.Config({
                       showProcessingMessages: false,
                       tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-                      CommonHTML: { linebreaks: { automatic: true, width: 'container' } },
-                      "HTML-CSS": { linebreaks: { automatic: true, width: 'container' } },
-                      SVG: { linebreaks: { automatic: true, width: 'container' } }
+                      CommonHTML: { linebreaks: { automatic: true, width: "container" } },
+                      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+                      SVG: { linebreaks: { automatic: true, width: "container" } }
                     });
+                    MathJax.Hub.setRenderer("SVG");
                 </script>
                 <!-- MathJax CDN from CloudFlare-->
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
                 <div class="menu_logo mobile">MC2</div>                
                 <div class="box-tools pull-right">
                   <!-- Any File Select Button -->

@@ -45,6 +45,12 @@ onMainLoop(function(){
     }
 
     $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight() - 45);
+
+
+    tippy('.direct-chat-text-menu button', {
+        size: 'large',
+        touchHold: true
+    });
 });
 
 // Change interface size to adapt the soft keyboard

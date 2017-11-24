@@ -45,4 +45,6 @@ var MessageText = function(text){
         var re = /^\[mc2-image\]/;
         return this.text.replace(re, "");
     };
+
+
 };

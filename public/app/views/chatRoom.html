@@ -367,13 +367,22 @@
 
                 <!--Size of this area is modified by JavaScript, registered in ui.js-->
                 <div id="text-message-input-area">
-                  <button class="message-tool-button accordion" id="emoji-button"><img src="/app/images/emoji-icon.png" width="17px" /></button>
+                  <button class="message-tool-button accordion" id="emoji-button" title="Special Characters">
+                    <img src="/app/images/emoji-icon.png" width="20px" />
+                  </button>
+                  <button class="message-tool-button" id="latex-button" title="LaTeX Editor" ng-click="toggleLatexEditor()">
+                    <img src="/app/images/latex-icon.png" width="20px" />
+                  </button>
                   <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
                             ng-model="chatMsg"
                             ng-change="isMsgBoxEmpty=false"
                             ng-enter="sendMsg()"
                             ng-focus="setFocus"></textarea>
-                  <button class="message-tool-button" ng-click="sendMsg()">Send</button>
+                  <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+                </div>
+
+                <div id="latex-editor-area">
+                  <div id="latex-editor"></div>
                 </div>
 
 

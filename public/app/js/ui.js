@@ -1,3 +1,5 @@
+var latexEditor;
+
 onMainLoop(function(){
     var ua = window.navigator.userAgent;
     var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
@@ -15,12 +17,32 @@ onMainLoop(function(){
 onMainLoop(function(){
     var containerWidth = $("#text-message-input-area").width();
     var toolButtonTotalWidth = 0;
-    $.each($(".message-tool-button"), function(key, val){
-        toolButtonTotalWidth += $(val).outerWidth();
-    });
-    $("#textArea").css({
-        'width': containerWidth - toolButtonTotalWidth - 10
-    })
+    if($("#text-message-input-area").hasClass("latex-editor-shown")) {
+        // Exclude the send button
+        $.each($(".message-tool-button").not("#send-message-button"), function(key, val){
+            toolButtonTotalWidth += $(val).outerWidth();
+        });
+    } else {
+        // Include all tool buttons
+        $.each($(".message-tool-button"), function(key, val){
+            toolButtonTotalWidth += $(val).outerWidth();
+        });
+    }
+    if($("#text-message-input-area").hasClass("latex-editor-shown")){
+        $("#textArea").css({
+            'width': ''
+        });
+        $("#send-message-button").css({
+            'width': containerWidth - toolButtonTotalWidth - 30
+        });
+    } else {
+        $("#textArea").css({
+            'width': containerWidth - toolButtonTotalWidth - 30
+        });
+        $("#send-message-button").css({
+            'width': ''
+        });
+    }
 
     $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight() - 45);
 });
@@ -49,6 +71,20 @@ onChatTextBoxBlur(function(e){
         // });
         window.scrollTo(0, 0);
     }, 500);
+});
+
+onChatRoomInterfaceLoaded(function(){
+    tippy('.message-tool-button', {
+        size: 'large',
+        touchHold: true
+    });
+    latexEditor = ace.edit("latex-editor");
+    latexEditor.setTheme("ace/theme/github");
+    latexEditor.getSession().setMode("ace/mode/latex");
+    latexEditor.getSession().setUseWrapMode(true);
+    latexEditor.getSession().on('change', function(e) {
+        $("#textArea").val(latexEditor.getValue());
+    });
 });
 
 $(window).on('resize', function(){

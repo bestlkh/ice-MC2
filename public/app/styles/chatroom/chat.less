@@ -1,7 +1,6 @@
 /** chatroom/chat.less
  * Any styles related to chat.
  */
-
 .chat-settings {
   width: 30px;
   height: 30px;
@@ -244,6 +243,7 @@
 
 #chat_body_div {
   //overflow: hidden;
+  overflow-y: scroll;
 }
 
 div {
@@ -281,6 +281,8 @@ div {
 
 .box-footer {
   border: none;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 .btn {
@@ -290,7 +292,6 @@ div {
 
 #text-message-input-area {
   width: 100%;
-  padding-bottom: 20px;
   .message-tool-button {
     border: none;
     background-color: transparent;
@@ -305,10 +306,10 @@ div {
   }
   #textArea {
     vertical-align: middle;
-    height: 30px;
+    height: 35px;
     overflow: hidden;
     resize: none;
-    line-height: 30px;
+    line-height: 35px;
     padding-left: 15px;
     padding-right: 15px;
     white-space: nowrap;
@@ -323,4 +324,8 @@ div {
       transition: all ease 0.3s;
     }
   }
+}
+
+.direct-chat-text-inner {
+  text-align: left;
 }

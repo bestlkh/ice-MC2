@@ -1495,7 +1495,6 @@ a:focus {
  */
 .box {
   position: relative;
-  border-radius: 3px;
   background: #ffffff;
   border-top: 3px solid #d2d6de;
 

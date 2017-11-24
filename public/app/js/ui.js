@@ -11,6 +11,18 @@ onMainLoop(function(){
     }
 });
 
+// Programmatically modify the textarea size
+onMainLoop(function(){
+    var containerWidth = $("#text-message-input-area").width();
+    var toolButtonTotalWidth = 0;
+    $.each($(".message-tool-button"), function(key, val){
+        toolButtonTotalWidth += $(val).outerWidth();
+    });
+    $("#textArea").css({
+        'width': containerWidth - toolButtonTotalWidth - 10
+    })
+});
+
 // Change interface size to adapt the soft keyboard
 onChatTextBoxFocus(function(e) {
     setTimeout(function(){

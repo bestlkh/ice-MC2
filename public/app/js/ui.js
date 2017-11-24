@@ -11,28 +11,42 @@ onMainLoop(function(){
     }
 });
 
+// Programmatically modify the textarea size
+onMainLoop(function(){
+    var containerWidth = $("#text-message-input-area").width();
+    var toolButtonTotalWidth = 0;
+    $.each($(".message-tool-button"), function(key, val){
+        toolButtonTotalWidth += $(val).outerWidth();
+    });
+    $("#textArea").css({
+        'width': containerWidth - toolButtonTotalWidth - 10
+    })
+
+    $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight() - 45);
+});
+
 // Change interface size to adapt the soft keyboard
 onChatTextBoxFocus(function(e) {
     setTimeout(function(){
-        $("#chat_body_div").css({
-            height: window.innerHeight - 100
-        });
+        // $("#chat_body_div").css({
+        //     height: window.innerHeight - 100
+        // });
         window.scrollTo(0, 0);
 
         setTimeout(function(){
-            $(".direct-chat-messages").scrollTop($(".direct-chat-messages")[0].scrollHeight);
-            $("#chat_body_div").animate({
-                scrollTop: $("#chat_body_div")[0].scrollHeight + 100
-            });
+            // $(".direct-chat-messages").scrollTop($(".direct-chat-messages")[0].scrollHeight);
+            // $("#chat_body_div").animate({
+            //     scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+            // });
         }, 300);
     }, 500);
 });
 
 onChatTextBoxBlur(function(e){
     setTimeout(function(){
-        $("#chat_body_div").css({
-            height: window.innerHeight - 100
-        });
+        // $("#chat_body_div").css({
+        //     height: window.innerHeight - 100
+        // });
         window.scrollTo(0, 0);
     }, 500);
 });

@@ -268,6 +268,8 @@ angular.module('Controllers')
                 scrollTop: $("#chat_body_div")[0].scrollHeight + 100
             });
 		} else {
+			// Alert user that they cannot send empty message
+			Alert.Notification.spawn("You cannot send empty messages", "error", 5);
 			$scope.isMsgBoxEmpty = true;
 		}
 	};

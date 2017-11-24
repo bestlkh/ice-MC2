@@ -277,7 +277,7 @@
                   };
                   //]]>  
               </script> 
-              <div class="box-footer">
+              <div class="box-footer" id="chatroom-footer">
               <div id="panel">
                       <span style="font-color: black; font-size: 13px">
                         <div class="tab">
@@ -343,31 +343,40 @@
                             [Click Preview - Double Click Add]
                           </p>
                         </div>
-                      <span>
+                      </span>
                     </div>
-                <div class="box-tools pull-right desktop">
-                  <!-- Any File Select Button -->
-                  <button class="btn btn-warning btn-flat" data-widget="" ngf-select ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>
-                </div>
+                <!--<div class="box-tools pull-right desktop">-->
+                  <!--&lt;!&ndash; Any File Select Button &ndash;&gt;-->
+                  <!--<button class="btn btn-warning btn-flat" data-widget="" ngf-select ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>-->
+                <!--</div>-->
+
+
                 <!-- Text message  -->
-                <form action="" method="post">
-                  <div class="input-group">
-                  <span class="input-group-btn" style="position:relative">
-                    <button type="button" class="accordion btn btn-warning btn-flat">☺+</button>
-                  </span>
-                    <textarea rows=1 id="textArea" class="chat-text-box" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
-                    </textarea>
-                    <script>
-                      var ua = window.navigator.userAgent;
-                      var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-                      var webkit = !!ua.match(/WebKit/i);
-                      var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-                    </script>
-                    <span class="input-group-btn">
-                      <button id="chat-send-button" type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>
-                    </span>
-                  </div>
-                </form>
+                <!--<form action="" method="post" id="text-message-form">-->
+                  <!--<div class="input-group">-->
+                  <!--<span class="input-group-btn" style="position:relative">-->
+                    <!--<button type="button" class="accordion btn btn-warning btn-flat" id="emoji-button"><img src="/app/images/emoji-icon.png" width="17px" /></button>-->
+                  <!--</span>-->
+                    <!--<textarea rows=1 id="textArea" class="chat-text-box" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">-->
+                    <!--</textarea>-->
+                    <!--<span class="input-group-btn">-->
+                      <!--<button id="chat-send-button" type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>-->
+                    <!--</span>-->
+                  <!--</div>-->
+                <!--</form>-->
+
+                <!--Size of this area is modified by JavaScript, registered in ui.js-->
+                <div id="text-message-input-area">
+                  <button class="message-tool-button accordion" id="emoji-button"><img src="/app/images/emoji-icon.png" width="17px" /></button>
+                  <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                            ng-model="chatMsg"
+                            ng-change="isMsgBoxEmpty=false"
+                            ng-enter="sendMsg()"
+                            ng-focus="setFocus"></textarea>
+                  <button class="message-tool-button" ng-click="sendMsg()">Send</button>
+                </div>
+
+
               </div><!-- /.box-footer-->
               </div><!-- /.box -->
             </div>

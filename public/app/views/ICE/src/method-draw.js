@@ -2225,8 +2225,16 @@ var SOTP = 0;
           var tex = getBST();
           if($(window).width() <= 732) {
             clickSwap();
-            parent.document.getElementById('textArea').value  = tex;
+            raw_message = tex;
+            raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+            var message_attachment = {
+              'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+            };
+            raw_message += btoa(JSON.stringify(message_attachment));
+            raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+            parent.document.getElementById('textArea').value  = raw_message;
           } else {
+            parent.preview.window.svg_source = btoa($("#svgcontent").find(".active-layer").html());
             parent.preview.window.editor.setValue(tex);
           }
         }

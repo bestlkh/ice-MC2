@@ -275,6 +275,10 @@ angular.module('Controllers')
 		}
 	};
 
+	$scope.showEquationSource = function(source){
+		Alert.Alert.spawn("LaTeX Source", "<pre><code>" + source + "</code></pre>");
+	};
+
     /**
 	 * Manually send a message to the chat room
      * @param msg

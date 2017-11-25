@@ -14,7 +14,7 @@ var MessageText = function(text){
 
     this.is_image = this.text.match(/^\[mc2-image\]/);
 
-    this.is_equation = this.text.match(/^\$\$.*\$\$$/);
+    this.is_equation = this.text.match(/^\$\$[\s\S]*\$\$$/);
 
     this.getRaw = function(){
         return this.text;

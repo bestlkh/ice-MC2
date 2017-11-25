@@ -230,6 +230,7 @@
 
                         </div>
 
+                        <!--Tool buttons for each message-->
                         <div class="direct-chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
                           <button ng-click="deleteMsg(message.raw_data)"
                                   ng-if="isAdmin && message.isChat()"
@@ -251,6 +252,7 @@
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                           </button>
                           <button ng-if="message.getText().isEquation()"
+                                  ng-click="showEquationSource(message.getText().getRaw())"
                                   title="Show LaTeX source">
                             <i class="fa fa-code" aria-hidden="true"></i>
                           </button>

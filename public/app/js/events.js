@@ -43,11 +43,11 @@ $(document).bind('touchmove', function(e){
 
 onChatRoomInterfaceLoaded(function(){
     // Register all events related to chat room interface
-    $(".chat-text-box").on('focus', function(e){
+    $("#textArea").on('focus', function(e){
         fireEventChain(chatTextBoxFocusHandlers, e);
     });
 
-    $(".chat-text-box").on('blur', function(e){
+    $("#textArea").on('blur', function(e){
         fireEventChain(chatTextBoxBlurHandlers, e);
     });
 });

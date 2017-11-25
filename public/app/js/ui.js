@@ -53,30 +53,26 @@ onMainLoop(function(){
     });
 });
 
-// Change interface size to adapt the soft keyboard
-onChatTextBoxFocus(function(e) {
-    setTimeout(function(){
-        // $("#chat_body_div").css({
-        //     height: window.innerHeight - 100
-        // });
-        window.scrollTo(0, 0);
-
-        setTimeout(function(){
-            // $(".direct-chat-messages").scrollTop($(".direct-chat-messages")[0].scrollHeight);
-            // $("#chat_body_div").animate({
-            //     scrollTop: $("#chat_body_div")[0].scrollHeight + 100
-            // });
-        }, 300);
-    }, 500);
+// Resize dcs to let messages go from bottom to top
+onMainLoop(function(){
+    var containerHeight = $("#chat_body_div").height();
+    var innerHeight = $("#dcs").outerHeight();
+    if(containerHeight > innerHeight){
+        $("#dcs").css({
+            'margin-top': containerHeight - innerHeight
+        })
+    } else {
+        $("#dcs").css({
+            'margin-top': ''
+        })
+    }
 });
 
-onChatTextBoxBlur(function(e){
-    setTimeout(function(){
-        // $("#chat_body_div").css({
-        //     height: window.innerHeight - 100
-        // });
-        window.scrollTo(0, 0);
-    }, 500);
+// Change interface size to adapt the soft keyboard
+onChatTextBoxFocus(function(e) {
+    $("#chat_body_div").animate({
+        scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+    });
 });
 
 onChatRoomInterfaceLoaded(function(){

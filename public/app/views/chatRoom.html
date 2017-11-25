@@ -250,6 +250,10 @@
                                   title="Edit in editor">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                           </button>
+                          <button ng-if="message.getText().isEquation()"
+                                  title="Show LaTeX source">
+                            <i class="fa fa-code" aria-hidden="true"></i>
+                          </button>
                         </div>
 
                       </div><!-- /.direct-chat-text -->

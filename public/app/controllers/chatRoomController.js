@@ -1,7 +1,7 @@
 var textarea = document.getElementById("textArea");
 var chatLog = "";
 
-angular.module('Controllers', ['ngSanitize'])
+angular.module('Controllers')
 .directive('scrollBottom', function () {		// custom directive for scrolling bottom on new message load
   return {
     scope: {

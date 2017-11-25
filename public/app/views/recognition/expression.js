@@ -66,11 +66,29 @@ Expression.prototype.apply = function(func, regionCondFunc, condFunc) {
     }
 
     for (var i = 0; i < this.symbols.length; i++) {
-        if (condFunc(this.symbols[i])) {
-            func(this.symbols[i]);
-            this.symbols[i].apply(func, function(region) {return true;}, condFunc);
-        } else{
-            this.symbols[i].apply(func, regionCondFunc, condFunc);
+        if(this.symbols[i].value === "lim") {
+            var test = false;
+            for (var j = 0; j < this.symbols[i].subSymbols.length; j++) {
+                if (condFunc(this.symbols[i].subSymbols[j])) {
+                    func(this.symbols[i].subSymbols[j]);
+                    this.symbols[i].subSymbols[j].apply(func, function(region) {return true;}, condFunc);
+                    test = true;
+                } else{
+                    this.symbols[i].subSymbols[j].apply(func, regionCondFunc, condFunc);
+                }
+            }
+            if (test) {
+                this.symbols[i].apply(func, function(region) {return true;}, condFunc);
+            } else{
+                this.symbols[i].apply(func, regionCondFunc, condFunc);
+            }
+        } else {
+            if (condFunc(this.symbols[i])) {
+                func(this.symbols[i]);
+                this.symbols[i].apply(func, function(region) {return true;}, condFunc);
+            } else{
+                this.symbols[i].apply(func, regionCondFunc, condFunc);
+            }
         }
     }
 }

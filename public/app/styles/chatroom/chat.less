@@ -297,8 +297,8 @@ div {
     background-color: transparent;
     vertical-align: middle;
     opacity: 0.7;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     outline: none;
     &:hover {
       opacity: 1;
@@ -319,13 +319,50 @@ div {
     border: rgba(0,0,0,0.1) 1px solid;
     transition: all ease 0.3s;
     -webkit-appearance: none; /* Remove shadow on mobile Safari */
+    margin-left: 10px;
+    margin-right: 10px;
+    opacity: 1;
     &:focus {
       border: rgba(0,0,0,0.2) 1px solid;
       transition: all ease 0.3s;
+    }
+  }
+  #send-message-button {
+    transition: all ease 0.5s;
+  }
+  &.latex-editor-shown {
+    #textArea {
+      width: 0;
+      padding: 0;
+      margin: 0;
+      opacity: 0;
+    }
+    #send-message-button {
+      background-color: rgba(0,0,0,0.1);
+      padding: 7px;
+      border-radius: 5px;
+      transition: all ease 0.5s;
     }
   }
 }
 
 .direct-chat-text-inner {
   text-align: left;
+}
+
+/* Chat latex editor */
+#latex-editor-area {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height ease 0.7s;
+  &.shown {
+    max-height: 200px;
+    transition: max-height ease 0.7s;
+  }
+  #latex-editor {
+    margin-top: 10px;
+    height: 150px;
+    width: 100%;
+    font-size: 14px;
+  }
 }

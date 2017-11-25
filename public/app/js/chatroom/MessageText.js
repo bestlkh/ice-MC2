@@ -14,6 +14,8 @@ var MessageText = function(text){
 
     this.is_image = this.text.match(/^\[mc2-image\]/);
 
+    this.is_equation = this.text.match(/^\$\$[\s\S]*\$\$$/);
+
     this.getRaw = function(){
         return this.text;
     };
@@ -34,8 +36,9 @@ var MessageText = function(text){
         return atob(this.attachments['svg-source']);
     };
 
-
-
+    this.isEquation = function(){
+        return this.is_equation;
+    };
 
     this.isImage = function(){
         return this.is_image;
@@ -45,4 +48,6 @@ var MessageText = function(text){
         var re = /^\[mc2-image\]/;
         return this.text.replace(re, "");
     };
+
+
 };

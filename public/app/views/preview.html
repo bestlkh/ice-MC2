@@ -47,7 +47,7 @@
     document.getElementById("preview-send").onclick = function () {
         if (editor.getValue()) {
             parent.document.getElementById('textArea').value = editor.getValue();
-            parent.document.getElementById('chat-send-button').click();
+            parent.document.getElementById('send-message-button').click();
         } else {
             alert("nothing to send");
         }

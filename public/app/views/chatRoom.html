@@ -147,9 +147,7 @@
                             <div ng-if="message.getText().isImage()">
                               <img ng-src="{{ message.getText().getImage() }}" class="inline-image" />
                             </div>
-                            <div ng-if="!message.getText().isImage()">
-                              {{ message.getText().getRaw() }}
-                            </div>
+                            <div ng-if="!message.getText().isImage()" ng-bind-html="message.getText().getRenderedText()" class="no-para-margin"></div>
                           </div>
 
                           <!-- {{ message.sendfile }} Media File messages -->

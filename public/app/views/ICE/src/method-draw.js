@@ -2437,8 +2437,18 @@ var SOTP = 0;
           canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
               renderCallback: function(){
                 setTimeout(function(){
-                  $(parent.document.getElementById('textArea')).val("[mc2-image]" + canvas.toDataURL());
-                  $(parent.document.getElementById('chat-send-button')).click();
+
+                  var raw_message = "[mc2-image]" + canvas.toDataURL();
+                  // Add attachment to message
+                  raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+                  var message_attachment = {
+                    'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+                  };
+                  raw_message += btoa(JSON.stringify(message_attachment));
+                  raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+
+                  $(parent.document.getElementById('textArea')).val(raw_message);
+                  $(parent.document.getElementById('send-message-button')).click();
                   $("#pre-render-svg").remove();
                 }, 500);
                 if(MobileUI.mounted){
@@ -2532,6 +2542,7 @@ var SOTP = 0;
         svgCanvas.open();
       };
       var clickImport = function(){
+        $("#image-import-input").click();
       };
 
       var flash = function($menu){
@@ -3392,7 +3403,7 @@ var SOTP = 0;
           {sel:'#tool_STC', fn: sendToChat, evt: 'mouseup'},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
-          {sel:'#tool_import', fn: clickImport, evt: 'mouseup'},
+          {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},
@@ -3533,7 +3544,7 @@ var SOTP = 0;
             {key: ['shift+8', true], fn: function(){svgCanvas.keyPressed('×');}},
             {key: [String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('.');}},
             {key: [String.fromCharCode(191), true], fn: function(){svgCanvas.keyPressed('//');}},
-            {key: ['ctrl+space', true], fn: function() {var at = svgCanvas.toggleAutoSpacing(); alert("Auto-spacing is " +  (at ? "on" : "off") + ".")}},
+            {key: ['ctrl+l', true], fn: function() {var at = svgCanvas.toggleAutoSpacing(); alert("Auto-spacing is " +  (at ? "on" : "off") + ".")}},
   				//	{key: ['<', true], fn: function(){svgCanvas.keyPressed('<');}},
   				//	{key: ['>', true], fn: function(){svgCanvas.keyPressed('>');}},
             {key: ['shift+,', true], fn: function(){svgCanvas.keyPressed('<');}},
@@ -3580,7 +3591,12 @@ var SOTP = 0;
                 if (btn.length == 0) return true; // Skip if markup does not exist
                 if(opts.evt) {
                   if (svgedit.browser.isTouch() && opts.evt === "click") opts.evt = "mousedown"
-                  btn[opts.evt](opts.fn);
+                  if(opts.evt === "click"){
+                    btn.click(opts.fn);
+                  } else {
+                    btn.on('mousedown', opts.fn);
+                  }
+                  // btn[opts.evt](opts.fn);
                 }
 
                 // Add to parent flyout menu, if able to be displayed

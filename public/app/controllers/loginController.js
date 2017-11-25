@@ -45,6 +45,12 @@ angular.module('Controllers',["ngRoute"])
         }
     };
 
+    var nsp = "";
+    if ($location.search().nsp)
+        nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
+
+
 		if ($rootScope.error) {
             $scope.isLoading = false;
             console.log($rootScope.error);
@@ -52,15 +58,15 @@ angular.module('Controllers',["ngRoute"])
 		} else {
             $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
 
-                if (data.username) {
+                if (data.username && $routeParams.roomId) {
 
                     $rootScope.loggedIn = true;
                     $rootScope.username = data.username;
                     $rootScope.initials = data.username.substring(0, 2);
                     $rootScope.userAvatar = data.avatar;
 
-                    if ($routeParams.roomId) $location.path('/v1/ChatRoom/' + $routeParams.roomId);
-                    else if (data.room) $location.path('/v1/ChatRoom/' + data.room);
+                    $location.path('/v1/ChatRoom/' + $routeParams.roomId);
+
                 }
                 $scope.isLoading = false;
 
@@ -134,7 +140,7 @@ angular.module('Controllers',["ngRoute"])
 						$scope.isErrorNick = true;
 						$scope.isErrorReq = true;
 						$scope.printErr($scope.errMsg);
-					}			
+					}
 				});
 			}else{		// blanck nickname 
 				$scope.errMsg = "Enter a nickname.";

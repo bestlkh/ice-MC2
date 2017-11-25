@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module '/home/jun/Shared/ice-MC2/public/app/js/alert.js' from '/home/jun/Shared/ice-MC2/public/app/js'");

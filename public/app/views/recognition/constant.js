@@ -26,6 +26,7 @@ const BRACKET_TYPES = {
 
 const TEX_TEXT = {
     'sum': ' \\sum ',
+    'lim': ' \\lim ',
     '∑': ' \\sum ',
     'fraction': ' \\frac ',
     'root': ' \\sqrt ',
@@ -49,6 +50,7 @@ const TEX_TEXT = {
     '=': ' = ',
     '→': ' \\to ',
     'lim': ' \\lim '
+    '->': '\\to '
 };
 
 const BRACKET = ["lbracket", "(", ")", "rbracket"];

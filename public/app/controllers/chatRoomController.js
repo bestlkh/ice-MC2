@@ -329,15 +329,19 @@ angular.module('Controllers')
 	};
 
 	$scope.showMessageDetails = function(message){
-		var text = "Message sent by " + message.getUsername() + "\n";
-		text += "Time: " + message.getTime() + "\n";
+		var text = "Message sent by " + message.getUsername() + "<br>";
+		text += "Time: " + message.getTime() + "<br>";
 		if(message.getText().isImage()){
 			text += "Message is a base64 image.";
 		} else {
-            text += "Message raw body: " + message.getText().getRaw();
+			text += "<b>Message Text Body:</b>";
+			text += "<pre>";
+            text +=  message.getText().getRaw();
+            text += "</pre>";
 		}
+        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
 
-		alert(text);
+		Alert.Alert.spawn(text);
 	};
 
 	$scope.editSvgSource = function(source){

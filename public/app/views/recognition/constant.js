@@ -47,7 +47,8 @@ const TEX_TEXT = {
     '>': ' \\gt ',
     '≥': ' \\ge ',
     '=': ' = ',
-    '→': ' \\to '
+    '→': ' \\to ',
+    'lim': ' \\lim '
 };
 
 const BRACKET = ["lbracket", "(", ")", "rbracket"];

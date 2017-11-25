@@ -92,10 +92,30 @@ function parse(ls){
             wall = ls[temp1].wall;
             temp2 = hor(ls, temp1);
             while(temp2 != -1) {
-                ls[temp2].marked = true;
                 var oldWall = ls[temp1].wall;
                 ls[temp2].setWall(oldWall);
                 symbol = ls[temp2];
+                var parentSize = parent.symbols.length;
+                if (symbol.value === "m" && parentSize >= 2 && parent.symbols[parentSize - 1].value === "i" && parent.symbols[parentSize - 2].value === "l") {
+                    var iSymbol = parent.symbols[parentSize - 1];
+                    var lSymbol = parent.symbols[parentSize - 2];
+                    var newX = lSymbol.minX;
+                    var newY = lSymbol.minY;
+                    console.log(lSymbol, iSymbol, symbol)
+                    var newWidth = symbol.x + symbol.width - newX;
+                    var newHeight = lSymbol.height;
+                    var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
+                    newLimitSymbol.setWall(oldWall);
+                    newLimitSymbol.subSymbols = [lSymbol, iSymbol, symbol]; // fix when moving aronud actual symbols.
+                    symbol = newLimitSymbol;
+                    ls[temp2] = symbol;
+                    //console.log(ls.popls.indexOf(parent.symbols[parentSize -2]))
+                    //console.log(ls.indexOf(parent.symbols[parentSize -1]))
+                    stack.splice(stack.indexOf([ls.indexOf(lSymbol), lSymbol]), 1);
+                    stack.splice(stack.indexOf([ls.indexOf(iSymbol), iSymbol]), 1);
+                    parent.symbols.pop();
+                    parent.symbols.pop();
+                }
                 parent.symbols.push(symbol);
                 stack.push([temp2, symbol]);
                 ls[temp1].wall.right = ls[temp2].minX;

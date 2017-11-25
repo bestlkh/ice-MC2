@@ -233,8 +233,8 @@ svgedit.select.Selector.prototype.resize = function() {
   this.selectorGroup.setAttribute('transform', xform);
 
     if(svgedit.browser.isTouch()) {
-      nbax -= 15.75;
-      nbay -= 15.75;
+      nbax -= 17.75;
+      nbay -= 17.75;
     }
     else {
       nbax -= 4;
@@ -383,10 +383,11 @@ svgedit.select.SelectorManager.prototype.initGroup = function() {
         'pointer-events': 'all'
       }
     });
+
     if (svgedit.browser.isTouch()) {
 
-      grip.setAttribute("width", 10)
-      grip.setAttribute("height", 10)
+      grip.setAttribute("width", 20)
+      grip.setAttribute("height", 20)
       grip.setAttribute("fill-opacity", 0.3)
     }
 

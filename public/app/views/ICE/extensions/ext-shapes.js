@@ -79,6 +79,27 @@ methodDraw.addExtension("shapes", function () {
         },
         'qwerty': {
             data: {
+                "0": "0,N,250,75,225", //**MDP char, Resizeable, height, x, y
+                "1": "1,N,250,75,225",
+                "2": "2,N,250,75,225",
+                "3": "3,N,250,75,225",
+                "4": "4,N,250,75,225",
+                "5": "5,N,250,75,225",
+                "6": "6,N,250,75,225",
+                "7": "7,N,250,75,225",
+                "8": "8,N,250,75,225",
+                "9": "9,N,250,75,225",
+
+
+                "+": "+,N,250,75,225",
+                "-": "-,N,250,75,225",
+                "*": "*,N,250,75,225",
+                "/": "/,N,250,75,225",
+                "(": "(,N,250,75,225",
+                ")": "),N,250,75,225",
+                "=": "=,N,250,75,225",
+                "backspace": "\u232B,N,225,20,215",
+
                 "q": "q,N,250,75,225",
                 "w": "w,N,250,75,225",
                 "e": "e,N,250,75,225",
@@ -105,7 +126,7 @@ methodDraw.addExtension("shapes", function () {
                 "b": "b,N,250,75,225",
                 "n": "n,N,250,75,225",
                 "m": "m,N,250,75,225",
-                "backspace": "\u232B,N,225,20,215",
+                ".": ".,N,250,75,225",
                 "shift": "shift,N,220,10,235",
                 "space": " ,N,250,75,225",
 
@@ -421,7 +442,7 @@ methodDraw.addExtension("shapes", function () {
                 }
                 wrapper.append(icon_btn);
                 // Store for later use
-                if (id === 'p' || id === 'l' || id === 'm' || id === 'down') {
+                if (id === 'p' || id === 'l' || id === '.' || id === 'down' || id === '9' || id === 'backspace') {
 
                     cur_lib.buttons.push(wrapper[0]);
                     wrapper = $("<div class='qwerty-wrapper'>");

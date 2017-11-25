@@ -2447,10 +2447,8 @@ var SOTP = 0;
                   raw_message += btoa(JSON.stringify(message_attachment));
                   raw_message += "\n-----MC2 END ATTACHMENT-----\n";
 
-                  console.log(raw_message);
-
                   $(parent.document.getElementById('textArea')).val(raw_message);
-                  $(parent.document.getElementById('chat-send-button')).click();
+                  $(parent.document.getElementById('send-message-button')).click();
                   $("#pre-render-svg").remove();
                 }, 500);
                 if(MobileUI.mounted){

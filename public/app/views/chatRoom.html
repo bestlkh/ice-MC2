@@ -57,13 +57,14 @@
                     MathJax.Hub.Config({
                       showProcessingMessages: false,
                       tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-                      CommonHTML: { linebreaks: { automatic: true, width: 'container' } },
-                      "HTML-CSS": { linebreaks: { automatic: true, width: 'container' } },
-                      SVG: { linebreaks: { automatic: true, width: 'container' } }
+                      CommonHTML: { linebreaks: { automatic: true, width: "container" } },
+                      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+                      SVG: { linebreaks: { automatic: true, width: "container" } }
                     });
+                    MathJax.Hub.setRenderer("SVG");
                 </script>
                 <!-- MathJax CDN from CloudFlare-->
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
                 <div class="menu_logo mobile">MC2</div>                
                 <div class="box-tools pull-right">
                   <!-- Any File Select Button -->
@@ -229,11 +230,32 @@
 
                         </div>
 
+                        <!--Tool buttons for each message-->
                         <div class="direct-chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
-                          <button ng-click="deleteMsg(message.raw_data)" ng-if="isAdmin && message.isChat()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                          <button ng-click="openBase64ImageInNewTab(message.getText().getImage())" ng-if="message.getText().isImage()"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
-                          <button ng-click="showMessageDetails(message)"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                          <button ng-click="editSvgSource(message.getText().getSvgSource())" ng-if="message.getText().hasSvgSource()">Edit</button>
+                          <button ng-click="deleteMsg(message.raw_data)"
+                                  ng-if="isAdmin && message.isChat()"
+                                  title="Delete">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                          </button>
+                          <button ng-click="openBase64ImageInNewTab(message.getText().getImage())"
+                                  ng-if="message.getText().isImage()"
+                                  title="Open in new window">
+                            <i class="fa fa-search-plus" aria-hidden="true"></i>
+                          </button>
+                          <button ng-click="showMessageDetails(message)"
+                                  title="Detailed information">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                          </button>
+                          <button ng-click="editSvgSource(message.getText().getSvgSource())"
+                                  ng-if="message.getText().hasSvgSource()"
+                                  title="Edit in editor">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                          <button ng-if="message.getText().isEquation()"
+                                  ng-click="showEquationSource(message.getText().getRaw())"
+                                  title="Show LaTeX source">
+                            <i class="fa fa-code" aria-hidden="true"></i>
+                          </button>
                         </div>
 
                       </div><!-- /.direct-chat-text -->
@@ -276,7 +298,7 @@
                   };
                   //]]>  
               </script> 
-              <div class="box-footer">
+              <div class="box-footer" id="chatroom-footer">
               <div id="panel">
                       <span style="font-color: black; font-size: 13px">
                         <div class="tab">
@@ -342,31 +364,30 @@
                             [Click Preview - Double Click Add]
                           </p>
                         </div>
-                      <span>
+                      </span>
                     </div>
-                <div class="box-tools pull-right desktop">
-                  <!-- Any File Select Button -->
-                  <button class="btn btn-warning btn-flat" data-widget="" ngf-select ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>
+
+                <!--Size of this area is modified by JavaScript, registered in ui.js-->
+                <div id="text-message-input-area">
+                  <button class="message-tool-button accordion" id="emoji-button" title="Special Characters">
+                    <img src="/app/images/emoji-icon.png" width="20px" />
+                  </button>
+                  <button class="message-tool-button" id="latex-button" title="LaTeX Editor" ng-click="toggleLatexEditor()">
+                    <img src="/app/images/latex-icon.png" width="20px" />
+                  </button>
+                  <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                            ng-model="chatMsg"
+                            ng-change="isMsgBoxEmpty=false"
+                            ng-enter="sendMsg()"
+                            ng-focus="setFocus"></textarea>
+                  <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
                 </div>
-                <!-- Text message  -->
-                <form action="" method="post">
-                  <div class="input-group">
-                  <span class="input-group-btn" style="position:relative">
-                    <button type="button" class="accordion btn btn-warning btn-flat">☺+</button>
-                  </span>
-                    <textarea rows=1 id="textArea" class="chat-text-box" type="textarea" style="height: 35px;resize: none" name="message" placeholder="Type Message ..." ng-class="{'form-control': true, 'has-error':isMsgBoxEmpty}" ng-model="chatMsg" ng-change="isMsgBoxEmpty=false" ng-enter="sendMsg()" ng-focus="setFocus">
-                    </textarea>
-                    <script>
-                      var ua = window.navigator.userAgent;
-                      var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-                      var webkit = !!ua.match(/WebKit/i);
-                      var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-                    </script>
-                    <span class="input-group-btn">
-                      <button id="chat-send-button" type="button" class="btn btn-warning btn-flat" ng-click="sendMsg()">Send</button>
-                    </span>
-                  </div>
-                </form>
+
+                <div id="latex-editor-area">
+                  <div id="latex-editor"></div>
+                </div>
+
+
               </div><!-- /.box-footer-->
               </div><!-- /.box -->
             </div>

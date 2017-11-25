@@ -1,7 +1,6 @@
 /** chatroom/chat.less
  * Any styles related to chat.
  */
-
 .chat-settings {
   width: 30px;
   height: 30px;
@@ -244,4 +243,126 @@
 
 #chat_body_div {
   //overflow: hidden;
+  overflow-y: scroll;
+}
+
+div {
+  &#panel {
+    border: none;
+    box-shadow: rgba(0,0,0,0.1) 3px 3px 10px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  &.tab {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  &.tabcontent {
+    text-align: center;
+  }
+}
+
+#text-message-form {
+  border-radius: 7px;
+  overflow: hidden;
+  margin-right: 0;
+  box-shadow: rgba(0,0,0,0.2) 0 0 10px;
+  .btn {
+    height: 100%;
+  }
+  .input-group-btn {
+    height: 35px;
+  }
+}
+
+#textArea {
+  border: none;
+}
+
+.box-footer {
+  border: none;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.btn {
+  border: none;
+  margin: 0;
+}
+
+#text-message-input-area {
+  width: 100%;
+  .message-tool-button {
+    border: none;
+    background-color: transparent;
+    vertical-align: middle;
+    opacity: 0.7;
+    padding-left: 5px;
+    padding-right: 5px;
+    outline: none;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  #textArea {
+    vertical-align: middle;
+    height: 35px;
+    overflow: hidden;
+    resize: none;
+    line-height: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
+    white-space: nowrap;
+    outline: none;
+    background-color: rgba(0,0,0,0.07);
+    border-radius: 20px;
+    border: rgba(0,0,0,0.1) 1px solid;
+    transition: all ease 0.3s;
+    -webkit-appearance: none; /* Remove shadow on mobile Safari */
+    margin-left: 10px;
+    margin-right: 10px;
+    opacity: 1;
+    &:focus {
+      border: rgba(0,0,0,0.2) 1px solid;
+      transition: all ease 0.3s;
+    }
+  }
+  #send-message-button {
+    transition: all ease 0.5s;
+  }
+  &.latex-editor-shown {
+    #textArea {
+      width: 0;
+      padding: 0;
+      margin: 0;
+      opacity: 0;
+    }
+    #send-message-button {
+      background-color: rgba(0,0,0,0.1);
+      padding: 7px;
+      border-radius: 5px;
+      transition: all ease 0.5s;
+    }
+  }
+}
+
+.direct-chat-text-inner {
+  text-align: left;
+}
+
+/* Chat latex editor */
+#latex-editor-area {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height ease 0.7s;
+  &.shown {
+    max-height: 200px;
+    transition: max-height ease 0.7s;
+  }
+  #latex-editor {
+    margin-top: 10px;
+    height: 150px;
+    width: 100%;
+    font-size: 14px;
+  }
 }

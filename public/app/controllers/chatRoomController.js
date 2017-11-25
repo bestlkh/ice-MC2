@@ -267,9 +267,16 @@ angular.module('Controllers')
             $("#chat_body_div").animate({
                 scrollTop: $("#chat_body_div")[0].scrollHeight + 100
             });
+            latexEditor.setValue("");
 		} else {
+			// Alert user that they cannot send empty message
+			Alert.Notification.spawn("You cannot send empty messages", "error", 5);
 			$scope.isMsgBoxEmpty = true;
 		}
+	};
+
+	$scope.showEquationSource = function(source){
+		Alert.Alert.spawn("LaTeX Source", "<pre><code>" + source + "</code></pre>");
 	};
 
     /**
@@ -297,6 +304,11 @@ angular.module('Controllers')
 
         var w = window.open("");
         w.document.write(image.outerHTML);
+	};
+
+	$scope.toggleLatexEditor = function(){
+		$("#latex-editor-area").toggleClass("shown");
+		$("#text-message-input-area").toggleClass("latex-editor-shown");
 	};
 
     /**

@@ -1,5 +1,7 @@
 var MessageText = function(text){
 
+    this.md = new Remarkable();
+
     text = text.split("-----MC2 BEGIN ATTACHMENT-----");
     this.text = text[0].replace(/^\n|\n$/g, '');
     if(text.length > 1){
@@ -8,6 +10,8 @@ var MessageText = function(text){
     } else {
         this.raw_attachments = "e30=";
     }
+
+    this.rendered_text = this.md.render(this.text);
 
     this.attachments = JSON.parse(atob(this.raw_attachments));
 
@@ -18,6 +22,10 @@ var MessageText = function(text){
 
     this.getRaw = function(){
         return this.text;
+    };
+
+    this.getRenderedText = function(){
+        return this.rendered_text;
     };
 
     this.getRawAttachments = function(){

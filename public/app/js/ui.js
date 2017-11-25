@@ -92,3 +92,7 @@ onChatRoomInterfaceLoaded(function(){
 $(window).on('resize', function(){
    window.scrollTo(0, 0);
 });
+
+showMessageRawNewWindow = function(raw){
+    window.open().document.write("<pre style='word-wrap: break-word'>" + atob(raw) + "</pre>");
+};

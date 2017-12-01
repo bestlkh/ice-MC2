@@ -2,8 +2,10 @@
 
 var BasicControl = require('./controls/BasicControl');
 var Toolbar = require('./controls/Toolbar');
+var Cursor = require('./misc/Cursor');
 
-window.ui = {
+window.UI = {
     Toolbar: Toolbar,
-    BasicControl: BasicControl
+    BasicControl: BasicControl,
+    Cursor: Cursor
 };

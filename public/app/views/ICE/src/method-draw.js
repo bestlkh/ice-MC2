@@ -2118,13 +2118,14 @@ var SOTP = 0;
       var clickSelect = function() {
         if (toolButtonClick('#tool_select')) {
           svgCanvas.setMode('select');
-          //$('#styleoverrides').text('#svgcanvas svg *{cursor:move;pointer-events:all}, #svgcanvas svg{cursor:default}'); //**MDP
+          new UI.Cursor("#svgcanvas").setType("text");
         }
       };
 
       var clickFHPath = function() {
         if (toolButtonClick('#tool_fhpath')) {
           svgCanvas.setMode('fhpath');
+          new UI.Cursor("#svgcanvas").setType("default");
         }
       };
 

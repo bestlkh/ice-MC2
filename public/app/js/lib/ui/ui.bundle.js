@@ -138,11 +138,28 @@ class EventEmitter {
 
 module.exports = EventEmitter;
 },{}],5:[function(require,module,exports){
+class Cursor {
+    constructor(selector){
+        this.dom = $(selector);
+    }
+
+    setType(type){
+        this.dom.css({
+            cursor: type
+        });
+    };
+}
+
+module.exports = Cursor;
+},{}],6:[function(require,module,exports){
 const BasicControl = require('./controls/BasicControl');
 const Toolbar = require('./controls/Toolbar');
+const Cursor = require('./misc/Cursor');
 
-window.ui = {
+
+window.UI = {
     Toolbar: Toolbar,
-    BasicControl: BasicControl
+    BasicControl: BasicControl,
+    Cursor: Cursor
 };
-},{"./controls/BasicControl":1,"./controls/Toolbar":2}]},{},[5]);
+},{"./controls/BasicControl":1,"./controls/Toolbar":2,"./misc/Cursor":5}]},{},[6]);

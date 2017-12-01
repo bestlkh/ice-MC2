@@ -118,7 +118,6 @@ angular.module('Controllers')
     if(!$rootScope.loggedIn){
 
         $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-			console.log(data);
             if (data.username) {
 
                 $rootScope.loggedIn = true;

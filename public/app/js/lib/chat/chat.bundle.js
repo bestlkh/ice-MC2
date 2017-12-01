@@ -10401,8 +10401,6 @@ module.exports = function text(state, silent) {
 };
 
 },{}],63:[function(require,module,exports){
-'use strict';
-
 var Message = require('./messages/Message');
 var MessageText = require('./messages/MessageText');
 
@@ -10410,134 +10408,95 @@ window.Chat = {
     Message: Message,
     MessageText: MessageText
 };
-
 },{"./messages/Message":64,"./messages/MessageText":65}],64:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var MessageText = require('./MessageText');
 var md5 = require('blueimp-md5');
 
-var Message = function () {
-    function Message(raw_data) {
-        _classCallCheck(this, Message);
-
+class Message {
+    constructor(raw_data){
         this.raw_data = raw_data;
         this.text = new MessageText(raw_data.msg);
     }
 
-    _createClass(Message, [{
-        key: 'getId',
-        value: function getId() {
-            return md5(this.raw_data.msg + this.getTime() + this.getUsername);
-        }
-    }, {
-        key: 'isChat',
-        value: function isChat() {
-            return this.raw_data.type === 'chat';
-        }
-    }, {
-        key: 'isSystem',
-        value: function isSystem() {
-            return this.raw_data.type === 'system';
-        }
-    }, {
-        key: 'isHidden',
-        value: function isHidden() {
-            return this.raw_data.hidden;
-        }
-    }, {
-        key: 'isOwn',
-        value: function isOwn() {
-            return this.raw_data.ownMsg;
-        }
-    }, {
-        key: 'isInstructor',
-        value: function isInstructor() {
-            return this.raw_data.isInstructor;
-        }
-    }, {
-        key: 'isTA',
-        value: function isTA() {
-            return this.raw_data.isTA;
-        }
-    }, {
-        key: 'getTime',
-        value: function getTime() {
-            return this.raw_data.msgTime;
-        }
-    }, {
-        key: 'getAvatar',
-        value: function getAvatar() {
-            return this.raw_data.userAvatar;
-        }
-    }, {
-        key: 'getInitials',
-        value: function getInitials() {
-            return this.raw_data.initials;
-        }
-    }, {
-        key: 'getUsername',
-        value: function getUsername() {
-            return this.raw_data.username;
-        }
-    }, {
-        key: 'getText',
-        value: function getText() {
-            return this.text;
-        }
-    }, {
-        key: 'hasFile',
-        value: function hasFile() {
-            return this.raw_data.hasFile;
-        }
-    }, {
-        key: 'isImageFile',
-        value: function isImageFile() {
-            return this.raw_data.isImageFile;
-        }
-    }, {
-        key: 'getFileName',
-        value: function getFileName() {
-            return this.raw_data.filename;
-        }
-    }, {
-        key: 'isAudioFile',
-        value: function isAudioFile() {
-            return this.raw_data.isMusicFile;
-        }
-    }, {
-        key: 'isPdfFile',
-        value: function isPdfFile() {
-            return this.raw_data.isPDFFile;
-        }
-    }]);
+    getId(){
+        return md5(this.raw_data.msg + this.getTime() + this.getUsername);
+    }
 
-    return Message;
-}();
+    isChat(){
+        return this.raw_data.type === 'chat';
+    }
+
+    isSystem(){
+        return this.raw_data.type === 'system';
+    }
+
+    isHidden(){
+        return this.raw_data.hidden;
+    }
+
+    isOwn(){
+        return this.raw_data.ownMsg;
+    }
+
+    isInstructor(){
+        return this.raw_data.isInstructor;
+    }
+
+    isTA(){
+        return this.raw_data.isTA;
+    }
+
+    getTime(){
+        return this.raw_data.msgTime;
+    }
+
+    getAvatar(){
+        return this.raw_data.userAvatar;
+    }
+
+    getInitials(){
+        return this.raw_data.initials;
+    }
+
+    getUsername(){
+        return this.raw_data.username;
+    }
+
+    getText(){
+        return this.text;
+    }
+
+    hasFile(){
+        return this.raw_data.hasFile;
+    }
+
+    isImageFile() {
+        return this.raw_data.isImageFile;
+    }
+
+    getFileName(){
+        return this.raw_data.filename;
+    }
+
+    isAudioFile(){
+        return this.raw_data.isMusicFile;
+    }
+
+    isPdfFile(){
+        return this.raw_data.isPDFFile;
+    }
+}
 
 module.exports = Message;
-
 },{"./MessageText":65,"blueimp-md5":2}],65:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var Remarkable = require('remarkable');
 
-var MessageText = function () {
-    function MessageText(text) {
-        _classCallCheck(this, MessageText);
-
+class MessageText {
+    constructor(text){
         this.md = new Remarkable();
         text = text.split("-----MC2 BEGIN ATTACHMENT-----");
         this.text = text[0].replace(/^\n|\n$/g, '');
-        if (text.length > 1) {
+        if(text.length > 1){
             text = text[1].split("-----MC2 END ATTACHMENT-----");
             this.raw_attachments = text[0].replace(/^\n|\n$/g, '');
         } else {
@@ -10551,57 +10510,43 @@ var MessageText = function () {
         this.is_equation = this.text.match(/^\$\$[\s\S]*\$\$$/);
     }
 
-    _createClass(MessageText, [{
-        key: 'getRaw',
-        value: function getRaw() {
-            return this.text;
-        }
-    }, {
-        key: 'getRenderedText',
-        value: function getRenderedText() {
-            return this.rendered_text;
-        }
-    }, {
-        key: 'getRawAttachments',
-        value: function getRawAttachments() {
-            return this.raw_attachments;
-        }
-    }, {
-        key: 'getAttachments',
-        value: function getAttachments() {
-            return this.attachments;
-        }
-    }, {
-        key: 'hasSvgSource',
-        value: function hasSvgSource() {
-            return this.attachments['svg-source'];
-        }
-    }, {
-        key: 'getSvgSource',
-        value: function getSvgSource() {
-            return atob(this.attachments['svg-source']);
-        }
-    }, {
-        key: 'isEquation',
-        value: function isEquation() {
-            return this.is_equation;
-        }
-    }, {
-        key: 'isImage',
-        value: function isImage() {
-            return this.is_image;
-        }
-    }, {
-        key: 'getImage',
-        value: function getImage() {
-            var re = /^\[mc2-image\]/;
-            return this.text.replace(re, "");
-        }
-    }]);
+    getRaw(){
+        return this.text;
+    }
 
-    return MessageText;
-}();
+    getRenderedText(){
+        return this.rendered_text;
+    }
+
+    getRawAttachments(){
+        return this.raw_attachments;
+    }
+
+    getAttachments(){
+        return this.attachments;
+    }
+
+    hasSvgSource(){
+        return this.attachments['svg-source'];
+    }
+
+    getSvgSource(){
+        return atob(this.attachments['svg-source']);
+    }
+
+    isEquation(){
+        return this.is_equation;
+    }
+
+    isImage(){
+        return this.is_image;
+    }
+
+    getImage(){
+        var re = /^\[mc2-image\]/;
+        return this.text.replace(re, "");
+    }
+}
 
 module.exports = MessageText;
-
 },{"remarkable":3}]},{},[63]);

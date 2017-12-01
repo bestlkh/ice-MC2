@@ -102,13 +102,13 @@ console.log("Enjoy coding! :)".green.bold);
 
 
 // Just compile all less whenever something changes, this can be optimized, but dev tools.. no one cares.
-let lessWatcher = chokidar.watch('public/app/styles', {ignored: /(^|[\/\\])\../});
+let lessWatcher = chokidar.watch('public/app/styles', {ignored: /(^\.)|(\.css)/});
 lessWatcher
     .on('change', function(path){
         // Add your less files here
-        compileLess('public/app/styles/chatroom/main.less', 'public/app/styles/chatroom/main.less');
-        compileLess('public/app/styles/ice/main.less', 'public/app/styles/ice/main.less');
-        compileLess('public/app/styles/latex-preview/main.less', 'public/app/styles/latex-preview/main.less');
+        compileLess('public/app/styles/chatroom/main.less', 'public/app/styles/chatroom/main.css');
+        compileLess('public/app/styles/ice/main.less', 'public/app/styles/ice/main.css');
+        compileLess('public/app/styles/latex-preview/main.less', 'public/app/styles/latex-preview/main.css');
     });
 
 // Compile and bundle all js files.
@@ -124,3 +124,8 @@ jsWatcher
             browserifyJs('public/app/js/src/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js');
         });
     });
+
+// Do it once
+compileLess('public/app/styles/chatroom/main.less', 'public/app/styles/chatroom/main.css');
+compileLess('public/app/styles/ice/main.less', 'public/app/styles/ice/main.css');
+compileLess('public/app/styles/latex-preview/main.less', 'public/app/styles/latex-preview/main.css');

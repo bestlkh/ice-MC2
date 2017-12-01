@@ -18,7 +18,7 @@ var Message = function () {
     _createClass(Message, [{
         key: 'getId',
         value: function getId() {
-            return md5(this.raw_data.msg + this.getTime() + this.getUsername);
+            return md5(this.raw_data.msg + this.getTime() + this.getUsername());
         }
     }, {
         key: 'isChat',
@@ -106,4 +106,3 @@ var Message = function () {
 }();
 
 module.exports = Message;
-//# sourceMappingURL=Message.js.map

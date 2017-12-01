@@ -1,5 +1,7 @@
 # MC^2=E
 
+![Travis Build Status](https://travis-ci.com/bestlkh/ice-MC2.svg?token=wxassxLjuZDp7LSybmeD&branch=master)
+
 A collaborative math equation editing software.
 
 ## Wiki Links

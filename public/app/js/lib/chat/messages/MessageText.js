@@ -25,8 +25,17 @@ var MessageText = function () {
         this.rendered_text = this.md.render(this.text);
         this.attachments = JSON.parse(atob(this.raw_attachments));
 
-        this.is_image = this.text.match(/^\[mc2-image\]/);
-        this.is_equation = this.text.match(/^\$\$[\s\S]*\$\$$/);
+        if (this.text.match(/^\[mc2-image\]/)) {
+            this.is_image = true;
+        } else {
+            this.is_image = false;
+        }
+
+        if (this.text.match(/^\$\$[\s\S]*\$\$$/)) {
+            this.is_equation = true;
+        } else {
+            this.is_equation = false;
+        }
     }
 
     _createClass(MessageText, [{
@@ -52,7 +61,11 @@ var MessageText = function () {
     }, {
         key: 'hasSvgSource',
         value: function hasSvgSource() {
-            return this.attachments['svg-source'];
+            if (this.attachments['svg-source']) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }, {
         key: 'getSvgSource',

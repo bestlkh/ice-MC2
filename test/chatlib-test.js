@@ -20,6 +20,28 @@ describe('Message', function() {
         });
     });
 
+    describe("#getId()", function(){
+        it('should return valid md5 ID for that message', function() {
+            let msg = new Message({
+                'msg' : "test message",
+                'type': "chat",
+                "hidden": false,
+                "ownMsg": true,
+                "isInstructor": false,
+                "isTA": true,
+                "msgTime": "2017 11 12 9:00",
+                "userAvatar": "test avatar",
+                "initials": "JZ",
+                "username": "test username",
+                "hasFile": false,
+                "isImageFile": true,
+                "isMusicFile": false,
+                "isPDFFile": true
+            });
+            assert.equal("fe93576cdab471c4c6f71771cbc0e9f7", msg.getId());
+        });
+    });
+
     describe('#isChat()', function() {
         it('should return true if type is chat', function() {
             let msg = new Message({
@@ -310,4 +332,155 @@ describe('Message', function() {
             assert.equal("test.txt", msg.getFileName());
         });
     });
+});
+
+describe('MessageText', function(){
+    describe('#constructor()', function(){
+        it('should initialize a Remarkable instance', function(){
+            let txt = new MessageText("test");
+            assert.equal("Remarkable", txt.md.constructor.name);
+        });
+        it('should set text plain if no attachment', function(){
+            let txt = new MessageText("test");
+            assert.equal("test", txt.text);
+        });
+        it('should set raw_attachments to e30= if no attachment', function(){
+            let txt = new MessageText("test");
+            assert.equal("e30=", txt.raw_attachments);
+        });
+        it('should render text to html', function(){
+            let txt = new MessageText("test");
+            assert.equal("<p>test</p>\n", txt.rendered_text);
+            txt = new MessageText("# test");
+            assert.equal("<h1>test</h1>\n", txt.rendered_text);
+        });
+        it('should parse attachments to json', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAidGVzdCI6ICJkYXRhIn0=
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.deepEqual({ 'test': 'data' }, txt.attachments);
+        });
+        it('should not include attachments in text', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAidGVzdCI6ICJkYXRhIn0=
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal("test", txt.text);
+        });
+        it('should detect is_image', function(){
+            let txt = new MessageText("[mc2-image]imagedatahere");
+            assert.equal(true, txt.is_image);
+            txt = new MessageText("test message");
+            assert.equal(false, txt.is_image);
+        });
+        it('should detect is_equation', function(){
+            let txt = new MessageText("$$mc^2$$");
+            assert.equal(true, txt.is_equation);
+            txt = new MessageText("not equation");
+            assert.equal(false, txt.is_equation);
+        });
+    });
+
+    describe("#getRaw()", function(){
+        it('should return text content', function(){
+            let txt = new MessageText("test");
+            assert.equal("test", txt.getRaw());
+        });
+    });
+
+    describe("#getRenderedText()", function(){
+        it('should return rendered html content', function(){
+            let txt = new MessageText("test");
+            assert.equal("<p>test</p>\n", txt.getRenderedText());
+        });
+    });
+
+    describe("#getRawAttachments()", function(){
+        it('should return raw base64 attachments', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAidGVzdCI6ICJkYXRhIn0=
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal("eyAidGVzdCI6ICJkYXRhIn0=", txt.getRawAttachments());
+        });
+    });
+
+    describe("#getAttachments()", function(){
+        it('should return JSON attachments', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAidGVzdCI6ICJkYXRhIn0=
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.deepEqual({ 'test': 'data' }, txt.getAttachments());
+        });
+    });
+
+    describe("#hasSvgSource()", function(){
+        it('should return true if svg-source is present', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJkYXRhIn0=
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal(true, txt.hasSvgSource());
+        });
+        it('should return false if svg-source is not present', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAidGVzdCI6ICJkYXRhIn0=
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal(false, txt.hasSvgSource());
+        });
+    });
+
+    describe("#getSvgSource()", function(){
+        it('should return decoded svg source', function(){
+            let txt = new MessageText(`test
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal("cool!", txt.getSvgSource());
+        });
+    });
+
+    describe("#isEquation()", function(){
+        it('should return true if is equation', function(){
+            let txt = new MessageText(`$$equation$$
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal(true, txt.isEquation());
+        });
+    });
+
+    describe("#isImage()", function(){
+        it('should return true if is image', function(){
+            let txt = new MessageText(`[mc2-image]testimage
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal(true, txt.isImage());
+        });
+    });
+
+    describe("#getImage()", function(){
+        it('should return image content', function(){
+            let txt = new MessageText(`[mc2-image]testimage
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+            assert.equal('testimage', txt.getImage());
+        });
+    });
+
 });

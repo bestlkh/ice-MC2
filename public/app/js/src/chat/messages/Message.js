@@ -8,7 +8,7 @@ class Message {
     }
 
     getId(){
-        return md5(this.raw_data.msg + this.getTime() + this.getUsername);
+        return md5(this.raw_data.msg + this.getTime() + this.getUsername());
     }
 
     isChat(){

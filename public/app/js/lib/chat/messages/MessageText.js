@@ -5,6 +5,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Remarkable = require('remarkable');
+var atob = require('atob');
+var btoa = require('btoa');
 
 var MessageText = function () {
     function MessageText(text) {
@@ -79,4 +81,3 @@ var MessageText = function () {
 }();
 
 module.exports = MessageText;
-//# sourceMappingURL=MessageText.js.map

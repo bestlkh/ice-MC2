@@ -1,4 +1,6 @@
 var Remarkable = require('remarkable');
+var atob = require('atob');
+var btoa = require('btoa');
 
 class MessageText {
     constructor(text){

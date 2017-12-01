@@ -3596,28 +3596,21 @@
 } ( typeof window !== 'undefined' ? window : this ) );
 
 },{}],2:[function(require,module,exports){
-'use strict';
-
 var Alert = require('./dialogs/Alert');
 var Confirm = require('./dialogs/Confirm');
 var Notification = require('./overlays/Notification');
+
+
 
 window.Alert = {
     Alert: Alert,
     Confirm: Confirm,
     Notification: Notification
 };
-
 },{"./dialogs/Alert":3,"./dialogs/Confirm":4,"./overlays/Notification":5}],3:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var alertify = require('alertifyjs');
 
-var Alert = function () {
+class Alert {
 
     /**
      * Construct alert
@@ -3625,76 +3618,51 @@ var Alert = function () {
      * @param message
      * @param callback
      */
-    function Alert(title) {
-        var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-        var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-        _classCallCheck(this, Alert);
-
-        if (message && callback) {
+    constructor(title, message = null, callback = null){
+        if(message && callback){
             this.title = title;
             this.message = message;
             this.callback = callback;
-        } else if (message) {
+        } else if(message) {
             this.title = title;
             this.message = message;
-            this.callback = function () {};
+            this.callback = function(){};
         } else {
             this.title = 'Alert';
             this.message = title;
-            this.callback = function () {};
+            this.callback = function(){};
         }
     }
 
     /**
      * Show the dialog
      */
+    show(){
+        alertify.alert(this.title, this.message, this.callback);
+    }
 
-
-    _createClass(Alert, [{
-        key: 'show',
-        value: function show() {
-            alertify.alert(this.title, this.message, this.callback);
+    /**
+     * Show the alert without new
+     * @param title
+     * @param message
+     * @param callback
+     */
+    static spawn(title, message = null, callback = null){
+        if(message && callback){
+            alertify.alert(title, message, callback);
+        } else if(message) {
+            alertify.alert(title, message);
+        } else {
+            alertify.alert("Alert", title);
         }
-
-        /**
-         * Show the alert without new
-         * @param title
-         * @param message
-         * @param callback
-         */
-
-    }], [{
-        key: 'spawn',
-        value: function spawn(title) {
-            var message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-            var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-            if (message && callback) {
-                alertify.alert(title, message, callback);
-            } else if (message) {
-                alertify.alert(title, message);
-            } else {
-                alertify.alert("Alert", title);
-            }
-        }
-    }]);
-
-    return Alert;
-}();
+    }
+}
 
 module.exports = Alert;
-
 },{"alertifyjs":1}],4:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var alertify = require('alertifyjs');
 
-var Confirm = function () {
+class Confirm {
 
     /**
      * Construct
@@ -3703,11 +3671,7 @@ var Confirm = function () {
      * @param okCallback
      * @param cancelCallback
      */
-    function Confirm(title, message, okCallback) {
-        var cancelCallback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-
-        _classCallCheck(this, Confirm);
-
+    constructor(title, message, okCallback, cancelCallback = function(){}){
         this.title = title;
         this.message = message;
         this.okCallback = okCallback;
@@ -3717,46 +3681,28 @@ var Confirm = function () {
     /**
      * Show the notification
      */
+    show(){
+        alertify.confirm(this.title, this.message, this.okCallback, this.cancelCallback);
+    }
 
+    /**
+     * Spawn a confirm window
+     * @param title
+     * @param message
+     * @param okCallback
+     * @param cancelCallback
+     */
+    static spawn(title, message, okCallback, cancelCallback = function(){}){
+        alertify.confirm(title, message, okCallback, cancelCallback);
+    }
 
-    _createClass(Confirm, [{
-        key: 'show',
-        value: function show() {
-            alertify.confirm(this.title, this.message, this.okCallback, this.cancelCallback);
-        }
-
-        /**
-         * Spawn a confirm window
-         * @param title
-         * @param message
-         * @param okCallback
-         * @param cancelCallback
-         */
-
-    }], [{
-        key: 'spawn',
-        value: function spawn(title, message, okCallback) {
-            var cancelCallback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-
-            alertify.confirm(title, message, okCallback, cancelCallback);
-        }
-    }]);
-
-    return Confirm;
-}();
+}
 
 module.exports = Confirm;
-
 },{"alertifyjs":1}],5:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var alertify = require('alertifyjs');
 
-var Notification = function () {
+class Notification {
 
     /**
      * Construct the notification object
@@ -3765,13 +3711,7 @@ var Notification = function () {
      * @param delay
      * @param callback
      */
-    function Notification(message) {
-        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
-        var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
-        var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-
-        _classCallCheck(this, Notification);
-
+    constructor(message, type = 'success', delay = 5, callback = function(){}){
         this.message = message;
         this.type = type;
         this.delay = delay;
@@ -3781,36 +3721,21 @@ var Notification = function () {
     /**
      * Show the notification
      */
+    show(){
+        alertify.notify(this.message, this.type, this.delay, this.callback);
+    }
 
-
-    _createClass(Notification, [{
-        key: 'show',
-        value: function show() {
-            alertify.notify(this.message, this.type, this.delay, this.callback);
-        }
-
-        /**
-         * Spawn a notification without new
-         * @param message
-         * @param type
-         * @param delay
-         * @param callback
-         */
-
-    }], [{
-        key: 'spawn',
-        value: function spawn(message) {
-            var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
-            var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 5;
-            var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-
-            alertify.notify(message, type, delay, callback);
-        }
-    }]);
-
-    return Notification;
-}();
+    /**
+     * Spawn a notification without new
+     * @param message
+     * @param type
+     * @param delay
+     * @param callback
+     */
+    static spawn(message, type = 'success', delay = 5, callback = function(){}){
+        alertify.notify(message, type, delay, callback);
+    }
+}
 
 module.exports = Notification;
-
 },{"alertifyjs":1}]},{},[2]);

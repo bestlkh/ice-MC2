@@ -339,6 +339,7 @@ angular.module('Controllers')
             text +=  message.getText().getRaw();
             text += "</pre>";
 		}
+		text += "<br><b>Message ID: </b><code>" + message.getId() + "</code>";
         text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
 
 		Alert.Alert.spawn(text);
@@ -364,7 +365,7 @@ angular.module('Controllers')
 			message.ownMsg = (message.username === $rootScope.username);
 
             $scope.messages.push(message);
-            $scope.allMsg.push(new Message(message));
+            $scope.allMsg.push(new Chat.Message(message));
             // Updates chatlog with relevant message history
             chatLog += "\r";
             chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
@@ -380,7 +381,7 @@ angular.module('Controllers')
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
-		$scope.allMsg.push(new Message(data));
+		$scope.allMsg.push(new Chat.Message(data));
 		// Updates chatlog with relevant message history
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
@@ -450,7 +451,7 @@ angular.module('Controllers')
 			checkmessagesImage(data);
 		}else{
 			$scope.messages.push(data);
-			$scope.allMsg.push(new Message(data));
+			$scope.allMsg.push(new Chat.Message(data));
 		}
 	});
 

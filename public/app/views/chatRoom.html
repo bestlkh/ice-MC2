@@ -377,11 +377,12 @@
                             ng-model="chatMsg"
                             ng-change="isMsgBoxEmpty=false"
                             ng-enter="sendMsg()"
-                            ng-focus="setFocus"></textarea>
+                            ng-focus="setFocus"
+                            class="tex2jax_ignore"></textarea>
                   <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
                 </div>
 
-                <div id="latex-editor-area">
+                <div id="latex-editor-area" class="tex2jax_ignore">
                   <div id="latex-editor"></div>
                 </div>
 

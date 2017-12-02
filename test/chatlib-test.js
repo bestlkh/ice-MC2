@@ -483,4 +483,42 @@ eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
         });
     });
 
+    describe("#_getByteLen()", function(){
+        it('should return correct bytes for english words', function(){
+            let txt = new MessageText(`[mc2-image]testimage
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+
+            assert.equal(4, txt._getByteLen("test"));
+            assert.equal(21, txt._getByteLen("卧槽也是没谁了"));
+            assert.equal(27, txt._getByteLen("龍神の剣を喰らえ！"));
+        })
+    });
+
+    describe("#getTextSize()", function(){
+        it('should return correct size for text', function(){
+            let txt = new MessageText(`[mc2-image]testimage
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+
+            assert.equal(20, txt.getTextSize());
+        })
+    })
+
+    describe("#getAttachmentsSize()", function(){
+        it('should return correct size for attachments', function(){
+            let txt = new MessageText(`[mc2-image]testimage
+-----MC2 BEGIN ATTACHMENT-----
+eyAic3ZnLXNvdXJjZSI6ICJZMjl2YkNFPSJ9
+-----MC2 END ATTACHMENT-----
+            `);
+
+            assert.equal(36, txt.getAttachmentsSize());
+        })
+    })
+
 });

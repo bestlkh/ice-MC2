@@ -1,9 +1,9 @@
 var BasicControl = require('./BasicControl');
 
-class ToolbarButton extends BasicControl {
+class BubbleMenuButton extends BasicControl {
     constructor(dom){
         super(dom);
     }
 }
 
-module.exports = ToolbarButton;
+module.exports = BubbleMenuButton;

@@ -1,4 +1,4 @@
-const ToolbarButton = require('./ToolbarButton');
+var ToolbarButton = require('./ToolbarButton');
 
 class Toolbar {
     constructor(dom){
@@ -19,7 +19,7 @@ class Toolbar {
      * @param config
      */
     addButton(config){
-        let button = new ToolbarButton($(this._getToolButtonMarkup(config)));
+        var button = new ToolbarButton($(this._getToolButtonMarkup(config)));
         this._buttons.push(button);
         this.dom.append(button.dom);
     }

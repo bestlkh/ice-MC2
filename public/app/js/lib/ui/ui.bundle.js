@@ -10254,65 +10254,272 @@ return jQuery;
 } );
 
 },{}],2:[function(require,module,exports){
-const EventEmitter = require('./../events/EventEmitter');
+'use strict';
 
-class BasicControl {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    constructor(dom){
-        this.dom = dom;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = require('jquery');
+var EventEmitter = require('./../events/EventEmitter');
+
+var BasicControl = function () {
+    function BasicControl(dom) {
+        _classCallCheck(this, BasicControl);
+
+        this.dom = $(dom);
         this._visible = true;
         this._preventDefaultClick = false;
         this._onClickEmitter = new EventEmitter();
 
         // Bind events here
-        let self = this;
+        var self = this;
 
         // Bind click event
-        $(dom).click(function(e){
-            if(self._preventDefaultClick){
+        $(dom).click(function (e) {
+            if (self._preventDefaultClick) {
                 e.preventDefault();
             }
             self._onClickEmitter.dispatch(e);
         });
     }
 
-    get visible(){
-        return this._visible;
-    }
-
-    set visible(val){
-        this._visible = val;
-        if(val){
-            $(this.dom).show();
-        } else {
-            $(this.dom).hide();
+    _createClass(BasicControl, [{
+        key: 'visible',
+        get: function get() {
+            return this._visible;
+        },
+        set: function set(val) {
+            this._visible = val;
+            if (val) {
+                $(this.dom).show();
+            } else {
+                $(this.dom).hide();
+            }
         }
-    }
+    }, {
+        key: 'preventDefaultClick',
+        set: function set(val) {
+            this._preventDefaultClick = val;
+        },
+        get: function get() {
+            return this._preventDefaultClick;
+        }
 
-    set preventDefaultClick(val){
-        this._preventDefaultClick = val;
-    }
+        /**
+         * Set onClick event handler.
+         * @param func
+         */
 
-    get preventDefaultClick(){
-        return this._preventDefaultClick;
+    }, {
+        key: 'onClick',
+        set: function set(func) {
+            this._onClickEmitter.handler = func;
+        }
+    }]);
+
+    return BasicControl;
+}();
+
+module.exports = BasicControl;
+},{"./../events/EventEmitter":7,"jquery":1}],3:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * BubbleMenu
+ * Author: Jun Zheng
+ */
+
+var $ = require('jquery');
+var BasicControl = require('./BasicControl');
+var BubbleMenuButton = require('./BubbleMenuButton');
+
+var BubbleMenu = function (_BasicControl) {
+    _inherits(BubbleMenu, _BasicControl);
+
+    function BubbleMenu(dom, menuButtonDom, buttonContainerDom) {
+        var animationSpeed = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 50;
+
+        _classCallCheck(this, BubbleMenu);
+
+        var _this = _possibleConstructorReturn(this, (BubbleMenu.__proto__ || Object.getPrototypeOf(BubbleMenu)).call(this, dom));
+
+        _this.menuButtonDom = $(menuButtonDom);
+        _this.buttonContainerDom = $(buttonContainerDom);
+        _this.animationSpeed = animationSpeed;
+        _this._buttons = [];
+        _this._expanded = false;
+        _this._animations = [];
+        _this._initializeMenuButtonEvents();
+        return _this;
     }
 
     /**
-     * Set onClick event handler.
-     * @param func
+     * Return a list of buttons
+     * @returns {Array}
      */
-    set onClick(func){
-        this._onClickEmitter.handler = func;
+
+
+    _createClass(BubbleMenu, [{
+        key: 'addButton',
+
+
+        /**
+         * Add a new button to list of buttons
+         * @param config
+         */
+        value: function addButton(config) {
+            var button = new BubbleMenuButton($(this._getBubbleMenuButtonMarkup(config)));
+            this._buttons.push(button);
+            this.buttonContainerDom.append(button.dom);
+        }
+
+        /**
+         * Initialize menu button events, like click
+         * @private
+         */
+
+    }, {
+        key: '_initializeMenuButtonEvents',
+        value: function _initializeMenuButtonEvents() {
+            $(this.menuButtonDom).click(function () {
+                if (this._expanded) {
+                    this.contract();
+                } else {
+                    this.expand();
+                }
+            });
+        }
+
+        /**
+         * Expand the menu
+         * Will add class ui-expanded to menuButtonDom, and add class shown to buttons staggered by delay of animationSpeed.
+         * Will always set _expanded to true
+         */
+
+    }, {
+        key: 'expand',
+        value: function expand() {
+            this._expanded = true;
+            this.menuButtonDom.addClass("ui-expanded");
+            this._cancelAllAnimations();
+            var currentDelay = 0;
+            var self = this;
+            for (var i = 0; i < this._buttons.length; i++) {
+                this._animations.push(setTimeout(function (i) {
+                    return function () {
+                        self._buttons[i].dom.addClass("shown");
+                    };
+                }(i), currentDelay));
+                currentDelay += this.animationSpeed;
+            }
+        }
+
+        /**
+         * Contract the menu
+         * Will remove class ui-expanded to menuButtonDom, and remove class shown to buttons staggered by delay of animationSpeed in reverse.
+         * Will always set _expanded to false
+         */
+
+    }, {
+        key: 'contract',
+        value: function contract() {
+            this._expanded = false;
+            this.menuButtonDom.removeClass("ui-expanded");
+            this._cancelAllAnimations();
+            var currentDelay = 0;
+            var self = this;
+            for (var i = this._buttons.length - 1; i >= 0; i--) {
+                this._animations.push(setTimeout(function (i) {
+                    return function () {
+                        self._buttons[i].dom.removeClass("shown");
+                    };
+                }(i), currentDelay));
+                currentDelay += this.animationSpeed;
+            }
+        }
+
+        /**
+         * Clear all animations
+         * @private
+         */
+
+    }, {
+        key: '_cancelAllAnimations',
+        value: function _cancelAllAnimations() {
+            for (var i = 0; i < this._animations.length; i++) {
+                clearTimeout(this._animations[i]);
+            }
+            this._animations = [];
+        }
+
+        /**
+         * Return HTML markup for bubble menu button, you can and should always override this.
+         * @param config
+         * @private
+         */
+
+    }, {
+        key: '_getBubbleMenuButtonMarkup',
+        value: function _getBubbleMenuButtonMarkup(config) {
+            return "<div bubble-menu-button>" + config.innerContent + "</div>";
+        }
+    }, {
+        key: 'buttons',
+        get: function get() {
+            return this._buttons;
+        }
+    }]);
+
+    return BubbleMenu;
+}(BasicControl);
+
+module.exports = BubbleMenu;
+},{"./BasicControl":2,"./BubbleMenuButton":4,"jquery":1}],4:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BasicControl = require('./BasicControl');
+
+var BubbleMenuButton = function (_BasicControl) {
+    _inherits(BubbleMenuButton, _BasicControl);
+
+    function BubbleMenuButton(dom) {
+        _classCallCheck(this, BubbleMenuButton);
+
+        return _possibleConstructorReturn(this, (BubbleMenuButton.__proto__ || Object.getPrototypeOf(BubbleMenuButton)).call(this, dom));
     }
 
-}
+    return BubbleMenuButton;
+}(BasicControl);
 
-module.exports = BasicControl;
-},{"./../events/EventEmitter":5}],3:[function(require,module,exports){
-const ToolbarButton = require('./ToolbarButton');
+module.exports = BubbleMenuButton;
+},{"./BasicControl":2}],5:[function(require,module,exports){
+'use strict';
 
-class Toolbar {
-    constructor(dom){
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ToolbarButton = require('./ToolbarButton');
+
+var Toolbar = function () {
+    function Toolbar(dom) {
+        _classCallCheck(this, Toolbar);
+
         this.dom = dom;
         this._buttons = [];
     }
@@ -10321,82 +10528,136 @@ class Toolbar {
      * Read only buttons attribute
      * @returns {Array}
      */
-    get buttons(){
-        return this._buttons;
-    }
 
-    /**
-     * Add a new button to toolbar
-     * @param config
-     */
-    addButton(config){
-        let button = new ToolbarButton($(this._getToolButtonMarkup(config)));
-        this._buttons.push(button);
-        this.dom.append(button.dom);
-    }
 
-    /**
-     * Get a toolbar button by id
-     * @param id
-     * @returns {*}
-     */
-    getButtonById(id){
-        for(let i = 0; i < this._buttons.length; i++){
-            if(this._buttons[i].dom.attr('id') === id){
-                return this.buttons[i];
+    _createClass(Toolbar, [{
+        key: 'addButton',
+
+
+        /**
+         * Add a new button to toolbar
+         * @param config
+         */
+        value: function addButton(config) {
+            var button = new ToolbarButton($(this._getToolButtonMarkup(config)));
+            this._buttons.push(button);
+            this.dom.append(button.dom);
+        }
+
+        /**
+         * Get a toolbar button by id
+         * @param id
+         * @returns {*}
+         */
+
+    }, {
+        key: 'getButtonById',
+        value: function getButtonById(id) {
+            for (var i = 0; i < this._buttons.length; i++) {
+                if (this._buttons[i].dom.attr('id') === id) {
+                    return this.buttons[i];
+                }
             }
         }
-    }
 
-    /**
-     * Get tool button markup, you can always override this.
-     * @param config
-     * @returns {string}
-     * @private
-     */
-    _getToolButtonMarkup(config){
-        return "<div toolbar-button>" + config.innerContent + "</div>";
-    }
-}
+        /**
+         * Get tool button markup, you can always override this.
+         * @param config
+         * @returns {string}
+         * @private
+         */
+
+    }, {
+        key: '_getToolButtonMarkup',
+        value: function _getToolButtonMarkup(config) {
+            return "<div toolbar-button>" + config.innerContent + "</div>";
+        }
+    }, {
+        key: 'buttons',
+        get: function get() {
+            return this._buttons;
+        }
+    }]);
+
+    return Toolbar;
+}();
 
 module.exports = Toolbar;
-},{"./ToolbarButton":4}],4:[function(require,module,exports){
-const BasicControl = require('./BasicControl');
+},{"./ToolbarButton":6}],6:[function(require,module,exports){
+'use strict';
 
-class ToolbarButton extends BasicControl {
-    constructor(dom){
-        super(dom);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BasicControl = require('./BasicControl');
+
+var ToolbarButton = function (_BasicControl) {
+    _inherits(ToolbarButton, _BasicControl);
+
+    function ToolbarButton(dom) {
+        _classCallCheck(this, ToolbarButton);
+
+        return _possibleConstructorReturn(this, (ToolbarButton.__proto__ || Object.getPrototypeOf(ToolbarButton)).call(this, dom));
     }
-}
+
+    return ToolbarButton;
+}(BasicControl);
 
 module.exports = ToolbarButton;
-},{"./BasicControl":2}],5:[function(require,module,exports){
-class EventEmitter {
-    constructor(){
+},{"./BasicControl":2}],7:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EventEmitter = function () {
+    function EventEmitter() {
+        _classCallCheck(this, EventEmitter);
+
         this._handlers = [];
     }
 
-    set handler(val){
-        this._handlers.push(val);
-    }
+    _createClass(EventEmitter, [{
+        key: "dispatch",
 
-    /**
-     * Dispatch the event
-     * @param arg
-     */
-    dispatch(arg){
-        for(let i = 0; i < this._handlers.length; i++){
-            this._handlers[i](arg);
+
+        /**
+         * Dispatch the event
+         * @param arg
+         */
+        value: function dispatch(arg) {
+            for (var i = 0; i < this._handlers.length; i++) {
+                this._handlers[i](arg);
+            }
         }
-    }
-}
+    }, {
+        key: "handler",
+        set: function set(val) {
+            this._handlers.push(val);
+        }
+    }]);
+
+    return EventEmitter;
+}();
 
 module.exports = EventEmitter;
-},{}],6:[function(require,module,exports){
-let $ = require('jquery');
+},{}],8:[function(require,module,exports){
+'use strict';
 
-class Cursor {
-    constructor(selector){
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = require('jquery');
+
+var Cursor = function () {
+    function Cursor(selector) {
+        _classCallCheck(this, Cursor);
+
         this.dom = $(selector);
     }
 
@@ -10404,23 +10665,36 @@ class Cursor {
      * Set cursor type
      * @param type
      */
-    setType(type){
-        this.dom.css({
-            cursor: type
-        });
-    };
-}
+
+
+    _createClass(Cursor, [{
+        key: 'setType',
+        value: function setType(type) {
+            this.dom.css({
+                cursor: type
+            });
+        }
+    }]);
+
+    return Cursor;
+}();
 
 module.exports = Cursor;
-},{"jquery":1}],7:[function(require,module,exports){
-const BasicControl = require('./controls/BasicControl');
-const Toolbar = require('./controls/Toolbar');
-const Cursor = require('./misc/Cursor');
+},{"jquery":1}],9:[function(require,module,exports){
+'use strict';
 
+var BasicControl = require('./controls/BasicControl');
+var Toolbar = require('./controls/Toolbar');
+var Cursor = require('./misc/Cursor');
+
+var BubbleMenu = require('./controls/BubbleMenu');
+var BubbleMenuButton = require('./controls/BubbleMenuButton');
 
 window.UI = {
     Toolbar: Toolbar,
     BasicControl: BasicControl,
-    Cursor: Cursor
+    Cursor: Cursor,
+    BubbleMenu: BubbleMenu,
+    BubbleMenuButton: BubbleMenuButton
 };
-},{"./controls/BasicControl":2,"./controls/Toolbar":3,"./misc/Cursor":6}]},{},[7]);
+},{"./controls/BasicControl":2,"./controls/BubbleMenu":3,"./controls/BubbleMenuButton":4,"./controls/Toolbar":5,"./misc/Cursor":8}]},{},[9]);

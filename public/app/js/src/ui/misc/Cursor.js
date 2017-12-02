@@ -1,4 +1,4 @@
-let $ = require('jquery');
+var $ = require('jquery');
 
 class Cursor {
     constructor(selector){

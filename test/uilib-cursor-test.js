@@ -1,19 +1,18 @@
 let assert = require('assert');
-let jsdom = require('mocha-jsdom');
+require('./setup-dom');
 
 describe('Cursor', function(){
     describe('#constructor()', function(){
         let Cursor;
-        jsdom();
 
         before(function () {
             Cursor = require('../public/app/js/src/ui/misc/Cursor');
-        });
-
-        it('should select dom element', function(){
             let div = document.createElement('div');
             div.id = "testId";
             document.body.appendChild(div);
+        });
+
+        it('should select dom element', function(){
             let cursor = new Cursor("#testId");
             assert.equal("testId", cursor.dom.attr('id'));
         });
@@ -21,7 +20,6 @@ describe('Cursor', function(){
 
     describe('#setType()', function(){
         let Cursor;
-        jsdom();
 
         before(function () {
             Cursor = require('../public/app/js/src/ui/misc/Cursor');

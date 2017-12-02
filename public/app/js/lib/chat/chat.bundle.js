@@ -12381,6 +12381,8 @@ module.exports = function text(state, silent) {
 };
 
 },{}],68:[function(require,module,exports){
+'use strict';
+
 var Message = require('./messages/Message');
 var MessageText = require('./messages/MessageText');
 
@@ -12388,97 +12390,135 @@ window.Chat = {
     Message: Message,
     MessageText: MessageText
 };
+
 },{"./messages/Message":69,"./messages/MessageText":70}],69:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var MessageText = require('./MessageText');
 var md5 = require('blueimp-md5');
 
-class Message {
-    constructor(raw_data){
+var Message = function () {
+    function Message(raw_data) {
+        _classCallCheck(this, Message);
+
         this.raw_data = raw_data;
         this.text = new MessageText(raw_data.msg);
     }
 
-    getId(){
-        return md5(this.raw_data.msg + this.getTime() + this.getUsername());
-    }
+    _createClass(Message, [{
+        key: 'getId',
+        value: function getId() {
+            return md5(this.raw_data.msg + this.getTime() + this.getUsername());
+        }
+    }, {
+        key: 'isChat',
+        value: function isChat() {
+            return this.raw_data.type === 'chat';
+        }
+    }, {
+        key: 'isSystem',
+        value: function isSystem() {
+            return this.raw_data.type === 'system';
+        }
+    }, {
+        key: 'isHidden',
+        value: function isHidden() {
+            return this.raw_data.hidden;
+        }
+    }, {
+        key: 'isOwn',
+        value: function isOwn() {
+            return this.raw_data.ownMsg;
+        }
+    }, {
+        key: 'isInstructor',
+        value: function isInstructor() {
+            return this.raw_data.isInstructor;
+        }
+    }, {
+        key: 'isTA',
+        value: function isTA() {
+            return this.raw_data.isTA;
+        }
+    }, {
+        key: 'getTime',
+        value: function getTime() {
+            return this.raw_data.msgTime;
+        }
+    }, {
+        key: 'getAvatar',
+        value: function getAvatar() {
+            return this.raw_data.userAvatar;
+        }
+    }, {
+        key: 'getInitials',
+        value: function getInitials() {
+            return this.raw_data.initials;
+        }
+    }, {
+        key: 'getUsername',
+        value: function getUsername() {
+            return this.raw_data.username;
+        }
+    }, {
+        key: 'getText',
+        value: function getText() {
+            return this.text;
+        }
+    }, {
+        key: 'hasFile',
+        value: function hasFile() {
+            return this.raw_data.hasFile;
+        }
+    }, {
+        key: 'isImageFile',
+        value: function isImageFile() {
+            return this.raw_data.isImageFile;
+        }
+    }, {
+        key: 'getFileName',
+        value: function getFileName() {
+            return this.raw_data.filename;
+        }
+    }, {
+        key: 'isAudioFile',
+        value: function isAudioFile() {
+            return this.raw_data.isMusicFile;
+        }
+    }, {
+        key: 'isPdfFile',
+        value: function isPdfFile() {
+            return this.raw_data.isPDFFile;
+        }
+    }]);
 
-    isChat(){
-        return this.raw_data.type === 'chat';
-    }
-
-    isSystem(){
-        return this.raw_data.type === 'system';
-    }
-
-    isHidden(){
-        return this.raw_data.hidden;
-    }
-
-    isOwn(){
-        return this.raw_data.ownMsg;
-    }
-
-    isInstructor(){
-        return this.raw_data.isInstructor;
-    }
-
-    isTA(){
-        return this.raw_data.isTA;
-    }
-
-    getTime(){
-        return this.raw_data.msgTime;
-    }
-
-    getAvatar(){
-        return this.raw_data.userAvatar;
-    }
-
-    getInitials(){
-        return this.raw_data.initials;
-    }
-
-    getUsername(){
-        return this.raw_data.username;
-    }
-
-    getText(){
-        return this.text;
-    }
-
-    hasFile(){
-        return this.raw_data.hasFile;
-    }
-
-    isImageFile() {
-        return this.raw_data.isImageFile;
-    }
-
-    getFileName(){
-        return this.raw_data.filename;
-    }
-
-    isAudioFile(){
-        return this.raw_data.isMusicFile;
-    }
-
-    isPdfFile(){
-        return this.raw_data.isPDFFile;
-    }
-}
+    return Message;
+}();
 
 module.exports = Message;
 },{"./MessageText":70,"blueimp-md5":4}],70:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var Remarkable = require('remarkable');
 var atob = require('atob');
 var btoa = require('btoa');
 
-class MessageText {
-    constructor(text){
+var MessageText = function () {
+    function MessageText(text) {
+        _classCallCheck(this, MessageText);
+
         this.md = new Remarkable();
         text = text.split("-----MC2 BEGIN ATTACHMENT-----");
         this.text = text[0].replace(/^\n|\n$/g, '');
-        if(text.length > 1){
+        if (text.length > 1) {
             text = text[1].split("-----MC2 END ATTACHMENT-----");
             this.raw_attachments = text[0].replace(/^\n|\n$/g, '');
         } else {
@@ -12488,91 +12528,104 @@ class MessageText {
         this.rendered_text = this.md.render(this.text);
         this.attachments = JSON.parse(atob(this.raw_attachments));
 
-        if(this.text.match(/^\[mc2-image\]/)){
+        if (this.text.match(/^\[mc2-image\]/)) {
             this.is_image = true;
         } else {
             this.is_image = false;
         }
 
-        if(this.text.match(/^\$\$[\s\S]*\$\$$/)){
+        if (this.text.match(/^\$\$[\s\S]*\$\$$/)) {
             this.is_equation = true;
         } else {
             this.is_equation = false;
         }
     }
 
-    getRaw(){
-        return this.text;
-    }
-
-    getRenderedText(){
-        return this.rendered_text;
-    }
-
-    getRawAttachments(){
-        return this.raw_attachments;
-    }
-
-    getAttachments(){
-        return this.attachments;
-    }
-
-    hasSvgSource(){
-        if(this.attachments['svg-source']){
-            return true;
-        } else {
-            return false;
+    _createClass(MessageText, [{
+        key: 'getRaw',
+        value: function getRaw() {
+            return this.text;
         }
-    }
-
-    getSvgSource(){
-        return atob(this.attachments['svg-source']);
-    }
-
-    isEquation(){
-        return this.is_equation;
-    }
-
-    isImage(){
-        return this.is_image;
-    }
-
-    getImage(){
-        var re = /^\[mc2-image\]/;
-        return this.text.replace(re, "");
-    }
-
-    getTextSize(){
-        return this._getByteLen(this.text);
-    }
-
-    getAttachmentsSize(){
-        return this._getByteLen(this.raw_attachments);
-    }
-
-    /**
-     * Get byte length of a string in UTF-8 format
-     * @param normal_val
-     * @returns {number}
-     * @private
-     */
-    _getByteLen(normal_val) {
-        // Force string type
-        normal_val = String(normal_val);
-
-        var byteLen = 0;
-        for (var i = 0; i < normal_val.length; i++) {
-            var c = normal_val.charCodeAt(i);
-            byteLen += c < (1 <<  7) ? 1 :
-                       c < (1 << 11) ? 2 :
-                       c < (1 << 16) ? 3 :
-                       c < (1 << 21) ? 4 :
-                       c < (1 << 26) ? 5 :
-                       c < (1 << 31) ? 6 : Number.NaN;
+    }, {
+        key: 'getRenderedText',
+        value: function getRenderedText() {
+            return this.rendered_text;
         }
-        return byteLen;
-    }
-}
+    }, {
+        key: 'getRawAttachments',
+        value: function getRawAttachments() {
+            return this.raw_attachments;
+        }
+    }, {
+        key: 'getAttachments',
+        value: function getAttachments() {
+            return this.attachments;
+        }
+    }, {
+        key: 'hasSvgSource',
+        value: function hasSvgSource() {
+            if (this.attachments['svg-source']) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, {
+        key: 'getSvgSource',
+        value: function getSvgSource() {
+            return atob(this.attachments['svg-source']);
+        }
+    }, {
+        key: 'isEquation',
+        value: function isEquation() {
+            return this.is_equation;
+        }
+    }, {
+        key: 'isImage',
+        value: function isImage() {
+            return this.is_image;
+        }
+    }, {
+        key: 'getImage',
+        value: function getImage() {
+            var re = /^\[mc2-image\]/;
+            return this.text.replace(re, "");
+        }
+    }, {
+        key: 'getTextSize',
+        value: function getTextSize() {
+            return this._getByteLen(this.text);
+        }
+    }, {
+        key: 'getAttachmentsSize',
+        value: function getAttachmentsSize() {
+            return this._getByteLen(this.raw_attachments);
+        }
+
+        /**
+         * Get byte length of a string in UTF-8 format
+         * @param normal_val
+         * @returns {number}
+         * @private
+         */
+
+    }, {
+        key: '_getByteLen',
+        value: function _getByteLen(normal_val) {
+            // Force string type
+            normal_val = String(normal_val);
+
+            var byteLen = 0;
+            for (var i = 0; i < normal_val.length; i++) {
+                var c = normal_val.charCodeAt(i);
+                byteLen += c < 1 << 7 ? 1 : c < 1 << 11 ? 2 : c < 1 << 16 ? 3 : c < 1 << 21 ? 4 : c < 1 << 26 ? 5 : c < 1 << 31 ? 6 : Number.NaN;
+            }
+            return byteLen;
+        }
+    }]);
+
+    return MessageText;
+}();
 
 module.exports = MessageText;
 },{"atob":1,"btoa":5,"remarkable":8}]},{},[68]);

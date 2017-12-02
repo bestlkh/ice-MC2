@@ -119,9 +119,9 @@ jsWatcher
         let relativePath = filePath.replace('public/app/js/src', '');
         compileJs(filePath, 'public/app/js/lib' + relativePath, function(){
             // Add files that needs to be bundled here
-            browserifyJs('public/app/js/src/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js');
-            browserifyJs('public/app/js/src/chat/chat.js', 'public/app/js/lib/chat/chat.bundle.js');
-            browserifyJs('public/app/js/src/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js');
+            browserifyJs('public/app/js/lib/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js');
+            browserifyJs('public/app/js/lib/chat/chat.js', 'public/app/js/lib/chat/chat.bundle.js');
+            browserifyJs('public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js');
         });
     });
 

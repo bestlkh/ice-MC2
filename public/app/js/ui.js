@@ -45,8 +45,7 @@ onMainLoop(function(){
         });
     }
 
-    $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight());
-
+    resizeChat();
 
     tippy('.direct-chat-text-menu button', {
         size: 'large',
@@ -88,9 +87,7 @@ onChatRoomInterfaceLoaded(function(){
     latexEditor.getSession().on('change', function(e) {
         $("#textArea").val(latexEditor.getValue());
     });
-
     initializeChatMenu();
-
 });
 
 $(window).on('resize', function(){

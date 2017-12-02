@@ -294,13 +294,10 @@
                   {
                       var heights = window.innerHeight;
                       var target = document.getElementById('chat_body_div');
-                      heights -= 100;
+                      heights -= $("#chatroom-footer").outerHeight();
                       target.style.height = heights + "px";
                   }
                   resizeChat();
-                  window.onresize = function() {
-                      resizeChat();
-                  };
                   //]]>  
               </script> 
               <div class="box-footer" id="chatroom-footer">

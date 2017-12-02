@@ -70,6 +70,37 @@ class MessageText {
         var re = /^\[mc2-image\]/;
         return this.text.replace(re, "");
     }
+
+    getTextSize(){
+        return this._getByteLen(this.text);
+    }
+
+    getAttachmentsSize(){
+        return this._getByteLen(this.raw_attachments);
+    }
+
+    /**
+     * Get byte length of a string in UTF-8 format
+     * @param normal_val
+     * @returns {number}
+     * @private
+     */
+    _getByteLen(normal_val) {
+        // Force string type
+        normal_val = String(normal_val);
+
+        var byteLen = 0;
+        for (var i = 0; i < normal_val.length; i++) {
+            var c = normal_val.charCodeAt(i);
+            byteLen += c < (1 <<  7) ? 1 :
+                       c < (1 << 11) ? 2 :
+                       c < (1 << 16) ? 3 :
+                       c < (1 << 21) ? 4 :
+                       c < (1 << 26) ? 5 :
+                       c < (1 << 31) ? 6 : Number.NaN;
+        }
+        return byteLen;
+    }
 }
 
 module.exports = MessageText;

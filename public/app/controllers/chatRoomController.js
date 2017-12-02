@@ -118,7 +118,6 @@ angular.module('Controllers')
     if(!$rootScope.loggedIn){
 
         $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-			console.log(data);
             if (data.username) {
 
                 $rootScope.loggedIn = true;
@@ -342,7 +341,12 @@ angular.module('Controllers')
 		text += "<br><b>Message ID: </b><code>" + message.getId() + "</code>";
         text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
 
-		Alert.Alert.spawn(text);
+        text += "<hr>";
+
+        text += "<b>Text Size: </b>" + message.getText().getTextSize() + " bytes<br>";
+        text += "<b>Attachments Size: </b>" + message.getText().getAttachmentsSize() + " bytes";
+
+        Alert.Alert.spawn(text);
 	};
 
 	$scope.editSvgSource = function(source){

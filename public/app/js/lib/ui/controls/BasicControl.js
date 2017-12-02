@@ -4,13 +4,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var $ = require('jquery');
 var EventEmitter = require('./../events/EventEmitter');
 
 var BasicControl = function () {
     function BasicControl(dom) {
         _classCallCheck(this, BasicControl);
 
-        this.dom = dom;
+        this.dom = $(dom);
         this._visible = true;
         this._preventDefaultClick = false;
         this._onClickEmitter = new EventEmitter();
@@ -44,6 +45,9 @@ var BasicControl = function () {
         key: 'preventDefaultClick',
         set: function set(val) {
             this._preventDefaultClick = val;
+        },
+        get: function get() {
+            return this._preventDefaultClick;
         }
 
         /**

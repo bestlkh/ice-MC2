@@ -2118,13 +2118,14 @@ var SOTP = 0;
       var clickSelect = function() {
         if (toolButtonClick('#tool_select')) {
           svgCanvas.setMode('select');
-          //$('#styleoverrides').text('#svgcanvas svg *{cursor:move;pointer-events:all}, #svgcanvas svg{cursor:default}'); //**MDP
+          new UI.Cursor("#svgcanvas").setType("text");
         }
       };
 
       var clickFHPath = function() {
         if (toolButtonClick('#tool_fhpath')) {
           svgCanvas.setMode('fhpath');
+          new UI.Cursor("#svgcanvas").setType("default");
         }
       };
 
@@ -2235,7 +2236,7 @@ var SOTP = 0;
             parent.document.getElementById('textArea').value  = raw_message;
           } else {
             parent.preview.window.svg_source = btoa($("#svgcontent").find(".active-layer").html());
-            parent.preview.window.editor.setValue(tex);
+            parent.preview.window.previewEditor.setValue(tex);
           }
         }
       };
@@ -3412,6 +3413,7 @@ var SOTP = 0;
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
           {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},
+          {sel:'.tool_import_mobile', fn: clickImport, evt: 'mouseup'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},

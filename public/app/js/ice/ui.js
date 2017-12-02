@@ -1,4 +1,4 @@
-leftToolbar = new ui.Toolbar($("#tools_left"));
+leftToolbar = new UI.Toolbar($("#tools_left"));
 leftToolbar._getToolButtonMarkup = function(config){
     return "<div class='tool_button' id='" + config.id + "' title='" + config.title + "' style='" + config.style + "'></div>";
 };

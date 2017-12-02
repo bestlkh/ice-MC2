@@ -46,7 +46,7 @@
     }, 2000);
 
     document.getElementById("preview-send").onclick = function () {
-        if (editor.getValue()) {
+        if (previewEditor.getValue()) {
             raw_message = editor.getValue();
             raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
             var message_attachment = {
@@ -60,10 +60,10 @@
             alert("nothing to send");
         }
     }
-    var editor = ace.edit("mathjax-viewer");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/latex");
-    editor.getSession().on('change', function(e) {
+    var previewEditor = ace.edit("mathjax-viewer");
+    previewEditor.setTheme("ace/theme/monokai");
+    previewEditor.getSession().setMode("ace/mode/latex");
+    previewEditor.getSession().on('change', function(e) {
         Preview.CreatePreview()
     });
 </script>

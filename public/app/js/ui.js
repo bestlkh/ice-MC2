@@ -1,4 +1,5 @@
 var latexEditor;
+var chatMenu;
 
 onMainLoop(function(){
     var ua = window.navigator.userAgent;
@@ -44,7 +45,7 @@ onMainLoop(function(){
         });
     }
 
-    $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight() - 45);
+    $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight());
 
 
     tippy('.direct-chat-text-menu button', {
@@ -87,6 +88,9 @@ onChatRoomInterfaceLoaded(function(){
     latexEditor.getSession().on('change', function(e) {
         $("#textArea").val(latexEditor.getValue());
     });
+
+    initializeChatMenu();
+
 });
 
 $(window).on('resize', function(){
@@ -96,3 +100,34 @@ $(window).on('resize', function(){
 showMessageRawNewWindow = function(raw){
     window.open().document.write("<pre style='word-wrap: break-word'>" + atob(raw) + "</pre>");
 };
+
+
+function initializeChatMenu(){
+    chatMenu = new UI.BubbleMenu("#chat-menu", "#chat-menu-toggle", "#chat-menu-button-container", 50);
+    chatMenu._getBubbleMenuButtonMarkup = function(config){
+        return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
+    };
+
+    chatMenu.addButton({
+        id: "test",
+        innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
+    });
+
+    chatMenu.addButton({
+        id: "test1",
+        innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
+    });
+
+    var swapToEditorButton = chatMenu.addButton({
+        id: "chat-menu-swap-to-editor",
+        innerContent: "<i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>"
+    });
+
+    if ($(window).width() > 732){
+        swapToEditorButton.visible = false;
+    }
+
+    swapToEditorButton.onClick = function(){
+        swapFrame();
+    }
+}

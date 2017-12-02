@@ -5,7 +5,6 @@ function swapFrame(){
 	var editor = document.getElementById("editorframe");
 	editor.style.display = "inline";
 	chat.style.display = "none";
-	simulateFullScreen();
 }
 
 function swapParentFrame(){

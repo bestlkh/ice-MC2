@@ -35,6 +35,7 @@ class BubbleMenu extends BasicControl {
         var button = new BubbleMenuButton($(this._getBubbleMenuButtonMarkup(config)));
         this._buttons.push(button);
         this.buttonContainerDom.append(button.dom);
+        return button;
     }
 
     /**
@@ -42,11 +43,12 @@ class BubbleMenu extends BasicControl {
      * @private
      */
     _initializeMenuButtonEvents(){
+        var self = this;
         $(this.menuButtonDom).click(function(){
-            if(this._expanded){
-                this.contract();
+            if(self._expanded){
+                self.contract();
             } else {
-                this.expand();
+                self.expand();
             }
         });
     }

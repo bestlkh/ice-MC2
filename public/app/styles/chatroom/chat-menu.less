@@ -1,0 +1,58 @@
+#chat-menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  .chat-menu-button {
+    background-color: #2f2f2c;
+    color: white;
+    width: 50px;
+    height: 50px;
+    box-shadow: rgba(0,0,0,0.1) 2px 2px 5px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 40px;
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color ease 0.3s;
+    &:hover {
+      background-color: black;
+      transition: background-color ease 0.3s;
+    }
+    &.ui-expanded {
+      background-color: black;
+      transition: background-color ease 0.3s;
+    }
+  }
+  #chat-menu-button-container {
+    .chat-menu-button {
+      right: -100px;
+      transition: right ease 0.3s;
+      &.shown {
+        right: 0;
+        transition: right ease 0.3s;
+      }
+    }
+  }
+}
+
+#chat-menu-cover {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+23,e5e5e5+100&1+23,0+100 */
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 23%, rgba(229,229,229,0) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 23%,rgba(229,229,229,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 23%,rgba(229,229,229,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00e5e5e5',GradientType=0 ); /* IE6-9 */
+  width: 100%;
+  z-index: 998;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 130px;
+  pointer-events: none;
+  border-top: black 2px solid;
+}
+
+#chat-menu-header {
+  display: none;
+}

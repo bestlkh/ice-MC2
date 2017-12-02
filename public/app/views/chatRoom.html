@@ -35,11 +35,18 @@
   <div id="dragbar"></div>  
   <!-- Chat Content -->
     <div id="chatframe"> 
-                   
+
+          <!--Begin Bubble Menu-->
+          <div id="chat-menu-cover"></div>
+          <div id="chat-menu">
+            <div class="chat-menu-button" id="chat-menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></div>
+            <div id="chat-menu-button-container"></div>
+          </div>
+
           <div class="row">
             <div class="col-sm-12">
               <div class="box box-warning direct-chat direct-chat-warning" >
-              <div class="box-header with-border">
+              <div class="box-header with-border" id="chat-menu-header">
                 <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
                   <div class="hamburger"><div class="inner"></div></div>
                 </div>

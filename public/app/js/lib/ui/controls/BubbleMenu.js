@@ -55,6 +55,7 @@ var BubbleMenu = function (_BasicControl) {
             var button = new BubbleMenuButton($(this._getBubbleMenuButtonMarkup(config)));
             this._buttons.push(button);
             this.buttonContainerDom.append(button.dom);
+            return button;
         }
 
         /**
@@ -65,11 +66,12 @@ var BubbleMenu = function (_BasicControl) {
     }, {
         key: '_initializeMenuButtonEvents',
         value: function _initializeMenuButtonEvents() {
+            var self = this;
             $(this.menuButtonDom).click(function () {
-                if (this._expanded) {
-                    this.contract();
+                if (self._expanded) {
+                    self.contract();
                 } else {
-                    this.expand();
+                    self.expand();
                 }
             });
         }

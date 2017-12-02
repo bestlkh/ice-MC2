@@ -129,5 +129,6 @@ function initializeChatMenu(){
 
     swapToEditorButton.onClick = function(){
         swapFrame();
+        chatMenu.contract();
     }
 }

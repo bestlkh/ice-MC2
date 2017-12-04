@@ -309,6 +309,7 @@ angular.module('Controllers')
 		$("#latex-editor-area").toggleClass("shown");
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
 		$("#direct-chat-container").toggleClass("latex-editor-shown");
+        $(".alertify-notifier").toggleClass("latex-editor-shown");
 		setTimeout(function(){
             $("#chat-body-div").scrollTop($("#dcs").height());
 		}, 100);

@@ -45,7 +45,7 @@
 
           <div class="row">
             <div class="col-sm-12">
-              <div class="box box-warning direct-chat direct-chat-warning" >
+              <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
               <div class="box-header with-border" id="chat-menu-header">
                 <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
                   <div class="hamburger"><div class="inner"></div></div>
@@ -109,7 +109,7 @@
 
 
               </div><!-- /.box-header -->
-              <div id="chat_body_div" class="box-body" >
+              <div id="chat-body-div" class="box-body" >
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
                   <!-- Message. Default to the left -->
@@ -289,17 +289,6 @@
 
 
               </div><!-- /.box-body -->
-              <script type="text/javascript">//<![CDATA[ 
-                  function resizeChat()
-                  {
-                      var heights = window.innerHeight;
-                      var target = document.getElementById('chat_body_div');
-                      heights -= $("#chatroom-footer").outerHeight();
-                      target.style.height = heights + "px";
-                  }
-                  resizeChat();
-                  //]]>  
-              </script> 
               <div class="box-footer" id="chatroom-footer">
               <div id="panel">
                       <span style="font-color: black; font-size: 13px">

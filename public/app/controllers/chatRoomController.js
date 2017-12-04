@@ -263,8 +263,8 @@ angular.module('Controllers')
                     $scope.setFocus = true;
                 }
 			});
-            $("#chat_body_div").animate({
-                scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+            $("#chat-body-div").animate({
+                scrollTop: $("#chat-body-div")[0].scrollHeight + 100
             });
             latexEditor.setValue("");
 		} else {
@@ -308,6 +308,10 @@ angular.module('Controllers')
 	$scope.toggleLatexEditor = function(){
 		$("#latex-editor-area").toggleClass("shown");
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
+		$("#direct-chat-container").toggleClass("latex-editor-shown");
+		setTimeout(function(){
+            $("#chat-body-div").scrollTop($("#dcs").height());
+		}, 100);
 	};
 
     /**
@@ -375,8 +379,8 @@ angular.module('Controllers')
             chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
             chatLog += "\n";
         });
-        $("#chat_body_div").animate({
-            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
     });
 
@@ -390,8 +394,8 @@ angular.module('Controllers')
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
 		chatLog += "\n";
-        $("#chat_body_div").animate({
-            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
 	});
 

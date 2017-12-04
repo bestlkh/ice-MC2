@@ -1,18 +1,9 @@
 var latexEditor;
 var chatMenu;
-
-onMainLoop(function(){
-    var ua = window.navigator.userAgent;
-    var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-    var webkit = !!ua.match(/WebKit/i);
-    var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-    if(iOSSafari){
-        // Make sure the chat-wrapper do not go over the screen
-        $("#chat-wrapper").css({
-            'height': window.innerHeight
-        });
-    }
-});
+var ua = window.navigator.userAgent;
+var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+var webkit = !!ua.match(/WebKit/i);
+var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
 // Programmatically modify the textarea size
 onMainLoop(function(){
@@ -45,8 +36,6 @@ onMainLoop(function(){
         });
     }
 
-    resizeChat();
-
     tippy('.direct-chat-text-menu button', {
         size: 'large',
         touchHold: true
@@ -55,7 +44,7 @@ onMainLoop(function(){
 
 // Resize dcs to let messages go from bottom to top
 onMainLoop(function(){
-    var containerHeight = $("#chat_body_div").height();
+    var containerHeight = $("#chat-body-div").height();
     var innerHeight = $("#dcs").outerHeight();
     if(containerHeight > innerHeight){
         $("#dcs").css({
@@ -70,8 +59,8 @@ onMainLoop(function(){
 
 // Change interface size to adapt the soft keyboard
 onChatTextBoxFocus(function(e) {
-    $("#chat_body_div").animate({
-        scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+    $("#chat-body-div").animate({
+        scrollTop: $("#chat-body-div")[0].scrollHeight + 100
     });
 });
 

@@ -106,7 +106,7 @@ function initializeChatMenu(){
 
     var swapToEditorButton = chatMenu.addButton({
         id: "chat-menu-swap-to-editor",
-        innerContent: "<i class=\"fa fa-pencil\" aria-hidden=\"true\"></i>"
+        innerContent: "<img src='/app/images/editor-icon.png' width='20' />"
     });
 
     if ($(window).width() > 732){

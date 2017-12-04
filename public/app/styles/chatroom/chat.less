@@ -242,6 +242,7 @@
 }
 
 #direct-chat-container {
+  border: none;
   &.latex-editor-shown {
     #chat-body-div {
       padding-bottom: 235px;
@@ -382,6 +383,9 @@ div {
   &.shown {
     max-height: 200px;
     transition: max-height ease 0.7s;
+  }
+  .CodeMirror {
+    height: 150px;
   }
   #latex-editor {
     margin-top: 10px;

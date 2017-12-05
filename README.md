@@ -4,16 +4,18 @@
 
 A collaborative math equation editing software.
 
-## Wiki Links
-* [Development Environment Setup & Deployment Instructions](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions)
-   * [Required Software](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions#required-software)
-   * [Development Environment Setup](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions#development-environment-setup)
-   * [Deployment Environment Setup](https://github.com/bestlkh/ice-MC2/wiki/Development-Environment-Setup-&-Deployment-Instructions#deployment-environment-setup)
+## How to Run
 
-* [Chat Room Global Events](https://github.com/bestlkh/ice-MC2/wiki/Chat-Room-Global-Events)
-* [ICE Global Events](https://github.com/bestlkh/ice-MC2/wiki/ICE-Global-Events)
-* [Angular API Documentation](https://github.com/bestlkh/ice-MC2/wiki/Angular-API-Documentation)
+### Docker
 
-### Classes
-* [Message](https://github.com/bestlkh/ice-MC2/wiki/Message-Class)
-* [MessageText](https://github.com/bestlkh/ice-MC2/wiki/MessageText-Class)
+Pull the latest docker image from `050125095678.dkr.ecr.us-west-2.amazonaws.com/ice-mc2:latest`.
+
+This is a private ECS repository, you have to have access to AWS to use it.
+
+Start the image by running `docker run -p <port>:8080 -d ice-mc2`.
+
+### Node.js
+
+You must have Node.js and MongoDB installed.
+
+Run `npm install && node deployment.js && node app.js`.

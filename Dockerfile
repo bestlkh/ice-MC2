@@ -1,18 +1,36 @@
-FROM phusion/baseimage:0.9.22
+FROM centos:7
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN apt-get update
-RUN apt-get install -y nodejs
+RUN yum install -y epel-release
+RUN yum update -y
 
-RUN mkdir ice
-COPY . ice
-WORKDIR ice
+RUN yum install -y wget && yum -y install initscripts && yum -y install supervisor && yum -y install which && yum clean all
+RUN wget https://gist.githubusercontent.com/junthehacker/c3c7fa9495ae9276b195366749f85154/raw/a47d2574c48947109ddfeabd8a9e08e8477f5f80/mongodb-org-3.6.repo -P /etc/yum.repos.d
+
+RUN yum install -y mongodb-org
+
+RUN mkdir /data
+RUN mkdir /data/db
+
+RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
+RUN yum -y install nodejs
+RUN yum groupinstall -y 'Development Tools'
+
+RUN mkdir /src
+WORKDIR /src
+COPY . .
+
 RUN npm install
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
-RUN echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
-RUN apt-get update
-RUN apt-get install -y mongodb-org
-RUN service mongodb start
-RUN mongorestore dump
+RUN node deployment.js
 
-CMD ["mongod"]
+
+RUN echo "[supervisord]" > /etc/supervisord.conf && \
+    echo "nodaemon=true" >> /etc/supervisord.conf && \
+    echo "" >> /etc/supervisord.conf && \
+    echo "[program:mongod]" >> /etc/supervisord.conf && \
+    echo "command=/usr/bin/mongod" >> /etc/supervisord.conf && \
+    echo "" >> /etc/supervisord.conf && \
+    echo "[program:ice-mc2]" >> /etc/supervisord.conf && \
+    echo "directory=/src" >> /etc/supervisord.conf && \
+    echo "command=node app.js" >> /etc/supervisord.conf
+
+CMD ["/usr/bin/supervisord"]

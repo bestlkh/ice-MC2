@@ -320,6 +320,10 @@ angular.module('Controllers')
 		}
 	};
 
+	$scope.showEquationEditor = function(){
+		swapFrame();
+	};
+
     /**
 	 * Get a list of messages wrapped with Message class.
      * @returns {Array}

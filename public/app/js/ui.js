@@ -112,18 +112,4 @@ function initializeChatMenu(){
         id: "test1",
         innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
     });
-
-    var swapToEditorButton = chatMenu.addButton({
-        id: "chat-menu-swap-to-editor",
-        innerContent: "<img src='/app/images/editor-icon.png' width='20' />"
-    });
-
-    if ($(window).width() > 732){
-        swapToEditorButton.visible = false;
-    }
-
-    swapToEditorButton.onClick = function(){
-        swapFrame();
-        chatMenu.contract();
-    }
 }

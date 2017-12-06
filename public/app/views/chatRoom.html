@@ -8,8 +8,8 @@
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
-    <iframe name="editor" id="editor-frame" style="width:100%; height:70vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
-    <iframe name="preview" id="preview-frame" style="width:100%; height:30vh;" src = "/app/views/preview.html"></iframe>
+    <iframe name="editor" id="editor-frame" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+    <iframe name="preview" id="preview-frame" src = "/app/views/preview.html"></iframe>
     <script type="text/javascript">//<![CDATA[ 
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
               document.getElementById("preview-frame").style.display = "none";
@@ -72,7 +72,7 @@
                 </script>
                 <!-- MathJax CDN from CloudFlare-->
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
-                <div class="menu_logo mobile">MC2</div>                
+                <div class="menu_logo mobile">Equation Editor</div>
                 <div class="box-tools pull-right">
                   <!-- Any File Select Button -->
                   <button class="btn btn-box-expand mobile" data-widget="" onclick="swapFrame();">
@@ -365,6 +365,8 @@
                   </button>
                   <button class="message-tool-button" id="latex-button" title="LaTeX Editor" ng-click="toggleLatexEditor()">
                     <img src="/app/images/latex-icon.png" width="20px" />
+                  <button class="message-tool-button" id="equation-editor-button" title="LaTeX Editor" ng-click="showEquationEditor()">
+                    <img src="/app/images/editor-icon.png" width="20px" />
                   </button>
                   <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
                             ng-model="chatMsg"

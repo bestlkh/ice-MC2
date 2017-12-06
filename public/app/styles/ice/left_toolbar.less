@@ -44,19 +44,6 @@
     position: relative;
     z-index: 11;
   }
-  &.mobile {
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    .tool_button_current {
-      display: inline-block;
-      vertical-align: top;
-    }
-    .tool_button {
-      display: inline-block;
-      vertical-align: top;
-    }
-  }
 }
 
 #color_tools {
@@ -363,5 +350,23 @@
 @media (max-width: 732px){
   #tool_toggle_keyboard {
     display: inline-block;
+  }
+
+  #tools_left {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    .tool_button_current {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .tool_button {
+      display: inline-block;
+      vertical-align: top;
+    }
   }
 }

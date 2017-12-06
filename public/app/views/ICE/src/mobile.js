@@ -113,7 +113,5 @@ var MobileUI = {
 };
 
 $(function(){
-    MobileUI.bindWindowResize();
-    // Ugly fix to highlight tool_select button
     $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
 });

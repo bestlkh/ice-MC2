@@ -881,7 +881,7 @@ methodDraw.addExtension("shapes", function () {
                     //MDP)
                     cur_shape = null;
                     current_d = null;
-                    if(!MobileUI.mounted) $('.tools_flyout').fadeOut();
+                    if(!$(window).width() > 732) $('.tools_flyout').fadeOut();
                     return;
                 }
                 if (!on) canv.keyPressed(btn[0].mathdata.charAt(0));

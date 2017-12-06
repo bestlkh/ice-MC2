@@ -5,6 +5,10 @@ var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
 var webkit = !!ua.match(/WebKit/i);
 var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
+if(window.navigator.userAgent.match(/Android 4/) && !window.navigator.userAgent.match(/Chrome/)){
+    alert("Your browser is not supported by this application, please install one of the following browsers:\n" + "- Android Built-in Browser on Android 6.0+\n- Google Chrome\n- iOS Safari")
+}
+
 // Programmatically modify the textarea size
 onMainLoop(function(){
     var containerWidth = $("#text-message-input-area").width();
@@ -85,6 +89,15 @@ onChatRoomInterfaceLoaded(function(){
     latexEditor.on('change', function(e) {
         $("#textArea").val(latexEditor.getValue());
     });
+
+    // Android height 100% to fix overlap issue with bottom tool bar
+    if($(window).width() < 732){
+        if(window.navigator.userAgent.match(/Android/)) {
+            $("#editor-frame").css({
+                'height': '100%'
+            })
+        }
+    }
 
 });
 

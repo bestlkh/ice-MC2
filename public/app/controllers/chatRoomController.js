@@ -383,10 +383,20 @@ angular.module('Controllers')
 			message.ownMsg = (message.username === $rootScope.username);
 
             $scope.messages.push(message);
-            $scope.allMsg.push(new Chat.Message(message));
+
+            var msg = new Chat.Message(message);
+
+            $scope.allMsg.push(msg);
             // Updates chatlog with relevant message history
             chatLog += "\r";
-            chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
+
+            chatLog += "ID - " + msg.getId() + "\n";
+            chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+            if(msg.getText().isImage()){
+            	chatLog += "[image]"
+			} else {
+            	chatLog += msg.getText().getRaw();
+			}
             chatLog += "\n";
         });
         $("#chat-body-div").animate({
@@ -399,11 +409,21 @@ angular.module('Controllers')
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
-		$scope.allMsg.push(new Chat.Message(data));
+
+        var msg = new Chat.Message(data);
+
+		$scope.allMsg.push(msg);
 		// Updates chatlog with relevant message history
-		chatLog += "\r";
-		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
-		chatLog += "\n";
+        chatLog += "\r";
+
+        chatLog += "ID - " + msg.getId() + "\n";
+        chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+        if(msg.getText().isImage()){
+            chatLog += "[image]"
+        } else {
+            chatLog += msg.getText().getRaw();
+        }
+        chatLog += "\n";
         $("#chat-body-div").animate({
             scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
@@ -802,7 +822,7 @@ angular.module('Controllers')
 			}
 			return false;
 		}
-	}
+	};
 
 	// download document file if it exists on server else return error message
 	$scope.downloadPDF = function(ev, elem){

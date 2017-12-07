@@ -5,6 +5,9 @@ var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
 var webkit = !!ua.match(/WebKit/i);
 var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
+var isMobile = $(window).width() < 732;
+
+
 if(window.navigator.userAgent.match(/Android 4/) && !window.navigator.userAgent.match(/Chrome/)){
     alert("Your browser is not supported by this application, please install one of the following browsers:\n" + "- Android Built-in Browser on Android 6.0+\n- Google Chrome\n- iOS Safari")
 }
@@ -83,7 +86,8 @@ onChatRoomInterfaceLoaded(function(){
     initializeChatMenu();
 
     latexEditor = new CodeMirror($("#latex-editor-area")[0], {
-        lineNumbers: true
+        lineNumbers: true,
+        mode:  "stex"
     });
 
     latexEditor.on('change', function(e) {
@@ -91,14 +95,11 @@ onChatRoomInterfaceLoaded(function(){
     });
 
     // Android height 100% to fix overlap issue with bottom tool bar
-    if($(window).width() < 732){
-        if(window.navigator.userAgent.match(/Android/)) {
-            $("#editor-frame").css({
-                'height': '100%'
-            })
-        }
+    if(isMobile && window.navigator.userAgent.match(/Android/)) {
+        $("#editor-frame").css({
+            'height': '100%'
+        })
     }
-
 });
 
 $(window).on('resize', function(){
@@ -121,8 +122,13 @@ function initializeChatMenu(){
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
 
-    chatMenu.addButton({
-        id: "test1",
+    var chatHistoryButton = chatMenu.addButton({
+        id: "chat-history-button",
         innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
     });
+
+    chatHistoryButton.onClick = function(){
+        historyWindow = window.open();
+        historyWindow.document.write("<pre>" + chatLog + "</pre>")
+    }
 }

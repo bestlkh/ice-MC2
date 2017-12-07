@@ -90,7 +90,7 @@ var MobileUI = {
      */
     showKeyboard: function(){
         $(".tools_flyout").css({
-            'bottom': 30,
+            'bottom': 70,
             'opacity': 1
         });
         $("#tool_toggle_keyboard").css({

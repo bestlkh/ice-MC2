@@ -358,7 +358,7 @@
     top: auto;
     left: 0;
     width: 100%;
-    height: 50px;
+    height: 40px;
     text-align: center;
     .tool_button_current {
       display: inline-block;
@@ -367,6 +367,19 @@
     .tool_button {
       display: inline-block;
       vertical-align: top;
+    }
+
+    .tool_button,
+    .push_button,
+    .tool_button_current,
+    .push_button_pressed {
+      height: 27px;
+      width: 27px;
+      border: solid #2f2f2c 4px;
+      border-left-width: 13px;
+      margin: 0;
+      background-color: #ddd;
+      cursor: pointer;
     }
   }
 }

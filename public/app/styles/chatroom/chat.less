@@ -385,7 +385,7 @@ div {
     transition: max-height ease 0.7s;
   }
   .CodeMirror {
-    height: 150px;
+    height: 120px;
   }
   #latex-editor {
     margin-top: 10px;
@@ -393,6 +393,10 @@ div {
     width: 100%;
     font-size: 14px;
   }
+}
+
+#equation-editor-button {
+  display: none;
 }
 
 @media screen and (max-width: 732px) {
@@ -417,5 +421,10 @@ div {
         padding-bottom: 0;
       }
     }
+  }
+
+  // Show equation editor button if mobile
+  #equation-editor-button {
+    display: inline-block;
   }
 }

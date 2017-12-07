@@ -47,7 +47,7 @@
 
     document.getElementById("preview-send").onclick = function () {
         if (previewEditor.getValue()) {
-            raw_message = editor.getValue();
+            raw_message = previewEditor.getValue();
             raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
             var message_attachment = {
                 'svg-source': svg_source

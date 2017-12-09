@@ -8,8 +8,8 @@
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
     <!--Dynamically resize window to fit editor-->
-    <iframe name="editor" id="editor-frame" style="width:100%; height:70vh;" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
-    <iframe name="preview" id="preview-frame" style="width:100%; height:30vh;" src = "/app/views/preview.html"></iframe>
+    <iframe name="editor" id="editor-frame" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
+    <iframe name="preview" id="preview-frame" src = "/app/views/preview.html"></iframe>
     <script type="text/javascript">//<![CDATA[ 
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
               document.getElementById("preview-frame").style.display = "none";
@@ -45,7 +45,7 @@
 
           <div class="row">
             <div class="col-sm-12">
-              <div class="box box-warning direct-chat direct-chat-warning" >
+              <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
               <div class="box-header with-border" id="chat-menu-header">
                 <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
                   <div class="hamburger"><div class="inner"></div></div>
@@ -72,7 +72,7 @@
                 </script>
                 <!-- MathJax CDN from CloudFlare-->
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
-                <div class="menu_logo mobile">MC2</div>                
+                <div class="menu_logo mobile">Equation Editor</div>
                 <div class="box-tools pull-right">
                   <!-- Any File Select Button -->
                   <button class="btn btn-box-expand mobile" data-widget="" onclick="swapFrame();">
@@ -109,7 +109,7 @@
 
 
               </div><!-- /.box-header -->
-              <div id="chat_body_div" class="box-body" >
+              <div id="chat-body-div" class="box-body" >
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
                   <!-- Message. Default to the left -->
@@ -193,42 +193,6 @@
                                   </div>
                                 </div>
                               </div>
-                              <!-- Image File Close -->
-
-
-                              <!--WTF?-->
-                              <!-- Audio File Open -->
-                              <!--<div ng-class="{'filename' : true, 'chat-msg' : true}" ng-show="message.isAudioFile()">-->
-                                <!--<div ng-class="{'attachment-icon-right' : message.isOwn(), 'attachment-icon-left' : !message.isOwn()}">-->
-                                  <!--<a href ng-click="openClickMusic(message.raw_data)">-->
-                                  <!--<img id="{{message.raw_data.dwid}}" width="45" height="45" ng-src="{{message.raw_data.dwimgsrc}}" alt="Music File" title="play"></a>-->
-                                <!--</div>-->
-                                <!--<div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}">-->
-                                  <!--<span class="decs-text" ng-show="message.raw_data.showme"><b>File :</b> {{ message.getFileName()}}</span>-->
-                                  <!--<span class="decs-text" ng-show="message.raw_data.showme"><a id ="{{message.raw_data.dwid}}" class="decs-text" ng-show="message.isOwn()" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>Open in Editor</i><i class="fa fa-download dw-icon"></i></a>-->
-                                  <!--<a id ="{{message.raw_data.dwid}}" class="decs-text" ng-show="!message.isOwn()" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>&nbsp;&nbsp;Open in Editor</i> <i class="fa fa-download dw-icon"></i></a>-->
-                                    <!--<span class="decs-text" ng-show="message.showme"><a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>Download</i><i class="fa fa-download dw-icon"></i></a></span>-->
-                                  <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg" onclick="return angular.element(this).scope().downloadMusic(event,this)" href ><i>&nbsp;&nbsp;Download</i> <i class="fa fa-download dw-icon"></i></a>-->
-                                  <!--<a id ="{{message.dwid}}A" class="decs-text hidden-link" href="{{ message.serverfilename }}"  download="{{ message.serverfilename }}"><i>Hidden Link</i></a></span>-->
-                                <!--</div>-->
-
-                              <!--</div>&lt;!&ndash; Audio File Close &ndash;&gt;-->
-
-                              <!-- Doc File Open -->
-                              <!--<div ng-class="{'filename' : true, 'chat-msg' : true}" ng-show="message.isPDFFile">-->
-                                <!--<div ng-class="{'attachment-icon-right' : message.ownMsg, 'attachment-icon-left' : !message.ownMsg}">-->
-                                  <!--<a href ng-click="openClickPDF(message)">-->
-                                  <!--<img id="{{message.dwid}}" width="45" height="45" ng-src="{{message.dwimgsrc}}" alt="Document"></a>-->
-                                <!--</div>-->
-                                <!--<div ng-class="{'attachment-msg-right' : message.ownMsg, 'attachment-msg-left' : !message.ownMsg}">-->
-                                  <!--<span class="decs-text" ng-show="message.showme"><b>File :</b> {{ message.filename}}</span>-->
-                                  <!--<span class="decs-text" ng-show="message.showme"><b>Size :</b> {{message.size}}</span>-->
-                                  <!--<span class="decs-text" ng-show="message.showme"><a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadPDF(event,this)" href><i class="fa fa-download dw-icon"></i> <i>Click here to download</i></a>-->
-                                  <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadPDF(event,this)" href><i>Click here to download</i> <i class="fa fa-download dw-icon"></i></a>-->
-                                  <!--<a id ="{{message.dwid}}A" class="decs-text hidden-link" href="{{ message.serverfilename }}"  download="{{ message.serverfilename }}"><i>Hidden Link</i></a>-->
-                                  <!--</span>-->
-                                <!--</div>-->
-                              <!--</div>&lt;!&ndash; Doc file Close &ndash;&gt;-->
 
                             </div><!-- /.attachment -->
                         </div><!-- /.item-->
@@ -289,17 +253,6 @@
 
 
               </div><!-- /.box-body -->
-              <script type="text/javascript">//<![CDATA[ 
-                  function resizeChat()
-                  {
-                      var heights = window.innerHeight;
-                      var target = document.getElementById('chat_body_div');
-                      heights -= $("#chatroom-footer").outerHeight();
-                      target.style.height = heights + "px";
-                  }
-                  resizeChat();
-                  //]]>  
-              </script> 
               <div class="box-footer" id="chatroom-footer">
               <div id="panel">
                       <span style="font-color: black; font-size: 13px">
@@ -376,6 +329,8 @@
                   </button>
                   <button class="message-tool-button" id="latex-button" title="LaTeX Editor" ng-click="toggleLatexEditor()">
                     <img src="/app/images/latex-icon.png" width="20px" />
+                  <button class="message-tool-button" id="equation-editor-button" title="Equation Editor" ng-click="showEquationEditor()">
+                    <img src="/app/images/editor-icon.png" width="20px" />
                   </button>
                   <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
                             ng-model="chatMsg"
@@ -387,7 +342,6 @@
                 </div>
 
                 <div id="latex-editor-area" class="tex2jax_ignore">
-                  <div id="latex-editor"></div>
                 </div>
 
 

@@ -31,6 +31,8 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send_as_img.png);'
 });
 
+
+
 $("#image-import-input").on('change', function(){
     if (this.files && this.files[0]) {
 

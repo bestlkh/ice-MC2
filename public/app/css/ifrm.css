@@ -71,12 +71,6 @@
 }
 
 @media only screen and (max-device-width: 732px) {
- 	#editorframe{
- 		display:none;
-		width:100%;
-		height: auto;
-		float: left;
-	}
 
 	#chatframe{
 		display:inline;

@@ -263,8 +263,8 @@ angular.module('Controllers')
                     $scope.setFocus = true;
                 }
 			});
-            $("#chat_body_div").animate({
-                scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+            $("#chat-body-div").animate({
+                scrollTop: $("#chat-body-div")[0].scrollHeight + 100
             });
             latexEditor.setValue("");
 		} else {
@@ -308,6 +308,20 @@ angular.module('Controllers')
 	$scope.toggleLatexEditor = function(){
 		$("#latex-editor-area").toggleClass("shown");
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
+		$("#direct-chat-container").toggleClass("latex-editor-shown");
+		setTimeout(function(){
+            $("#chat-body-div").scrollTop($("#dcs").height());
+		}, 100);
+
+		if($("#direct-chat-container").hasClass("latex-editor-shown")){
+            $(".alertify-notifier").addClass("latex-editor-shown");
+		} else {
+            $(".alertify-notifier").removeClass("latex-editor-shown");
+		}
+	};
+
+	$scope.showEquationEditor = function(){
+		swapFrame();
 	};
 
     /**
@@ -369,14 +383,24 @@ angular.module('Controllers')
 			message.ownMsg = (message.username === $rootScope.username);
 
             $scope.messages.push(message);
-            $scope.allMsg.push(new Chat.Message(message));
+
+            var msg = new Chat.Message(message);
+
+            $scope.allMsg.push(msg);
             // Updates chatlog with relevant message history
             chatLog += "\r";
-            chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
+
+            chatLog += "ID - " + msg.getId() + "\n";
+            chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+            if(msg.getText().isImage()){
+            	chatLog += "[image]"
+			} else {
+            	chatLog += msg.getText().getRaw();
+			}
             chatLog += "\n";
         });
-        $("#chat_body_div").animate({
-            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
     });
 
@@ -385,13 +409,23 @@ angular.module('Controllers')
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
-		$scope.allMsg.push(new Chat.Message(data));
+
+        var msg = new Chat.Message(data);
+
+		$scope.allMsg.push(msg);
 		// Updates chatlog with relevant message history
-		chatLog += "\r";
-		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
-		chatLog += "\n";
-        $("#chat_body_div").animate({
-            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        chatLog += "\r";
+
+        chatLog += "ID - " + msg.getId() + "\n";
+        chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+        if(msg.getText().isImage()){
+            chatLog += "[image]"
+        } else {
+            chatLog += msg.getText().getRaw();
+        }
+        chatLog += "\n";
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
 	});
 
@@ -788,7 +822,7 @@ angular.module('Controllers')
 			}
 			return false;
 		}
-	}
+	};
 
 	// download document file if it exists on server else return error message
 	$scope.downloadPDF = function(ev, elem){

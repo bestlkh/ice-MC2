@@ -15,11 +15,13 @@ angular.module('Controllers')
         }
     }])
     .controller("studentsController", function ($scope, $rootScope, $routeParams, $window) {
-        $rootScope.tabActive = "students";
+        $rootScope.tabActive = "class";
 
         $scope.hideImport = true;
         $scope.hideOverlay = true;
         $scope.hideAdd = true;
+
+        $scope.className = $routeParams.name;
 
         $scope.import = {
             csv: null
@@ -55,7 +57,7 @@ angular.module('Controllers')
         $scope.Actions = {
             getStudentList: function () {
                 $.ajax({
-                    url: "/v1/api/students",
+                    url: "/v1/api/classrooms/"+$routeParams.name+"/students",
                     success: function (result) {
                         $scope.students = result;
                         $scope.$apply();
@@ -65,7 +67,7 @@ angular.module('Controllers')
             putStudentList: function (csv) {
                 $.ajax({
                     method: "PUT",
-                    url: "/v1/api/students",
+                    url: "/v1/api/classrooms/"+$routeParams.name+"/students",
                     data:  JSON.stringify({csv: csv}),
                     processData: false,
                     contentType: "application/json",
@@ -86,7 +88,7 @@ angular.module('Controllers')
             patchStudentList: function () {
                 $.ajax({
                     method: "PATCH",
-                    url: "/v1/api/students",
+                    url: "/v1/api/classrooms/"+$routeParams.name+"/students",
                     data:  JSON.stringify($scope.student),
                     processData: false,
                     contentType: "application/json",
@@ -96,6 +98,16 @@ angular.module('Controllers')
                         $scope.hideAdd = $scope.hideOverlay = true;
 
                         $scope.newNotif("Successfully added", true);
+                    }
+                })
+            },
+            onReset: function () {
+                $.ajax({
+                    url: "/v1/api/classrooms/"+$routeParams.name+"/students/generate",
+                    success: function () {
+                        $scope.Actions.getStudentList();
+
+                        $scope.newNotif("Tokens reset", true);
                     }
                 })
             }
@@ -154,19 +166,8 @@ angular.module('Controllers')
             $scope.Actions.patchStudentList();
         };
 
-        $scope.onReset = function () {
-            $.ajax({
-                url: "/v1/api/admin/students/generate",
-                success: function () {
-                    $scope.Actions.getStudentList();
-
-                    $scope.newNotif("Tokens reset", true);
-                }
-            })
-        };
-
         $scope.onExport = function () {
-            $window.open("/admin/students/tokens.csv", "_self");
+            $window.open("/v1/api/classrooms/"+$routeParams.name+"/students/tokens.csv", "_self");
         };
 
 

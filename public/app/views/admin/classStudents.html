@@ -1,0 +1,139 @@
+<div class="control-header">
+    <header> {{className}} </header>
+    <div class="header-control-wrapper">
+        <logout-menu user="user"></logout-menu>
+    </div>
+</div>
+<div class="control-content">
+    <div class="student-control-wrapper" style="display: block;">
+        <div style="display:flex;justify-content: space-between;padding: 5px;margin-bottom: 0;border-bottom: 1px #e0e0e0 solid">
+            <div style="font-size: 17px;padding: 10px 0;">{{className}} student list</div>
+
+            <div class="button-wrapper">
+                <div class="inner-nav">
+                    <a href={{"/admin/classrooms/"+className}}>
+                        Settings
+                    </a>
+                    <a class="nav-active" href={{"/admin/classrooms/"+className+"/students"}}>
+                        Students
+                    </a>
+                    <a href={{"/admin/classrooms/"+className+"/history"}}>
+                        History
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex; margin: 20px 0;justify-content: space-between;">
+            <div style="display: flex">
+                <input class="student-search" ng-model="search.value" ng-change="onSearchChange()"/>
+                <div class="notif-popup" ng-if="notif">
+                    {{notif.message}}
+                </div>
+            </div>
+
+
+            <div class="button-wrapper">
+                <div class="line-button import-button" ng-click="onImportClick()">
+                    Import
+                </div>
+                <div class="line-button add-button" ng-click="onAddClick()">
+                    Add Item
+                </div>
+
+                <div class="line-button add-button" ng-click="onExport()">
+                    Export
+                </div>
+                <div class="line-button reset-button" ng-click="Actions.onReset()">
+                    Reset
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="table-list">
+        <div class="table-list-header">
+            <div> Utorid </div>
+
+            <div> Email </div>
+            <div>Token</div>
+        </div>
+        <div class="list-wrapper" ng-repeat="student in students">
+            <div class="student-item" ng-if="checkInclude(student)">
+                <div>{{student.utorid}}</div>
+
+                <div>{{student.email}}</div>
+                <div>{{student.token}}</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="import-overlay" ng-if="!hideOverlay" ng-click="onOverlayClick($event);">
+        <div class="import-wrapper" ng-if="result">
+            <div class="result-wrapper">
+                <div class="spin circle" ng-if="result.success">
+
+                </div>
+                <div class="tool-tip" style="margin: 10px;">
+                    <span>Success</span>
+                    <div>Imported <span>{{result['n_successful']}}</span> student(s)</div>
+                </div>
+            </div>
+        </div>
+        <div class="import-wrapper" ng-if="!hideImport && !result">
+            <header> <span>Import student list</span> </header>
+            <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
+            <form ng-submit="onImportSubmit()">
+                <div class="form-wrapper">
+                    <div ng-if="!import.csv">
+                        Upload student CSV file
+                    </div>
+                    <div ng-if="import.csv">
+                        <div>{{import.csv.name}}</div>
+
+                        <div>{{import.csv.size+" bytes"}}</div>
+                    </div>
+                    <div class="font-light">
+                        <label class="upload-button">
+                            <input type="file" required fileread="import.csv"/>
+                            <span>Browse</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="button-wrapper">
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+                    <input type="submit" />
+                </div>
+
+            </form>
+        </div>
+        <div class="import-wrapper" ng-if="!hideAdd">
+            <header> <span>Add student to list</span> </header>
+            <form ng-submit="onAddSubmit()">
+
+                <div class="form-wrapper" style="border: 0;">
+                    <div class="add-wrapper">
+                        <div>
+                            Utorid:
+                        </div>
+                        <input type="text" ng-model="student.utorid" required/>
+                        <div>
+                            Email:
+                        </div>
+                        <input type="text" ng-model="student.email" required/>
+
+                    </div>
+
+                </div>
+
+                <div class="button-wrapper">
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+                    <input type="submit" />
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>

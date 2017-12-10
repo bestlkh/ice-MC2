@@ -118,7 +118,7 @@ angular.module('Controllers')
     if(!$rootScope.loggedIn){
 
         $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-			console.log(data);
+
             if (data.username) {
 
                 $rootScope.loggedIn = true;
@@ -149,6 +149,7 @@ angular.module('Controllers')
 
                 $rootScope.loggedIn = false;
                 $rootScope.error = data.message;
+                console.log(data);
                 return $location.path('/v1/');
             }
             //$scope.messages.push(data);

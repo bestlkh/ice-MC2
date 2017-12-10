@@ -17,13 +17,17 @@ App.config(function ($routeProvider, $locationProvider){
             templateUrl: '/app/views/admin/chatSettings.html',
             controller: 'chatSettingsController'
         })
-        .when('/students', {
-            templateUrl: '/app/views/admin/students.html',
-            controller: 'studentsController'
-        })
         .when("/classrooms", {
             templateUrl: '/app/views/admin/class.html',
             controller: 'classController'
+        })
+        .when("/classrooms/:name", {
+            templateUrl: '/app/views/admin/classDetail.html',
+            controller: 'classDetailController'
+        })
+        .when("/classrooms/:name/students", {
+            templateUrl: '/app/views/admin/classStudents.html',
+            controller: 'studentsController'
         })
         .otherwise({
             redirectTo: '/chat',	// Default Route

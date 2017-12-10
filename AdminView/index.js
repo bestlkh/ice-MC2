@@ -60,10 +60,12 @@ function AdminView(socketController, expressApp) {
 }
 
 AdminView.prototype.setupRoute = function () {
-    this.app.get("/admin/:view", sessionRedirect, function (req, res, next) {
+    this.app.get("/admin/*", sessionRedirect, function (req, res, next) {
 
         return res.sendfile(constants.adminIndexPath);
     });
+
+
 
     this.app.get("/admin", sessionRedirect, function (req, res, next) {
         res.sendfile(constants.adminIndexPath);
@@ -75,7 +77,6 @@ AdminView.prototype.setupRoute = function () {
 var Student = function (student) {
     this.utorid = student.utorid;
     this.email = student.email;
-    this.isTA = student.isTA;
 };
 
 var ChatSetting = function (settings) {
@@ -173,9 +174,9 @@ AdminView.prototype.setupApi = function () {
         }.bind(this));
     }.bind(this));
 
-    this.app.get("/admin/students/tokens.csv", checkAuth, function(req, res) {
+    this.app.get("/v1/api/classrooms/:name/students/tokens.csv", checkAuth, function(req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.collection("students").findOne({owner: req.session.user.username}, function (err, result) {
+            db.collection("students").findOne({owner: req.session.user.username, className: req.params.name}, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 if(result && result.students) {
                     res.writeHead(200, {
@@ -201,11 +202,36 @@ AdminView.prototype.setupApi = function () {
 
     });
 
+    this.app.get("/v1/api/classrooms/:name", checkAuth, function (req, res) {
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("classrooms").findOne({owner: req.session.user.username, name: req.params.name}, function (err, room) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                res.json(room);
+            });
+        });
+
+    });
+
     function Classroom(data) {
         this.name = data.name;
         this.invite = data.invite;
         this.roomName = data.roomName;
     }
+
+    this.app.patch("/v1/api/classrooms", checkAuth, function (req, res) {
+        var classroom = new Classroom(req.body);
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("classrooms").updateOne({owner: req.session.user.username, name: req.body.name}, {$set: classroom}, function (err, cr) {
+
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                else if (!cr) return res.status(400).json({status: 400, message: "Classroom with name does not exist"});
+
+                res.json({});
+            });
+
+
+        });
+    });
 
     this.app.post("/v1/api/classrooms", checkAuth, function (req, res) {
         var classroom = new Classroom(req.body);
@@ -214,7 +240,7 @@ AdminView.prototype.setupApi = function () {
         MongoClient.connect(constants.dbUrl, function (err, db) {
             db.collection("classrooms").findOne({owner: req.session.user.username, name: classroom.name}, function (err, cr) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                if (cr) return res.status(400).json({status: 400, message: "Classroom with that name already exists"});
+                else if (cr) return res.status(400).json({status: 400, message: "Classroom with that name already exists"});
                 db.collection("classrooms").insertOne(classroom, function (err, result) {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                     res.json({});
@@ -225,6 +251,53 @@ AdminView.prototype.setupApi = function () {
         });
     });
 
+    this.app.get("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("students").findOne({owner: req.session.user.username, className: req.params.name}, function (err, cr) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                if (!cr) return res.json([]);
+                res.json(cr.students);
+            });
+        });
+    });
+
+
+    this.app.patch("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
+        var student = new Student(req.body);
+
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            db.collection("students").updateOne({owner: req.session.user.username, className: req.params.name}, {$push: {students: student}}, {upsert: true}, function (err, list) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                res.json({});
+                db.close();
+            });
+
+        });
+    });
+
+    this.app.put("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
+        csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
+            if (err) return res.status(400).json({status: 400, message: err});
+            MongoClient.connect(constants.dbUrl, function (err, db) {
+
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                db.collection("students").updateOne({owner: req.session.user.username, className: req.params.name}, {
+                    $set: {students: data}
+                }, {upsert: true}, function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                    var resp = {};
+                    result = result.result;
+                    resp["n_successful"] = data.length;
+                    res.json(resp);
+                    db.close();
+                });
+
+            });
+
+
+        });
+    });
 
     this.app.get("/admin/client/test", function (req, res) {
 
@@ -257,26 +330,29 @@ AdminView.prototype.setupApi = function () {
 
     var getUserTracking = function (req, res, next) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-           db.collection('settings').findOne({'chat.roomName': req.params.roomName}, function (err, setting) {
-               var owner = setting.user;
+            db.collection("classrooms").findOne({owner: req.params.nsp, roomName: req.params.roomName}, function (err, classroom) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                else if (!classroom) return res.status(400).json({status: 400, message: "Classroom with name does not exist"});
+                db.collection("students").findOne({owner: req.params.nsp, className: classroom.name}, function (err, students) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                    var student = findOne(students.students, {token: req.params.code});
+                    if (!student) return res.status(404).json({
+                        status: 404,
+                        message: "Requested registration id cannot be found."
+                    });
 
-               db.collection("students").findOne({owner: owner}, function (err, students) {
-                   var student = findOne(students.students, {token: req.params.code});
-                   if (!student) return res.status(404).json({
-                       status: 404,
-                       message: "Requested registration id cannot be found."
-                   });
+                    req.student = student;
+                    return next();
+                });
+            });
 
-                   req.student = student;
-                   return next();
-               });
 
-           })
+
         });
 
     };
 
-    this.app.get("/v1/api/room/:roomName/track/:code", getUserTracking, function (req, res) {
+    this.app.get("/v1/api/namespace/:nsp/room/:roomName/track/:code", getUserTracking, function (req, res) {
 
         var resp = req.student;
 
@@ -316,8 +392,6 @@ AdminView.prototype.setupApi = function () {
         });
     });
 
-    //TODO: verify student list
-
     this.app.patch("/v1/api/students", checkAuth, function (req, res) {
         var student = new Student(req.body);
 
@@ -331,8 +405,6 @@ AdminView.prototype.setupApi = function () {
 
         });
     });
-
-    //TODO: verify student list
 
     this.app.put("/v1/api/students", checkAuth, function (req, res) {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
@@ -400,9 +472,9 @@ AdminView.prototype.setupApi = function () {
 
     });
 
-    this.app.get("/v1/api/admin/students/generate", checkAuth, function (req, res) {
+    this.app.get("/v1/api/classrooms/:name/students/generate", checkAuth, function (req, res) {
         MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.collection("students").findOne({owner: req.session.user.username}, function (err, students) {
+            db.collection("students").findOne({owner: req.session.user.username, className: req.params.name}, function (err, students) {
                 var newStudents = [];
                 var urls = {};
                 students.students.forEach(function (student) {
@@ -411,7 +483,7 @@ AdminView.prototype.setupApi = function () {
                     urls[student.token] = student;
                 });
 
-                db.collection("students").updateOne({owner: req.session.user.username}, {$set: {students: newStudents}}, function (err, result) {
+                db.collection("students").updateOne({owner: req.session.user.username, className: req.params.name}, {$set: {students: newStudents}}, function (err, result) {
                     if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                     res.json({});
 
@@ -472,28 +544,6 @@ AdminView.prototype.setupSocket = function () {
             }
             socket.handshake.session.save();
         }
-
-        // socket.on('send-message', function (data, callback) {
-        //     var room = findRoom(socket.handshake.session.connectedRoom);
-        //     data.type = "chat";
-        //     if (socket.handshake.session.username && room.admin) {
-        //         data.username = socket.handshake.session.username;
-        //         data.userAvatar = socket.handshake.session.userAvatar;
-        //         data.initials = data.username.slice(0, 2);
-        //         data.timestamp = moment().valueOf();
-        //         if (socket.handshake.session.utorid) data.utorid = socket.handshake.session.utorid;
-        //         MongoClient.connect(constants.dbUrl, function (err, db) {
-        //             db.collection("chatHistory").updateOne({
-        //                 sessionId: room.sessionId,
-        //                 owner: room.admin,
-        //                 roomName: socket.handshake.session.connectedRoom
-        //             }, {$push: {messages: data}}, {upsert: true}, function (err, result) {
-        //
-        //             });
-        //         });
-        //
-        //     }
-        // });
 
         socket.on("logout", function () {
             var room = findRoom(socket.handshake.session.connectedRoom);

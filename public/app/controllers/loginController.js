@@ -73,9 +73,9 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
             });
         }
 
-        if ($scope.token) {
+        if ($scope.token && $location.search().nsp) {
         	$.ajax({
-        		url: "/v1/api/room/"+$routeParams.roomId+"/track/"+$scope.token,
+        		url: "/v1/api/namespace/"+$location.search().nsp+"/room/"+$routeParams.roomId+"/track/"+$scope.token,
 				success: function (result) {
 					$scope.utorid = result.utorid;
 					console.log(result);

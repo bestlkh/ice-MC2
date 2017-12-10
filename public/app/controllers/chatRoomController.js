@@ -148,6 +148,7 @@ angular.module('Controllers')
 
                 $rootScope.loggedIn = false;
                 $rootScope.error = data.message;
+                console.log(data);
                 return $location.path('/v1/');
             }
             //$scope.messages.push(data);

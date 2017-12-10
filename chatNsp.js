@@ -63,20 +63,6 @@ function LectureNsp(name, owner, io) {
 
     this.owner = owner;
 
-    function retrieveStudent(data, callback) {
-        MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.collection('settings').findOne({'chat.roomName': data.roomId}, function (err, setting) {
-                var owner = setting.user;
-                db.collection("students").findOne({owner: owner}, function (err, students) {
-                    var student = findOne(students.students, {token: data.token});
-                    if (!student) return callback({success: false, message: "Invalid id."}, null);
-
-                    callback(null, student);
-                })
-            });
-        });
-    }
-
 }
 
 LectureNsp.prototype.sendMessage = function (roomName, message, callback) {
@@ -109,6 +95,38 @@ LectureNsp.prototype.findRoom = function (roomName, callback) {
     }.bind(this));
 };
 
+function findOne(list, params) {
+    var result;
+    list.every(function (user) {
+        var accepted = Object.keys(params).every(function (item) {
+            return (user[item] === params[item])
+        });
+        if (accepted) {
+            result = (user);
+            return false;
+        }
+        return true;
+    });
+    return result;
+}
+
+LectureNsp.prototype.findStudent = function (data, callback) {
+    MongoClient.connect(constants.dbUrl, function (err, db) {
+        if (err) return callback(err, null);
+
+        db.collection("classrooms").findOne({owner: this.owner, roomName: data.roomId}, function (err, classroom) {
+            if (err) return callback(err, null);
+            db.collection("students").findOne({owner: this.owner, className: classroom.name}, function (err, students) {
+                if (err) return callback(err, null);
+                var student = findOne(students.students, {token: data.token});
+
+
+                callback(null, student);
+            });
+
+        }.bind(this));
+    }.bind(this));
+};
 
 LectureNsp.prototype.findRoomAdapter = function (roomName) {
     return this.nsp.adapter.rooms[roomName];
@@ -158,8 +176,8 @@ LectureNsp.prototype.listen = function () {
                     callback({success: false, message: "Use different username."});
                 } else {
                     if (data.token) {
-                        retrieveStudent(data, function (err, student) {
-                            if (err) return callback({success: false, message: "Invalid id"}, null);
+                        this.findStudent(data, function (err, student) {
+                            if (err) return callback({success: false, message: "Invalid id"});
                             setSessionVar("utorid", student.utorid);
                         })
 
@@ -240,13 +258,14 @@ LectureNsp.prototype.listen = function () {
 
             var session = socket.handshake.session;
 
-            var isRoomAdmin = false;
-            if (data.roomName && session.settings) {
-                isRoomAdmin = (session.settings.chat.roomName === data.roomName);
-            }
+
             var username = session.username;
+            if (session.user) {
+                username = session.user.username;
+                setSessionVars({username: session.user.username, avatar: session.user.userAvatar, isAdmin: true, isInstructor: true});
+            }
             if (!username) callback({});
-            else callback({username: username, avatar: session.userAvatar, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
+            else callback({username: username, avatar: session.userAvatar || session.user.userAvatar, isAdmin: session.isAdmin || session.user.username});
         });
 
 

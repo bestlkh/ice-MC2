@@ -54,10 +54,10 @@
             </div>
         </div>
         <div class="button-wrapper">
-            <div class="line-button import-button reset-button" ng-if="selected">
+            <div class="line-button import-button reset-button" ng-if="selected" ng-click="Actions.onConnect()">
                 Connect
             </div>
-            <div class="line-button add-button" ng-if="selected">
+            <div class="line-button add-button" ng-if="selected" ng-click="onDetailClick()">
                 Details
             </div>
             <div class="line-button add-button" ng-click="onAddClick()" style="width: auto; padding: 10px 16px;">

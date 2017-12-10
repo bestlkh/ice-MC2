@@ -40,22 +40,30 @@
 
 </body>
 <script>
+    var svg_source = "";
     setTimeout(function () {
         Preview.Init();
     }, 2000);
 
     document.getElementById("preview-send").onclick = function () {
-        if (editor.getValue()) {
-            parent.document.getElementById('textArea').value = editor.getValue();
+        if (previewEditor.getValue()) {
+            raw_message = previewEditor.getValue();
+            raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+            var message_attachment = {
+                'svg-source': svg_source
+            };
+            raw_message += btoa(JSON.stringify(message_attachment));
+            raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+            parent.document.getElementById('textArea').value = raw_message;
             parent.document.getElementById('send-message-button').click();
         } else {
             alert("nothing to send");
         }
     }
-    var editor = ace.edit("mathjax-viewer");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/latex");
-    editor.getSession().on('change', function(e) {
+    var previewEditor = ace.edit("mathjax-viewer");
+    previewEditor.setTheme("ace/theme/monokai");
+    previewEditor.getSession().setMode("ace/mode/latex");
+    previewEditor.getSession().on('change', function(e) {
         Preview.CreatePreview()
     });
 </script>

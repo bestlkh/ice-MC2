@@ -1,4 +1,4 @@
-leftToolbar = new ui.Toolbar($("#tools_left"));
+leftToolbar = new UI.Toolbar($("#tools_left"));
 leftToolbar._getToolButtonMarkup = function(config){
     return "<div class='tool_button' id='" + config.id + "' title='" + config.title + "' style='" + config.style + "'></div>";
 };
@@ -31,11 +31,11 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send_as_img.png);'
 });
 
+
+
 $("#image-import-input").on('change', function(){
     if (this.files && this.files[0]) {
-
         var fileReader = new FileReader();
-
         fileReader.addEventListener("load", function(e) {
             console.log(e.target.result);
             var image = new Image();

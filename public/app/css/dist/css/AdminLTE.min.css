@@ -2748,14 +2748,6 @@ table.text-center,table.text-center td,table.text-center th {
     color: #444
 }
 
-.direct-chat .box-body {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    position: relative;
-    overflow-x: hidden;
-    padding: 0
-}
-
 .direct-chat.chat-pane-open .direct-chat-contacts {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
@@ -3239,10 +3231,6 @@ table.text-center,table.text-center td,table.text-center th {
 
 .login-logo a,.register-logo a {
     color: #444
-}
-
-.login-page,.register-page {
-    background: #f8f7fa
 }
 
 .login-box,.register-box {

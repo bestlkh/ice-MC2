@@ -90,7 +90,7 @@ var MobileUI = {
      */
     showKeyboard: function(){
         $(".tools_flyout").css({
-            'bottom': 30,
+            'bottom': 70,
             'opacity': 1
         });
         $("#tool_toggle_keyboard").css({
@@ -113,7 +113,5 @@ var MobileUI = {
 };
 
 $(function(){
-    MobileUI.bindWindowResize();
-    // Ugly fix to highlight tool_select button
     $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
 });

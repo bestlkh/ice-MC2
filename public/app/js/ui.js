@@ -1,17 +1,16 @@
 var latexEditor;
+var chatMenu;
+var ua = window.navigator.userAgent;
+var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+var webkit = !!ua.match(/WebKit/i);
+var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
-onMainLoop(function(){
-    var ua = window.navigator.userAgent;
-    var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-    var webkit = !!ua.match(/WebKit/i);
-    var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-    if(iOSSafari){
-        // Make sure the chat-wrapper do not go over the screen
-        $("#chat-wrapper").css({
-            'height': window.innerHeight
-        });
-    }
-});
+var isMobile = $(window).width() < 732;
+
+
+if(window.navigator.userAgent.match(/Android 4/) && !window.navigator.userAgent.match(/Chrome/)){
+    alert("Your browser is not supported by this application, please install one of the following browsers:\n" + "- Android Built-in Browser on Android 6.0+\n- Google Chrome\n- iOS Safari")
+}
 
 // Programmatically modify the textarea size
 onMainLoop(function(){
@@ -44,9 +43,6 @@ onMainLoop(function(){
         });
     }
 
-    $("#chat_body_div").height($(window).innerHeight() - $("#chatroom-footer").outerHeight() - 45);
-
-
     tippy('.direct-chat-text-menu button', {
         size: 'large',
         touchHold: true
@@ -55,7 +51,7 @@ onMainLoop(function(){
 
 // Resize dcs to let messages go from bottom to top
 onMainLoop(function(){
-    var containerHeight = $("#chat_body_div").height();
+    var containerHeight = $("#chat-body-div").height();
     var innerHeight = $("#dcs").outerHeight();
     if(containerHeight > innerHeight){
         $("#dcs").css({
@@ -70,8 +66,8 @@ onMainLoop(function(){
 
 // Change interface size to adapt the soft keyboard
 onChatTextBoxFocus(function(e) {
-    $("#chat_body_div").animate({
-        scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+    $("#chat-body-div").animate({
+        scrollTop: $("#chat-body-div")[0].scrollHeight + 100
     });
 });
 
@@ -80,15 +76,59 @@ onChatRoomInterfaceLoaded(function(){
         size: 'large',
         touchHold: true
     });
-    latexEditor = ace.edit("latex-editor");
-    latexEditor.setTheme("ace/theme/github");
-    latexEditor.getSession().setMode("ace/mode/latex");
-    latexEditor.getSession().setUseWrapMode(true);
-    latexEditor.getSession().on('change', function(e) {
+    // latexEditor = ace.edit("latex-editor");
+    // latexEditor.setTheme("ace/theme/github");
+    // latexEditor.getSession().setMode("ace/mode/latex");
+    // latexEditor.getSession().setUseWrapMode(true);
+    // latexEditor.getSession().on('change', function(e) {
+    //     $("#textArea").val(latexEditor.getValue());
+    // });
+    initializeChatMenu();
+
+    latexEditor = new CodeMirror($("#latex-editor-area")[0], {
+        lineNumbers: true,
+        mode:  "stex"
+    });
+
+    latexEditor.on('change', function(e) {
         $("#textArea").val(latexEditor.getValue());
     });
+
+    // Android height 100% to fix overlap issue with bottom tool bar
+    if(isMobile && window.navigator.userAgent.match(/Android/)) {
+        $("#editor-frame").css({
+            'height': '100%'
+        })
+    }
 });
 
 $(window).on('resize', function(){
    window.scrollTo(0, 0);
 });
+
+showMessageRawNewWindow = function(raw){
+    window.open().document.write("<pre style='word-wrap: break-word'>" + atob(raw) + "</pre>");
+};
+
+
+function initializeChatMenu(){
+    chatMenu = new UI.BubbleMenu("#chat-menu", "#chat-menu-toggle", "#chat-menu-button-container", 50);
+    chatMenu._getBubbleMenuButtonMarkup = function(config){
+        return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
+    };
+
+    chatMenu.addButton({
+        id: "test",
+        innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
+    });
+
+    var chatHistoryButton = chatMenu.addButton({
+        id: "chat-history-button",
+        innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
+    });
+
+    chatHistoryButton.onClick = function(){
+        historyWindow = window.open();
+        historyWindow.document.write("<pre>" + chatLog + "</pre>")
+    }
+}

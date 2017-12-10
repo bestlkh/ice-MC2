@@ -1,4 +1,4 @@
-angular.module('Controllers',["ngRoute"])
+angular.module('Controllers',["ngRoute", "ngSanitize"])
 .directive('focusMe', function($timeout) {	// Custom directive for focus
     return {
         link: function(scope, element, attrs) {

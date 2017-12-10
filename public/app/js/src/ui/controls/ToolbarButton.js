@@ -1,4 +1,4 @@
-const BasicControl = require('./BasicControl');
+var BasicControl = require('./BasicControl');
 
 class ToolbarButton extends BasicControl {
     constructor(dom){

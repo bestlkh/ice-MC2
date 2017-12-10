@@ -4,8 +4,15 @@
 
 @import "variables";
 
+html {
+  width: 100%;
+  height: 100%;
+}
 body {
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  background-color: white;
 }
 
 // Remove margin and padding for every element
@@ -22,6 +29,7 @@ body {
 #chatframe {
   height: 100%;
   overflow: hidden;
+  position: relative;
 }
 
 .selector-wrapper2 {
@@ -108,4 +116,42 @@ input {
 
 .ajs-bottom {
   margin-bottom: 70px;
+}
+
+.no-para-margin {
+  p {
+    margin: 0;
+  }
+}
+
+#editor-frame {
+  width: 100%;
+  height: 70vh;
+}
+
+#preview-frame {
+  width: 100%;
+  height: 30vh;
+}
+
+@media (max-width: 732px) {
+  #editor-frame {
+    height: 100vh;
+    width: 100%;
+  }
+
+  #editorframe {
+    z-index: 9999;
+    height: 100%;
+    box-shadow: rgba(0,0,0,0.3) 0 0 20px;
+    width: 100%;
+    position: fixed;
+    left: -110vw;
+    bottom: 0;
+    transition: left ease 0.5s;
+    &.shown {
+      left: 0vw;
+      transition: left ease 0.5s;
+    }
+  }
 }

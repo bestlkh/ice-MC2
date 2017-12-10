@@ -118,7 +118,6 @@ angular.module('Controllers')
     if(!$rootScope.loggedIn){
 
         $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-
             if (data.username) {
 
                 $rootScope.loggedIn = true;
@@ -265,8 +264,8 @@ angular.module('Controllers')
                     $scope.setFocus = true;
                 }
 			});
-            $("#chat_body_div").animate({
-                scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+            $("#chat-body-div").animate({
+                scrollTop: $("#chat-body-div")[0].scrollHeight + 100
             });
             latexEditor.setValue("");
 		} else {
@@ -310,6 +309,20 @@ angular.module('Controllers')
 	$scope.toggleLatexEditor = function(){
 		$("#latex-editor-area").toggleClass("shown");
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
+		$("#direct-chat-container").toggleClass("latex-editor-shown");
+		setTimeout(function(){
+            $("#chat-body-div").scrollTop($("#dcs").height());
+		}, 100);
+
+		if($("#direct-chat-container").hasClass("latex-editor-shown")){
+            $(".alertify-notifier").addClass("latex-editor-shown");
+		} else {
+            $(".alertify-notifier").removeClass("latex-editor-shown");
+		}
+	};
+
+	$scope.showEquationEditor = function(){
+		swapFrame();
 	};
 
     /**
@@ -330,15 +343,25 @@ angular.module('Controllers')
 	};
 
 	$scope.showMessageDetails = function(message){
-		var text = "Message sent by " + message.getUsername() + "\n";
-		text += "Time: " + message.getTime() + "\n";
+		var text = "Message sent by " + message.getUsername() + "<br>";
+		text += "Time: " + message.getTime() + "<br>";
 		if(message.getText().isImage()){
 			text += "Message is a base64 image.";
 		} else {
-            text += "Message raw body: " + message.getText().getRaw();
+			text += "<b>Message Text Body:</b>";
+			text += "<pre>";
+            text +=  message.getText().getRaw();
+            text += "</pre>";
 		}
+		text += "<br><b>Message ID: </b><code>" + message.getId() + "</code>";
+        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
 
-		alert(text);
+        text += "<hr>";
+
+        text += "<b>Text Size: </b>" + message.getText().getTextSize() + " bytes<br>";
+        text += "<b>Attachments Size: </b>" + message.getText().getAttachmentsSize() + " bytes";
+
+        Alert.Alert.spawn(text);
 	};
 
 	$scope.editSvgSource = function(source){
@@ -361,14 +384,24 @@ angular.module('Controllers')
 			message.ownMsg = (message.username === $rootScope.username);
 
             $scope.messages.push(message);
-            $scope.allMsg.push(new Message(message));
+
+            var msg = new Chat.Message(message);
+
+            $scope.allMsg.push(msg);
             // Updates chatlog with relevant message history
             chatLog += "\r";
-            chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
+
+            chatLog += "ID - " + msg.getId() + "\n";
+            chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+            if(msg.getText().isImage()){
+            	chatLog += "[image]"
+			} else {
+            	chatLog += msg.getText().getRaw();
+			}
             chatLog += "\n";
         });
-        $("#chat_body_div").animate({
-            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
     });
 
@@ -377,13 +410,23 @@ angular.module('Controllers')
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
-		$scope.allMsg.push(new Message(data));
+
+        var msg = new Chat.Message(data);
+
+		$scope.allMsg.push(msg);
 		// Updates chatlog with relevant message history
-		chatLog += "\r";
-		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
-		chatLog += "\n";
-        $("#chat_body_div").animate({
-            scrollTop: $("#chat_body_div")[0].scrollHeight + 100
+        chatLog += "\r";
+
+        chatLog += "ID - " + msg.getId() + "\n";
+        chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+        if(msg.getText().isImage()){
+            chatLog += "[image]"
+        } else {
+            chatLog += msg.getText().getRaw();
+        }
+        chatLog += "\n";
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
 	});
 
@@ -447,7 +490,7 @@ angular.module('Controllers')
 			checkmessagesImage(data);
 		}else{
 			$scope.messages.push(data);
-			$scope.allMsg.push(new Message(data));
+			$scope.allMsg.push(new Chat.Message(data));
 		}
 	});
 
@@ -780,7 +823,7 @@ angular.module('Controllers')
 			}
 			return false;
 		}
-	}
+	};
 
 	// download document file if it exists on server else return error message
 	$scope.downloadPDF = function(ev, elem){

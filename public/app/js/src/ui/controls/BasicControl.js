@@ -1,15 +1,16 @@
-const EventEmitter = require('./../events/EventEmitter');
+var $ = require('jquery');
+var EventEmitter = require('./../events/EventEmitter');
 
 class BasicControl {
 
     constructor(dom){
-        this.dom = dom;
+        this.dom = $(dom);
         this._visible = true;
         this._preventDefaultClick = false;
         this._onClickEmitter = new EventEmitter();
 
         // Bind events here
-        let self = this;
+        var self = this;
 
         // Bind click event
         $(dom).click(function(e){

@@ -1812,7 +1812,7 @@ var SOTP = 0;
         var fadeFlyouts = fadeFlyouts || 'normal';
 
         // If mobile interface is not mounted, we hide the keyboard
-        if(!noHiding && !MobileUI.mounted) {
+        if(!noHiding && $(window).width() > 732) {
           $('.tools_flyout').hide('normal');
         }
 
@@ -2460,7 +2460,7 @@ var SOTP = 0;
                   $(parent.document.getElementById('send-message-button')).click();
                   $("#pre-render-svg").remove();
                 }, 500);
-                if(MobileUI.mounted){
+                if($(window).width() <= 732){
                     swapParentFrame();
                 }
               },

@@ -31,11 +31,11 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send_as_img.png);'
 });
 
+
+
 $("#image-import-input").on('change', function(){
     if (this.files && this.files[0]) {
-
         var fileReader = new FileReader();
-
         fileReader.addEventListener("load", function(e) {
             console.log(e.target.result);
             var image = new Image();

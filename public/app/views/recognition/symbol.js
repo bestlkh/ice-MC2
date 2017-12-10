@@ -25,10 +25,6 @@ function Symbol(x, y, width, height, value) {
     }
     this.wall = {};
     delete(this.region.root);
-
-    
-
-
 }
 
 Symbol.prototype.hasAnyTop = function() {

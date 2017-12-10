@@ -33,6 +33,7 @@
     "passport.socketio"
   ],
   "dependencies": {
+    "alertifyjs": "^1.11.0",
     "angular-spinkit": "^0.3.4",
     "body-parser": "^1.13.2",
     "connect-mongodb-session": "^1.3.0",

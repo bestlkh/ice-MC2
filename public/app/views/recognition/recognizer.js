@@ -158,8 +158,8 @@ function parse(ls){
                     }
                 }
                 
-                var minX = symbol.minX;
-                var maxX = symbol.maxX;
+                var minX = (symbol.value == "lim") ? symbol.minX-20 :symbol.minX;
+                var maxX = (symbol.value == "lim") ? symbol.maxX+20 :symbol.maxX;
                 var minY = symbol.minY;
                 var maxY = symbol.maxY;
                 var upperThreshold = minY + 2/5 * (maxY - minY);

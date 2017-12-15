@@ -2,9 +2,12 @@ var Bot = require("./bot");
 var moment = require("moment");
 var request = require("request");
 var wolfram = require('wolfram-alpha').createClient("H4UG6P-RQ7VPWX6EW");
+<<<<<<< HEAD
 var domtoimage = require('dom-to-image');
 const JSDOM = require("jsdom").JSDOM;
+=======
 
+>>>>>>> bf9db8f365c2ac3e6b0f2a520ecd11bad38dd147
 
 
 var wolfbot = new Bot({name: "wolfbot", host: "http://ice.trentu.ca", port: 8080, timeout: 5000, nsp: ""});
@@ -84,4 +87,8 @@ var parseResult = function (result) {
 
     html = "<div style='background-color: #fff; padding: 5px; margin: auto;'>"+html+"</div>";
     return html;
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> bf9db8f365c2ac3e6b0f2a520ecd11bad38dd147

@@ -26,19 +26,37 @@ function openTab(evt, cityName) {
 }
 
 var acc = document.getElementsByClassName("accordion");
+var panel = document.getElementById("panel");
 var i;
 for (i = 0; i < acc.length; i++) {
   acc[i].onclick = function() {
-    this.classList.toggle("active");
-    var panel = document.getElementById("panel");
+    this.classList.toggle("active");   
     if (panel.style.maxHeight){
       panel.style.display = "none";
       panel.style.maxHeight = null;
     } else {
+        if($("#latex-editor-area").hasClass("tex2jax_ignore shown")){
+          toggleLatex();       
+        }
       panel.style.display = "block";
       panel.style.maxHeight = panel.scrollHeight + "px";
       openTab(event, 'Emoj');
     } 
+  }
+}
+
+function toggleLatex(){
+  $("#latex-editor-area").toggleClass("shown");
+  $("#text-message-input-area").toggleClass("latex-editor-shown");
+  $("#direct-chat-container").toggleClass("latex-editor-shown");
+  setTimeout(function(){
+          $("#chat-body-div").scrollTop($("#dcs").height());
+  }, 100);
+
+  if($("#direct-chat-container").hasClass("latex-editor-shown")){
+          $(".alertify-notifier").addClass("latex-editor-shown");
+  } else {
+          $(".alertify-notifier").removeClass("latex-editor-shown");
   }
 }
 

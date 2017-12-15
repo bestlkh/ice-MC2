@@ -307,6 +307,11 @@ angular.module('Controllers')
 	};
 
 	$scope.toggleLatexEditor = function(){
+		var panel = document.getElementById("panel");
+		if(panel.style.display == "block"){
+			panel.style.display = "none";
+			panel.style.maxHeight = null;
+		}
 		$("#latex-editor-area").toggleClass("shown");
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
 		$("#direct-chat-container").toggleClass("latex-editor-shown");

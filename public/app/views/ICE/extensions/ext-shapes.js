@@ -79,7 +79,6 @@ methodDraw.addExtension("shapes", function () {
         },
         'qwerty': {
             data: {
-                "0": "0,N,250,75,225", //**MDP char, Resizeable, height, x, y
                 "1": "1,N,250,75,225",
                 "2": "2,N,250,75,225",
                 "3": "3,N,250,75,225",
@@ -89,15 +88,7 @@ methodDraw.addExtension("shapes", function () {
                 "7": "7,N,250,75,225",
                 "8": "8,N,250,75,225",
                 "9": "9,N,250,75,225",
-
-
-                "+": "+,N,250,75,225",
-                "-": "-,N,250,75,225",
-                "*": "*,N,250,75,225",
-                "/": "/,N,250,75,225",
-                "(": "(,N,250,75,225",
-                ")": "),N,250,75,225",
-                "=": "=,N,250,75,225",
+                "0": "0,N,250,75,225",
                 "backspace": "\u232B,N,225,20,215",
 
                 "q": "q,N,250,75,225",
@@ -442,7 +433,7 @@ methodDraw.addExtension("shapes", function () {
                 }
                 wrapper.append(icon_btn);
                 // Store for later use
-                if (id === 'p' || id === 'l' || id === '.' || id === 'down' || id === '9' || id === 'backspace') {
+                if (id === 'p' || id === 'l' || id === '.' || id === 'down' || id === 'backspace') {
 
                     cur_lib.buttons.push(wrapper[0]);
                     wrapper = $("<div class='qwerty-wrapper'>");

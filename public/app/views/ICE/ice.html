@@ -954,6 +954,16 @@ document.onmouseup=Function("MoveEnabled=false");
 </div>
 <!-- End Floating layer -->
 
+<div id="send-sheet-background"></div>
+
+<div id="send-sheet">
+  <div class="preview-button" id="send-sheet-equation-button">
+    Send as Equation<br>
+    <span id="send-sheet-equation">$$test$$</span>
+  </div>
+  <div class="preview-button" id="send-sheet-image-button">Send as Image</div>
+</div>
+
 
 <input type="file" id="image-import-input" />
 
@@ -961,7 +971,22 @@ document.onmouseup=Function("MoveEnabled=false");
 
 <script type="text/javascript" src="../../js/ice/ui.js?v=0002"></script>
 
-
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      showProcessingMessages: false,
+      tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+      CommonHTML: { linebreaks: { automatic: true, width: "container" } },
+      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+      SVG: {
+        linebreaks: { automatic: true, width: "container" },
+        scale: 100
+      }
+    });
+    MathJax.Hub.setRenderer("SVG");
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
 </body>
 </html>

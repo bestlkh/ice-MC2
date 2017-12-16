@@ -2234,6 +2234,7 @@ var SOTP = 0;
             raw_message += btoa(JSON.stringify(message_attachment));
             raw_message += "\n-----MC2 END ATTACHMENT-----\n";
             parent.document.getElementById('textArea').value  = raw_message;
+            parent.document.getElementById('send-message-button').click();
           } else {
             parent.preview.window.svg_source = btoa($("#svgcontent").find(".active-layer").html());
             parent.preview.window.previewEditor.setValue(tex);
@@ -2432,6 +2433,13 @@ var SOTP = 0;
 
       var selectPrev = function() {
         svgCanvas.cycleElement(0);
+      };
+
+      var convertAndSend = function(){
+          $("#send-sheet").addClass("shown");
+          $("#send-sheet-background").addClass("shown");
+          $("#send-sheet-equation").html(getBST());
+          MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
       };
 
       var sendAsImage = function(){
@@ -3449,6 +3457,11 @@ var SOTP = 0;
           //{sel:'#sidepanel_handle', fn: toggleSidePanel, key: ['X']},
           {sel:'#copy_save_done', fn: cancelOverlays, evt: 'click'},
           {sel:'#tool_send_as_image', fn: sendAsImage, evt: 'click'},
+          {sel:'#send-sheet-equation-button', fn: clickConvert, evt: 'click'},
+          {sel:'#send-sheet-image-button', fn: sendAsImage, evt: 'click'},
+          {sel:'#tool_send_mobile', fn: convertAndSend, evt: 'click'},
+
+
 
           // Shortcuts not associated with buttons
 

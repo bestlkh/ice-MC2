@@ -45,6 +45,13 @@
       border-top-left-radius: 20px;
       border-top-right-radius: 0;
       transform-origin: 100% 0;
+      background-color: #F9A825;
+      border-color: #F9A825;
+      color: white;
+      &.darken-background {
+        background-color: #F57F17;
+        border-color: #F57F17;
+      }
     }
     .direct-chat-text-menu {
       margin-right: 60px;
@@ -59,7 +66,7 @@
     border-top-left-radius: 0;
     max-width: 70%;
     overflow: hidden;
-    color: white;
+    color: black;
     margin-top: 10px;
     display: inline-block;
     animation-name: direct-chat-text-inner-enter;
@@ -69,13 +76,13 @@
     animation-timing-function: ease;
     transform-origin: 0 0;
     cursor: pointer;
-    background-color: #f39c12;
+    background-color: #EEEEEE;
     transition: all ease 0.2s;
-    border-color: #f39c12;
+    border-color: #EEEEEE;
     // Used to indicate selected message
     &.darken-background {
-      background-color: #be7812;
-      border-color: #be7812;
+      background-color: #E0E0E0;
+      border-color: #E0E0E0;
       transition: all ease 0.2s;
     }
     &.instructor-message {

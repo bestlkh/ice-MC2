@@ -131,6 +131,11 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						$rootScope.userAvatar = $scope.userAvatar;
 						$rootScope.loggedIn = true;
 
+						// We are entering chatroom here
+						$("body").css({
+							'overflow': 'hidden'
+						});
+
 						if (!$scope.isJoin || !$scope.roomId) $location.path('/v1/ChatRoom/'+$scope.form.roomId);
 						else $location.path('/v1/ChatRoom/'+$scope.roomId);
 

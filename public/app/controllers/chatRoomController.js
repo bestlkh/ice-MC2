@@ -392,6 +392,9 @@ angular.module('Controllers')
 
             var msg = new Chat.Message(message);
 
+            // Set all old message read state to true
+            msg.read = true;
+
             $scope.allMsg.push(msg);
             // Updates chatlog with relevant message history
             chatLog += "\r";

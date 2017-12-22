@@ -22,8 +22,34 @@ body {
 
 #editorframe {
   height: 100vh;
+  position: relative;
   background-color: @primary-color;
+  #editor-resize-cover {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity ease 0.5s;
+    &.shown {
+      opacity: 1;
+      pointer-events: all;
+      transition: opacity ease 0.5s;
+    }
+    img {
+      max-width: 200px;
+      width: 80%;
+      margin-top: 20vh;
+    }
+    text-align: center;
+  }
 }
+
+
 
 #chatframe {
   height: 100%;
@@ -103,8 +129,20 @@ input {
   background-color:#2f2f2c;
   height:100vh;
   float: left;
-  width: 10px;
+  width: 5px;
   cursor: col-resize;
+  &.active {
+    display: none;
+  }
+}
+
+#ghostbar{
+  width:3px;
+  background-color: #00b0ff;
+  position:absolute;
+  cursor: col-resize;
+  z-index:999;
+  box-shadow: #00b0ff 0 0 5px;
 }
 
 #preview-frame {

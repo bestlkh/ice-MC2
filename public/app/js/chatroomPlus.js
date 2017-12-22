@@ -101,47 +101,54 @@ function doSomething()
 
 startLoop();
 
+// #dragbar Implementation
 var dragging = false;
-   $('#dragbar').mousedown(function(e){
-       e.preventDefault();
-       
-       dragging = true;
-       var main = $('#chatframe');
-       var ghostbar = $('<div>',
-                        {id:'ghostbar',
-                         css: {
-                                height: main.outerHeight(),
-                                top: main.offset().top,
-                                left: main.offset().left
-                               }
-                        }).appendTo('body');
-       
-        $(document).mousemove(function(e){
-          if (((e.pageX - 50) / window.innerWidth) > 0.7) {
-            ghostbar.css("left", window.innerWidth * 0.7);
-          } else {
-            $('#editor-frame').css("width", e.pageX - 50 + "px");
-            ghostbar.css("left",e.pageX - 50);
-          }
-       });
+$('#dragbar').mousedown(function(e){
+   e.preventDefault();
 
-       
-    });
+   dragging = true;
+   var main = $('#chatframe');
+   var dragbar = this;
+   $("#dragbar").addClass("active");
+   var ghostbar = $('<div>',
+                    {id:'ghostbar',
+                     css: {
+                            height: main.outerHeight(),
+                            top: main.offset().top,
+                            left: main.offset().left
+                           }
+                    }).appendTo('body');
+   $("#editor-resize-cover").addClass("shown");
 
-   $(document).mouseup(function(e){
-       if (dragging) 
-       {
-           var percentage = ((e.pageX - 50) / window.innerWidth) * 100;
-           if (percentage > 70) {
-             percentage = 70;
-           }
-           var mainPercentage = 100-percentage;
-           
-           $('#editor-frame').css("width", e.pageX - 50 + "px");
-           $('#editorframe').css("width",percentage + "%");
-           $('#chatframe').css("width","calc(" + mainPercentage + "%" + " - " + "10px)");
-           $('#ghostbar').remove();
-           $(document).unbind('mousemove');
-           dragging = false;
-       }
-    });
+    $(document).mousemove(function(e){
+      if (((e.pageX) / window.innerWidth) > 0.7) {
+          ghostbar.css("left", window.innerWidth * 0.7);
+      } else {
+        $('#editor-frame').css("width", e.pageX + "px");
+          ghostbar.css("left",e.pageX);
+      }
+
+
+        var percentage = (e.pageX / window.innerWidth) * 100;
+        if (percentage > 70) {
+            percentage = 70;
+        }
+        var mainPercentage = 100-percentage;
+        $("#dragbar").removeClass("active");
+        $('#editor-frame').css("width", e.pageX + "px");
+        $('#editorframe').css("width",percentage + "%");
+        $('#chatframe').css("width","calc(" + mainPercentage + "%" + " - " + "5px)");
+   });
+
+
+});
+
+$(document).mouseup(function(e){
+   if (dragging)
+   {
+       $('#ghostbar').remove();
+       $(document).unbind('mousemove');
+       dragging = false;
+       $("#editor-resize-cover").removeClass("shown");
+   }
+});

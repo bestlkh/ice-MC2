@@ -1105,6 +1105,7 @@ var SOTP = 0;
 
                   // Create a flyout div
                   flyout_holder = makeFlyoutHolder(tls_id, ref_btn);
+                  matrixSizeHolder();
                   flyout_holder.data('isLibrary', true);
                   show_btn.data('isLibrary', true);
                 }
@@ -2441,6 +2442,92 @@ var SOTP = 0;
           $("#send-sheet-equation").html(getBST());
           MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
       };
+      var matrixBuilder = function(col, row){
+        var result = col + row;
+        console.log(result);
+
+      }
+
+      var matrixSizeHolder= function(){
+        var div = $('<div>',{
+          'id': 'matrix_flyout'
+        });
+        var el = $('<div>',{
+          'id': 'grid-select'
+        });
+        var sizeShow = $('<span>',{
+          'id': 'sizeShow'
+        });
+
+        var cols = 4;
+        var rows = 4;
+
+        var clickHandler = function() {
+          toggleMatrixSizeBtn();
+          var target = $(this)
+          var cellIndex = target.index() + 1
+          var rowIndex = target.parent().index() + 1
+          console.log("heelo");
+          matrixBuilder(cellIndex,rowIndex);
+        }
+
+        var table = $('<table>').addClass('layout-select')
+        el.append(table)      
+        for (var i=0; i < rows; i++){
+          var row = $('<tr>')
+          table.append(row) 
+          for (var j=0; j < cols; j++){
+            var cell = $('<td>')
+            cell.append($('<div>'))
+            row.append(cell)
+          }
+        }
+        
+        function clearHighlight (target) {  
+          target.parent().parent().find('div').removeClass('grid-select-active')
+        }
+       
+        function addHighlight (target){
+          var cellIndex = target.index()
+          var rowIndex = target.parent().index()
+          var rows = target.parent().parent().children()  
+          document.getElementById('sizeShow').innerHTML = (rowIndex+1) + "x" + (cellIndex+1);
+          for (var i=0; i<=rowIndex; i++) {
+            $(rows[i])
+              .children()
+              .eq(cellIndex)
+              .prevAll()
+              .addBack()
+              .find('div')
+              .addClass('grid-select-active')
+          }  
+        }    
+        table.find('td').on('click', clickHandler)    
+        table.find('td').on('mouseover', function(){
+        var target = $(this)
+          addHighlight(target)
+          //showSize();
+        })       
+        table.on('mouseout', function(){
+          var target = $(this)
+          clearHighlight(target)
+        }) 
+        $('#svg_editor').append(div);  
+        $('#matrix_flyout').append(el);
+        $('#matrix_flyout').append(sizeShow);
+      };
+
+      var toggleMatrixSizeBtn= function(){
+          var placeHolder = document.getElementById('matrix_flyout');
+          console.log(placeHolder.childNodes);
+          if(placeHolder.style.display == 'block'){
+            
+            placeHolder.style.display = 'none';
+          }
+          else{
+            placeHolder.style.display = 'block';
+          }        
+      };
 
       var sendAsImage = function(){
           var svgSource = "<svg id='pre-render-svg' style='background-color: #FFFFFF;'><g>" + $("#svgcontent").find(".active-layer").html() + "</g></svg>";
@@ -3457,6 +3544,7 @@ var SOTP = 0;
           //{sel:'#sidepanel_handle', fn: toggleSidePanel, key: ['X']},
           {sel:'#copy_save_done', fn: cancelOverlays, evt: 'click'},
           {sel:'#tool_send_as_image', fn: sendAsImage, evt: 'click'},
+          {sel:'#tool_matrix', fn: toggleMatrixSizeBtn, evt: 'click'},
           {sel:'#send-sheet-equation-button', fn: clickConvert, evt: 'click'},
           {sel:'#send-sheet-image-button', fn: sendAsImage, evt: 'click'},
           {sel:'#tool_send_mobile', fn: convertAndSend, evt: 'click'},

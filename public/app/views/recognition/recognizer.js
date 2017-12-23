@@ -66,7 +66,7 @@ function getExpression(eqns) {
     });
     //console.log(items);
     var bst = parse(items);
-    //console.log(bst);
+    console.log(bst);
     return bst;
 }
 
@@ -98,6 +98,7 @@ function parse(ls){
         while (queue.length != 0) {
             [temp1, parent] = queue.shift();
             symbol = ls[temp1];
+            symbol.marked = true;
             parent.symbols.push(symbol);
             stack.push([temp1, symbol]);
             wall = ls[temp1].wall;
@@ -112,7 +113,6 @@ function parse(ls){
                     var lSymbol = parent.symbols[parentSize - 2];
                     var newX = lSymbol.minX;
                     var newY = lSymbol.minY;
-                    console.log(lSymbol, iSymbol, symbol)
                     var newWidth = symbol.x + symbol.width - newX;
                     var newHeight = lSymbol.height;
                     var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
@@ -135,6 +135,7 @@ function parse(ls){
                     ls[temp2].wall.left = ls[temp1].maxX;
                 }
                 temp1 = temp2;
+                ls[temp1].marked = true;
                 temp2 = hor(ls, temp1);
             }
             stack.push("EOBL");
@@ -178,7 +179,6 @@ function parse(ls){
                     if(!symbol.region[regions[i][2]]) {
                         continue;
                     }
-                    
                     symbol.region[regions[i][2]].setWall(regions[i]);
                     temp2 = start(ls, symbol.region[regions[i][2]].wall);
                     if (temp2 != -1) {

@@ -317,7 +317,9 @@ chat.on('connection', function(socket){
 var setupNamespaces = function (callback) {
 
     MongoClient.connect(constants.dbUrl, function (err, db) {
+    	if (err) return callback(err, null);
         db.collection("users").find({}).toArray(function (err, users) {
+            if (err) return callback(err, null);
             users.forEach(function (user) {
             	console.log(user.username+" nsp added.");
                 var nsp = new LectureNsp(user.username, user.username, ios);
@@ -333,8 +335,8 @@ var setupNamespaces = function (callback) {
 
 };
 
-setupNamespaces(function () {
-	
+setupNamespaces(function (err, nsps) {
+	if (err) console.log("Failed to initialize namespaces.");
 });
 
 // route for uploading images asynchronously

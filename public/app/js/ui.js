@@ -117,7 +117,7 @@ function initializeChatMenu(){
         return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
     };
 
-    chatMenu.addButton({
+    var chatMembersButton = chatMenu.addButton({
         id: "test",
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
@@ -130,5 +130,9 @@ function initializeChatMenu(){
     chatHistoryButton.onClick = function(){
         historyWindow = window.open();
         historyWindow.document.write("<pre>" + chatLog + "</pre>")
+    }
+
+    chatMembersButton.onClick = function(){
+        angular.element($("#chat-wrapper")).scope().toggleCustom();
     }
 }

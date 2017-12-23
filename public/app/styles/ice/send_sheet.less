@@ -1,0 +1,56 @@
+#send-sheet {
+  display: none;
+}
+
+#send-sheet-background {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 998;
+  background-color: rgba(0,0,0,0.5);
+  &.shown {
+    bottom: 0;
+  }
+}
+
+
+
+// We only use the send sheet if on mobile
+@media screen and (max-width: 732px) {
+  #send-sheet {
+    display: block;
+    position: fixed;
+    left: 0;
+    height: auto;
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    z-index: 999;
+    width: 100%;
+    box-shadow: rgba(0,0,0,0.25) 0 0 20px;
+    bottom: -500px;
+    transition: bottom ease 0.5s;
+    &.shown {
+      bottom: 0;
+      transition: bottom ease 0.5s;
+    }
+    .preview-button {
+      font-size: 18px;
+      text-align: center;
+      display: block !important;
+      margin-left: 20px;
+      margin-right: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      box-shadow: rgba(0,0,0,0.1) 0 0 5px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      &:active {
+        background-color: rgba(0,0,0,0.2);
+      }
+    }
+  }
+}
+

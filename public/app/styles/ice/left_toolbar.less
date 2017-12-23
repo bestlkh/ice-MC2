@@ -2,7 +2,7 @@
   position: absolute;
   border-right: none;
   width: 50px;
-  top: 30px;
+  top: 40px;
   bottom: 0;
   left: 0;
   background: #2F2F2C; /* Needed so flyout icons don't appear on the left */
@@ -347,6 +347,10 @@
   display: none;
 }
 
+#tool_send_mobile {
+  display: none;
+}
+
 @media (max-width: 732px){
   #tool_toggle_keyboard {
     display: inline-block;
@@ -367,6 +371,15 @@
     .tool_button {
       display: inline-block;
       vertical-align: top;
+    }
+    #tool_convert {
+      display: none;
+    }
+    #tool_send_as_image {
+      display: none;
+    }
+    #tool_send_mobile {
+      display: inline-block;
     }
   }
 }

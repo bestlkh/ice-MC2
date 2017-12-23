@@ -31,6 +31,12 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send_as_img.png);'
 });
 
+leftToolbar.addButton({
+    id: 'tool_send_mobile',
+    title: 'Convert and Send',
+    style: 'background-image: url(images/send.png);'
+});
+
 
 
 $("#image-import-input").on('change', function(){
@@ -60,4 +66,14 @@ $("#image-import-input").on('change', function(){
 
         fileReader.readAsDataURL(this.files[0]);
     }
+});
+
+$("#send-sheet-background").mousedown(function(){
+   $("#send-sheet").removeClass("shown");
+   $(this).removeClass("shown");
+});
+
+$(".preview-button").mousedown(function(){
+    $("#send-sheet").removeClass("shown");
+    $("#send-sheet-background").removeClass("shown");
 });

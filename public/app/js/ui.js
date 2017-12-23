@@ -6,6 +6,7 @@ var webkit = !!ua.match(/WebKit/i);
 var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
 
 var isMobile = $(window).width() < 732;
+var chatInput;
 
 
 if(window.navigator.userAgent.match(/Android 4/) && !window.navigator.userAgent.match(/Chrome/)){
@@ -100,6 +101,8 @@ onChatRoomInterfaceLoaded(function(){
             'height': '100%'
         })
     }
+
+    chatInput = new UI.ChatInput("#chatroom-input-test")
 });
 
 $(window).on('resize', function(){

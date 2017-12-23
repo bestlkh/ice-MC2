@@ -35,8 +35,8 @@ Symbol.prototype.distanceFrom = function(other) {
     var minYDistance = Math.min(Math.abs(this.minY - other.maxY), Math.abs(this.maxY - other.minY));
     var distances = {
         distance: Math.sqrt(Math.pow(Math.abs((this.x - other.x)), 2) + Math.pow(Math.abs((this.y - other.y)), 2)),
-        maxDistance: Math.sqrt(maxXDistance * maxXDistance + maxYDistance * maxYDistance);
-        minDistance: Math.sqrt(minXDistance * minXDistance + minYD)
+        maxDistance: Math.sqrt(maxXDistance * maxXDistance + maxYDistance * maxYDistance),
+        minDistance: Math.sqrt(minXDistance * minXDistance + minYDistance * minYDistance)
     }
 }
 

@@ -136,7 +136,8 @@ AdminView.prototype.setupApi = function () {
         return res.json({
             username: req.session.user ? req.session.user.username : null,
             connected: req.session.connected,
-            oauth: token
+            oauth: token,
+            userAvatar: req.session.userAvatar
         });
     });
 
@@ -214,7 +215,7 @@ AdminView.prototype.setupApi = function () {
 
     function Classroom(data) {
         this.name = data.name;
-        this.invite = data.invite;
+        this.invite = !!(data.invite);
         this.roomName = data.roomName;
     }
 

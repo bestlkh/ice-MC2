@@ -144,6 +144,19 @@ LectureNsp.prototype.findClient = function (roomName, username) {
     return null;
 };
 
+LectureNsp.prototype.findTa = function (data, callback) {
+    MongoClient.connect(constants.dbUrl, function (err, db) {
+        if (err) return callback(err, null);
+
+        db.collection("ta").findOne({owner: this.owner}, function (err, tas) {
+            if (err) return callback(err, null);
+
+            var ta = findOne(tas.tas, {token: data.secret});
+            callback(null, ta);
+        });
+    }.bind(this));
+};
+
 LectureNsp.prototype.listen = function () {
     this.nsp.on("connection", function (socket) {
 
@@ -179,15 +192,29 @@ LectureNsp.prototype.listen = function () {
                         this.findStudent(data, function (err, student) {
                             if (err) return callback({success: false, message: "Invalid id"});
                             setSessionVar("utorid", student.utorid);
-                        })
+                            if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+                            setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
 
+                            callback({success: true});
+                        });
+
+                    } else if (data.secret) {
+                        this.findTa(data, function (err, ta) {
+                            if (err) return callback({success: false, message: "Invalid secret"});
+                            setSessionVar("ta", ta);
+                            if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+                            setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
+
+                            callback({success: true});
+                        });
                     } else if (data.isJoin && classroom.invite) {
                         return callback({success: false, message: "Room is invite only"});
-                    }
-                    if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                    setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
+                    } else {
+                        if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+                        setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
 
-                    callback({success: true});
+                        callback({success: true});
+                    }
                 }
             }.bind(this));
             //if (!data.isJoin) clients = {sockets:[]};
@@ -206,7 +233,8 @@ LectureNsp.prototype.listen = function () {
                         return callback({success: false, message: "Use different username."});
                     }
                     if (socket.handshake.session.username) {
-                        if (room && room.invite && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
+
+                        if (room && room.invite && !socket.handshake.session.ta && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
                             destroySession();
                             return callback({success: false, message: "Room is invite only."});
                         }
@@ -300,6 +328,7 @@ LectureNsp.prototype.listen = function () {
                 data.isInstructor = false;
 
                 data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
+                data.isTA = !!(socket.handshake.session.ta);
                 this.findRoomAdapter(socket.connectedRoom).messageHistory.push(data);
                 if(data.hasMsg){
                     this.sendMessage(socket.connectedRoom, data, function (err, result) {

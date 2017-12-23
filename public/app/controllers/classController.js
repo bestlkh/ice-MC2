@@ -34,6 +34,7 @@ angular.module('Controllers')
             if (!$scope.search.value) return true;
 
             for (var header in student) {
+                if (!student[header]) continue;
                 if (!student[header].indexOf) return student[header] === ($scope.search.value === "true");
                 if (student[header].indexOf($scope.search.value) !== -1)
                     return true;
@@ -95,14 +96,6 @@ angular.module('Controllers')
         $scope.onCancelClick = function () {
             $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
             $scope.active = false;
-        };
-
-        $scope.checkInclude = function (student) {
-            if (!$scope.search.value) return true;
-            for (var header in student) {
-                if (student[header].indexOf($scope.search.value) !== -1)
-                    return true;
-            }
         };
 
         $scope.onOverlayClick = function ($event) {

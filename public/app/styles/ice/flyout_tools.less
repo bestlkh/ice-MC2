@@ -27,6 +27,44 @@
     box-shadow: 0 1px 3px rgba(0,0,0,.15);
   }
 }
+#matrix_flyout {
+  position: absolute;
+  display: none;
+  /*opacity: 0.2;*/
+  cursor: pointer;
+  width: 150px;
+  z-index: 10;
+  bottom: 60px;
+  left: 60px !important;
+  height: 180px;
+  background: rgb(238, 238, 238);
+  border-radius: 5px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.3);
+}
+#grid-select{
+  padding: 10px;
+  display: block;
+}
+table.layout-select {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+table.layout-select tr {
+  margin: 0;
+  padding: 0;
+}
+table.layout-select tr td {
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+}
+table.layout-select tr td>div {
+  height: 100%;
+  border: 1px solid black;
+}
+table.layout-select tr td>div.grid-select-active {
+  background: grey;
+}
 
 .tools_flyout_v {
   position: absolute;

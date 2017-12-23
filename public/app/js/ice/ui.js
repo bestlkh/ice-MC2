@@ -30,7 +30,11 @@ leftToolbar.addButton({
     title: 'Send as Image',
     style: 'background-image: url(images/send_as_img.png);'
 });
-
+leftToolbar.addButton({
+    id: 'tool_matrix',
+    title: 'Create Matrix',
+    style: 'background-image: url(images/grid.png);'
+});
 leftToolbar.addButton({
     id: 'tool_send_mobile',
     title: 'Convert and Send',

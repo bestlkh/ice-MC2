@@ -30,15 +30,16 @@ App.config(function ($routeProvider, $locationProvider){
             controller: 'studentsController'
         })
         .otherwise({
-            redirectTo: '/chat',	// Default Route
+            redirectTo: '/classrooms',	// Default Route
             templateUrl: '/app/views/admin/chat.html',
             controller: 'chatController'
         });
 
     $locationProvider.html5Mode(true);
 }).component("logoutMenu", {
-    template: "<div class='user-display' ng-mouseenter='$ctrl.onEnter()' ng-mouseleave='$ctrl.onLeave()'>" +
-                "{{ $ctrl.user.username }}" +
+    template: "<div class='user-display' ng-click='$ctrl.onClick()'>" +
+                "<div class='user-avatar' ng-style=\"{'background':'transparent url(/app/css/dist/img/' + $ctrl.user.userAvatar + ')'}\"></div>" +
+                "<div>{{ $ctrl.user.username }}</div>" +
                 "<ul class='dd-menu' ng-if='!$ctrl.hideLogout'>" +
                     "<a href='/logout'><li>" +
                         "Logout" +
@@ -49,6 +50,14 @@ App.config(function ($routeProvider, $locationProvider){
         this.hideLogout = true;
         this.interval = null;
 
+        this.getAvatar = function () {
+            return {'background-image': "URL(/app/css/dist/img/" + (this.user ? this.user.userAvatar : 'avatar1.jpg') +")"}
+        };
+
+        this.onClick = function () {
+            this.hideLogout = !this.hideLogout;
+
+        };
         this.onEnter = function () {
 
             this.hideLogout = false;

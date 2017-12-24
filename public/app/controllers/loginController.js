@@ -34,6 +34,8 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
     $scope.form.username = $rootScope.username;
 
+    $scope.ta = false;
+
     $scope.printErr = function(msg){	// popup for error message
         var html = '<p id="alert">'+ msg +'</p>';
         if ($( ".chat-box" ).has( "p" ).length < 1) {
@@ -49,7 +51,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     if ($location.search().nsp)
         nsp = "/"+$location.search().nsp;
     $socket.connect($location.host() +":"+ $location.port()+nsp);
-
+	$scope.nsp = nsp;
 
 		if ($rootScope.error) {
             $scope.isLoading = false;
@@ -95,6 +97,10 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 		$location.path('/v1/ChatRoom/'+$routeParams.roomId);
 	}
 
+	$scope.onTaClick = function () {
+		$scope.ta = !$scope.ta;
+    };
+
 	$scope.onInstructorLogin = function () {
 		$socket.emit("instructor_login", {roomName: $scope.roomId}, function (result) {
 			if (!result.token) {
@@ -124,7 +130,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 		if ($scope.form.username.length <= 20) {
 			if($scope.form.username && $scope.form.roomId){
 
-				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
+				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
 						$rootScope.username = $scope.form.username;
 						$rootScope.initials = $scope.form.initials;

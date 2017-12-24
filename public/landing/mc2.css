@@ -6,7 +6,7 @@
 	color: #414141;
 	-webkit-font-smoothing: antialiased;
 	font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
-	
+	outline: none;
 }
 
 a:active, a:focus, a:hover {
@@ -269,8 +269,9 @@ body {
 
 .card {
     background-color: #fff;
-    
-    box-shadow:0 1px 3px rgba(0,0,0,.1);
+
+    box-shadow:0 1px 2px 0 rgba(0,0,0,0.05);
+
     width: 30%;
     margin: 10px auto;
     padding: 10px;
@@ -682,9 +683,10 @@ background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 
 .vertical-nav header {
 	color: #fff;
-	font-size: 40px;
+	font-size: 25px;
 	padding: 10px;
 	text-align: center;
+	background-color: #ed8355;
 }
 
 .vertical-nav sup {
@@ -694,7 +696,7 @@ background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 .vertical-nav ul li {
 	width: 100%;
 	text-align: center;
-
+	border-right: 3px solid transparent;
 	color: #fff;
 
 	cursor: pointer;
@@ -707,12 +709,13 @@ background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 }
 
 .vertical-nav .tab-active {
-	background-color: #ed8355;
+	background-color: #1f2126;
 	font-weight: 600;
+	border-color: #ed8355;
 }
 
 .vertical-nav .tab-active:hover {
-	background-color: #ed8355;
+	background-color: #1f2126;
 }
 
 .control-content-wrapper {
@@ -723,12 +726,12 @@ background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 .control-header {
 	background-color: #fff;
 	font-size: 25px;
-	height: 77px;
+	height: 56px;
 	padding: 20px;
 	padding-left: 30px;
 	line-height: 30px;
 	width: 100%;
-
+	border-bottom: 1px solid #DAE1E9;
 	display: flex;
 	justify-content: space-between;
 }
@@ -736,18 +739,29 @@ background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 .header-control-wrapper {
 	display: flex;
 	font-size: 15px;
+	line-height: 16px;
+	padding: 0 10px;
+}
+
+.user-avatar {
+	width: 30px;
+	height: 30px;
+	margin: -5px 10px;
+	border-radius: 50%;
 
 }
 
 .user-display {
-	color: #ed8355;
+	display:flex;
+	font-weight: 600;
 	width: 90px;
 	text-align: left;
-	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEyOSAxMjkiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEyOSAxMjkiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+ICA8Zz4gICAgPHBhdGggZD0ibTEyMS4zLDM0LjZjLTEuNi0xLjYtNC4yLTEuNi01LjgsMGwtNTEsNTEuMS01MS4xLTUxLjFjLTEuNi0xLjYtNC4yLTEuNi01LjgsMC0xLjYsMS42LTEuNiw0LjIgMCw1LjhsNTMuOSw1My45YzAuOCwwLjggMS44LDEuMiAyLjksMS4yIDEsMCAyLjEtMC40IDIuOS0xLjJsNTMuOS01My45YzEuNy0xLjYgMS43LTQuMiAwLjEtNS44eiIgZmlsbD0iI2EwYTBhMCIvPiAgPC9nPjwvc3ZnPg==);
-	background-position: 70px 10px;
-	background-size: 13px;
-	background-repeat: no-repeat;
+	margin-top: -2px;
 	cursor: pointer;
+}
+
+.user-display div {
+	color: inherit;
 }
 
 .mail-setting {
@@ -820,7 +834,7 @@ ul {
 }
 
 .control-content {
-	padding: 20px;
+	padding: 30px 0;
 	height: calc(100vh - 77px);
 	overflow: auto;
 
@@ -963,6 +977,7 @@ ul {
 	border: 1px transparent solid;
 	cursor: pointer;
 	color: #a0a0a0;
+	transition: all 0.1s linear;
 }
 
 .student-item>div {
@@ -973,14 +988,15 @@ ul {
 }
 
 .student-item:hover {
-	border: 1px #9da3bd solid;
-	color: #5d6795;
+	background-color: #e6e6e6;
+	color: #474747;
 }
 
 .student-control-wrapper {
 	display: flex;
 	margin-bottom: 20px;
 	justify-content: space-between;
+	margin-top: -15px;
 }
 
 .student-control-wrapper .button-wrapper {
@@ -1068,7 +1084,7 @@ ul {
 .import-wrapper {
 	background-color: #fff;
 	margin: auto;
-	padding: 30px;
+	padding: 0 30px;
 }
 
 .import-wrapper header {
@@ -1416,21 +1432,23 @@ input[type="submit"]:hover {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 10px 0;
+
 }
 
 .class-card {
 	padding: 10px 20px;
 	background-color: #fff;
-	margin: 10px 20px;
+	margin: 10px;
+	margin-left: 0;
 	color: #a0a0a0;
 	cursor: pointer;
 	width: 300px;
-	margin-left: 0;
 	position: relative;
 	outline: none !important;
 	user-select: none;
 	border-radius: 0;
 	border: 2px solid transparent;
+	height: fit-content;
 }
 
 .class-card header {

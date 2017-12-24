@@ -39,7 +39,9 @@ angular.module('Controllers')
         };
 
         function checkSettings() {
-            for (var key in $scope.classroom) {
+
+            for (var key in $scope.originalSettings) {
+                // if ($scope.originalSettings[key] === null) $scope.originalSettings[key] = false;
                 if ($scope.classroom[key] !== $scope.originalSettings[key]) return false;
             }
             return true;

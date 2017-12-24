@@ -4,21 +4,6 @@
 	overflow-y: hidden;
 }
 
-#chatframe{
-	width: calc(30% - 10px);
-	height: 100vh;
-	float: right;
-}
-
-
- #ghostbar{
-	 width:3px;
-	 background-color:#000;
-	 opacity:0.5;
-	 position:absolute;
-	 cursor: col-resize;
-	 z-index:999
-}
 
 #swapButton{
 	text-decoration:none;

@@ -65,6 +65,7 @@ angular.module('Controllers')
 
 	$scope.showMenuMessage = null;
 
+
 	$scope.onSettingsClick = function () {
         $scope.hideSettings = !$scope.hideSettings;
     };
@@ -105,6 +106,7 @@ angular.module('Controllers')
                 }
                 //$scope.messages.push(data);
                 $scope.isLoading = false;
+                $scope.hideLoadingScreen();
             });
 		}
     });
@@ -139,6 +141,7 @@ angular.module('Controllers')
                 $location.path('/v1/'+$routeParams.roomId);
             }
             $scope.isLoading = false;
+            $scope.hideLoadingScreen();
             $scope.isAdmin = data.isAdmin;
         });
     } else {
@@ -153,6 +156,7 @@ angular.module('Controllers')
             }
             //$scope.messages.push(data);
             $scope.isLoading = false;
+            $scope.hideLoadingScreen();
             chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
         });
 
@@ -377,7 +381,17 @@ angular.module('Controllers')
                 swapFrame();
 			}
 		});
-	}
+	};
+
+	$scope.hideLoadingScreen = function(){
+		setTimeout(function(){
+            $("#loading-screen").removeClass("shown");
+		}, 2000);
+	};
+
+	$scope.showLoadingScreen = function(){
+		$("#loading-screen").addClass("shown");
+	};
 
 	$scope.resetMessageMenu = function(){
 		$scope.showMenuMessage = null;
@@ -391,6 +405,9 @@ angular.module('Controllers')
             $scope.messages.push(message);
 
             var msg = new Chat.Message(message);
+
+            // Set all old message read state to true
+            msg.read = true;
 
             $scope.allMsg.push(msg);
             // Updates chatlog with relevant message history
@@ -556,13 +573,18 @@ angular.module('Controllers')
 								}	
 								return false;
 					    	}
-					    });				
+					    });
 						break;	
 					}
 				}						
 			}
 		};
     }
+
+    $scope.referenceMessage = function(msg){
+		chatInput.addBlock("Reply to " + msg.getUsername() + msg.getText().getRaw())
+		chatInput._dom.append("Message: ")
+	}
 
     // sending new images function
     $scope.sendImage = function (files) {

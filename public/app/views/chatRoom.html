@@ -1,9 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
 <!-- Full Width Column -->
-
-<div ng-if="isLoading">
-  <wave-spinner></wave-spinner>
-</div>
 <div id="chat-wrapper" class="content-wrapper" ng-class="{'menu-open': isMenuOpened}">
   <!-- Editor Content -->
   <div id="editorframe" style="overflow: hidden;">
@@ -30,7 +26,10 @@
               resizeEditor();
             };
             //]]>  
-    </script> 
+    </script>
+    <div id="editor-resize-cover">
+      <img src="/app/images/resize-horizontal.png" />
+    </div>
   </div>
   <div id="dragbar"></div>  
   <!-- Chat Content -->
@@ -225,6 +224,10 @@
                                   title="Show LaTeX source">
                             <i class="fa fa-code" aria-hidden="true"></i>
                           </button>
+                          <button ng-click="referenceMessage(message)"
+                                  title="Reply">
+                            Reply
+                          </button>
                         </div>
 
                       </div><!-- /.direct-chat-text -->
@@ -347,6 +350,22 @@
 
               </div><!-- /.box-footer-->
               </div><!-- /.box -->
+            </div>
+
+            <div id="chatroom-input-container">
+              <div id="chatroom-input-test"></div>
+            </div>
+
+            <div id="loading-screen" class="shown">
+              <div class="loading-spinner">
+                <div class="loading-bounce1"></div>
+                <div class="loading-bounce2"></div>
+                <div class="loading-bounce3"></div>
+              </div>
+              <div class="loading-quote">
+                <i>"We cannot solve our problems with the same thinking we used when we created them."</i><br>
+                Albert Einstein
+              </div>
             </div>
 
             <script src="app/js/chatroomPlus.js"></script>     

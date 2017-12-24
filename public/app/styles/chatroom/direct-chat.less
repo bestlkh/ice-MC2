@@ -45,6 +45,13 @@
       border-top-left-radius: 20px;
       border-top-right-radius: 0;
       transform-origin: 100% 0;
+      background-color: #F9A825;
+      border-color: #F9A825;
+      color: white;
+      &.darken-background {
+        background-color: #F57F17;
+        border-color: #F57F17;
+      }
     }
     .direct-chat-text-menu {
       margin-right: 60px;
@@ -59,7 +66,7 @@
     border-top-left-radius: 0;
     max-width: 70%;
     overflow: hidden;
-    color: white;
+    color: black;
     margin-top: 10px;
     display: inline-block;
     animation-name: direct-chat-text-inner-enter;
@@ -69,13 +76,13 @@
     animation-timing-function: ease;
     transform-origin: 0 0;
     cursor: pointer;
-    background-color: #f39c12;
+    background-color: #EEEEEE;
     transition: all ease 0.2s;
-    border-color: #f39c12;
+    border-color: #EEEEEE;
     // Used to indicate selected message
     &.darken-background {
-      background-color: #be7812;
-      border-color: #be7812;
+      background-color: #E0E0E0;
+      border-color: #E0E0E0;
       transition: all ease 0.2s;
     }
     &.instructor-message {
@@ -137,4 +144,32 @@
   to {
     transform: scale(1);
   }
+}
+
+#chatroom-input-container {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  width: 500px;
+  height: 500px;
+  border: #0c0c0c 1px solid;
+  background-color: white;
+  display: none;
+}
+
+#chatroom-input-test {
+  background-color: white;
+  height: auto;
+  line-height: 18px;
+  width: 400px;
+  padding: 5px;
+  background-color: rgba(0,0,0,0.05);
+  outline: none;
+}
+
+span.input-inline-block {
+  padding: 3px;
+  margin-right: 3px;
+  background-color: rgba(0,0,255, 0.1);
+  border-radius: 3px;
 }

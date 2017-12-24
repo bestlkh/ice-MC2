@@ -117,6 +117,7 @@ jsWatcher
     .on('change', function(filePath){
         // We compile that specific JS file
         let relativePath = filePath.replace('public/app/js/src', '');
+        relativePath = relativePath.replace('public\\app\\js\\src', '');
         compileJs(filePath, 'public/app/js/lib' + relativePath, function(){
             // Add files that needs to be bundled here
             browserifyJs('public/app/js/lib/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js');

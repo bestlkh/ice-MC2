@@ -56,8 +56,7 @@ angular.module('Controllers')
 	$scope.users = [];
 	$scope.messages = [];
 	$scope.allMsg = [];
-
-	$scope.hideSettings = true;
+	
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;
@@ -65,10 +64,6 @@ angular.module('Controllers')
 
 	$scope.showMenuMessage = null;
 
-
-	$scope.onSettingsClick = function () {
-        $scope.hideSettings = !$scope.hideSettings;
-    };
 
 	$scope.onClickDetails = function () {
 		$scope.enableVerbose = !$scope.enableVerbose;

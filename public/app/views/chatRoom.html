@@ -89,38 +89,39 @@
               <div id="chat-body-div" class="box-body" >
                 <!-- Conversations are loaded here -->
                 <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
+
                   <!-- Message. Default to the left -->
                   <div ng-repeat="message in getAllMsg()"
                        ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
                        ng-class="{'direct-chat-msg' : true, 'right' : message.isOwn(), 'wordwrap' : true}">
 
-                    {{ message.hidden ? "["+message.timeFormatted+"] "+message.msg : message.msg }}
+                    {{ message.hidden ? "["+message.timeFormatted+"] " + message.msg : message.msg }}
 
                     <div ng-if="message.isChat()">
 
                       <!--Chat Information-->
-                      <div class='direct-chat-info clearfix' ng-class="{ 'text-right': message.isOwn() }">
-                        <span class='direct-chat-timestamp' ng-hide="message.isOwn()">{{ message.getTime() }}</span>
-                        <span class='direct-chat-name' ng-class="{ 'admin': message.isInstructor() }">
+                      <div class='chat-info clearfix' ng-class="{ 'text-right': message.isOwn() }">
+                        <span class='chat-timestamp' ng-hide="message.isOwn()">{{ message.getTime() }}</span>
+                        <span class='chat-name' ng-class="{ 'admin': message.isInstructor() }">
                           {{ message.getUsername() }}
                           {{ (message.isInstructor() ? " (Instructor)" : "") + (message.isTA() ? " (TA)" : "") }}
                         </span>
-                        <span class='direct-chat-timestamp' ng-hide="!message.isOwn()">{{ message.getTime() }}</span>
-                      </div><!-- /.direct-chat-info -->
+                        <span class='chat-timestamp' ng-hide="!message.isOwn()">{{ message.getTime() }}</span>
+                      </div>
 
 
                       <!-- Text message -->
-                      <div ng-class="{'direct-chat-text' : true, 'text-right' : message.isOwn()}">
+                      <div ng-class="{'chat-text' : true, 'text-right' : message.isOwn()}">
 
-                        <div class="direct-chat-img" style="position:relative">
-                          <img class="direct-chat-img" ng-src="app/css/dist/img/{{message.getAvatar()}}" alt="message user image"></img><!-- /.direct-chat-img -->
+                        <div class="chat-img" style="position:relative">
+                          <img class="chat-img" ng-src="app/css/dist/img/{{message.getAvatar()}}" alt="message user image" />
 
                           <span class="nicknames"> {{ message.getInitials() }} </span>
 
                         </div>
 
                         <!-- Inner container to achieve dynamic message width -->
-                        <div class="direct-chat-text-inner"
+                        <div class="chat-text-inner"
                              ng-click="showMessageMenu($event, message)"
                              ng-class="{
                               'instructor-message': message.isInstructor(),
@@ -153,19 +154,10 @@
                                   <div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}" ng-hide="message.raw_data.showme">
                                     <!--<span class="decs-text"><b>File:</b> {{ message.filename }}</span>-->
                                     <span class="decs-text">
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;</i></a>-->
-                                    <!--<a id ="{{message.dwid}}A" class="decs-text hidden-link" href="{{ message.serverfilename }}"  download="{{ message.serverfilename }}"><i>Hidden Link</i></a>-->
                                     </span>
                                   </div>
                                   <div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}" ng-if="(message.raw_data.dwimgsrc !== 'app/images/spin.gif')" ng-show="message.raw_data.showme">
-                                    <!--<span class="decs-text"><b>File :</b> {{ message.filename }}</span>--> 
                                     <span class="decs-text">
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Open in Editor&nbsp;&nbsp;</i><span style="font-size: 17px">&Eopf;</span></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><span style="font-size: 17px">&Eopf;</span><i>&nbsp;&nbsp;Open in Editor</i></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Download&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;Download</i></a>-->
-                                    <!--<a id ="{{message.dwid}}A" class="decs-text hidden-link" href="{{ message.serverfilename }}"  download="{{ message.serverfilename }}"><i>Hidden Link</i></a>-->
                                     </span>
                                   </div>
                                 </div>
@@ -177,7 +169,7 @@
                         </div>
 
                         <!--Tool buttons for each message-->
-                        <div class="direct-chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
+                        <div class="chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
                           <button ng-click="deleteMsg(message.raw_data)"
                                   ng-if="isAdmin && message.isChat()"
                                   title="Delete">
@@ -202,13 +194,9 @@
                                   title="Show LaTeX source">
                             <i class="fa fa-code" aria-hidden="true"></i>
                           </button>
-                          <button ng-click="referenceMessage(message)"
-                                  title="Reply">
-                            Reply
-                          </button>
                         </div>
 
-                      </div><!-- /.direct-chat-text -->
+                      </div>
 
                     </div>
                   </div><!-- /.direct-chat-msg -->

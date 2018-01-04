@@ -56,7 +56,7 @@ angular.module('Controllers')
 	$scope.users = [];
 	$scope.messages = [];
 	$scope.allMsg = [];
-	
+
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;

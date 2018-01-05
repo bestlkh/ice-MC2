@@ -1,5 +1,6 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+
 <!-- Full Width Column -->
 <div id="chat-wrapper" class="content-wrapper" ng-class="{'menu-open': isMenuOpened}">
     <!-- Editor Content -->
@@ -38,48 +39,12 @@
     <!-- Chat Content -->
     <div id="chatframe">
 
-        <!--Begin Bubble Menu-->
+        <!--Bubble Menu-->
         <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
 
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
-                    <div class="box-header with-border" id="chat-menu-header">
-                        <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
-                            <div class="hamburger">
-                                <div class="inner"></div>
-                            </div>
-                        </div>
-
-                        <nav class="mobile">
-                            <ul id="hamburger-menu" ng-style="{'pointer-events': isMenuOpened ? 'all' : 'none'}">
-                                <li onclick="simulateFullScreen()">Full Screen</li>
-                                <li ngf-select ng-model="Files">Attach</li>
-                                <li data-toggle="tooltip" data-widget="chat-pane-toggle" title="Contacts"
-                                    ng-click="toggleCustom()">Friends
-                                </li>
-                                <li ng-model="enableVerbose" value="None" id="squaredFour" name="check">Enable Details
-                                </li>
-                                <li ng-click="logout()">Log Out</li>
-                            </ul>
-                        </nav>
-                        <script type="text/x-mathjax-config">
-                    MathJax.Hub.Config({
-                      showProcessingMessages: false,
-                      tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-                      CommonHTML: { linebreaks: { automatic: true, width: "container" } },
-                      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
-                      SVG: { linebreaks: { automatic: true, width: "container" } }
-                    });
-                    MathJax.Hub.setRenderer("SVG");
-
-                        </script>
-                        <!-- MathJax CDN from CloudFlare-->
-                        <script type="text/javascript"
-                                src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
-
-
-                    </div><!-- /.box-header -->
                     <div id="chat-body-div" class="box-body">
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
@@ -96,7 +61,6 @@
 
                                     <!--Chat Information-->
                                     <div ng-include="'/app/views/chatroom/chat-info.html'"></div>
-
 
                                     <!-- Text message -->
                                     <div ng-class="{'chat-text' : true, 'text-right' : message.isOwn()}">

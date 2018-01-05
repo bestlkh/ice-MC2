@@ -20,10 +20,17 @@ body {
   padding: 0;
 }
 
+#editor-frame {
+  width: 100%;
+  height: 70vh;
+}
+
 #editorframe {
   height: 100vh;
   position: relative;
   background-color: @primary-color;
+  width:70%;
+  float: left;
   #editor-resize-cover {
     width: 100%;
     height: 100%;
@@ -55,6 +62,14 @@ body {
   height: 100%;
   overflow: hidden;
   position: relative;
+}
+
+#chatframe>.row {
+  margin: 0;
+}
+
+#chatframe>.row>.col-sm-12 {
+  padding: 0;
 }
 
 .selector-wrapper2 {
@@ -161,14 +176,26 @@ input {
   }
 }
 
-#editor-frame {
-  width: 100%;
-  height: 70vh;
-}
-
 #preview-frame {
   width: 100%;
   height: 30vh;
+}
+
+#less-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  background: rgba(255, 50, 50, 1);
+  color: white;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+#less-warning a {
+  color: white;
+  text-decoration: underline;
 }
 
 @media (max-width: 732px) {
@@ -190,5 +217,20 @@ input {
       left: 0vw;
       transition: left ease 0.5s;
     }
+  }
+
+  #chatframe{
+    display:inline;
+    width:100%;
+    height: 100vh;
+    float: left;
+  }
+
+  #dragbar{
+    display: none;
+  }
+
+  #downloadLogsButton{
+    display:none;
   }
 }

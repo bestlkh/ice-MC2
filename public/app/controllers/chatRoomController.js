@@ -45,7 +45,7 @@ angular.module('Controllers')
         }
     };
 })
-.controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, sendImageService, $routeParams, $window){		// Chat Page Controller
+.controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, $routeParams, $window){		// Chat Page Controller
 	// Varialbles Initialization.
 	$scope.isMsgBoxEmpty = false;
 	$scope.isFileSelected = false;
@@ -57,7 +57,6 @@ angular.module('Controllers')
 	$scope.messages = [];
 	$scope.allMsg = [];
 
-	$scope.hideSettings = true;
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;
@@ -65,10 +64,6 @@ angular.module('Controllers')
 
 	$scope.showMenuMessage = null;
 
-
-	$scope.onSettingsClick = function () {
-        $scope.hideSettings = !$scope.hideSettings;
-    };
 
 	$scope.onClickDetails = function () {
 		$scope.enableVerbose = !$scope.enableVerbose;

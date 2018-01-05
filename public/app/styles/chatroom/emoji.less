@@ -1,0 +1,88 @@
+/**
+ * Styles for emoji panel in chat room.
+ * Navigation:
+ * Buttons - Special button styles
+ * Emoji Panel Components - Panel components
+ */
+
+/* Buttons */
+.dollorbutton{
+  height:20px;
+  width:30px;
+  display: flex;
+  border:none;
+  background:none;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.emojibutton {
+  height: 10%;
+  margin-bottom: 2%;
+  border: none;
+  background-color: white;
+}
+
+.formulabutton{
+  height:20px;
+  width:inherit;
+  border:none;
+  background:none;
+}
+
+/* Emoji Panel Components */
+#previewArea{
+  background-color: #cccccc;
+  border-radius:5px;
+  padding: 5px;
+}
+
+div {
+  &.tab {
+    overflow: hidden;
+    border: 1px;
+    background-color: #2f2f2c;
+    color: white;
+    button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+      &:hover {
+        background-color: #ddd;
+      }
+      &.active {
+        background-color: #111;
+      }
+    }
+  }
+  &#panel {
+    top: auto;
+    bottom: 55px;
+    display:none;
+    position:absolute;
+    z-index:99;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    border: 1px solid gray;
+  }
+}
+
+.tabcontent {
+  padding: 6px 12px;
+  border-top: none;
+  border: 1px black;
+}
+
+.tablinks{
+  background-color: transparent;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}

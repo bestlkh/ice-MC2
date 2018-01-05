@@ -1,0 +1,10 @@
+<div class='chat-info clearfix' ng-class="{ 'text-right': message.isOwn() }">
+                                        <span class='chat-timestamp'
+                                              ng-hide="message.isOwn()">{{ message.getTime() }}</span>
+    <span class='chat-name' ng-class="{ 'admin': message.isInstructor() }">
+                          {{ message.getUsername() }}
+                          {{ (message.isInstructor() ? " (Instructor)" : "") + (message.isTA() ? " (TA)" : "") }}
+                        </span>
+    <span class='chat-timestamp'
+          ng-hide="!message.isOwn()">{{ message.getTime() }}</span>
+</div>

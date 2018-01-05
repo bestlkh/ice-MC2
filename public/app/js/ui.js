@@ -77,14 +77,6 @@ onChatRoomInterfaceLoaded(function(){
         size: 'large',
         touchHold: true
     });
-    // latexEditor = ace.edit("latex-editor");
-    // latexEditor.setTheme("ace/theme/github");
-    // latexEditor.getSession().setMode("ace/mode/latex");
-    // latexEditor.getSession().setUseWrapMode(true);
-    // latexEditor.getSession().on('change', function(e) {
-    //     $("#textArea").val(latexEditor.getValue());
-    // });
-    initializeChatMenu();
 
     latexEditor = new CodeMirror($("#latex-editor-area")[0], {
         lineNumbers: true,

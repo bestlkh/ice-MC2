@@ -20,7 +20,7 @@ let browserifyInstances = {};
  * @param input
  * @param output
  */
-function compileLess(input, output){
+function compileLess(input, output) {
     // Read LESS source from file
     fs.readFile(input, 'utf8', function (err, data) {
         if (err) {

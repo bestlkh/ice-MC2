@@ -84,7 +84,6 @@ onChatRoomInterfaceLoaded(function(){
     // latexEditor.getSession().on('change', function(e) {
     //     $("#textArea").val(latexEditor.getValue());
     // });
-    initializeChatMenu();
 
     latexEditor = new CodeMirror($("#latex-editor-area")[0], {
         lineNumbers: true,

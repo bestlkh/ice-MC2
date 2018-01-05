@@ -77,25 +77,6 @@
                         <!-- MathJax CDN from CloudFlare-->
                         <script type="text/javascript"
                                 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
-                        <div class="menu_logo mobile">Equation Editor</div>
-                        <div class="box-tools pull-right">
-                            <!-- Any File Select Button -->
-                            <button class="btn btn-box-expand mobile" data-widget="" onclick="swapFrame();">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-
-                            <button class="btn btn-box-tool desktop" id="downloadLogBtn"
-                                    ng-style="{'display': isAdmin ? 'block' : 'none'}" data-widget=""
-                                    onclick="downloadLogs();" style="display: none;">⇲
-                            </button>
-
-                            <button class="btn btn-box-tool desktop ng-pristine ng-untouched ng-valid" data-widget=""
-                                    ngf-select="" ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i>
-                            </button>
-                            <!-- online member list mobile -->
-                            <button class="btn btn-box-tool desktop" data-toggle="tooltip"
-                                    data-widget="chat-pane-toggle" title="" ng-click="toggleCustom()"
-                                    data-original-title="Contacts"><i class="fa fa-comments"></i></button>
-                        </div>
 
 
                     </div><!-- /.box-header -->
@@ -114,16 +95,7 @@
                                 <div ng-if="message.isChat()">
 
                                     <!--Chat Information-->
-                                    <div class='chat-info clearfix' ng-class="{ 'text-right': message.isOwn() }">
-                                        <span class='chat-timestamp'
-                                              ng-hide="message.isOwn()">{{ message.getTime() }}</span>
-                                        <span class='chat-name' ng-class="{ 'admin': message.isInstructor() }">
-                          {{ message.getUsername() }}
-                          {{ (message.isInstructor() ? " (Instructor)" : "") + (message.isTA() ? " (TA)" : "") }}
-                        </span>
-                                        <span class='chat-timestamp'
-                                              ng-hide="!message.isOwn()">{{ message.getTime() }}</span>
-                                    </div>
+                                    <div ng-include="'/app/views/chatroom/chat-info.html'"></div>
 
 
                                     <!-- Text message -->
@@ -144,26 +116,7 @@
                             </div>
                         </div>
 
-                        <div id="slidememberlist" class="slideout_inner">
-                            <!-- Contacts are loaded here -->
-                            <div>
-                                <div class="direct-chat-messages ol-members">
-                                    <ul class='contacts-list'>
-                                        <li ng-repeat="user in users">
-                                            <a href>
-                                                <img class='contacts-list-img'
-                                                     ng-src='app/css/dist/img/{{user.userAvatar}}'/>
-                                                <div class='contacts-list-info'>
-                                                    <span class="ol-memeber-name"
-                                                          ng-class="{'admin': user.isInstructor}"
-                                                          style="line-height:2.6; padding:5px; font-weight : 600; color : #333;">{{ user.username }}{{user.utorid ? ' ('+user.utorid+')' : ""}}{{user.isInstructor ? ' (Instructor)' : ""}}</span>
-                                                </div><!-- /.contacts-list-info -->
-                                            </a>
-                                        </li><!-- End Contact Item -->
-                                    </ul><!-- /.contatcts-list -->
-                                </div><!--/.direct-chat-messages-->
-                            </div>
-                        </div>
+                        <div ng-include="'/app/views/chatroom/member-list.html'"></div>
 
 
                     </div>

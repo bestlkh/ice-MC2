@@ -34,14 +34,6 @@ function downloadLogs(){
 	hiddenElement.click();
 }
 
-function PDFDL(){
-	var doc = new jsPDF();
-	doc.setFont('Courier');
-	doc.setFontSize(8);
-	doc.text(chatLog, 10, 10);
-	doc.save('MC2-LOG.pdf');
-}
-
 function imageOpen(){
 	var chatScreen = document.getElementById("chatframe");
 	html2canvas(chatScreen).then(function(canvas) {

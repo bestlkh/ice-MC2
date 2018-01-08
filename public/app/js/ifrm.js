@@ -25,10 +25,6 @@ function swapTool(){
 	}
 }
 
-function uploadToChat(img){
-	
-}
-
 function downloadLogs(){
 	var hiddenElement = document.createElement('a');
 

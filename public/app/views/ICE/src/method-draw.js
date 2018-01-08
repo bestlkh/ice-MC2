@@ -2619,26 +2619,6 @@ var SOTP = 0;
         }
       }
 
-      //BRIANCHEN
-      var sendToChat = function(){
-        var canvas = document.getElementById('testcanvas');
-        document.getElementById("ts").style.display="inline";
-        var ctx = canvas.getContext('2d');
-
-        var DOMURL = window.URL || window.webkitURL || window;
-
-        var img = new Image();
-        var svg = svgCanvas.getSVGBlob();
-        var url = DOMURL.createObjectURL(svg);
-
-        img.onload = function() {
-          ctx.drawImage(img, 0, 0);
-          DOMURL.revokeObjectURL(url);
-        }
-
-        img.src = url;
-        uploadToChat(img);
-      }
       // by default, svgCanvas.open() is a no-op.
       // it is up to an extension mechanism (opera widget, etc)
       // to call setCustomHandlers() which will make it do something
@@ -3504,7 +3484,6 @@ var SOTP = 0;
           {sel:'#tool_zoom', fn: clickZoom, evt: 'mouseup', kAy: ['Z', true]},
           {sel:'#tool_clear', fn: clickClear, evt: 'mouseup', kAy: [modKey + 'N', true]},
           {sel:'#tool_save', fn: function() { editingsource ? saveSourceEditor(): clickSave() }, evt: 'mouseup', key: [modKey + 'S', true]},
-          {sel:'#tool_STC', fn: sendToChat, evt: 'mouseup'},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
           {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},

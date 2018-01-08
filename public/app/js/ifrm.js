@@ -25,15 +25,6 @@ function swapTool(){
 	}
 }
 
-function downloadLogs(){
-	var hiddenElement = document.createElement('a');
-
-	hiddenElement.href = 'data:attachment/text,' + encodeURI(chatLog);
-	hiddenElement.target = '_blank';
-	hiddenElement.download = 'MC2.LOG - '+Date()+'.txt';
-	hiddenElement.click();
-}
-
 function imageOpen(){
 	var chatScreen = document.getElementById("chatframe");
 	html2canvas(chatScreen).then(function(canvas) {

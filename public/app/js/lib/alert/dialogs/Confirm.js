@@ -34,7 +34,7 @@ var Confirm = function () {
     _createClass(Confirm, [{
         key: 'show',
         value: function show() {
-            alertify.confirm(this.title, this.message, this.okCallback, this.cancelCallback);
+            alertify.confirm(this.title, this.message, this.okCallback, this.cancelCallback).set({ transition: 'zoom' });
         }
 
         /**
@@ -50,7 +50,7 @@ var Confirm = function () {
         value: function spawn(title, message, okCallback) {
             var cancelCallback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 
-            alertify.confirm(title, message, okCallback, cancelCallback);
+            alertify.confirm(title, message, okCallback, cancelCallback).set({ transition: 'zoom' });
         }
     }]);
 
@@ -58,4 +58,3 @@ var Confirm = function () {
 }();
 
 module.exports = Confirm;
-//# sourceMappingURL=Confirm.js.map

@@ -112,22 +112,34 @@ function initializeChatMenu(){
         return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
     };
 
-    var chatMembersButton = chatMenu.addButton({
+    let chatMembersButton = chatMenu.addButton({
         id: "test",
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
 
-    var chatHistoryButton = chatMenu.addButton({
+    let chatHistoryButton = chatMenu.addButton({
         id: "chat-history-button",
         innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
+    });
+
+    let logoutButton = chatMenu.addButton({
+        id: "logout-button",
+        innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
     });
 
     chatHistoryButton.onClick = function(){
         historyWindow = window.open();
         historyWindow.document.write("<pre>" + chatLog + "</pre>")
-    }
+    };
 
     chatMembersButton.onClick = function(){
         angular.element($("#chat-wrapper")).scope().toggleCustom();
-    }
+    };
+
+    // Log the user out
+    logoutButton.onClick = function(){
+        Alert.Confirm.spawn("Are you sure?", "Are you sure you want to logout?", function(){
+            angular.element($("#chat-wrapper")).scope().logout();
+        });
+    };
 }

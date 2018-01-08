@@ -12,6 +12,7 @@ const path       = require('path');
 const babel      = require("babel-core");
 const browserify = require('browserify');
 const colors     = require('colors');
+const UglifyJS   = require("uglify-js");
 
 let browserifyInstances = {};
 
@@ -49,6 +50,7 @@ function compileLess(input, output) {
  * Compile a JavaScript file using babel
  * @param input
  * @param output
+ * @param callback
  */
 function compileJs(input, output, callback){
     babel.transformFile(input, {}, function (err, result) {
@@ -73,7 +75,7 @@ function compileJs(input, output, callback){
  * @param input
  * @param output
  */
-function browserifyJs(input, output){
+function browserifyJs(input, output, callback){
     let b;
     if(input in browserifyInstances){
         b = browserifyInstances[input];
@@ -87,8 +89,37 @@ function browserifyJs(input, output){
         fs.writeFile(output, src, 'utf8', function(err){
             if (err) console.log(err.stack);
             console.log("Bundled JavaScript " + input);
+            callback();
         })
     })
+}
+
+/**
+ * Uglify a JavaScript file
+ * @param input
+ * @param output
+ */
+function uglifyJs(input, output){
+    fs.readFile(input, 'utf8', function (err, data) {
+        if (err) {
+            return console.log("Failed to read js " + input);
+        } else {
+            // Uglify JavaScript
+            let result = UglifyJS.minify(data);
+            if(result.error){
+                console.log("Failed to uglify JavaScript " + result.error)
+            } else {
+                fs.writeFile(output, result.code, function(err) {
+                    if(err) {
+                        return console.log("Failed to write JavaScript " + output);
+                    } else {
+                        return console.log("Javascript uglified " + input);
+                    }
+                });
+            }
+
+        }
+    });
 }
 
 
@@ -120,9 +151,15 @@ jsWatcher
         relativePath = relativePath.replace('public\\app\\js\\src', '');
         compileJs(filePath, 'public/app/js/lib' + relativePath, function(){
             // Add files that needs to be bundled here
-            browserifyJs('public/app/js/lib/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js');
-            browserifyJs('public/app/js/lib/chat/chat.js', 'public/app/js/lib/chat/chat.bundle.js');
-            browserifyJs('public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js');
+            browserifyJs('public/app/js/lib/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js', () => {
+                uglifyJs('public/app/js/lib/ui/ui.bundle.js', 'public/app/js/lib/ui/ui.bundle.js');
+            });
+            browserifyJs('public/app/js/lib/chat/chat.js', 'public/app/js/lib/chat/chat.bundle.js', () => {
+                uglifyJs('public/app/js/lib/chat/chat.bundle.js', 'public/app/js/lib/chat/chat.bundle.js');
+            });
+            browserifyJs('public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js', () => {
+                uglifyJs('public/app/js/lib/alert/alert.bundle.js', 'public/app/js/lib/alert/alert.bundle.js');
+            });
         });
     });
 

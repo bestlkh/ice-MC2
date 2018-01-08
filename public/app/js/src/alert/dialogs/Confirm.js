@@ -20,7 +20,7 @@ class Confirm {
      * Show the notification
      */
     show(){
-        alertify.confirm(this.title, this.message, this.okCallback, this.cancelCallback);
+        alertify.confirm(this.title, this.message, this.okCallback, this.cancelCallback).set({transition:'zoom'});
     }
 
     /**
@@ -31,7 +31,7 @@ class Confirm {
      * @param cancelCallback
      */
     static spawn(title, message, okCallback, cancelCallback = function(){}){
-        alertify.confirm(title, message, okCallback, cancelCallback);
+        alertify.confirm(title, message, okCallback, cancelCallback).set({transition:'zoom'});
     }
 
 }

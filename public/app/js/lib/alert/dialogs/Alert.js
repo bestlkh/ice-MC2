@@ -43,7 +43,7 @@ var Alert = function () {
     _createClass(Alert, [{
         key: 'show',
         value: function show() {
-            alertify.alert(this.title, this.message, this.callback);
+            alertify.alert(this.title, this.message, this.callback).set({ transition: 'zoom' });
         }
 
         /**
@@ -60,11 +60,11 @@ var Alert = function () {
             var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
             if (message && callback) {
-                alertify.alert(title, message, callback);
+                alertify.alert(title, message, callback).set({ transition: 'zoom' });
             } else if (message) {
-                alertify.alert(title, message);
+                alertify.alert(title, message).set({ transition: 'zoom' });
             } else {
-                alertify.alert("Alert", title);
+                alertify.alert("Alert", title).set({ transition: 'zoom' });
             }
         }
     }]);
@@ -73,4 +73,3 @@ var Alert = function () {
 }();
 
 module.exports = Alert;
-//# sourceMappingURL=Alert.js.map

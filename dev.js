@@ -50,6 +50,7 @@ function compileLess(input, output) {
  * Compile a JavaScript file using babel
  * @param input
  * @param output
+ * @param callback
  */
 function compileJs(input, output, callback){
     babel.transformFile(input, {}, function (err, result) {
@@ -93,6 +94,11 @@ function browserifyJs(input, output, callback){
     })
 }
 
+/**
+ * Uglify a JavaScript file
+ * @param input
+ * @param output
+ */
 function uglifyJs(input, output){
     fs.readFile(input, 'utf8', function (err, data) {
         if (err) {

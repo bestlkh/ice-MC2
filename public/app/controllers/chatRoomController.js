@@ -442,6 +442,7 @@ angular.module('Controllers')
             chatLog += msg.getText().getRaw();
         }
         chatLog += "\n";
+        $("#chat-body-div").dequeue();
         $("#chat-body-div").animate({
             scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });

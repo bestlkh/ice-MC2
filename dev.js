@@ -160,6 +160,9 @@ jsWatcher
             browserifyJs('public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js', () => {
                 uglifyJs('public/app/js/lib/alert/alert.bundle.js', 'public/app/js/lib/alert/alert.bundle.js');
             });
+            browserifyJs('public/app/js/lib/driver/driver.js', 'public/app/js/lib/driver/driver.bundle.js', () => {
+                uglifyJs('public/app/js/lib/driver/driver.bundle.js', 'public/app/js/lib/driver/driver.bundle.js');
+            });
         });
     });
 

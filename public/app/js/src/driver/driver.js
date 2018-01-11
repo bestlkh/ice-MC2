@@ -1,0 +1,6 @@
+window.Driver = {
+    SvgEditorDriver         : require('./SvgEditorDriver'),
+    SvgEditorElement        : require('./elements/SvgEditorElement'),
+    SvgEditorElementSize    : require('./elements/SvgEditorElementSize'),
+    SvgEditorElementPosition: require('./elements/SvgEditorElementPosition')
+};

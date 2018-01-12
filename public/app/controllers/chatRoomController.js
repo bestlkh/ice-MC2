@@ -45,6 +45,20 @@ angular.module('Controllers')
         }
     };
 })
+.directive("fileread", [function () {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = changeEvent.target.files[0];
+
+                    });
+                });
+            }
+}}])
 .controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, $routeParams, $window){		// Chat Page Controller
 	// Varialbles Initialization.
 	$scope.isMsgBoxEmpty = false;
@@ -56,6 +70,9 @@ angular.module('Controllers')
 	$scope.users = [];
 	$scope.messages = [];
 	$scope.allMsg = [];
+	$scope.upload = {
+		image: null
+	};
 
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
@@ -467,9 +484,33 @@ angular.module('Controllers')
 	});
 
 // ====================================== Image Sending Code ==============================
-    $scope.$watch('imageFiles', function () {
-        $scope.sendImage($scope.imageFiles);
+    $scope.$watch('upload.image', function () {
+        if (!$scope.upload.image) return;
+
+        var fr = new FileReader();
+
+        fr.addEventListener("load", function () {
+        	var url = fr.result;
+            var img = "[mc2-image]"+url;
+
+            $socket.emit("send-message", {msg: img, hasMsg: true}, function () {
+
+            })
+        }, false);
+        fr.readAsDataURL($scope.upload.image);
+
     });
+
+    $scope.getBase64 = function (file, callback) {
+        var reader = new FileReader();
+
+        reader.onload = function(readerEvt) {
+            var binaryString = readerEvt.target.result;
+            callback(btoa(binaryString));
+        };
+
+        reader.readAsBinaryString(file);
+    };
 
     //  opens the sent image on gallery_icon click
     $scope.openClickImage = function(msg){

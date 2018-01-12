@@ -241,7 +241,7 @@ chat.on('connection', function(socket){
 		if (socket.handshake.session.username) {
 			data.username = socket.handshake.session.username;
 			data.userAvatar = socket.handshake.session.userAvatar;
-			data.initials = data.username.slice(0, 2);
+			data.initials = socket.handshake.session.username.slice(0, 2);
 			data.msgTime = moment().format('LT');
 
 			findRoom(socket.connectedRoom).messageHistory.push(data);

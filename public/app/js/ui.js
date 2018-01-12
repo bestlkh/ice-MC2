@@ -133,6 +133,11 @@ function initializeChatMenu(){
         innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
     });
 
+    let uploadButton = chatMenu.addButton({
+        id: "upload-button",
+        innerContent: "<i class=\"fa fa-upload\" aria-hidden=\"true\"></i>"
+    });
+
     chatHistoryButton.onClick = function(){
         historyWindow = window.open();
         historyWindow.document.write("<pre>" + chatLog + "</pre>")
@@ -148,4 +153,8 @@ function initializeChatMenu(){
             angular.element($("#chat-wrapper")).scope().logout();
         });
     };
+
+    uploadButton.onClick = function () {
+        $("#upload-input").click();
+    }
 }

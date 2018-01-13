@@ -52,7 +52,8 @@ var SvgEditorDriver = function () {
                     var size = element.getSize();
                     var xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
                     var yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                    element.dom.setAttribute("transform", "scale(" + xScale + " " + yScale + ")");
+                    element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
+                    this._canvas.recalculateDimensions(element.dom);
                     var position = element.getPosition();
                     // Move element to correct position, third parameter is false so this action cannot be undone
                     this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);

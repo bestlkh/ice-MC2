@@ -38,7 +38,8 @@ class SvgEditorDriver {
                 let size = element.getSize();
                 let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
                 let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                element.dom.setAttribute("transform", "scale(" + xScale + " " + yScale + ")");
+                element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
+                this._canvas.recalculateDimensions(element.dom);
                 let position = element.getPosition();
                 // Move element to correct position, third parameter is false so this action cannot be undone
                 this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);

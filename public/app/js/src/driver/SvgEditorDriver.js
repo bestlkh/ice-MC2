@@ -67,6 +67,21 @@ class SvgEditorDriver {
     }
 
     /**
+     * Get all elements of one type.
+     * Complexity O(n), do not use this too often.
+     * @param type
+     */
+    findElementsByType(type){
+        let result =  [];
+        for(let key in this._elements){
+            if(this._elements[key].type === type){
+                result.push(this._elements[key]);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Helper to find relative scale factor.
      * @param from
      * @param to

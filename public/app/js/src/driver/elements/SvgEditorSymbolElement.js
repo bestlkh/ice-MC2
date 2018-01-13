@@ -53,6 +53,7 @@ class SvgEditorSymbolElement extends SvgEditorElement {
      * @returns {SvgEditorElementSize}
      */
     getSize(){
+        this._reloadSize();
         return new SvgEditorElementSize(this._width, this._height);
     }
 
@@ -61,7 +62,30 @@ class SvgEditorSymbolElement extends SvgEditorElement {
      * @returns {SvgEditorElementPosition}
      */
     getPosition(){
+        this._reloadPosition();
         return new SvgEditorElementPosition(this._x, this._y);
+    }
+
+    /**
+     * Reload size and set the private variable. This requires DOM to be set.
+     * @private
+     */
+    _reloadSize(){
+        if(this.dom){
+            this._width = this.dom.getBoundingClientRect().width;
+            this._height = this.dom.getBoundingClientRect().height;
+        }
+    }
+
+    /**
+     * Reload position and set the private variables. This requires DOM to be set.
+     * @private
+     */
+    _reloadPosition(){
+        if(this.dom){
+            this._x = this.dom.getBoundingClientRect().left;
+            this._y = this.dom.getBoundingClientRect().top;
+        }
     }
 
 }

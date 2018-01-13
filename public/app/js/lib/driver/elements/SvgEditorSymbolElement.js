@@ -81,6 +81,7 @@ var SvgEditorSymbolElement = function (_SvgEditorElement) {
     }, {
         key: 'getSize',
         value: function getSize() {
+            this._reloadSize();
             return new SvgEditorElementSize(this._width, this._height);
         }
 
@@ -92,7 +93,36 @@ var SvgEditorSymbolElement = function (_SvgEditorElement) {
     }, {
         key: 'getPosition',
         value: function getPosition() {
+            this._reloadPosition();
             return new SvgEditorElementPosition(this._x, this._y);
+        }
+
+        /**
+         * Reload size and set the private variable. This requires DOM to be set.
+         * @private
+         */
+
+    }, {
+        key: '_reloadSize',
+        value: function _reloadSize() {
+            if (this.dom) {
+                this._width = this.dom.getBoundingClientRect().width;
+                this._height = this.dom.getBoundingClientRect().height;
+            }
+        }
+
+        /**
+         * Reload position and set the private variables. This requires DOM to be set.
+         * @private
+         */
+
+    }, {
+        key: '_reloadPosition',
+        value: function _reloadPosition() {
+            if (this.dom) {
+                this._x = this.dom.getBoundingClientRect().left;
+                this._y = this.dom.getBoundingClientRect().top;
+            }
         }
     }]);
 

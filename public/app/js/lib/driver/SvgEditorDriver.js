@@ -48,9 +48,22 @@ var SvgEditorDriver = function () {
                             "id": element.id
                         }
                     });
+                    // Set element DOM size and position
+                    var size = element.getSize();
+                    var xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
+                    var yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
+                    element.dom.setAttribute("transform", "scale(" + xScale + " " + yScale + ")");
+                    var position = element.getPosition();
+                    // Move element to correct position, third parameter is false so this action cannot be undone
+                    this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
             }
 
             return element;
+        }
+    }], [{
+        key: 'getRelativeScale',
+        value: function getRelativeScale(from, to) {
+            return to / from;
         }
     }]);
 

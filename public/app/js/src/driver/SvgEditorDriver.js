@@ -34,9 +34,21 @@ class SvgEditorDriver {
                         "id": element.id,
                     }
                 });
+                // Set element DOM size and position
+                let size = element.getSize();
+                let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
+                let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
+                element.dom.setAttribute("transform", "scale(" + xScale + " " + yScale + ")");
+                let position = element.getPosition();
+                // Move element to correct position, third parameter is false so this action cannot be undone
+                this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
         }
 
         return element;
+    }
+
+    static getRelativeScale(from, to){
+        return to / from;
     }
 }
 

@@ -23,6 +23,8 @@ var SvgEditorElement = function () {
         this._height = height;
         this._x = x;
         this._y = y;
+        this.dom = null;
+        this.type = -1;
     }
 
     /**

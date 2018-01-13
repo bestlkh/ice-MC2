@@ -9,8 +9,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var SvgEditorSymbols = require('../enums/SvgEditorSymbols');
+var SvgEditorElementTypes = require('../enums/SvgEditorElementTypes');
 var SvgEditorElement = require('./SvgEditorElement');
 var SvgEditorDriverSymbolNotDefinedError = require('../exceptions/SvgEditorDriverSymbolNotDefinedError');
+var SvgEditorElementSize = require('./SvgEditorElementSize');
+var SvgEditorElementPosition = require('./SvgEditorElementPosition');
+
+var SymbolData = require('../data/Symbols');
+
+/**
+ * Class representing a math symbol in the editor.
+ */
 
 var SvgEditorSymbolElement = function (_SvgEditorElement) {
     _inherits(SvgEditorSymbolElement, _SvgEditorElement);
@@ -24,26 +33,67 @@ var SvgEditorSymbolElement = function (_SvgEditorElement) {
      * @param symbol
      */
     function SvgEditorSymbolElement(width, height, x, y) {
-        var symbol = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "SUM";
+        var symbol = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : SvgEditorSymbols.SUM;
 
         _classCallCheck(this, SvgEditorSymbolElement);
 
+        // Check to see if symbol is defined
         var _this = _possibleConstructorReturn(this, (SvgEditorSymbolElement.__proto__ || Object.getPrototypeOf(SvgEditorSymbolElement)).call(this, width, height, x, y));
 
-        if (!symbol in SvgEditorSymbols) {
-            throw new SvgEditorDriverSymbolNotDefinedError();
-        } else {
+        if (SymbolData[symbol]) {
             _this._symbol = symbol;
+            _this._symbolData = SymbolData[symbol];
+        } else {
+            throw new SvgEditorDriverSymbolNotDefinedError();
         }
+        _this.type = SvgEditorElementTypes.SYMBOL;
         return _this;
     }
 
+    /**
+     * Get symbol path data, used to insert into canvas.
+     * @returns {string}
+     */
+
+
     _createClass(SvgEditorSymbolElement, [{
+        key: 'getPathData',
+        value: function getPathData() {
+            return this._symbolData;
+        }
+
+        /**
+         * Get current symbol enum value.
+         * @returns {number|*}
+         */
+
+    }, {
+        key: 'getSymbol',
+        value: function getSymbol() {
+            return this._symbol;
+        }
+
+        /**
+         * Returns a SvgEditorElementSize object representing current size of the element.
+         * @returns {SvgEditorElementSize}
+         */
+
+    }, {
         key: 'getSize',
-        value: function getSize() {}
+        value: function getSize() {
+            return new SvgEditorElementSize(this._width, this._height);
+        }
+
+        /**
+         * Returns a SvgEditorElementPosition object representing current position of the element.
+         * @returns {SvgEditorElementPosition}
+         */
+
     }, {
         key: 'getPosition',
-        value: function getPosition() {}
+        value: function getPosition() {
+            return new SvgEditorElementPosition(this._x, this._y);
+        }
     }]);
 
     return SvgEditorSymbolElement;

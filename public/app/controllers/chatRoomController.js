@@ -64,7 +64,7 @@ angular.module('Controllers')
 	$scope.isMsgBoxEmpty = false;
 	$scope.isFileSelected = false;
 	$scope.isMsg = false;
-	$scope.isAdmin = false;
+
 	$scope.setFocus = true;
 	$scope.chatMsg = "";
 	$scope.users = [];
@@ -154,7 +154,8 @@ angular.module('Controllers')
             }
             $scope.isLoading = false;
             $scope.hideLoadingScreen();
-            $scope.isAdmin = data.isAdmin;
+
+            $rootScope.isAdmin = data.isAdmin;
         });
     } else {
 

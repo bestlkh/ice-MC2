@@ -157,6 +157,24 @@ LectureNsp.prototype.findTa = function (data, callback) {
     }.bind(this));
 };
 
+LectureNsp.prototype.deleteMessage = function (roomName, message) {
+    this.nsp.to(roomName).emit("delete message", message);
+    var room = this.findRoomAdapter(roomName);
+    if (room) {
+        message.deleted = true;
+        MongoClient.connect(constants.dbUrl, function (err, db) {
+            db.collection("chatHistory").updateOne({
+                sessionId: room.sessionId,
+                owner: this.owner,
+                roomName: roomName
+            }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
+
+            }.bind(this));
+        }.bind(this));
+    }
+
+};
+
 LectureNsp.prototype.listen = function () {
     this.nsp.on("connection", function (socket) {
 
@@ -179,6 +197,18 @@ LectureNsp.prototype.listen = function () {
         function destroySession() {
             setSessionVars({username: null, connectedRoom: null});
         }
+
+        // delete message
+        socket.on('delete-message', function(data, callback){
+            var history = this.findRoomAdapter(socket.connectedRoom).messageHistory;
+            var index = history.findIndex(function(item, i) {
+                return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+            });
+            if (index > -1)
+                history.splice(index, 1);
+            this.nsp.to(socket.connectedRoom).emit('delete message', data);
+            callback({success:true});
+        }.bind(this));
 
         socket.on("new user", function (data, callback) {
             data.roomId = data.roomId.toLowerCase();
@@ -402,17 +432,6 @@ LectureNsp.prototype.listen = function () {
                 callback(result);
             });
         }.bind(this));
-
-        socket.on('delete-message', function(data, callback){
-            var history = findRoom(socket.connectedRoom).messageHistory;
-            var index = history.findIndex(function(item, i) {
-                return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
-            });
-            if (index > -1)
-                history.splice(index, 1);
-            ios.sockets.to(socket.connectedRoom).emit('delete message', data);
-            callback({success:true});
-        });
 
     }.bind(this));
 

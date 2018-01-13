@@ -60,12 +60,6 @@ function toggleLatex() {
     }
 }
 
-function toggleChatRoom() {
-    $('#editorframe').toggleClass("shown");
-    $('#chat-menu').toggleClass("shown");
-    $('#chatframe').toggleClass("shown")
-}
-
 function openkeyboard() {
     //var kb = document.getElementById("VirtualKey");
     //kb.visilibty=visible;
@@ -105,14 +99,6 @@ function doSomething() {
 }
 
 startLoop();
-
-//toggle chatbar implementation
-$(".arrow-left").click(function(){
-    $(this).toggleClass("shown");
-    $(this).toggleClass("arrow-right");
-    toggleChatRoom();
-});
-
 
 // #dragbar Implementation
 var dragging = false;

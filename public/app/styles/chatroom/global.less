@@ -31,6 +31,12 @@ body {
   background-color: @primary-color;
   width:70%;
   float: left;
+  &.shown {
+    width:100%;
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity ease 0.5s;
+  }
   #editor-resize-cover {
     width: 100%;
     height: 100%;
@@ -56,12 +62,16 @@ body {
   }
 }
 
-
-
 #chatframe {
   height: 100%;
   overflow: hidden;
   position: relative;
+  &.shown {
+    width:0%;
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity ease 0.5s;
+  }
 }
 
 #chatframe>.row {
@@ -137,6 +147,93 @@ input {
   background-color: #fff;
   box-shadow:0 1px 3px rgba(0,0,0,.1);
   transition: all 0.3s ease-in;
+}
+
+#collapsebar{
+  background-color:#2f2f2c;;
+  height:100vh;
+  float: left;
+  width: 25px;
+  cursor: col-resize;
+  &.active {
+    display: none;
+  }
+}
+
+.arrow-left {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background: #DDD;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 0px;
+  &.shown {
+    z-index: 99;
+    right: 5%;
+    transition: left ease 0.5s;
+  }
+}
+
+.arrow-left:before {
+	position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	left: 5px;
+	top: 6px;
+	background: #fff;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.arrow-left:after {
+position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	right: 5px;
+	top: 12px;
+	background: #fff;
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.arrow-left.arrow-right:before {
+  position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	left: 5px;
+	top: 6px;
+  background: #fff;
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.arrow-left.arrow-right:after {
+	position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	right: 5px;
+	top: 12px;
+	background: #fff;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
 }
 
 // Vertical resize bar for chat window
@@ -221,7 +318,7 @@ input {
 
   #chatframe{
     display:inline;
-    width:100%;
+    width: 100%;
     height: 100vh;
     float: left;
   }

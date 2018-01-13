@@ -13,6 +13,7 @@ class SvgEditorDriver {
         } else {
             this._canvas = canvas;
         }
+        this._elements = {}
     }
 
     /**
@@ -39,15 +40,38 @@ class SvgEditorDriver {
                 let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
                 let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
                 element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
-                this._canvas.recalculateDimensions(element.dom);
+                this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
                 let position = element.getPosition();
                 // Move element to correct position, third parameter is false so this action cannot be undone
                 this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
         }
 
+        // Push element to local storage
+        this._elements[element.id] = element;
+
         return element;
     }
 
+
+    /**
+     * Find a element by its ID.
+     * @param id
+     * @returns {SvgEditorElement|boolean}
+     */
+    findElementById(id){
+        if(this._elements[id]){
+            return this._elements[id];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Helper to find relative scale factor.
+     * @param from
+     * @param to
+     * @returns {number}
+     */
     static getRelativeScale(from, to){
         return to / from;
     }

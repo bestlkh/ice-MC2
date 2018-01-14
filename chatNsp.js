@@ -4,6 +4,7 @@
 var constants = require("./AdminView/constants");
 var MongoClient = require('mongodb').MongoClient;
 var moment = require("moment");
+var Message = require("./message");
 
 function ChatNsp(name, io) {
     this.name = name;
@@ -350,36 +351,37 @@ LectureNsp.prototype.listen = function () {
         socket.on('send-message', function(data, callback){
             data.type = "chat";
             if (socket.handshake.session.username) {
-                data.username = socket.handshake.session.username;
-                data.userAvatar = socket.handshake.session.userAvatar;
-                data.initials = socket.handshake.session.initials;
-                data.msgTime = moment().format('LT');
-                data.timestamp = moment().valueOf();
-                data.isInstructor = false;
+                var message = new Message.Message(data, socket.handshake.session);
 
-                data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
-                data.isTA = !!(socket.handshake.session.ta);
-                this.findRoomAdapter(socket.connectedRoom).messageHistory.push(data);
-                if(data.hasMsg){
-                    this.sendMessage(socket.connectedRoom, data, function (err, result) {
+                message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
+                message.isTA = !!(socket.handshake.session.ta);
 
-                        if (callback) callback({success:!!result});
-                    });
+                this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);
 
-                }else if(data.hasFile){
-                    if(data.istype == "image"){
-                        this.nsp.to(socket.connectedRoom).emit('new message image', data);
-                        callback({success:true});
-                    } else if(data.istype == "music"){
-                        this.nsp.to(socket.connectedRoom).emit('new message music', data);
-                        callback({success:true});
-                    } else if(data.istype == "PDF"){
-                        this.nsp.to(socket.connectedRoom).emit('new message PDF', data);
-                        callback({success:true});
-                    }
-                }else{
-                    socket.disconnect();
-                }
+                this.sendMessage(socket.connectedRoom, message, function (err, result) {
+                    if (callback) callback({success:!!result});
+                });
+
+
+
+            } else {
+                socket.disconnect();
+            }
+        }.bind(this));
+
+        socket.on("send-image", function (data, callback) {
+            data.type = "chat";
+            if (socket.handshake.session.username) {
+                if (!Message.ImageMessage.validate(data)) return callback({success: false});
+                var message = new Message.ImageMessage(data, socket.handshake.session);
+
+                message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
+                message.isTA = !!(socket.handshake.session.ta);
+
+                this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);
+                this.sendMessage(socket.connectedRoom, message, function (err, result) {
+                    if (callback) callback({success:!!result});
+                });
             }
         }.bind(this));
 

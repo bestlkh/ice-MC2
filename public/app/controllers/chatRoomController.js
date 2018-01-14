@@ -442,6 +442,7 @@ angular.module('Controllers')
 
 	// recieving new text message
 	$socket.on("new message", function(data){
+
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
@@ -492,26 +493,14 @@ angular.module('Controllers')
 
         fr.addEventListener("load", function () {
         	var url = fr.result;
-            var img = "[mc2-image]"+url;
 
-            $socket.emit("send-message", {msg: img, hasMsg: true}, function () {
-
+            $socket.emit("send-image", {dataUri: url}, function (data) {
+				console.log(data);
             })
         }, false);
         fr.readAsDataURL($scope.upload.image);
 
     });
-
-    $scope.getBase64 = function (file, callback) {
-        var reader = new FileReader();
-
-        reader.onload = function(readerEvt) {
-            var binaryString = readerEvt.target.result;
-            callback(btoa(binaryString));
-        };
-
-        reader.readAsBinaryString(file);
-    };
 
     //  opens the sent image on gallery_icon click
     $scope.openClickImage = function(msg){

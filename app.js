@@ -11,6 +11,7 @@ var formidable = require('formidable');		// file upload module
 var util = require('util');
 const uuidv4 = require('uuid-v4');
 var moment = require("moment");
+var Message = require("./message");
 
 const AdminView = require("./AdminView");
 const ChatNsp = require("./chatNsp").ChatNsp;
@@ -112,6 +113,8 @@ function findRoom(roomId) {
 
 //ios.timeOuts = {};
 
+
+
 var chat = new ChatNsp("", ios);
 
 //sockets handling
@@ -148,24 +151,6 @@ chat.on('connection', function(socket){
 		if (!username) callback({});
 		else callback({username: username, avatar: session.userAvatar});
     });
-
-	
-	function deleteMessage(roomName, message) {
-		ios.sockets.to(roomName).emit("delete message", message);
-		var room = findRoom(roomName);
-		if (room && room.admin) {
-			message.deleted = true;
-            MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
-                db.collection("chatHistory").updateOne({
-                    sessionId: room.sessionId,
-                    owner: room.admin.handshake.session.username,
-                    roomName: roomName
-                }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
-
-                });
-            });
-        }
-	}
 
 	socket.on("join-room", function(data, callback) {
 		if (!data.roomId) return socket.disconnect();
@@ -239,44 +224,29 @@ chat.on('connection', function(socket){
 	socket.on('send-message', function(data, callback){
 		data.type = "chat";
 		if (socket.handshake.session.username) {
-			data.username = socket.handshake.session.username;
-			data.userAvatar = socket.handshake.session.userAvatar;
-			data.initials = data.username.slice(0, 2);
-			data.msgTime = moment().format('LT');
+			var message = new Message.Message(data, socket.handshake.session);
 
-			findRoom(socket.connectedRoom).messageHistory.push(data);
-			if(data.hasMsg){
-                ios.sockets.to(socket.connectedRoom).emit('new message', data);
-				callback({success:true});
-			}else if(data.hasFile){
-				if(data.istype == "image"){
-                    ios.sockets.to(socket.connectedRoom).emit('new message image', data);
-					callback({success:true});
-				} else if(data.istype == "music"){
-                    ios.sockets.to(socket.connectedRoom).emit('new message music', data);
-					callback({success:true});
-				} else if(data.istype == "PDF"){
-                    ios.sockets.to(socket.connectedRoom).emit('new message PDF', data);
-					callback({success:true});
-				}
-			}else{
-				socket.disconnect();
-			}
+			findRoom(socket.connectedRoom).messageHistory.push(message);
+
+            ios.sockets.to(socket.connectedRoom).emit('new message', message);
+            callback({success:true});
+
+		} else {
+            socket.disconnect();
+        }
+	});
+
+	socket.on("send-image", function (data, callback) {
+        data.type = "chat";
+		if (socket.handshake.session.username) {
+		    if (!Message.ImageMessage.validate(data)) return callback({success: false});
+            var message = new Message.ImageMessage(data, socket.handshake.session);
+
+            findRoom(socket.connectedRoom).messageHistory.push(message);
+            ios.sockets.to(socket.connectedRoom).emit('new message', message);
+            callback({success:true});
 		}
-	});
-
-
-	// delete message
-	socket.on('delete-message', function(data, callback){
-		var history = findRoom(socket.connectedRoom).messageHistory;
-		var index = history.findIndex(function(item, i) {
-			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
-		});
-		if (index > -1)
-			history.splice(index, 1);
-		ios.sockets.to(socket.connectedRoom).emit('delete message', data);
-		callback({success:true});
-	});
+    });
 
 	socket.on("logout", function (callback) {
 		destroySession();

@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+    <head>
+        <title>MC^2 Internal Engineering Toolkit</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    </head>
+    <body>
+
+        <div class="container" id="app">
+            <h2>Operations Console</h2>
+            <h3>Less.js</h3>
+            <b>Configurations</b>
+            <p>
+                Will automatically compile if file under <code>{{ lessPath }}</code> is changed (except .css files).
+            </p>
+            <b>Mappings</b>
+            <div v-for="file in lessFiles">
+                <code>{{ file[0] }}</code> -> <code>{{ file[1] }}</code>
+            </div>
+            <h3>Babel.js / Browserify / Uglify</h3>
+            <b>Babel.js</b>
+            <p>
+                Will automatically compile all JavaScript files to browser compatible versions under <code>{{ jsPath }}</code> to <code>{{ jsOutPath }}</code>.
+            </p>
+            <b>Browserify / Uglify</b>
+            <p>
+                Will resolve automatically resolve all require statements and output to new file for the following mappings.<br>
+                Will also automatically uglify (compress) all output files.
+            </p>
+            <div v-for="file in jsFiles">
+                <code>{{ file[0] }}</code> -> <code>{{ file[1] }}</code>
+            </div>
+
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    lessPath: 'PATH',
+                    lessFiles: [],
+                    jsPath: 'PATH',
+                    jsWindowsPath: 'WINDOWS_PATH',
+                    jsOutPath: 'OUT_PATH',
+                    jsFiles: []
+                },
+                mounted(){
+                    this.reloadLessConfig();
+                    this.reloadJsConfig();
+                },
+                methods: {
+                    reloadLessConfig: function(){
+                        axios.get('less').then((data) => {
+                            data = data.data;
+                            this.lessPath = data.path;
+                            this.lessFiles = data.files;
+                        })
+                    },
+                    reloadJsConfig: function(){
+                        axios.get('js').then((data) => {
+                            data = data.data;
+                            this.jsPath = data.path;
+                            this.jsWindowsPath = data.windows_path;
+                            this.jsOutPath = data.out_path;
+                            this.jsFiles = data.files;
+                        })
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

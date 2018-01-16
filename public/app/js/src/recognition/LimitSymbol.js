@@ -1,7 +1,7 @@
 const Symbol = require('./Symbol');
 const SymbolTypes = require('./enums/SymbolTypes');
 
-class LimitSymbol {
+class LimitSymbol extends Symbol{
     /**
      * Construct LimitSymbol instance.
      * might require name change to a line

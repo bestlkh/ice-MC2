@@ -185,10 +185,31 @@ class RecognitionTool {
 
     /**
      * Returns a Baseline structure tree constructed given a sorted array of Symbols
-     * @param {[Symbol]} ls sorted array of svg elements
+     * @param {[Symbol]} [ls] sorted array of svg elements, if not given graps all on svg Canvas
      * @returns {Expression}
      */
-    static parse(ls){
+    static parse(ls=null){
+        if(!ls) {
+            ls = [];
+            var eqns = svgCanvas.getSelectedElems().slice(0);
+            if(eqns.__proto__.length == 0) {
+                eqns = document.querySelectorAll('[id^="svg_eqn_"]');
+            }
+            for (let i = 0; i < eqns.length; i++) {
+                let e = SymbolFactory.make(eqns[i]);
+                if(e) {
+                    ls.push(e);
+                }
+            }
+        }
+        ls.sort(function(a, b) {
+            var result = a.minX - b.minX;
+            if (result == 0) {
+                return a.minY - b.minY;
+            }
+            return result;
+        });
+    
         var expression = new Expression();
         var stack = [];
         var queue = [];
@@ -196,7 +217,7 @@ class RecognitionTool {
         var parent, symbol, relation;
         var wall = expression.wall;
     
-        var s = this.start(ls, wall);
+        var s = start(ls, wall);
     
         if (s != -1) {
             ls[s].setWall(wall); //deep copy
@@ -306,9 +327,9 @@ class RecognitionTool {
 
     /**
      * Given an Expression (Baseline Structure Tree), generates and returns TEX
-     * @param {Expression} bst Baseline Structure Tree
+     * @param {Expression} [bst] Baseline Structure Tree
      */
-    static getTex(bst) {
+    static getTex(bst=RecognitionTool.parse()) {
         var result = "";
         if (bst.symbols){
     

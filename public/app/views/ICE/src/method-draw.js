@@ -2223,6 +2223,7 @@ var SOTP = 0;
       };
 
       var clickConvert = function(){
+        getBST = Tool.RecognitionTool.parse;
         if (toolButtonClick('#tool_convert')) {
           var tex = getBST();
           if($(window).width() <= 732) {

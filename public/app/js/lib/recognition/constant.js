@@ -1,4 +1,14 @@
-const REGION_NAMES = {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _TEX_TEXT;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var REGION_NAMES = {
     'ROOT': 'root',
     'TLEFT': 'tleft',
     'ABOVE': 'above',
@@ -9,7 +19,7 @@ const REGION_NAMES = {
     'SUSC': 'subsc'
 };
 
-const SYMBOL_TYPES = {
+var SYMBOL_TYPES = {
     'ALPHANUMERIC': 'text',
     'TEXT': 'text',
     'LIMIT': 'limit',
@@ -19,12 +29,12 @@ const SYMBOL_TYPES = {
     'OPERATOR': 'operator'
 };
 
-const BRACKET_TYPES = {
+var BRACKET_TYPES = {
     'OPEN': 'open',
     'CLOSE': 'close'
 };
 
-export const TEX_TEXT = {
+var TEX_TEXT = exports.TEX_TEXT = (_TEX_TEXT = {
     'sum': ' \\sum ',
     'lim': ' \\lim ',
     '∑': ' \\sum ',
@@ -48,16 +58,14 @@ export const TEX_TEXT = {
     '>': ' \\gt ',
     '≥': ' \\ge ',
     '=': ' = ',
-    '→': ' \\to ',
-    'lim': ' \\lim ',
-    '->': '\\to '
-};
+    '→': ' \\to '
+}, _defineProperty(_TEX_TEXT, 'lim', ' \\lim '), _defineProperty(_TEX_TEXT, '->', '\\to '), _TEX_TEXT);
 
-export const BRACKET = ["lbracket", "(", ")", "rbracket"];
-export const LINE = ["fraction", "—"];
-export const ROOT = ["root"];
-export const LIMIT = ["sum", "∑", "integral", "∫", "lim"];
-export const OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→']
+var BRACKET = exports.BRACKET = ["lbracket", "(", ")", "rbracket"];
+var LINE = exports.LINE = ["fraction", "—"];
+var ROOT = exports.ROOT = ["root"];
+var LIMIT = exports.LIMIT = ["sum", "∑", "integral", "∫", "lim"];
+var OPERATOR = exports.OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→'];
 
 function getSymbolType(value) {
     if (BRACKET.indexOf(value) != -1) {

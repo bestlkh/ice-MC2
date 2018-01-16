@@ -1,8 +1,16 @@
+/*
+ * Chat room bubble style menu
+ */
+
 #chat-menu {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 999;
+  &.shown {
+    z-index: -1;
+    transition: right ease 0.3s;
+  }
   .chat-menu-button {
     background-color: #2f2f2c;
     color: white;

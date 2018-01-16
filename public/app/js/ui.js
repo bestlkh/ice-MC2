@@ -51,18 +51,24 @@ onMainLoop(function(){
 });
 
 // Resize dcs to let messages go from bottom to top
+let dcsMargin = 0;
 onMainLoop(function(){
-    var containerHeight = $("#chat-body-div").height();
-    var innerHeight = $("#dcs").outerHeight();
+    let containerHeight = $("#chat-body-div").height();
+    let innerHeight = $("#dcs").innerHeight();
+
     if(containerHeight > innerHeight){
-        $("#dcs").css({
-            'margin-top': containerHeight - innerHeight
-        })
+        let newMargin = containerHeight - innerHeight;
+        // If new margin is less than 2px apart, we do nothing
+        if(Math.abs(dcsMargin - newMargin) > 2){
+            dcsMargin = newMargin;
+        }
     } else {
-        $("#dcs").css({
-            'margin-top': ''
-        })
+        dcsMargin = 0;
     }
+
+    $("#dcs").css({
+        'margin-top': dcsMargin
+    });
 });
 
 // Change interface size to adapt the soft keyboard
@@ -77,14 +83,6 @@ onChatRoomInterfaceLoaded(function(){
         size: 'large',
         touchHold: true
     });
-    // latexEditor = ace.edit("latex-editor");
-    // latexEditor.setTheme("ace/theme/github");
-    // latexEditor.getSession().setMode("ace/mode/latex");
-    // latexEditor.getSession().setUseWrapMode(true);
-    // latexEditor.getSession().on('change', function(e) {
-    //     $("#textArea").val(latexEditor.getValue());
-    // });
-    initializeChatMenu();
 
     latexEditor = new CodeMirror($("#latex-editor-area")[0], {
         lineNumbers: true,
@@ -120,22 +118,43 @@ function initializeChatMenu(){
         return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
     };
 
-    var chatMembersButton = chatMenu.addButton({
+    let chatMembersButton = chatMenu.addButton({
         id: "test",
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
 
-    var chatHistoryButton = chatMenu.addButton({
+    let chatHistoryButton = chatMenu.addButton({
         id: "chat-history-button",
         innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
+    });
+
+    let logoutButton = chatMenu.addButton({
+        id: "logout-button",
+        innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
+    });
+
+    let uploadButton = chatMenu.addButton({
+        id: "upload-button",
+        innerContent: "<i class=\"fa fa-upload\" aria-hidden=\"true\"></i>"
     });
 
     chatHistoryButton.onClick = function(){
         historyWindow = window.open();
         historyWindow.document.write("<pre>" + chatLog + "</pre>")
-    }
+    };
 
     chatMembersButton.onClick = function(){
         angular.element($("#chat-wrapper")).scope().toggleCustom();
+    };
+
+    // Log the user out
+    logoutButton.onClick = function(){
+        Alert.Confirm.spawn("Are you sure?", "Are you sure you want to logout?", function(){
+            angular.element($("#chat-wrapper")).scope().logout();
+        });
+    };
+
+    uploadButton.onClick = function () {
+        $("#upload-input").click();
     }
 }

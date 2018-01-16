@@ -12,15 +12,34 @@ const path       = require('path');
 const babel      = require("babel-core");
 const browserify = require('browserify');
 const colors     = require('colors');
+const UglifyJS   = require("uglify-js");
 
 let browserifyInstances = {};
+
+const LESS_PATH = 'public/app/styles';
+const LESS_FILES = [
+    ['public/app/styles/chatroom/main.less', 'public/app/styles/chatroom/main.css'],
+    ['public/app/styles/ice/main.less', 'public/app/styles/ice/main.css'],
+    ['public/app/styles/latex-preview/main.less', 'public/app/styles/latex-preview/main.css']
+];
+
+const JS_PATH = 'public/app/js/src';
+const JS_WINDOWS_PATH = 'public\\app\\js\\src';
+const JS_OUT_PATH = 'public/app/js/lib';
+const JS_FILES = [
+    ['public/app/js/lib/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js'],
+    ['public/app/js/lib/chat/chat.js', 'public/app/js/lib/chat/chat.bundle.js'],
+    ['public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js'],
+    ['public/app/js/lib/driver/driver.js', 'public/app/js/lib/driver/driver.bundle.js']
+];
+
 
 /**
  * Compile one LESS file
  * @param input
  * @param output
  */
-function compileLess(input, output){
+function compileLess(input, output) {
     // Read LESS source from file
     fs.readFile(input, 'utf8', function (err, data) {
         if (err) {
@@ -49,6 +68,7 @@ function compileLess(input, output){
  * Compile a JavaScript file using babel
  * @param input
  * @param output
+ * @param callback
  */
 function compileJs(input, output, callback){
     babel.transformFile(input, {}, function (err, result) {
@@ -73,7 +93,7 @@ function compileJs(input, output, callback){
  * @param input
  * @param output
  */
-function browserifyJs(input, output){
+function browserifyJs(input, output, callback){
     let b;
     if(input in browserifyInstances){
         b = browserifyInstances[input];
@@ -87,8 +107,37 @@ function browserifyJs(input, output){
         fs.writeFile(output, src, 'utf8', function(err){
             if (err) console.log(err.stack);
             console.log("Bundled JavaScript " + input);
+            callback();
         })
     })
+}
+
+/**
+ * Uglify a JavaScript file
+ * @param input
+ * @param output
+ */
+function uglifyJs(input, output){
+    fs.readFile(input, 'utf8', function (err, data) {
+        if (err) {
+            return console.log("Failed to read js " + input);
+        } else {
+            // Uglify JavaScript
+            let result = UglifyJS.minify(data);
+            if(result.error){
+                console.log("Failed to uglify JavaScript " + result.error)
+            } else {
+                fs.writeFile(output, result.code, function(err) {
+                    if(err) {
+                        return console.log("Failed to write JavaScript " + output);
+                    } else {
+                        return console.log("Javascript uglified " + input);
+                    }
+                });
+            }
+
+        }
+    });
 }
 
 
@@ -100,33 +149,63 @@ console.log("Ctrl+C (Cmd+C) to exit");
 console.log("Enjoy coding! :)".green.bold);
 
 
-
 // Just compile all less whenever something changes, this can be optimized, but dev tools.. no one cares.
-let lessWatcher = chokidar.watch('public/app/styles', {ignored: /(^\.)|(\.css)/});
+let lessWatcher = chokidar.watch(LESS_PATH, {ignored: /(^\.)|(\.css)/});
 lessWatcher
     .on('change', function(path){
         // Add your less files here
-        compileLess('public/app/styles/chatroom/main.less', 'public/app/styles/chatroom/main.css');
-        compileLess('public/app/styles/ice/main.less', 'public/app/styles/ice/main.css');
-        compileLess('public/app/styles/latex-preview/main.less', 'public/app/styles/latex-preview/main.css');
+        for (let i = 0; i < LESS_FILES.length; i++){
+            compileLess(LESS_FILES[i][0], LESS_FILES[i][1]);
+        }
     });
 
 // Compile and bundle all js files.
-let jsWatcher = chokidar.watch('public/app/js/src', {ignored: /(^|[\/\\])\../});
+let jsWatcher = chokidar.watch(JS_PATH, {ignored: /(^|[\/\\])\../});
 jsWatcher
     .on('change', function(filePath){
         // We compile that specific JS file
-        let relativePath = filePath.replace('public/app/js/src', '');
-        relativePath = relativePath.replace('public\\app\\js\\src', '');
-        compileJs(filePath, 'public/app/js/lib' + relativePath, function(){
+        let relativePath = filePath.replace(JS_PATH, '');
+        relativePath = relativePath.replace(JS_WINDOWS_PATH, '');
+        compileJs(filePath, JS_OUT_PATH + relativePath, function(){
             // Add files that needs to be bundled here
-            browserifyJs('public/app/js/lib/ui/ui.js', 'public/app/js/lib/ui/ui.bundle.js');
-            browserifyJs('public/app/js/lib/chat/chat.js', 'public/app/js/lib/chat/chat.bundle.js');
-            browserifyJs('public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js');
+            for (let i = 0; i < JS_FILES.length; i++){
+                browserifyJs(JS_FILES[i][0], JS_FILES[i][1], () => {
+                    uglifyJs(JS_FILES[i][1], JS_FILES[i][1]);
+                });
+            }
         });
     });
 
 // Do it once
-compileLess('public/app/styles/chatroom/main.less', 'public/app/styles/chatroom/main.css');
-compileLess('public/app/styles/ice/main.less', 'public/app/styles/ice/main.css');
-compileLess('public/app/styles/latex-preview/main.less', 'public/app/styles/latex-preview/main.css');
+for (let i = 0; i < LESS_FILES.length; i++){
+    compileLess(LESS_FILES[i][0], LESS_FILES[i][1]);
+}
+
+let express = require('express');
+let app = express();
+
+/**
+ * Endpoint to get all LESS configurations
+ */
+app.get('/less', function(req, res){
+    res.send({
+        'path': LESS_PATH,
+        'files': LESS_FILES
+    });
+});
+
+/**
+ * Endpoint to get all JavaScript configurations
+ */
+app.get('/js', function(req, res){
+    res.send({
+        'path': JS_PATH,
+        'windows_path': JS_WINDOWS_PATH,
+        'out_path': JS_OUT_PATH,
+        'files': JS_FILES
+    });
+});
+
+app.use('/', express.static(__dirname + '/dev_public'));
+
+app.listen(8081);

@@ -20,10 +20,23 @@ body {
   padding: 0;
 }
 
+#editor-frame {
+  width: 100%;
+  height: 70vh;
+}
+
 #editorframe {
   height: 100vh;
   position: relative;
   background-color: @primary-color;
+  width:70%;
+  float: left;
+  &.shown {
+    width:100%;
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity ease 0.5s;
+  }
   #editor-resize-cover {
     width: 100%;
     height: 100%;
@@ -49,12 +62,24 @@ body {
   }
 }
 
-
-
 #chatframe {
   height: 100%;
   overflow: hidden;
   position: relative;
+  &.shown {
+    width:0%;
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity ease 0.5s;
+  }
+}
+
+#chatframe>.row {
+  margin: 0;
+}
+
+#chatframe>.row>.col-sm-12 {
+  padding: 0;
 }
 
 .selector-wrapper2 {
@@ -124,6 +149,93 @@ input {
   transition: all 0.3s ease-in;
 }
 
+#collapsebar{
+  background-color:#2f2f2c;;
+  height:100vh;
+  float: left;
+  width: 25px;
+  cursor: col-resize;
+  &.active {
+    display: none;
+  }
+}
+
+.arrow-left {
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  background: #DDD;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 0px;
+  &.shown {
+    z-index: 99;
+    right: 5%;
+    transition: left ease 0.5s;
+  }
+}
+
+.arrow-left:before {
+	position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	left: 5px;
+	top: 6px;
+	background: #fff;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.arrow-left:after {
+position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	right: 5px;
+	top: 12px;
+	background: #fff;
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.arrow-left.arrow-right:before {
+  position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	left: 5px;
+	top: 6px;
+  background: #fff;
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
+.arrow-left.arrow-right:after {
+	position: absolute;
+	content: "";
+	width: 10px;
+	height: 2px;
+	right: 5px;
+	top: 12px;
+	background: #fff;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	-webkit-transition: 0.2s;
+	transition: 0.2s;
+}
+
 // Vertical resize bar for chat window
 #dragbar{
   background-color:#2f2f2c;
@@ -161,14 +273,26 @@ input {
   }
 }
 
-#editor-frame {
-  width: 100%;
-  height: 70vh;
-}
-
 #preview-frame {
   width: 100%;
   height: 30vh;
+}
+
+#less-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  background: rgba(255, 50, 50, 1);
+  color: white;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+#less-warning a {
+  color: white;
+  text-decoration: underline;
 }
 
 @media (max-width: 732px) {
@@ -190,5 +314,20 @@ input {
       left: 0vw;
       transition: left ease 0.5s;
     }
+  }
+
+  #chatframe{
+    display:inline;
+    width: 100%;
+    height: 100vh;
+    float: left;
+  }
+
+  #collapsebar{
+    display: none;
+  }
+
+  #dragbar{
+    display: none;
   }
 }

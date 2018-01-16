@@ -693,3 +693,51 @@ input[readonly=readonly]:focus {
 #shape_buttons .tool_button:hover {
   background-color: #e0e0e0;
 }
+
+.suggest{
+  background-color:white;
+  display: inline-block;
+  border-style: outset;
+  margin: 0px 3px 0px 0px;
+  cursor: pointer;
+  background-image: none;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+#tool_swap{
+  display:none;
+}
+
+#workarea {
+  width: calc(100vw - 50px)
+}
+
+@media only screen and (max-device-width: 732px) {
+
+
+  #tool_selectpath{
+    text-decoration:none;
+    display: block;
+  }
+
+  #tool_fhpath{
+    display:none;
+  }
+
+  #tool_select{
+    display:none;
+  }
+
+  #tool_swap{
+    display:inherit;
+  }
+
+
+}

@@ -46,7 +46,7 @@ var Preview = {
   CreatePreview: function () {
     Preview.timeout = null;
     if (this.mjPending) return;
-    var text = previewEditor.getValue();
+    var text = sanitizeHtml(previewEditor.getValue());
     if (text === this.oldtext) return;
     if (this.mjRunning) {
       this.mjPending = true;

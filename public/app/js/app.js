@@ -1,4 +1,4 @@
-var App = angular.module('ChatRoom',['ngResource','ngRoute','ngStorage','socket.io','ngFileUpload','Controllers','Services', 'angular-spinkit'])
+var App = angular.module('ChatRoom',['ngResource','ngRoute','ngStorage','socket.io','ngFileUpload','Controllers', 'angular-spinkit'])
 .run(["$rootScope", function ($rootScope, $location, $socket){
 
 }]);

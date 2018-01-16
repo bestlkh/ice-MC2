@@ -29,111 +29,7 @@
   overflow: auto;
 }
 
-.direct-chat-msg,
-.direct-chat-text {
-  display: block;
-}
 
-.direct-chat-text {
-  display: block;
-  vertical-align: bottom;
-  position: relative;
-  &.text-right {
-    text-align: right;
-    .direct-chat-text-inner {
-      margin-right: 10px;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 0;
-      transform-origin: 100% 0;
-      background-color: #F9A825;
-      border-color: #F9A825;
-      color: white;
-      &.darken-background {
-        background-color: #F57F17;
-        border-color: #F57F17;
-      }
-    }
-    .direct-chat-text-menu {
-      margin-right: 60px;
-    }
-  }
-  .direct-chat-text-inner {
-    padding: 20px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    margin-left: 10px;
-    border-radius: 20px;
-    border-top-left-radius: 0;
-    max-width: 70%;
-    overflow: hidden;
-    color: black;
-    margin-top: 10px;
-    display: inline-block;
-    animation-name: direct-chat-text-inner-enter;
-    animation-duration: 0.2s;
-    transform: scale(0);
-    animation-fill-mode: forwards;
-    animation-timing-function: ease;
-    transform-origin: 0 0;
-    cursor: pointer;
-    background-color: #EEEEEE;
-    transition: all ease 0.2s;
-    border-color: #EEEEEE;
-    // Used to indicate selected message
-    &.darken-background {
-      background-color: #E0E0E0;
-      border-color: #E0E0E0;
-      transition: all ease 0.2s;
-    }
-    &.instructor-message {
-      background-color: #32CD32;
-      border-color: #32CD32;
-      transition: all ease 0.2s;
-      &.darken-background {
-        background-color: #269026;
-        border-color: #269026;
-        transition: all ease 0.2s;
-      }
-    }
-  }
-  .inline-image {
-    max-width: 100%;
-  }
-  .direct-chat-text-menu {
-    overflow: hidden;
-    margin-left: 60px;
-    height: 0;
-    transition: all ease 0.2s;
-    opacity: 0;
-    &.shown {
-      opacity: 1;
-      height: 40px;
-      transition: all ease 0.2s;
-    }
-    button {
-      height: 30px;
-      width: 30px;
-      margin-top: 5px;
-      border-radius: 5px;
-      color: #1c1c1c;
-      background-color: rgba(0,0,0,0.1);
-      opacity: 0.7;
-      border: rgba(0,0,0,0.2) 2px solid;
-      transition: all ease 0.2s;
-      &:hover {
-        background-color: rgba(0,0,0,0.2);
-        transition: all ease 0.2s;
-      }
-    }
-  }
-}
-.direct-chat-name {
-  opacity: 0.5 !important;
-}
-.direct-chat-info {
-  display: block;
-  padding-bottom: 5px;
-}
 
 
 // Fancy enter animation for direct chat messages
@@ -172,4 +68,19 @@ span.input-inline-block {
   margin-right: 3px;
   background-color: rgba(0,0,255, 0.1);
   border-radius: 3px;
+}
+
+.system-message {
+  color: #A0A0A0 !important;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.nicknames{
+  position:absolute;
+  z-index:99;
+  color: white;
+  font-size: 16px;
+  top: 7px;
+  left: 12px;
 }

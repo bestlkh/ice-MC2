@@ -1,379 +1,212 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+
 <!-- Full Width Column -->
 <div id="chat-wrapper" class="content-wrapper" ng-class="{'menu-open': isMenuOpened}">
-  <!-- Editor Content -->
-  <div id="editorframe" style="overflow: hidden;">
-    <!--Dynamically resize window to fit editor-->
-    <iframe name="editor" id="editor-frame" src = "/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your browser does not support iframes.</p></iframe>
-    <iframe name="preview" id="preview-frame" src = "/app/views/preview.html"></iframe>
-    <script type="text/javascript">//<![CDATA[ 
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-              document.getElementById("preview-frame").style.display = "none";
-            }       
-            function resizeEditor()
-            {
-              var ua = window.navigator.userAgent;
-              var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-              var webkit = !!ua.match(/WebKit/i);
-              var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-              if (iOSSafari) {
+    <!-- Editor Content -->
+    <div id="editorframe" style="overflow: hidden;">
+        <!--Dynamically resize window to fit editor-->
+        <iframe name="editor" id="editor-frame" src="/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your
+            browser does not support iframes.</p></iframe>
+        <iframe name="preview" id="preview-frame" src="/app/views/preview.html"></iframe>
+        <script type="text/javascript">//<![CDATA[
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            document.getElementById("preview-frame").style.display = "none";
+        }
+
+        function resizeEditor() {
+            var ua = window.navigator.userAgent;
+            var iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+            var webkit = !!ua.match(/WebKit/i);
+            var iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+            if (iOSSafari) {
                 var heights = window.innerHeight;
                 document.getElementById("editor-frame").style.height = heights + "px";
-              }
-            }            
+            }
+        }
+
+        resizeEditor();
+        window.onresize = function () {
             resizeEditor();
-            window.onresize = function() {
-              resizeEditor();
-            };
-            //]]>  
-    </script>
-    <div id="editor-resize-cover">
-      <img src="/app/images/resize-horizontal.png" />
+        };
+        //]]>
+        </script>
+        <div id="editor-resize-cover">
+            <img src="/app/images/resize-horizontal.png"/>
+        </div>
     </div>
-  </div>
-  <div id="dragbar"></div>  
-  <!-- Chat Content -->
-    <div id="chatframe"> 
+    <div id="dragbar"></div>
+    <div id="collapsebar">
+        <div class="arrow-left"></div>
+    </div>
+    <!-- Chat Content -->
+    <div id="chatframe">
+        <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
 
-          <!--Begin Bubble Menu-->
-          <div id="chat-menu-cover"></div>
-          <div id="chat-menu">
-            <div class="chat-menu-button" id="chat-menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></div>
-            <div id="chat-menu-button-container"></div>
-          </div>
+        <!--Bubble Menu-->
+        <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
 
-          <div class="row">
+        <div class="row">
             <div class="col-sm-12">
-              <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
-              <div class="box-header with-border" id="chat-menu-header">
-                <div id="menu-button" role="button" title="sweet hamburger" ng-click="onMenuClick()">
-                  <div class="hamburger"><div class="inner"></div></div>
-                </div>
+                <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
+                    <div id="chat-body-div" class="box-body">
+                        <!-- Conversations are loaded here -->
+                        <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
+                             scroll-bottom="messages">
 
-                <nav class="mobile">
-                  <ul id="hamburger-menu" ng-style="{'pointer-events': isMenuOpened ? 'all' : 'none'}" >
-                    <li onclick="simulateFullScreen()">Full Screen</li>
-                    <li ngf-select ng-model="Files">Attach</li>
-                    <li data-toggle="tooltip" data-widget="chat-pane-toggle" title="Contacts" ng-click="toggleCustom()">Friends</li>
-                    <li ng-model="enableVerbose" value="None" id="squaredFour" name="check" >Enable Details</li>
-                    <li ng-click="logout()">Log Out</li>
-                  </ul>
-                </nav>
-                <script type="text/x-mathjax-config">
-                    MathJax.Hub.Config({
-                      showProcessingMessages: false,
-                      tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-                      CommonHTML: { linebreaks: { automatic: true, width: "container" } },
-                      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
-                      SVG: { linebreaks: { automatic: true, width: "container" } }
-                    });
-                    MathJax.Hub.setRenderer("SVG");
-                </script>
-                <!-- MathJax CDN from CloudFlare-->
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?=TeX-MML-AM_CHTML"></script>
-                <div class="menu_logo mobile">Equation Editor</div>
-                <div class="box-tools pull-right">
-                  <!-- Any File Select Button -->
-                  <button class="btn btn-box-expand mobile" data-widget="" onclick="swapFrame();">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                                                     
-                  <button class="btn btn-box-tool desktop" id="downloadLogBtn" ng-style="{'display': isAdmin ? 'block' : 'none'}" data-widget="" onclick="downloadLogs();" style="display: none;">⇲</button>
+                            <!-- Message. Default to the left -->
+                            <div ng-repeat="message in getAllMsg()"
+                                 ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
+                                 ng-class="{'direct-chat-msg' : true, 'right' : message.isOwn(), 'wordwrap' : true}">
 
-                  <button class="btn btn-box-tool desktop ng-pristine ng-untouched ng-valid" data-widget="" ngf-select="" ng-model="Files"><i class="glyphicon glyphicon-paperclip"></i></button>
-                  <!-- online member list mobile -->
-                  <button class="btn btn-box-tool desktop" data-toggle="tooltip" data-widget="chat-pane-toggle" title="" ng-click="toggleCustom()" data-original-title="Contacts"><i class="fa fa-comments"></i></button>
+                                {{ message.hidden ? "["+message.timeFormatted+"] " + message.msg : message.msg }}
 
-                  <div class="chat-settings desktop" style="margin:0" ng-click="onSettingsClick()">
-                    <div class="chat-menu hidden" ng-class="{'hidden': hideSettings}">
+                                <div ng-if="message.isChat()">
 
-                      <div id="downloadLogsButton" class="btn-flat" onclick="PDFDL();">DL</div>
-                      <div id="downloadLogsButton" class=" btn-flat" onclick="imageOpen();">IMG</div>
-                      <div class="btn-flat" ng-click="logout()">Logout</div>
-                      <div class="btn-flat" style="display: flex;" ng-click="onClickDetails()">
-                        <div class="squaredFour" style="margin-right: 5px">
+                                    <!--Chat Information-->
+                                    <div ng-include="'/app/views/chatroom/chat-info.html'"></div>
 
-                          <input type="checkbox" value="None" id="squaredFour" name="check" ng-model="enableVerbose" class="ng-untouched ng-valid ng-dirty">
-                          <label for="squaredFour"></label>
+                                    <!-- Text message -->
+                                    <div ng-class="{'chat-text' : true, 'text-right' : message.isOwn()}">
 
-                        </div>
-                        <label>Enable Details</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                                        <!--User avatar-->
+                                        <div ng-include="'/app/views/chatroom/chat-img.html'"></div>
 
+                                        <!--Basically the bubble-->
+                                        <div ng-include="'/app/views/chatroom/chat-text-inner.html'"></div>
+                                        <!--Tool buttons for each message-->
+                                        <div ng-include="'/app/views/chatroom/chat-text-menu.html'"></div>
 
+                                    </div>
 
-
-
-
-              </div><!-- /.box-header -->
-              <div id="chat-body-div" class="box-body" >
-                <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
-                  <!-- Message. Default to the left -->
-                  <div ng-repeat="message in getAllMsg()"
-                       ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
-                       ng-class="{'direct-chat-msg' : true, 'right' : message.isOwn(), 'wordwrap' : true}">
-
-                    {{ message.hidden ? "["+message.timeFormatted+"] "+message.msg : message.msg }}
-
-                    <div ng-if="message.isChat()">
-
-                      <!--Chat Information-->
-                      <div class='direct-chat-info clearfix' ng-class="{ 'text-right': message.isOwn() }">
-                        <span class='direct-chat-timestamp' ng-hide="message.isOwn()">{{ message.getTime() }}</span>
-                        <span class='direct-chat-name' ng-class="{ 'admin': message.isInstructor() }">
-                          {{ message.getUsername() }}
-                          {{ (message.isInstructor() ? " (Instructor)" : "") + (message.isTA() ? " (TA)" : "") }}
-                        </span>
-                        <span class='direct-chat-timestamp' ng-hide="!message.isOwn()">{{ message.getTime() }}</span>
-                      </div><!-- /.direct-chat-info -->
-
-
-                      <!-- Text message -->
-                      <div ng-class="{'direct-chat-text' : true, 'text-right' : message.isOwn()}">
-
-                        <div class="direct-chat-img" style="position:relative">
-                          <img class="direct-chat-img" ng-src="app/css/dist/img/{{message.getAvatar()}}" alt="message user image"></img><!-- /.direct-chat-img -->
-
-                          <span class="nicknames"> {{ message.getInitials() }} </span>
-
-                        </div>
-
-                        <!-- Inner container to achieve dynamic message width -->
-                        <div class="direct-chat-text-inner"
-                             ng-click="showMessageMenu($event, message)"
-                             ng-class="{
-                              'instructor-message': message.isInstructor(),
-                              'darken-background': message == showMenuMessage
-                             }" >
-
-                          <div ng-hide="message.hasFile()">
-                            <div ng-if="message.getText().isImage()">
-                              <img ng-src="{{ message.getText().getImage() }}" class="inline-image" />
-                            </div>
-                            <div ng-if="!message.getText().isImage()" ng-bind-html="message.getText().getRenderedText()" class="no-para-margin"></div>
-                          </div>
-
-                          <!-- {{ message.sendfile }} Media File messages -->
-                          <div class="item" ng-show="message.hasFile()">
-                            <div class="attachment clearfix">
-                            <!-- Image File Open -->
-                              <div ng-class="{'filename' : true,'chat-msg' : true}" ng-show="message.isImageFile()">
-                                <div>
-                                  <div ng-class="{'attachment-icon-right' : message.isOwn(), 'attachment-icon-left' : !message.isOwn()}">
-                                    <a href ng-click="openClickImage(message.raw_data)" ng-show="message.raw_data.showme" >
-                                <img id="{{message.raw_data.dwid}}" width="100" height="30" ng-src="{{message.raw_data.dwimgsrc}}" alt="Open Image"></a> <!-- Open Icon -->
-
-                                <a ng-href="{{message.raw_data.serverfilename}}" data-lightbox="{{message.raw_data.dwid}}" data-title="{{message.getFileName()}}" ng-hide="message.raw_data.showme">
-                                  <img ng-class="{'multiple-borders-white' : message.isOwn(),'multiple-borders-black' : !message.isOwn()}" id="{{message.raw_data.dwid+1}}" width="90" height="70" ng-src="{{message.raw_data.serverfilename}}" alt="Image File">
-
-                                <!-- Image -->
-                                </a>
-                                  </div>
-                                  <div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}" ng-hide="message.raw_data.showme">
-                                    <!--<span class="decs-text"><b>File:</b> {{ message.filename }}</span>-->
-                                    <span class="decs-text">
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;</i></a>-->
-                                    <!--<a id ="{{message.dwid}}A" class="decs-text hidden-link" href="{{ message.serverfilename }}"  download="{{ message.serverfilename }}"><i>Hidden Link</i></a>-->
-                                    </span>
-                                  </div>
-                                  <div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}" ng-if="(message.raw_data.dwimgsrc !== 'app/images/spin.gif')" ng-show="message.raw_data.showme">
-                                    <!--<span class="decs-text"><b>File :</b> {{ message.filename }}</span>--> 
-                                    <span class="decs-text">
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Open in Editor&nbsp;&nbsp;</i><span style="font-size: 17px">&Eopf;</span></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><span style="font-size: 17px">&Eopf;</span><i>&nbsp;&nbsp;Open in Editor</i></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href ><i>Download&nbsp;&nbsp;</i><i class="fa fa-download dw-icon"></i></a>-->
-                                    <!--<a id ="{{message.dwid}}" class="decs-text" ng-show="!message.ownMsg"  onclick="return angular.element(this).scope().downloadImage(event,this)" href > <i class="fa fa-download dw-icon"></i><i>&nbsp;&nbsp;Download</i></a>-->
-                                    <!--<a id ="{{message.dwid}}A" class="decs-text hidden-link" href="{{ message.serverfilename }}"  download="{{ message.serverfilename }}"><i>Hidden Link</i></a>-->
-                                    </span>
-                                  </div>
                                 </div>
-                              </div>
 
-                            </div><!-- /.attachment -->
-                        </div><!-- /.item-->
-
+                            </div>
                         </div>
 
-                        <!--Tool buttons for each message-->
-                        <div class="direct-chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
-                          <button ng-click="deleteMsg(message.raw_data)"
-                                  ng-if="isAdmin && message.isChat()"
-                                  title="Delete">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                          </button>
-                          <button ng-click="openBase64ImageInNewTab(message.getText().getImage())"
-                                  ng-if="message.getText().isImage()"
-                                  title="Open in new window">
-                            <i class="fa fa-search-plus" aria-hidden="true"></i>
-                          </button>
-                          <button ng-click="showMessageDetails(message)"
-                                  title="Detailed information">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                          </button>
-                          <button ng-click="editSvgSource(message.getText().getSvgSource())"
-                                  ng-if="message.getText().hasSvgSource()"
-                                  title="Edit in editor">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                          </button>
-                          <button ng-if="message.getText().isEquation()"
-                                  ng-click="showEquationSource(message.getText().getRaw())"
-                                  title="Show LaTeX source">
-                            <i class="fa fa-code" aria-hidden="true"></i>
-                          </button>
-                          <button ng-click="referenceMessage(message)"
-                                  title="Reply">
-                            Reply
-                          </button>
-                        </div>
+                        <div ng-include="'/app/views/chatroom/member-list.html'"></div>
 
-                      </div><!-- /.direct-chat-text -->
 
                     </div>
-                  </div><!-- /.direct-chat-msg -->
-                </div><!--/.direct-chat-messages-->
+                    <div class="box-footer" id="chatroom-footer">
 
-                <div id="slidememberlist" class="slideout_inner">
-                    <!-- Contacts are loaded here -->
-                    <div>
-                    <div class="direct-chat-messages ol-members">
-                      <ul class='contacts-list'>
-                        <li ng-repeat="user in users">
-                          <a href>
-                            <img class='contacts-list-img' ng-src='app/css/dist/img/{{user.userAvatar}}'/>
-                            <div class='contacts-list-info'>
-                                <span class="ol-memeber-name" ng-class="{'admin': user.isInstructor}" style="line-height:2.6; padding:5px; font-weight : 600; color : #333;">{{ user.username }}{{user.utorid ? ' ('+user.utorid+')' : ""}}{{user.isInstructor ? ' (Instructor)' : ""}}</span>
-                            </div><!-- /.contacts-list-info -->
-                          </a>
-                        </li><!-- End Contact Item -->
-                      </ul><!-- /.contatcts-list -->
-                    </div><!--/.direct-chat-messages-->
-                  </div>
-                </div>
+                        <!--Emoji panel-->
+                        <div id="panel">
+  <span style="font-color: black; font-size: 13px">
+    <div class="tab">
+      <input class="tablinks" value="&nbsp;&nbsp;Emoji&nbsp;|" type="button" onclick="openTab(event, 'Emoj');">
+      <input class="tablinks" value="&nbsp;Math&nbsp;|" type="button" onclick="openTab(event, 'Math');">
+      <input class="tablinks" value="&nbsp;Formula&nbsp;&nbsp;" type="button" onclick="openTab(event, 'Form');">
+    </div>
+    <div id="Emoj" class="tabcontent">
+      <input value="😃" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😆" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="🙁" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😋" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😣" class="emojibutton" type="button" onclick="input(this);"/>
+      <br/>
+      <input value="😉" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😵" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😢" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😤" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😲" class="emojibutton" type="button" onclick="input(this);"/>
+      <br/>
+      <input value="😑" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😕" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😎" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😇" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="😝" class="emojibutton" type="button" onclick="input(this);"/>
+    </div>
 
-
-              </div><!-- /.box-body -->
-              <div class="box-footer" id="chatroom-footer">
-              <div id="panel">
-                      <span style="font-color: black; font-size: 13px">
-                        <div class="tab">
-                          <input class="tablinks" value="&nbsp;&nbsp;Emoji&nbsp;|" type="button" onclick="openTab(event, 'Emoj');">
-                          <input class="tablinks" value="&nbsp;Math&nbsp;|" type="button" onclick="openTab(event, 'Math');">
-                          <input class="tablinks" value="&nbsp;Formula&nbsp;&nbsp;" type="button" onclick="openTab(event, 'Form');">
+    <div id="Math" class="tabcontent">
+      <input value="$$ $$" class="dollorbutton" type="button" onclick="input(this);"/>
+      <input value="α" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="β" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="δ" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="θ" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="μ" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="\" class="emojibutton" type="button" onclick="input(this);"/>
+      <br/>
+      <input value="π" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="≈" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="≠" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="≡" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="∞" class="emojibutton" type="button" onclick="input(this);"/>
+      <br/>
+      <input value="±" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="∆" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="∫" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="√" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="²" class="emojibutton" type="button" onclick="input(this);"/>
+      <br/>
+      <input value="∑" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="∪" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="∩" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="≥" class="emojibutton" type="button" onclick="input(this);"/>
+      <input value="≤" class="emojibutton" type="button" onclick="input(this);"/>
+    </div>
+    <div id="Form" class="tabcontent">
+      <input value='$$\int_{a}^{b} x^2 dx$$' placeholder="Integral Formula" class="formulabutton" type="button"
+             ondblclick="input(this);" onclick="typeset(this);"/>
+      <br/>
+      <input value='$$\sum_{n=1}^{\infty} 2^{-n} = 1$$' placeholder="Summation Formula" class="formulabutton"
+             type="button" ondblclick="input(this);" onclick="typeset(this);"/>
+      <br/>
+      <input value='$$\lim_{x\to\infty} f(x)$$' placeholder="Limit" class="formulabutton" type="button"
+             ondblclick="input(this);" onclick="typeset(this);"/>
+      <br/>
+      <input value='$$a_1^2 + a_2^2 = a_3^2$$' placeholder="Sub and Superscripts" class="formulabutton" type="button"
+             ondblclick="input(this);" onclick="typeset(this);"/>
+      <p id="previewArea">
+        [Click Preview - Double Click Add]
+      </p>
+    </div>
+  </span>
                         </div>
-                        <div id="Emoj" class="tabcontent">
-                          <input value="😃" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😆" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="🙁" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😋" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😣" class="emojibutton" type="button" onclick="input(this);" />
-                          <br />
-                          <input value="😉" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😵" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😢" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😤" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😲" class="emojibutton" type="button" onclick="input(this);" />
-                          <br />
-                          <input value="😑" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😕" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😎" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😇" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="😝" class="emojibutton" type="button" onclick="input(this);" />
+
+                        <!--Size of this area is modified by JavaScript, registered in ui.js-->
+                        <div id="text-message-input-area">
+                            <button class="message-tool-button accordion" id="emoji-button" title="Special Characters">
+                                <img src="/app/images/emoji-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
+                                    ng-click="toggleLatexEditor()">
+                                <img src="/app/images/latex-icon.png" width="20px"/>
+                                <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
+                                        ng-click="showEquationEditor()">
+                                    <img src="/app/images/editor-icon.png" width="20px"/>
+                                </button>
+                                <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                                          ng-model="chatMsg"
+                                          ng-change="isMsgBoxEmpty=false"
+                                          ng-enter="sendMsg()"
+                                          ng-focus="setFocus"
+                                          class="tex2jax_ignore"></textarea>
+                                <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
+                                        class="fa fa-paper-plane" aria-hidden="true"></i> Send
+                                </button>
                         </div>
 
-                        <div id="Math" class="tabcontent">            
-                          <input value="$$ $$" class="dollorbutton" type="button" onclick="input(this);" />
-                          <input value="α" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="β" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="δ" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="θ" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="μ" class="emojibutton" type="button" onclick="input(this);" />
-                          <br />
-                          <input value="π" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="≈" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="≠" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="≡" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="∞" class="emojibutton" type="button" onclick="input(this);" />
-                          <br />
-                          <input value="±" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="∆" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="∫" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="√" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="²" class="emojibutton" type="button" onclick="input(this);" />
-                          <br />
-                          <input value="∑" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="∪" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="∩" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="≥" class="emojibutton" type="button" onclick="input(this);" />
-                          <input value="≤" class="emojibutton" type="button" onclick="input(this);" />
+                        <div id="latex-editor-area" class="tex2jax_ignore">
                         </div>
-                        <div id="Form" class="tabcontent">
-                          <input value='$$\int_{a}^{b} x^2 dx$$' placeholder="Integral Formula" class="formulabutton" type="button" ondblclick="input(this);" onclick="typeset(this);"/>
-                          <br />
-                          <input value='$$\sum_{n=1}^{\infty} 2^{-n} = 1$$' placeholder="Summation Formula" class="formulabutton" type="button" ondblclick="input(this);" onclick="typeset(this);"/>
-                          <br />
-                          <input value='$$\lim_{x\to\infty} f(x)$$' placeholder="Limit" class="formulabutton" type="button" ondblclick="input(this);" onclick="typeset(this);"/>
-                          <br />
-                          <input value='$$a_1^2 + a_2^2 = a_3^2$$' placeholder="Sub and Superscripts" class="formulabutton" type="button" ondblclick="input(this);" onclick="typeset(this);"/>
-                          <p id="previewArea">
-                            [Click Preview - Double Click Add]
-                          </p>
-                        </div>
-                      </span>
-                    </div>
-
-                <!--Size of this area is modified by JavaScript, registered in ui.js-->
-                <div id="text-message-input-area">
-                  <button class="message-tool-button accordion" id="emoji-button" title="Special Characters">
-                    <img src="/app/images/emoji-icon.png" width="20px" />
-                  </button>
-                  <button class="message-tool-button" id="latex-button" title="LaTeX Editor" ng-click="toggleLatexEditor()">
-                    <img src="/app/images/latex-icon.png" width="20px" />
-                  <button class="message-tool-button" id="equation-editor-button" title="Equation Editor" ng-click="showEquationEditor()">
-                    <img src="/app/images/editor-icon.png" width="20px" />
-                  </button>
-                  <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
-                            ng-model="chatMsg"
-                            ng-change="isMsgBoxEmpty=false"
-                            ng-enter="sendMsg()"
-                            ng-focus="setFocus"
-                            class="tex2jax_ignore"></textarea>
-                  <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
-                </div>
-
-                <div id="latex-editor-area" class="tex2jax_ignore">
-                </div>
 
 
-              </div><!-- /.box-footer-->
-              </div><!-- /.box -->
+                    </div><!-- /.box-footer-->
+                </div><!-- /.box -->
             </div>
 
             <div id="chatroom-input-container">
-              <div id="chatroom-input-test"></div>
+                <div id="chatroom-input-test"></div>
             </div>
 
-            <div id="loading-screen" class="shown">
-              <div class="loading-spinner">
-                <div class="loading-bounce1"></div>
-                <div class="loading-bounce2"></div>
-                <div class="loading-bounce3"></div>
-              </div>
-              <div class="loading-quote">
-                <i>"We cannot solve our problems with the same thinking we used when we created them."</i><br>
-                Albert Einstein
-              </div>
-            </div>
+            <div ng-include="'/app/views/chatroom/loading.html'"></div>
 
-            <script src="app/js/chatroomPlus.js"></script>     
-      </div>
-    </div><!-- /.content --> 
-  </div><!-- /.container -->
+            <script src="app/js/chatroomPlus.js"></script>
+        </div>
+    </div><!-- /.content -->
+</div><!-- /.container -->
 </div><!-- /.content-wrapper -->
 <script>
-  // Fire interface loaded event
-  fireEventChain(chatRoomInterfaceLoadedHandlers);
+    // Fire interface loaded event
+    fireEventChain(chatRoomInterfaceLoadedHandlers);
 </script>

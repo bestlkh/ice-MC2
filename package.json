@@ -76,6 +76,7 @@
     "colors": "^1.1.2",
     "less": "^2.7.3",
     "mocha": "^4.0.1",
-    "mocha-jsdom": "^1.1.0"
+    "mocha-jsdom": "^1.1.0",
+    "uglify-js": "^3.3.5"
   }
 }

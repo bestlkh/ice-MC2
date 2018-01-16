@@ -71,6 +71,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
                 }
                 $scope.isLoading = false;
+                $rootScope.isAdmin = data.isAdmin;
 
             });
         }

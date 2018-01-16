@@ -45,19 +45,35 @@ angular.module('Controllers')
         }
     };
 })
-.controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, sendImageService, $routeParams, $window){		// Chat Page Controller
+.directive("fileread", [function () {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = changeEvent.target.files[0];
+
+                    });
+                });
+            }
+}}])
+.controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, $routeParams, $window){		// Chat Page Controller
 	// Varialbles Initialization.
 	$scope.isMsgBoxEmpty = false;
 	$scope.isFileSelected = false;
 	$scope.isMsg = false;
-	$scope.isAdmin = false;
+
 	$scope.setFocus = true;
 	$scope.chatMsg = "";
 	$scope.users = [];
 	$scope.messages = [];
 	$scope.allMsg = [];
+	$scope.upload = {
+		image: null
+	};
 
-	$scope.hideSettings = true;
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;
@@ -65,10 +81,6 @@ angular.module('Controllers')
 
 	$scope.showMenuMessage = null;
 
-
-	$scope.onSettingsClick = function () {
-        $scope.hideSettings = !$scope.hideSettings;
-    };
 
 	$scope.onClickDetails = function () {
 		$scope.enableVerbose = !$scope.enableVerbose;
@@ -142,7 +154,8 @@ angular.module('Controllers')
             }
             $scope.isLoading = false;
             $scope.hideLoadingScreen();
-            $scope.isAdmin = data.isAdmin;
+
+            $rootScope.isAdmin = data.isAdmin;
         });
     } else {
 
@@ -429,6 +442,7 @@ angular.module('Controllers')
 
 	// recieving new text message
 	$socket.on("new message", function(data){
+
         data.ownMsg = (data.username === $rootScope.username);
 		data.timeFormatted = moment(data.timestamp).format("LTS");
 		$scope.messages.push(data);
@@ -447,6 +461,7 @@ angular.module('Controllers')
             chatLog += msg.getText().getRaw();
         }
         chatLog += "\n";
+        $("#chat-body-div").dequeue();
         $("#chat-body-div").animate({
             scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
@@ -471,8 +486,20 @@ angular.module('Controllers')
 	});
 
 // ====================================== Image Sending Code ==============================
-    $scope.$watch('imageFiles', function () {
-        $scope.sendImage($scope.imageFiles);
+    $scope.$watch('upload.image', function () {
+        if (!$scope.upload.image) return;
+
+        var fr = new FileReader();
+
+        fr.addEventListener("load", function () {
+        	var url = fr.result;
+
+            $socket.emit("send-image", {dataUri: url}, function (data) {
+				console.log(data);
+            })
+        }, false);
+        fr.readAsDataURL($scope.upload.image);
+
     });
 
     //  opens the sent image on gallery_icon click

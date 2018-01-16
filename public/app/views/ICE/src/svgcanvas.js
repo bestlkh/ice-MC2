@@ -1470,7 +1470,6 @@ var updateClipPath = function(attr, tx, ty) {
 // Undo command object with the resulting change
 var recalculateDimensions = this.recalculateDimensions = function(selected) {
   if (selected == null) return null;
-
   var tlist = getTransformList(selected);
 
   // remove any unnecessary transforms

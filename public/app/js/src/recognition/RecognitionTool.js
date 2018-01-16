@@ -70,7 +70,7 @@ class RecognitionTool {
      * @param {Object} wall 
      * @returns index or -1 if not found any starting index.
      */
-    start(ls, wall){
+    static start(ls, wall){
         var leftMostIndex = -1;
         var limitIndex = -1;
         var i = 0;
@@ -217,7 +217,7 @@ class RecognitionTool {
         var parent, symbol, relation;
         var wall = expression.wall;
     
-        var s = start(ls, wall);
+        var s = RecognitionTool.start(ls, wall);
     
         if (s != -1) {
             ls[s].setWall(wall); //deep copy

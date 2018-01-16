@@ -61,46 +61,8 @@ var RecognitionTool = function () {
          */
 
     }, {
-        key: 'start',
-        value: function start(ls, wall) {
-            var leftMostIndex = -1;
-            var limitIndex = -1;
-            var i = 0;
-            var overlapIndex = -1;
-            var n = ls.length;
-            while (leftMostIndex == -1 && i < n) {
-                if (!ls[i].marked && this.isInRegion(wall, ls[i])) {
-                    leftMostIndex = i;
-                } else {
-                    i += 1;
-                }
-            }
+        key: 'overlap',
 
-            if (leftMostIndex == -1 || limitIndex == leftMostIndex) {
-                return leftMostIndex;
-            }
-            while (i < n && limitIndex == -1) {
-                if (!ls[i].marked && ls[i].type === "limit" && this.isInRegion(wall, ls[i])) limitIndex = i;else i += 1;
-            }
-
-            if (limitIndex == -1 || limitIndex == leftMostIndex) {
-                return this.overlap(leftMostIndex, wall, ls);
-            }
-
-            var upperThreshold = ls[limitIndex].maxY;
-            var lowerThreshold = ls[limitIndex].minY;
-            while (i > leftMostIndex) {
-                i = i - 1;
-                if (ls[i].y < upperThreshold && ls[i].y >= lowerThreshold) {
-                    overlapIndex = i;
-                }
-            }
-            if (overlapIndex < limitIndex && overlapIndex != -1) {
-                return this.overlap(leftMostIndex, wall, ls);
-            } else {
-                return this.overlap(limitIndex, wall, ls);
-            }
-        }
 
         /**
          * Returns the main index after checking vertically for any overlap
@@ -109,9 +71,6 @@ var RecognitionTool = function () {
          * @param {[Symbol]} ls list of Symbols
          * @returns the mainline's index in ls
          */
-
-    }, {
-        key: 'overlap',
         value: function overlap(index, wall, ls) {
             var i = index;
             var top = wall.top;
@@ -203,6 +162,47 @@ var RecognitionTool = function () {
             return SymbolTypes.ALPHANUMERIC;
         }
     }, {
+        key: 'start',
+        value: function start(ls, wall) {
+            var leftMostIndex = -1;
+            var limitIndex = -1;
+            var i = 0;
+            var overlapIndex = -1;
+            var n = ls.length;
+            while (leftMostIndex == -1 && i < n) {
+                if (!ls[i].marked && this.isInRegion(wall, ls[i])) {
+                    leftMostIndex = i;
+                } else {
+                    i += 1;
+                }
+            }
+
+            if (leftMostIndex == -1 || limitIndex == leftMostIndex) {
+                return leftMostIndex;
+            }
+            while (i < n && limitIndex == -1) {
+                if (!ls[i].marked && ls[i].type === "limit" && this.isInRegion(wall, ls[i])) limitIndex = i;else i += 1;
+            }
+
+            if (limitIndex == -1 || limitIndex == leftMostIndex) {
+                return this.overlap(leftMostIndex, wall, ls);
+            }
+
+            var upperThreshold = ls[limitIndex].maxY;
+            var lowerThreshold = ls[limitIndex].minY;
+            while (i > leftMostIndex) {
+                i = i - 1;
+                if (ls[i].y < upperThreshold && ls[i].y >= lowerThreshold) {
+                    overlapIndex = i;
+                }
+            }
+            if (overlapIndex < limitIndex && overlapIndex != -1) {
+                return this.overlap(leftMostIndex, wall, ls);
+            } else {
+                return this.overlap(limitIndex, wall, ls);
+            }
+        }
+    }, {
         key: 'parse',
         value: function parse() {
             var ls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -235,7 +235,7 @@ var RecognitionTool = function () {
             var parent, symbol, relation;
             var wall = expression.wall;
 
-            var s = start(ls, wall);
+            var s = RecognitionTool.start(ls, wall);
 
             if (s != -1) {
                 ls[s].setWall(wall); //deep copy

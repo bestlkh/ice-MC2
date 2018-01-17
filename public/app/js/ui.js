@@ -140,7 +140,7 @@ function initializeChatMenu(){
 
     chatHistoryButton.onClick = function(){
         historyWindow = window.open();
-        historyWindow.document.write("<pre>" + chatLog + "</pre>")
+        historyWindow.document.write("<pre>" + chatLog.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</pre>")
     };
 
     chatMembersButton.onClick = function(){

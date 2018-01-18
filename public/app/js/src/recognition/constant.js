@@ -24,7 +24,7 @@ const BRACKET_TYPES = {
     'CLOSE': 'close'
 };
 
-export const TEX_TEXT = {
+const TEX_TEXT = {
     'sum': ' \\sum ',
     'lim': ' \\lim ',
     '∑': ' \\sum ',
@@ -53,27 +53,19 @@ export const TEX_TEXT = {
     '->': '\\to '
 };
 
-export const BRACKET = ["lbracket", "(", ")", "rbracket"];
-export const LINE = ["fraction", "—"];
-export const ROOT = ["root"];
-export const LIMIT = ["sum", "∑", "integral", "∫", "lim"];
-export const OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→']
+const BRACKET = ["lbracket", "(", ")", "rbracket"];
+const LINE = ["fraction", "—"];
+const ROOT = ["root"];
+const LIMIT = ["sum", "∑", "integral", "∫", "lim"];
+const OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→']
 
-function getSymbolType(value) {
-    if (BRACKET.indexOf(value) != -1) {
-        return SYMBOL_TYPES.BRACKET;
-    }
-    if (LINE.indexOf(value) != -1) {
-        return SYMBOL_TYPES.FRACTION;
-    }
-    if (ROOT.indexOf(value) != -1) {
-        return SYMBOL_TYPES.ROOT;
-    }
-    if (LIMIT.indexOf(value) != -1) {
-        return SYMBOL_TYPES.LIMIT;
-    }
-    if (OPERATOR.indexOf(value) != -1) {
-        return SYMBOL_TYPES.OPERATOR;
-    }
-    return SYMBOL_TYPES.ALPHANUMERIC;
-};
+module.exports = {
+    "REGION_NAMES": REGION_NAMES,
+    "SYMBOL_TYPES": SYMBOL_TYPES,
+    "BRACKET_TYPES": BRACKET_TYPES,
+    "TEX_TEXT": TEX_TEXT,
+    "BRAKET": BRACKET,
+    "LINE": LINE,
+    "LIMIT": LIMIT,
+    "OPERATOR": OPERATOR
+}

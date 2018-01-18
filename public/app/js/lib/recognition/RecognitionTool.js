@@ -11,6 +11,8 @@ var SymbolFactory = require('./SymbolFactory');
 var BracketTypes = require('./enums/BracketTypes');
 var Expression = require('./Expression');
 var _Symbol = require('./Symbol');
+var RegionTypes = require('./enums/RegionTypes');
+var Constant = require('./constant');
 
 var CENTRED = ["a", "c", "e", "j", "m", "n", "o", "r", "s", "u", "v", "w", "x", "z"];
 var DECENDING = ["g", "p", "q", "y"]; // need these in when we have svgs for characters ready
@@ -35,17 +37,17 @@ var RecognitionTool = function () {
                 var wall = ls[s].getWallCopy();
                 var newWall = wall;
                 newWall.left = ls[s].maxX;
-                var st = this.start(ls, newWall);
+                var st = RecognitionTool.start(ls, newWall);
                 if (st == -1) {
                     return -1;
                 }
-                return this.overlap(st, ls[s].wall, ls);
+                return RecognitionTool.overlap(st, ls[s].wall, ls);
             }
             var index = 0;
             while (index < ls.length) {
-                if (this.isInRegion(ls[s].wall, ls[index]) && !ls[index].marked) {
+                if (RecognitionTool.isInRegion(ls[s].wall, ls[index]) && !ls[index].marked) {
                     if (ls[s].maxX <= ls[index].minX) {
-                        if (ls[s].minY + 2 / 5 * ls[s].height <= ls[index].y && ls[index].y < ls[s].maxY - ls[s].height * 1 / 5) return this.overlap(index, ls[s].wall, ls);
+                        if (ls[s].minY + 2 / 5 * ls[s].height <= ls[index].y && ls[index].y < ls[s].maxY - ls[s].height * 1 / 5) return RecognitionTool.overlap(index, ls[s].wall, ls);
                     }
                 }
                 index++;
@@ -78,7 +80,7 @@ var RecognitionTool = function () {
             var stop = false;
             var n = ls.length;
             var maxLength;
-            if (ls[index].type === "fraction") {
+            if (ls[index].type === SymbolTypes.FRACTION) {
                 maxLength = ls[index].width;
             } else {
                 maxLength = ls[index].width;
@@ -93,7 +95,7 @@ var RecognitionTool = function () {
                 }
             }
             while (i < n && ls[i].minX < ls[index].maxX) {
-                if (!ls[i].marked && ls[i].type === "fraction" && ls[i].y > top && ls[i].y <= bottom && ls[i].minX <= ls[index].x && ls[i].width > maxLength) {
+                if (!ls[i].marked && ls[i].type === SymbolTypes.Fraction && ls[i].y > top && ls[i].y <= bottom && ls[i].minX <= ls[index].x && ls[i].width > maxLength) {
                     maxLength = ls[i].width;
                     mainLine = i;
                 } else {
@@ -144,19 +146,19 @@ var RecognitionTool = function () {
          * @param {String} value
          */
         value: function getSymbolType(value) {
-            if (BRACKET.indexOf(value) != -1) {
+            if (Constant.BRACKET.indexOf(value) != -1) {
                 return SymbolTypes.BRACKET;
             }
-            if (LINE.indexOf(value) != -1) {
+            if (Constant.LINE.indexOf(value) != -1) {
                 return SymbolTypes.FRACTION;
             }
-            if (ROOT.indexOf(value) != -1) {
+            if (Constant.Root.indexOf(value) != -1) {
                 return SymbolTypes.ROOT;
             }
-            if (LIMIT.indexOf(value) != -1) {
+            if (Constant.LIMIT.indexOf(value) != -1) {
                 return SymbolTypes.LIMIT;
             }
-            if (OPERATOR.indexOf(value) != -1) {
+            if (Constant.OPERATOR.indexOf(value) != -1) {
                 return SymbolTypes.OPERATOR;
             }
             return SymbolTypes.ALPHANUMERIC;
@@ -170,7 +172,7 @@ var RecognitionTool = function () {
             var overlapIndex = -1;
             var n = ls.length;
             while (leftMostIndex == -1 && i < n) {
-                if (!ls[i].marked && this.isInRegion(wall, ls[i])) {
+                if (!ls[i].marked && RecognitionTool.isInRegion(wall, ls[i])) {
                     leftMostIndex = i;
                 } else {
                     i += 1;
@@ -181,11 +183,11 @@ var RecognitionTool = function () {
                 return leftMostIndex;
             }
             while (i < n && limitIndex == -1) {
-                if (!ls[i].marked && ls[i].type === "limit" && this.isInRegion(wall, ls[i])) limitIndex = i;else i += 1;
+                if (!ls[i].marked && ls[i].type === SymbolTypes.LIMIT && RecognitionTool.isInRegion(wall, ls[i])) limitIndex = i;else i += 1;
             }
 
             if (limitIndex == -1 || limitIndex == leftMostIndex) {
-                return this.overlap(leftMostIndex, wall, ls);
+                return RecognitionTool.overlap(leftMostIndex, wall, ls);
             }
 
             var upperThreshold = ls[limitIndex].maxY;
@@ -197,9 +199,9 @@ var RecognitionTool = function () {
                 }
             }
             if (overlapIndex < limitIndex && overlapIndex != -1) {
-                return this.overlap(leftMostIndex, wall, ls);
+                return RecognitionTool.overlap(leftMostIndex, wall, ls);
             } else {
-                return this.overlap(limitIndex, wall, ls);
+                return RecognitionTool.overlap(limitIndex, wall, ls);
             }
         }
     }, {
@@ -256,40 +258,40 @@ var RecognitionTool = function () {
                     parent.symbols.push(symbol);
                     stack.push([temp1, symbol]);
                     wall = ls[temp1].wall;
-                    temp2 = this.hor(ls, temp1);
+                    temp2 = RecognitionTool.hor(ls, temp1);
                     while (temp2 != -1) {
                         var oldWall = ls[temp1].wall;
                         ls[temp2].setWall(oldWall);
                         symbol = ls[temp2];
                         var parentSize = parent.symbols.length;
-                        if (symbol.value === "m" && parentSize >= 2 && parent.symbols[parentSize - 1].value === "i" && parent.symbols[parentSize - 2].value === "l") {
-                            var iSymbol = parent.symbols[parentSize - 1];
-                            var lSymbol = parent.symbols[parentSize - 2];
-                            var newX = lSymbol.minX;
-                            var newY = lSymbol.minY;
-                            var newWidth = symbol.x + symbol.width - newX;
-                            var newHeight = lSymbol.height;
-                            var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
-                            newLimitSymbol.setWall(oldWall);
-                            newLimitSymbol.subSymbols = [lSymbol, iSymbol, symbol]; // fix when moving aronud actual symbols.
-                            symbol = newLimitSymbol;
-                            ls[temp2] = symbol;
-                            //console.log(ls.popls.indexOf(parent.symbols[parentSize -2]))
-                            //console.log(ls.indexOf(parent.symbols[parentSize -1]))
-                            stack.splice(stack.indexOf([ls.indexOf(lSymbol), lSymbol]), 1);
-                            stack.splice(stack.indexOf([ls.indexOf(iSymbol), iSymbol]), 1);
-                            parent.symbols.pop();
-                            parent.symbols.pop();
-                        }
+                        // if (symbol.value === "m" && parentSize >= 2 && parent.symbols[parentSize - 1].value === "i" && parent.symbols[parentSize - 2].value === "l") {
+                        //     var iSymbol = parent.symbols[parentSize - 1];
+                        //     var lSymbol = parent.symbols[parentSize - 2];
+                        //     var newX = lSymbol.minX;
+                        //     var newY = lSymbol.minY;
+                        //     var newWidth = symbol.x + symbol.width - newX;
+                        //     var newHeight = lSymbol.height;
+                        //     var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
+                        //     newLimitSymbol.setWall(oldWall);
+                        //     newLimitSymbol.subSymbols = [lSymbol, iSymbol, symbol]; // fix when moving aronud actual symbols.
+                        //     symbol = newLimitSymbol;
+                        //     ls[temp2] = symbol;
+                        //     //console.log(ls.popls.indexOf(parent.symbols[parentSize -2]))
+                        //     //console.log(ls.indexOf(parent.symbols[parentSize -1]))
+                        //     stack.splice(stack.indexOf([ls.indexOf(lSymbol), lSymbol]), 1);
+                        //     stack.splice(stack.indexOf([ls.indexOf(iSymbol), iSymbol]), 1);
+                        //     parent.symbols.pop();
+                        //     parent.symbols.pop();
+                        // }
                         parent.symbols.push(symbol);
                         stack.push([temp2, symbol]);
                         ls[temp1].wall.right = ls[temp2].minX;
-                        if (ls[temp2].type === "limit" && (ls[temp1].type === "bracket" || ls[temp1].type === "line")) {
+                        if (ls[temp2].type === SymbolTypes.LIMIT && (ls[temp1].type === SymbolTypes.BRACKET || ls[temp1].type === SymbolTypes.FRACTION)) {
                             ls[temp2].wall.left = ls[temp1].maxX;
                         }
                         temp1 = temp2;
                         ls[temp1].marked = true;
-                        temp2 = this.hor(ls, temp1);
+                        temp2 = RecognitionTool.hor(ls, temp1);
                     }
                     stack.push("EOBL");
                     while (stack.length != 0) {
@@ -326,21 +328,21 @@ var RecognitionTool = function () {
                         var upperThreshold = minY + 2 / 5 * (maxY - minY);
                         var lowerThreshold = maxY - 2 / 5 * (maxY - minY);
 
-                        var above = [[minX, minY], [maxX, top], "above"];
-                        var below = [[minX, bottom], [maxX, maxY], "below"];
-                        var supers = [[maxX, upperThreshold], [right, top], "supers"];
-                        var subsc = [[maxX, bottom], [right, lowerThreshold], "subsc"];
-                        var tleft = [[left, upperThreshold], [minX, top], "tleft"];
-                        var bleft = [[left, bottom], [minX, lowerThreshold], "bleft"];
-                        var contains = [[minX, maxY], [maxX, minY], "contains"];
+                        var above = [[minX, minY], [maxX, top], RegionTypes.ABOVE];
+                        var below = [[minX, bottom], [maxX, maxY], RegionTypes.BELOW];
+                        var supers = [[maxX, upperThreshold], [right, top], RegionTypes.SUPER];
+                        var subsc = [[maxX, bottom], [right, lowerThreshold], RegionTypes.SUBSC];
+                        var tleft = [[left, upperThreshold], [minX, top], RegionTypes.TLEFT];
+                        var bleft = [[left, bottom], [minX, lowerThreshold], RegionTypes.BLEFT];
+                        var contains = [[minX, maxY], [maxX, minY], RegionTypes.CONTAINS];
 
-                        var regions = [above, below, supers, subsc, tleft, bleft, contains];
+                        var regions = [RegionTypes.ABOVE, RegionTypes.BELOW, RegionTypes.SUPER, RegionTypes.SUBSC, RegionTypes.TLEFT, RegionTypes.BLEFT, RegionTypes.CONTAINS];
                         for (var i = 0; i < regions.length; i++) {
                             if (!symbol.region[regions[i][2]]) {
                                 continue;
                             }
                             symbol.region[regions[i][2]].setWall(regions[i]);
-                            temp2 = this.start(ls, symbol.region[regions[i][2]].wall);
+                            temp2 = RecognitionTool.start(ls, symbol.region[regions[i][2]].wall);
                             if (temp2 != -1) {
                                 ls[temp2].marked = true;
                                 ls[temp2].setWall(symbol.region[regions[i][2]].wall);
@@ -367,7 +369,7 @@ var RecognitionTool = function () {
             var result = "";
             if (bst.symbols) {
 
-                if (bst.region_name == 'root') {
+                if (bst.region_name == RegionTypes.ROOT) {
                     result += "$$";
                 }
                 for (var i = 0; i < bst.symbols.length; i++) {
@@ -378,7 +380,7 @@ var RecognitionTool = function () {
                     result = result.replace('li ', ' ');
                 }
 
-                if (bst.region_name == 'root') {
+                if (bst.region_name == RegionTypes.ROOT) {
                     result += "$$";
                     result = result.replace(/arcsin|arccos|arctan|cosh|sinh|tanh|cos|sin|tan/gi, function (x) {
                         return " \\" + x + " ";
@@ -389,54 +391,54 @@ var RecognitionTool = function () {
             var value = bst.value;
             var symbol = bst;
             var type = bst.type;
-            if (type === "limit") {
+            if (type === SymbolTypes.LimitSymbol) {
                 result += TEX_TEXT[value] + " ";
-                if (bst.hasAnyBottom()) result += "_{" + RecognitionTool.getTex(bst.region.bleft) + RecognitionTool.getTex(bst.region.below) + RecognitionTool.getTex(bst.region.subsc) + "} ";
-                if (bst.hasAnyTop()) result += "^{" + RecognitionTool.getTex(bst.region.tleft) + RecognitionTool.getTex(bst.region.above) + RecognitionTool.getTex(bst.region.supers) + "} ";
-            } else if (type === "fraction") {
+                if (bst.hasAnyBottom()) result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT]) + RecognitionTool.getTex(bst.region[RegionTypes.BELOW]) + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "} ";
+                if (bst.hasAnyTop()) result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.TLEFT]) + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE]) + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "} ";
+            } else if (type === SymbolTypes.FRACTION) {
                 if (bst.hasAnyTop() && bst.hasAnyBottom()) {
                     result += TEX_TEXT["fraction"];
                     result += "{";
-                    result += RecognitionTool.getTex(bst.region.tleft) + RecognitionTool.getTex(bst.region.above) + RecognitionTool.getTex(bst.region.supers);
+                    result += RecognitionTool.getTex(bst.region[RegionTypes.TLEFT]) + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE]) + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]);
                     result += "}{";
-                    result += RecognitionTool.getTex(bst.region.bleft) + RecognitionTool.getTex(bst.region.below) + RecognitionTool.getTex(bst.region.subsc);
+                    result += RecognitionTool.getTex(bst.region[RegionTypes.BLEFT]) + RecognitionTool.getTex(bst.region[RegionTypes.BELOW]) + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]);
                     result += "} ";
                 } else if (bst.hasAnyBottom()) {
                     result += TEX_TEXT['overline'];
-                    result += "{" + RecognitionTool.getTex(bst.region.bleft) + RecognitionTool.getTex(bst.region.below) + RecognitionTool.getTex(bst.region.subsc) + "}";
+                    result += "{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT]) + RecognitionTool.getTex(bst.region[RegionTypes.BELOW]) + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "}";
                 } else if (bst.hasAnyTop()) {
                     result += TEX_TEXT['underline'];
-                    result += "{" + RecognitionTool.getTex(bst.region.tleft) + RecognitionTool.getTex(bst.region.above) + RecognitionTool.getTex(bst.region.supers) + "}";
+                    result += "{" + RecognitionTool.getTex(bst.region[RegionTypes.TLEFT]) + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE]) + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "}";
                 } else {
                     result += ' - ';
                 }
-            } else if (type === "root") {
-                result += TEX_TEXT[value] + "{" + RecognitionTool.getTex(bst.region.contains) + "} ";
-                if (bst.region.supers.hasElement()) {
-                    result += "^{" + RecognitionTool.getTex(bst.region.supers) + "} ";
+            } else if (type === SymbolTypes.ROOT) {
+                result += TEX_TEXT[value] + "{" + RecognitionTool.getTex(bst.region[RegionTypes.CONTAINS]) + "} ";
+                if (bst.region[RegionTypes.SUPER].hasElement()) {
+                    result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "} ";
                 }
-                if (bst.region.subsc.hasElement()) {
-                    result += "_{" + RecognitionTool.getTex(bst.region.subsc) + "} ";
+                if (bst.region[RegionTypes.SUBSC].hasElement()) {
+                    result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "} ";
                 }
-            } else if (type === "bracket") {
+            } else if (type === SymbolTypes.BRACKET) {
                 result += TEX_TEXT[value];
                 if (symbol.bracketType == BRACKET_TYPES.CLOSE) {
-                    if (bst.region.supers.hasElement()) {
-                        result += "^{" + RecognitionTool.getTex(bst.region.supers) + "}";
+                    if (bst.region[RegionTypes.SUPER].hasElement()) {
+                        result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "}";
                     }
-                    if (bst.region.subsc.hasElement()) {
-                        result += "_{" + RecognitionTool.getTex(bst.region.subsc) + "} ";
+                    if (bst.region[RegionTypes.SUBSC].hasElement()) {
+                        result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "} ";
                     }
                 }
-            } else if (type == "operator") {
+            } else if (type == SymbolTypes.OPERATOR) {
                 result += TEX_TEXT[value];
             } else {
                 result += value;
-                if (bst.region.supers.hasElement()) {
-                    result += "^{" + RecognitionTool.getTex(bst.region.supers) + "}";
+                if (bst.region[RegionTypes.SUPER].hasElement()) {
+                    result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "}";
                 }
-                if (bst.region.subsc.hasElement()) {
-                    result += "_{" + RecognitionTool.getTex(bst.region.subsc) + "}";
+                if (bst.region[RegionTypes.SUBSC].hasElement()) {
+                    result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "}";
                 }
             }
             return result;

@@ -1,9 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
 var _TEX_TEXT;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -34,7 +30,7 @@ var BRACKET_TYPES = {
     'CLOSE': 'close'
 };
 
-var TEX_TEXT = exports.TEX_TEXT = (_TEX_TEXT = {
+var TEX_TEXT = (_TEX_TEXT = {
     'sum': ' \\sum ',
     'lim': ' \\lim ',
     '∑': ' \\sum ',
@@ -61,27 +57,19 @@ var TEX_TEXT = exports.TEX_TEXT = (_TEX_TEXT = {
     '→': ' \\to '
 }, _defineProperty(_TEX_TEXT, 'lim', ' \\lim '), _defineProperty(_TEX_TEXT, '->', '\\to '), _TEX_TEXT);
 
-var BRACKET = exports.BRACKET = ["lbracket", "(", ")", "rbracket"];
-var LINE = exports.LINE = ["fraction", "—"];
-var ROOT = exports.ROOT = ["root"];
-var LIMIT = exports.LIMIT = ["sum", "∑", "integral", "∫", "lim"];
-var OPERATOR = exports.OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→'];
+var BRACKET = ["lbracket", "(", ")", "rbracket"];
+var LINE = ["fraction", "—"];
+var ROOT = ["root"];
+var LIMIT = ["sum", "∑", "integral", "∫", "lim"];
+var OPERATOR = ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→'];
 
-function getSymbolType(value) {
-    if (BRACKET.indexOf(value) != -1) {
-        return SYMBOL_TYPES.BRACKET;
-    }
-    if (LINE.indexOf(value) != -1) {
-        return SYMBOL_TYPES.FRACTION;
-    }
-    if (ROOT.indexOf(value) != -1) {
-        return SYMBOL_TYPES.ROOT;
-    }
-    if (LIMIT.indexOf(value) != -1) {
-        return SYMBOL_TYPES.LIMIT;
-    }
-    if (OPERATOR.indexOf(value) != -1) {
-        return SYMBOL_TYPES.OPERATOR;
-    }
-    return SYMBOL_TYPES.ALPHANUMERIC;
+module.exports = {
+    "REGION_NAMES": REGION_NAMES,
+    "SYMBOL_TYPES": SYMBOL_TYPES,
+    "BRACKET_TYPES": BRACKET_TYPES,
+    "TEX_TEXT": TEX_TEXT,
+    "BRAKET": BRACKET,
+    "LINE": LINE,
+    "LIMIT": LIMIT,
+    "OPERATOR": OPERATOR
 };

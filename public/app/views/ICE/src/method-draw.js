@@ -2223,7 +2223,9 @@ var SOTP = 0;
       };
 
       var clickConvert = function(){
-        getBST = Tool.RecognitionTool.parse;
+        var getBST = window.Tool.RecognitionTool.parse;
+        console.log(getBST());
+        return;
         if (toolButtonClick('#tool_convert')) {
           var tex = getBST();
           if($(window).width() <= 732) {

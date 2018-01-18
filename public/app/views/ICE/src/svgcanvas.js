@@ -3368,6 +3368,8 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
   // - in move/resize mode, the element's attributes which were affected by the move/resize are
   //   identified, a ChangeElementCommand is created and stored on the stack for those attrs
   //   this is done in when we recalculate the selected dimensions()
+  var getExpression = Tool.RecognitionTool.parse;
+  this.getExpression = Tool.RecognitionTool.parse;
   var mouseUp = function(evt)
   {
     canvas.addClones = false;

@@ -22,7 +22,7 @@ class RecognitionTool {
         if (Constant.LINE.indexOf(value) != -1) {
             return SymbolTypes.FRACTION;
         }
-        if (Constant.Root.indexOf(value) != -1) {
+        if (Constant.ROOT.indexOf(value) != -1) {
             return SymbolTypes.ROOT;
         }
         if (Constant.LIMIT.indexOf(value) != -1) {

@@ -6,7 +6,7 @@ const LimitSymbol = require('./LimitSymbol');
 const OperatorSymbol = require('./OperatorSymbol');
 const RootSymbol = require('./RootSymbol');
 const RecognitionTool = require('./RecognitionTool');
-const SymbolTypes = require('./enums/SymbolTypes')
+const SymbolTypes = require('./enums/SymbolTypes');
 
 class SymbolFactory {
     /**
@@ -31,7 +31,7 @@ class SymbolFactory {
                 symbol = new BracketSymbol(x, y, width, height, value);
                 break;
             case SymbolTypes.FRACTION:
-                sybmol = new FractionSymbol(x, y, width, height, value);
+                symbol = new FractionSymbol(x, y, width, height, value);
                 break;
             case SymbolTypes.ROOT:
                 symbol = new RootSymbol(x, y, width, height, value);

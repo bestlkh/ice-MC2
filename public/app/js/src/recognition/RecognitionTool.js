@@ -13,6 +13,7 @@ class RecognitionTool {
     /**
      * returns the type of Symbol given a string value
      * @param {String} value
+     * @return {number}
      */
     static getSymbolType(value) {
         if (Constant.BRACKET.indexOf(value) != -1) {

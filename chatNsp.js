@@ -196,7 +196,7 @@ LectureNsp.prototype.listen = function () {
         }
 
         function destroySession() {
-            setSessionVars({username: null, connectedRoom: null});
+            setSessionVars({username: null, connectedRoom: null, userAvatar: null});
         }
 
         // delete message
@@ -223,29 +223,24 @@ LectureNsp.prototype.listen = function () {
                         this.findStudent(data, function (err, student) {
                             if (err) return callback({success: false, message: "Invalid id"});
                             setSessionVar("utorid", student.utorid);
-                            if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                            setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
 
-                            callback({success: true});
                         });
 
                     } else if (data.secret) {
                         this.findTa(data, function (err, ta) {
                             if (err) return callback({success: false, message: "Invalid secret"});
                             setSessionVar("ta", ta);
-                            if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                            setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
 
-                            callback({success: true});
                         });
                     } else if (data.isJoin && classroom.invite) {
                         return callback({success: false, message: "Room is invite only"});
-                    } else {
-                        if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                        setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
-
-                        callback({success: true});
                     }
+
+                    if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
+                    else data.userAvatar = "Avatar"+data.userAvatar+".jpg";
+                    if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+                    setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
+                    callback({success: true});
                 }
             }.bind(this));
             //if (!data.isJoin) clients = {sockets:[]};

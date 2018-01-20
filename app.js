@@ -140,7 +140,7 @@ chat.on('connection', function(socket){
     }
 
     function destroySession() {
-		setSessionVars({username: null});
+		setSessionVars({username: null, userAvatar: null});
     }
 
 	socket.on("check-session", function (data, callback) {
@@ -199,8 +199,15 @@ chat.on('connection', function(socket){
 			{
 				callback({success:false, message: "Use different username."});
 			} else {
+				if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
+				else data.userAvatar = "Avatar"+data.userAvatar+".jpg";
 
-            	if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+            	if (socket.handshake.session.userAvatar) {
+
+            		data.userAvatar = socket.handshake.session.userAvatar;
+                }
+
+
 				setSessionVars({username: data.username, userAvatar: data.userAvatar});
 
             	callback({success:true});

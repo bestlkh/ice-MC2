@@ -12,6 +12,7 @@
     "body-parser": "^1.17.2",
     "csv": "^1.1.1",
     "express-session": "^1.15.5",
+    "express-socket.io-session": "^1.3.2",
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
     "node-outlook": "^1.1.6",

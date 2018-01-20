@@ -13,6 +13,7 @@ var outlook = require("node-outlook");
 
 var Bot = require("./bot.js");
 var LectureNsp = require("../chatNsp").LectureNsp;
+var sharedsession = require("express-socket.io-session");
 
 function findOne(list, params) {
     var result;
@@ -41,9 +42,10 @@ var sessionRedirect = function (req, res, next) {
 };
 
 
-function AdminView(socketController, expressApp) {
+function AdminView(socketController, expressApp, sessionObj) {
     this.ios = socketController;
     this.app = expressApp;
+    this.session = sessionObj;
 
     this.controllers = {};
     this.ios.tracking = {};
@@ -57,7 +59,34 @@ function AdminView(socketController, expressApp) {
     this.setupRoute();
     this.setupApi();
     this.setupSocket();
+
+
+    this.setupNamespaces(function (err, nsps) {
+        if (err) console.log("Failed to initialize namespaces.");
+    });
 }
+
+AdminView.prototype.setupNamespaces = function (callback) {
+
+    MongoClient.connect(constants.dbUrl, function (err, db) {
+        if (err) return callback(err, null);
+        db.collection("users").find({}).toArray(function (err, users) {
+            if (err) return callback(err, null);
+            users.forEach(function (user) {
+                console.log(user.username+" nsp added.");
+                var nsp = new LectureNsp(user.username, user.username, this.ios);
+                nsp.nsp.use(sharedsession(this.session, {
+                    autoSave:true
+                }));
+                nsp.listen();
+
+                callback(null, this.nsps);
+            }.bind(this));
+        }.bind(this))
+    }.bind(this));
+
+};
+
 
 AdminView.prototype.setupRoute = function () {
     this.app.get("/admin/*", sessionRedirect, function (req, res, next) {

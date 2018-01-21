@@ -15,7 +15,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 })
 .controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams, $window){		// Login Controller
 	// Varialbles Initialization.
-	$scope.userAvatar = "Avatar1.jpg";
+	$scope.userAvatar = "1";
 	$scope.isErrorReq = false;
 	$scope.isErrorNick = false;
     $scope.form = {};

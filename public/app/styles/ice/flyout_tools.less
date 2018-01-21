@@ -1,0 +1,220 @@
+.tools_flyout {
+  position: absolute;
+  display: none;
+  cursor: pointer;
+  //width: 350px;
+  z-index: 10;
+  left: 47px !important;
+  height: 210px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  .tool_button {
+    float: left;
+    background-color: #fff;
+    height: 24px;
+    width: 24px;
+    margin: 0;
+  }
+  .tool_button, .tool_flyout {
+    background: rgb(238, 238, 238);
+
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+
+    border: 1px #3f3f3f solid;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+}
+#matrix_flyout {
+  position: absolute;
+  display: none;
+  /*opacity: 0.2;*/
+  cursor: pointer;
+  width: 150px;
+  z-index: 10;
+  bottom: 60px;
+  left: 60px !important;
+  height: 180px;
+  background: rgb(238, 238, 238);
+  border-radius: 5px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.3);
+}
+#grid-select{
+  padding: 10px;
+  display: block;
+}
+
+#sizeShow{
+  padding: 0 0 0 60px;
+  display: block;
+}
+
+table.layout-select {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+table.layout-select tr {
+  margin: 0;
+  padding: 0;
+}
+table.layout-select tr td {
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+}
+table.layout-select tr td>div {
+  height: 100%;
+  border: 1px solid black;
+}
+table.layout-select tr td>div.grid-select-active {
+  background: grey;
+}
+
+.tools_flyout_v {
+  position: absolute;
+  display: none;
+  cursor: pointer;
+  width: 30px;
+}
+
+#shape_buttons {
+  overflow: auto;
+  top: 0;
+  bottom: 0;
+  left: 55px;
+  right: 0;
+  position: absolute;
+  vertical-align: top;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  background: #eee;
+  border-radius: 0 3px 3px 0;
+  padding: 10px;
+}
+
+#shape_cats {
+  min-width: 55px;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 210px;
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  z-index: 2;
+  & > div {
+    line-height: 1em;
+    padding: 0 .5em;
+    border-bottom: 1px solid #ddd;
+    background: #E8E8E8;
+    color: #444;
+    height: 26px;
+    line-height: 26px;
+    &:first-child {
+      border-radius: 3px 0 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 0 3px;
+    }
+  }
+  div {
+    &:hover {
+      background: #efefef;
+      color: #000;
+    }
+    &.current {
+      font-weight: bold;
+      background: #3f3f3c;
+      color: #fff;
+      position: relative;
+      &:after {
+        content: '';
+        position: absolute;
+        right: -26px;
+        top: 0;
+        border: solid transparent 13px;
+        border-left-color: #3f3f3c;
+      }
+    }
+  }
+}
+
+// Seems like this is not used
+#math_buttons {
+  overflow: auto;
+  top: 0;
+  bottom: 0;
+  left: 55px;
+  right: 0;
+  position: absolute;
+  vertical-align: top;
+  background: #eee;
+  border-radius: 0 3px 3px 0;
+  padding: 10px;
+}
+
+#math_cats {
+  min-width: 55px;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 210px;
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  z-index: 2;
+  &> div {
+    padding: 0 .5em;
+    border-bottom: 1px solid #ddd;
+    background: #E8E8E8;
+    color: #444;
+    height: 26px;
+    line-height: 26px;
+    &:first-child {
+      border-radius: 3px 0 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 0 3px;
+    }
+    &:hover {
+      background: #efefef;
+      color: #000;
+    }
+    &.current {
+      font-weight: bold;
+      background: #3f3f3c;
+      color: #fff;
+      position: relative;
+      &:after {
+        content: '';
+        position: absolute;
+        right: -26px;
+        top: 0;
+        border: solid transparent 13px;
+        border-left-color: #3f3f3c;
+      }
+    }
+  }
+}
+
+// WTF?
+.tools_flyout2 {
+  .tool_button2, .tool_flyout2 {
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-width: 0;
+  }
+}
+
+#floatingContent>h1>div:last-child {
+  margin-right: 0;
+}

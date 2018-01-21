@@ -1,0 +1,28 @@
+/* chatroom/main.less
+ * Main stylesheet for the chat room application.
+ * Please follow the naming scheme: .class-name #id-name when writing new styles.
+ *
+ * DEPLOYMENT INSTRUCTION:
+ * Compile this file to dist/main.min.css. More information can be found in README.md.
+ */
+
+#less-warning {
+  display: none;
+}
+
+@import "global";
+@import "chat";
+@import "login";
+@import "direct-chat";
+
+@import "chat-menu";
+@import "loading-screen";
+
+@import "notification-theme-override";
+@import "emoji";
+
+@import "chat-message";
+
+// Responsive stylesheets
+@import "tablet";
+@import "phone";

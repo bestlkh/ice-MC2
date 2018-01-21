@@ -1,4 +1,4 @@
-angular.module('Controllers',["ngRoute"])
+angular.module('Controllers',["ngRoute", "ngSanitize"])
 .directive('focusMe', function($timeout) {	// Custom directive for focus
     return {
         link: function(scope, element, attrs) {
@@ -15,7 +15,7 @@ angular.module('Controllers',["ngRoute"])
 })
 .controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams, $window){		// Login Controller
 	// Varialbles Initialization.
-	$scope.userAvatar = "Avatar1.jpg";
+	$scope.userAvatar = "1";
 	$scope.isErrorReq = false;
 	$scope.isErrorNick = false;
     $scope.form = {};
@@ -34,6 +34,8 @@ angular.module('Controllers',["ngRoute"])
 
     $scope.form.username = $rootScope.username;
 
+    $scope.ta = false;
+
     $scope.printErr = function(msg){	// popup for error message
         var html = '<p id="alert">'+ msg +'</p>';
         if ($( ".chat-box" ).has( "p" ).length < 1) {
@@ -45,6 +47,12 @@ angular.module('Controllers',["ngRoute"])
         }
     };
 
+    var nsp = "";
+    if ($location.search().nsp)
+        nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
+	$scope.nsp = nsp;
+
 		if ($rootScope.error) {
             $scope.isLoading = false;
             console.log($rootScope.error);
@@ -52,24 +60,25 @@ angular.module('Controllers',["ngRoute"])
 		} else {
             $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
 
-                if (data.username) {
+                if (data.username && $routeParams.roomId) {
 
                     $rootScope.loggedIn = true;
                     $rootScope.username = data.username;
                     $rootScope.initials = data.username.substring(0, 2);
                     $rootScope.userAvatar = data.avatar;
 
-                    if ($routeParams.roomId) $location.path('/v1/ChatRoom/' + $routeParams.roomId);
-                    else if (data.room) $location.path('/v1/ChatRoom/' + data.room);
+                    $location.path('/v1/ChatRoom/' + $routeParams.roomId);
+
                 }
                 $scope.isLoading = false;
+                $rootScope.isAdmin = data.isAdmin;
 
             });
         }
 
-        if ($scope.token) {
+        if ($scope.token && $location.search().nsp) {
         	$.ajax({
-        		url: "/v1/api/room/"+$routeParams.roomId+"/track/"+$scope.token,
+        		url: "/v1/api/namespace/"+$location.search().nsp+"/room/"+$routeParams.roomId+"/track/"+$scope.token,
 				success: function (result) {
 					$scope.utorid = result.utorid;
 					console.log(result);
@@ -88,6 +97,10 @@ angular.module('Controllers',["ngRoute"])
 	if($rootScope.loggedIn && $routeParams.roomId){
 		$location.path('/v1/ChatRoom/'+$routeParams.roomId);
 	}
+
+	$scope.onTaClick = function () {
+		$scope.ta = !$scope.ta;
+    };
 
 	$scope.onInstructorLogin = function () {
 		$socket.emit("instructor_login", {roomName: $scope.roomId}, function (result) {
@@ -118,12 +131,17 @@ angular.module('Controllers',["ngRoute"])
 		if ($scope.form.username.length <= 20) {
 			if($scope.form.username && $scope.form.roomId){
 
-				$socket.emit('new user',{username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
+				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
 						$rootScope.username = $scope.form.username;
 						$rootScope.initials = $scope.form.initials;
 						$rootScope.userAvatar = $scope.userAvatar;
 						$rootScope.loggedIn = true;
+
+						// We are entering chatroom here
+						$("body").css({
+							'overflow': 'hidden'
+						});
 
 						if (!$scope.isJoin || !$scope.roomId) $location.path('/v1/ChatRoom/'+$scope.form.roomId);
 						else $location.path('/v1/ChatRoom/'+$scope.roomId);
@@ -134,7 +152,7 @@ angular.module('Controllers',["ngRoute"])
 						$scope.isErrorNick = true;
 						$scope.isErrorReq = true;
 						$scope.printErr($scope.errMsg);
-					}			
+					}
 				});
 			}else{		// blanck nickname 
 				$scope.errMsg = "Enter a nickname.";

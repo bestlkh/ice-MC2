@@ -101,3 +101,8 @@ public/app/upload/doc/
 public/app/upload/images/
 public/app/upload/music/
 
+
+# CSS files compiled from LESS
+public/app/styles/latex-preview/*.css
+public/app/styles/chatroom/*.css
+public/app/styles/ice/*.css

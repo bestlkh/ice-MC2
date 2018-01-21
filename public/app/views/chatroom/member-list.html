@@ -1,0 +1,20 @@
+<div id="slidememberlist" class="slideout_inner">
+    <!-- Contacts are loaded here -->
+    <div>
+        <div class="direct-chat-messages ol-members">
+            <ul class='contacts-list'>
+                <li ng-repeat="user in users">
+                    <a href>
+                        <img class='contacts-list-img'
+                             ng-src='app/css/dist/img/{{user.userAvatar}}'/>
+                        <div class='contacts-list-info'>
+                                                    <span class="ol-memeber-name"
+                                                          ng-class="{'admin': user.isInstructor}"
+                                                          style="line-height:2.6; padding:5px; font-weight : 600; color : #333;">{{ user.username }}{{user.utorid ? ' ('+user.utorid+')' : ""}}{{user.isInstructor ? ' (Instructor)' : ""}}</span>
+                        </div><!-- /.contacts-list-info -->
+                    </a>
+                </li><!-- End Contact Item -->
+            </ul><!-- /.contatcts-list -->
+        </div><!--/.direct-chat-messages-->
+    </div>
+</div>

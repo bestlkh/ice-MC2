@@ -1,0 +1,76 @@
+
+    <div class="control-header">
+        <header> </header>
+        <div class="header-control-wrapper">
+            <logout-menu user="user"></logout-menu>
+
+        </div>
+    </div>
+    <div class="overlay" ng-if="!hideOverlay" >
+
+        <div class="import-wrapper" ng-if="!hideAdd">
+
+            <header>
+                <span>Create TA</span>
+                <div class="button-wrapper">
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+                    <input type="submit" ng-click="Actions.onTASubmit()"/>
+                </div>
+            </header>
+
+            <form >
+                <div class="form-wrapper" style="border: 0;">
+                    <div class="add-wrapper">
+                        <div>
+                            Name
+                        </div>
+                        <input type="text" ng-model="ta.name" required/>
+
+                    </div>
+
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+
+    <div class="control-content">
+
+        <div class="student-control-wrapper">
+            <div style="display:flex;">
+                <input class="student-search" ng-model="search.value" ng-change="onSearchChange()"/>
+                <div class="notif-popup" ng-if="notif">
+                    {{notif.message}}
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <div class="line-button add-button" ng-click="onAddClick()">
+                    Create TA
+                </div>
+
+            </div>
+        </div>
+            <div class="table-list">
+                <div class="table-list-header">
+                    <div> Name </div>
+
+                    <div>Token</div>
+
+                </div>
+                <div class="list-wrapper" ng-repeat="ta in tas">
+                    <div class="student-item" ng-if="checkInclude(ta)">
+                        <div>{{ta.name}}</div>
+
+                        <div>{{ta.token}}</div>
+                    </div>
+                </div>
+
+            </div>
+
+
+    </div>
+
+
+

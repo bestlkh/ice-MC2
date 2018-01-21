@@ -60,12 +60,265 @@ html, body {
   background: #2f2f2c;
 }
 
- #menu_bar {
-  padding: 0 0 0 50px;
+.touch #svg_editor{
   background: #2f2f2c;
-  position: relative;
-  z-index: 2;
 }
+
+#menu-button {
+display: none;
+}
+
+.touch #menu-button {
+  background: #2f2f2c;
+  padding: 12px 10px 10px 10px;
+  position: absolute;
+  display: block;
+  transition: background 750ms ease-in-out;
+  user-select: none;
+}
+
+.menu-open #menu-button {
+  background: #2f2f2c;
+}
+
+.hamburger {
+  position: relative;
+  width: 25px;
+  height: 10px;
+  transition: transform 750ms ease-in-out;
+}
+
+#menu-button:active .hamburger {
+  transition: transform 50ms;
+  transform: scale(.95);
+}
+
+.hamburger::before, .hamburger::after, .hamburger .inner {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 2px;
+  background: white;
+  transform-origin: 100% 50%;
+  transition: all 750ms ease-in-out;
+}
+.hamburger::before {
+  top: -1px;
+}
+.hamburger .inner {
+  top: 9px;
+  transform-origin: 50% 50%;
+}
+.hamburger::after {
+  background:white;
+  top: 19px;
+}
+
+.menu-open .hamburger {
+  transform: rotateY(-180deg);
+}
+.menu-open #menu-button:active .hamburger {
+  transform: scale(.95) rotateY(-180deg);
+}
+
+.menu-open .hamburger::before,
+.menu-open .hamburger::after,
+.menu-open .hamburger .inner {
+  background: white;
+}
+
+.menu-open .hamburger::before {
+  transform: translate3d(-4px, 1px, 0) rotateZ(-45deg);
+}
+.menu-open .hamburger .inner {
+  transform: rotateY(-90deg);
+  transition: transform 375ms, background-color 750ms ease-in-out;
+}
+.menu-open .hamburger::after {
+  transform: translate3d(-4px, -1px, 0) rotateZ(45deg);
+}
+
+nav {
+  position: relative;
+  width: 200px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.menu-open nav {
+  animation-duration: 10s;
+  animation-name: wind;
+  animation-iteration-count: infinite;
+}
+
+nav::before {
+  content: '';
+  position: absolute;
+  border-right: 1px solid rgba(41, 37, 47, .05);
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: 0;
+  background: #2f2f2c;
+  transform: rotateY(90deg);
+  transition: transform 350ms;
+  transform-origin: 0 0;
+  transition-delay: 200ms;
+  color: white;
+}
+.menu-open nav::before {
+  transform: none;
+  transition-delay: 0;
+}
+
+nav ul {
+  position: absolute;
+  top: 43px;
+  left: -5px;
+  pointer-events: all;
+}
+
+nav li {
+  display: block;
+  position: relative;
+  font-family: 'Helvetica Neue Light', Helvetica, sans-serif;
+  font-weight: 200;
+  font-size: 26px;
+  line-height: 36px;
+  opacity: 0;
+  padding: 5px 5px 5px 15px;
+  width: 200px;
+  transform: rotateY(90deg) rotateZ(-15deg);
+  transition: transform 350ms, opacity 250ms;
+  transform-origin: 0 0;
+  background: #2f2f2c;
+  color: white;
+}
+
+
+nav li a {
+  color: white;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
+}
+
+
+nav li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 220px;
+  bottom: 0;
+  height: 2px;
+  opacity: .5;
+  background: linear-gradient(to right, rgba(199, 25, 60, .4), rgba(199, 25, 60, .8));
+  transform: translateX(-220px);
+  transition: all 200ms 50ms;
+}
+nav li a:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 400ms 100ms;
+}
+
+.menu-open nav li {
+  opacity: 1;
+  transform: none;
+}
+
+nav li:nth-of-type(1) {
+  transition-delay: 400ms;
+}
+nav li:nth-of-type(2) {
+  transition-delay: 300ms;
+}
+nav li:nth-of-type(3) {
+  transition-delay: 200ms;
+}
+nav li:nth-of-type(4) {
+  transition-delay: 100ms;
+}
+nav li:nth-of-type(5) {
+  transition-delay: 0;
+}
+.menu-open nav li:nth-of-type(1) {
+  transition-delay: 0;
+}
+.menu-open nav li:nth-of-type(2) {
+  transition-delay: 100ms;
+}
+.menu-open nav li:nth-of-type(4) {
+  transition-delay: 300ms;
+}
+.menu-open nav li:nth-of-type(5) {
+  transition-delay: 400ms;
+}
+
+
+.touch .second-level-menu {
+    position: absolute;
+    top: 40px;
+    left: 25px;
+    width: 150px;
+    padding: 0px 0px 280px 0px;
+    margin: 0;
+    display: none;
+    color: white;
+    z-index: 1;
+
+}
+
+.second-level-menu > li
+{
+    position: absolute;
+    height: 30px;
+    background: #999999;
+}
+.touch .second-level-menu > li:hover { background: #CCCCCC; }
+
+@keyframes wind {
+  0%, 100% {
+    transform: none;
+  }
+  20% {
+    transform: rotateX(5deg) rotateY(8deg);
+  }
+  40% {
+    transform: rotateX(-2deg);
+  }
+  60% {
+    transform: rotateY(-3deg) rotateX(7deg);
+  }
+  80% {
+    transform: rotateY(-4deg) rotateX(2deg);
+  }
+}
+.touch .switchbtn{
+     position: absolute;
+     display: inline-block;
+     top: -5px;
+     right: 20px;
+     width: 40px;
+     height: 32px;
+     background: none;
+   }
+/* menu */
+ #menu_bar {
+    padding: 0 0 0 50px;
+    background: #2f2f2c;
+    position: relative;
+    z-index: 2;
+}
+
+
+ .touch #menu_bar {
+  padding: 0 0 0 5px;
+  height: 45px;
+  z-index: 0;
+}
+
 
  #menu_bar.active .menu.open .menu_list {
   display: block;
@@ -78,15 +331,34 @@ html, body {
   display: inline-block;
 }
 
- .menu_title {
-  cursor: pointer;
-  display: inline-block;
-  padding: 7px 10px;
-  z-index: 10;
-  color: #fff;
-  position: relative;
-  height: 16px;
-  vertical-align: top;
+ .touch .menu {
+  position: absolute;
+  display: none;
+}
+
+
+.menu_logo{
+  display: none;
+}
+
+.touch .menu_logo {
+  display: block;
+  color: white;
+  position: absolute;
+  left: 47%;
+  top: 15px;
+  font-weight: bold;
+}
+
+.menu_title {
+    cursor: pointer;
+    display: inline-block;
+    padding: 7px 10px;
+    z-index: 10;
+    color: #fff;
+    position: relative;
+    height: 16px;
+    vertical-align: top;
 }
 
 .touch   .menu_title {
@@ -105,7 +377,7 @@ html, body {
 }
 
  .menu_list {
-  display: none;
+  display: block;
   position: absolute;
   top: 28px;
   left: 0;
@@ -117,7 +389,11 @@ html, body {
 }
 
 .touch  .menu_list {
-  top: 38px;
+    display: block;
+    top: 0px;
+    left: -15px;
+    /* height: 0px; */
+    width: 250px;
 }
 
  #menu_bar.active .menu.open .menu_title {
@@ -555,6 +831,7 @@ html, body {
 
 .touch  div#workarea {
   top: 40px;
+  left : 0px;
 }
 
  .menu .menu_list {
@@ -604,7 +881,33 @@ html, body {
   background-color: #0cf;
 }
 
- #main_icon span {
+
+
+#tools_left.mobile .tool_button_current {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#tools_left.mobile .tool_button {
+  display: inline-block;
+  vertical-align: top;
+}
+
+#tools_left.mobile {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+}
+
+.tool_button.mobile {
+  display: inline-block;
+}
+
+body.mobile #workarea {
+  left: 0;
+}
+
+#main_icon span {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -801,8 +1104,8 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
 }
 
  #cur_context_panel a:hover {
-  text-decoration: underline;
-}
+   text-decoration: underline;
+ }
 
 
  #tools_left .tool_button,
@@ -1045,31 +1348,6 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
   background-color: #fff;
   height: 24px;
   width: 24px;
-}
-
- #tools_bottom {
-  position: absolute;
-  left: 50px;
-  right: 0;
-  bottom: 0;
-  height: 40px;
-  overflow: visible;
-  background: #2f2f2c;
-}
-
- #tools_bottom_1 {
-  width: 115px;
-  float: left;
-}
-
- #tools_bottom_2 {
-  position: relative;
-  float: left;
-  margin-top: 5px;
-}
-
-#tools_bottom input[type=text] {
-  width: 3.2em;
 }
 
  #tools_top h4 {
@@ -2042,9 +2320,9 @@ box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1),
 }
 
  .draginput input:focus+span {
-  z-index: 10;
-  color:#fff;
-}
+   z-index: 10;
+   color:#fff;
+ }
 
 .draginput .push_bottom {
   bottom: 0;

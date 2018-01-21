@@ -54,15 +54,25 @@ module.provider('$socket', function $socketProvider() {
             throw new TypeError("setConnectionUrl error: value must be of type 'string'");
         }
         ioUrl = value;
-    }
+    };
     
     this.$get = function $socketFactory($rootScope) {
         // console.log(io);
         // console.log(ioConfig);
         // console.log(ioUrl);
-        var socket = io(ioUrl, ioConfig);
+        var socket = null;
+        var cUrl = "";
                 
         return {
+            connect: function (url) {
+                cUrl = url;
+                socket = io(url, ioConfig);
+            },
+            disconnect: function () {
+                socket.off();
+                socket.disconnect();
+                socket = io(cUrl, ioConfig);
+            },
             on : function on(event, callback){
                 socket.on(event, function(){
                     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments

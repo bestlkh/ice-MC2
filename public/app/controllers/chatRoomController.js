@@ -45,27 +45,58 @@ angular.module('Controllers')
         }
     };
 })
-.controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, sendImageService, $routeParams, $window){		// Chat Page Controller
+.directive("fileread", [function () {
+        return {
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = changeEvent.target.files[0];
+
+                    });
+                });
+            }
+}}])
+.controller('chatRoomCtrl', function ($scope, $rootScope, $socket, $location, $http, Upload, $timeout, $routeParams, $window){		// Chat Page Controller
 	// Varialbles Initialization.
 	$scope.isMsgBoxEmpty = false;
 	$scope.isFileSelected = false;
 	$scope.isMsg = false;
-	$scope.isAdmin = false;
+
 	$scope.setFocus = true;
 	$scope.chatMsg = "";
 	$scope.users = [];
-	$scope.messeges = [];
+	$scope.messages = [];
+	$scope.allMsg = [];
+	$scope.upload = {
+		image: null
+	};
 
-	$scope.hideSettings = true;
 	$scope.settingTimeout = null;
 	$scope.isLoading = true;
 	$scope.disconnected = false;
+	$scope.enableVerbose = false;
 
-	$scope.onSettingsClick = function () {
+	$scope.showMenuMessage = null;
 
-        $scope.hideSettings = !$scope.hideSettings;
+    var nsp = "";
+    if ($location.search().nsp)
+        nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
 
 
+	$scope.onClickDetails = function () {
+		$scope.enableVerbose = !$scope.enableVerbose;
+		//console.log($scope.enableVerbose);
+    };
+
+	$scope.onMenuClick = function () {
+		$scope.isMenuOpened = !$scope.isMenuOpened;
+			if(angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){
+				angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");	
+			}
     };
 
 	$(document).bind("mouseup", function (e) {
@@ -80,7 +111,7 @@ angular.module('Controllers')
 	$socket.on("connect", function () {
 		//console.log("connect");
 		if ($scope.disconnected) {
-			$scope.messeges.push({type: "system", msg: "Reconnected to chat."});
+			$scope.messages.push({type: "system", msg: "Reconnected to chat."});
 			$scope.disconnected = false;
             $socket.emit('join-room', {roomId: $routeParams.roomId}, function(data) {
                 if (!data.success) {
@@ -90,17 +121,22 @@ angular.module('Controllers')
                     $rootScope.error = data.message;
                     return $location.path('/v1/');
                 }
-                //$scope.messeges.push(data);
+                //$scope.messages.push(data);
                 $scope.isLoading = false;
+                $scope.hideLoadingScreen();
             });
 		}
+    });
+
+	$scope.$on("$destroy", function () {
+		$socket.disconnect();
+
     });
 
 	// redirection if user is not logged in.
     if(!$rootScope.loggedIn){
 
         $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
-
             if (data.username) {
 
                 $rootScope.loggedIn = true;
@@ -115,14 +151,16 @@ angular.module('Controllers')
                         $rootScope.error = data.message;
                         return $location.path('/v1/');
                     }
-                    //$scope.messeges.push(data);
+                    //$scope.messages.push(data);
                     chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
                 });
             } else {
                 $location.path('/v1/'+$routeParams.roomId);
             }
             $scope.isLoading = false;
-            $scope.isAdmin = data.isAdmin;
+            $scope.hideLoadingScreen();
+
+            $rootScope.isAdmin = data.isAdmin;
         });
     } else {
 
@@ -131,10 +169,12 @@ angular.module('Controllers')
 
                 $rootScope.loggedIn = false;
                 $rootScope.error = data.message;
+                console.log(data);
                 return $location.path('/v1/');
             }
-            //$scope.messeges.push(data);
+            //$scope.messages.push(data);
             $scope.isLoading = false;
+            $scope.hideLoadingScreen();
             chatLog += "Chatroom "+$routeParams.roomId+" created -- " + Date()+"\n";
         });
 
@@ -143,6 +183,7 @@ angular.module('Controllers')
 // ================================== Online Members List ===============================
 
 	$socket.on("online-members", function(data){
+		console.log(data);
 		$scope.users = data;
 	});
 
@@ -180,8 +221,8 @@ angular.module('Controllers')
 	// toggle online member list mobile
  	$scope.custom = true;
     $scope.toggleCustom = function() {
-        $socket.emit('get-online-members',function(data){
-        });
+
+        $socket.emit('get-online-members', {roomName: $routeParams.roomId});
         $scope.custom = $scope.custom === false ? true: false;	
         if(!$scope.custom){
         	if(!angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){
@@ -192,6 +233,17 @@ angular.module('Controllers')
         		angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");        		
         	}
         }        
+    };
+
+    $scope.hambugerOpen = function() {
+	    	if(!angular.element(document.querySelector("#chat-wrapper")).hasClass("menu-open")){
+	    		angular.element(document.querySelector("#chat-wrapper")).addClass("menu-open");
+	    	}
+
+    	  if (angular.element(document.querySelector("#chat-wrapper")).hasClass("menu-open")) {
+    		  angular.element(document.querySelector("#chat-wrapper")).removeClass("menu-open");        		
+    	  }
+
     };
 
     $scope.logout = function () {
@@ -205,12 +257,15 @@ angular.module('Controllers')
 
     $socket.on("disconnect", function () {
     	$scope.disconnected = true;
-    	$scope.messeges.push({msg: "Disconnected from chat room.", error: true, type: "system"});
+    	$scope.messages.push({msg: "Disconnected from chat room.", error: true, type: "system"});
     });
 
-// ====================================== Messege Sending Code ============================
+// ====================================== message Sending Code ============================
 	// sending text message function
 
+    /**
+	 * Automatically detect current message, and send it to the chat room.
+     */
 	$scope.sendMsg = function(){
         var textarea = document.getElementById("textArea");
 		if ($scope.chatMsg || textarea.value) {
@@ -224,17 +279,140 @@ angular.module('Controllers')
 			}
 			$scope.isFileSelected = false;
 			$scope.isMsg = true;
-			var dateString = formatAMPM(new Date());
-			$socket.emit("send-message",{ msg : message, hasMsg : $scope.isMsg , hasFile : $scope.isFileSelected}, function(data){
-				//delivery report code goes here
-				if (data.success == true) {
-					$scope.chatMsg = "";
-					$scope.setFocus = true;				
-				}
+            $scope.sendMsgManual(message, $scope.isMsg, $scope.isFileSelected, function(data){
+                //delivery report code goes here
+                if (data.success) {
+                    $scope.chatMsg = "";
+                    $scope.setFocus = true;
+                }
 			});
-		}else{
+            $("#chat-body-div").animate({
+                scrollTop: $("#chat-body-div")[0].scrollHeight + 100
+            });
+            latexEditor.setValue("");
+		} else {
+			// Alert user that they cannot send empty message
+			Alert.Notification.spawn("You cannot send empty messages", "error", 5);
 			$scope.isMsgBoxEmpty = true;
 		}
+	};
+
+	$scope.showEquationSource = function(source){
+		Alert.Alert.spawn("LaTeX Source", "<pre><code>" + source + "</code></pre>");
+	};
+
+    /**
+	 * Manually send a message to the chat room
+     * @param msg
+     * @param hasMsg
+     * @param hasFile
+     * @param callback
+     */
+	$scope.sendMsgManual = function(msg, hasMsg, hasFile, callback){
+		$socket.emit("send-message", {
+			msg: msg,
+			hasMsg: hasMsg,
+			hasFile: hasFile
+		}, callback);
+	};
+
+	$scope.deleteMsg = function(msg){
+			$socket.emit("delete-message", msg, function(data){});
+	};
+
+	$scope.openBase64ImageInNewTab = function(img){
+        var image = new Image();
+        image.src = img;
+
+        var w = window.open("");
+        w.document.write(image.outerHTML);
+	};
+
+	$scope.toggleLatexEditor = function(){
+		var panel = document.getElementById("panel");
+		if(panel.style.display == "block"){
+			panel.style.display = "none";
+			panel.style.maxHeight = null;
+		}
+		$("#latex-editor-area").toggleClass("shown");
+		$("#text-message-input-area").toggleClass("latex-editor-shown");
+		$("#direct-chat-container").toggleClass("latex-editor-shown");
+		setTimeout(function(){
+            $("#chat-body-div").scrollTop($("#dcs").height());
+		}, 100);
+
+		if($("#direct-chat-container").hasClass("latex-editor-shown")){
+            $(".alertify-notifier").addClass("latex-editor-shown");
+		} else {
+            $(".alertify-notifier").removeClass("latex-editor-shown");
+		}
+	};
+
+	$scope.showEquationEditor = function(){
+		swapFrame();
+	};
+
+    /**
+	 * Get a list of messages wrapped with Message class.
+     * @returns {Array}
+     */
+	$scope.getAllMsg = function(){
+		return $scope.allMsg;
+	};
+
+    /**
+	 * Show submenu for a message
+     * @param message
+     */
+	$scope.showMessageMenu = function($event, message){
+		$event.stopPropagation();
+		$scope.showMenuMessage = message;
+	};
+
+	$scope.showMessageDetails = function(message){
+		var text = "Message sent by " + message.getUsername() + "<br>";
+		text += "Time: " + message.getTime() + "<br>";
+		if(message.getText().isImage()){
+			text += "Message is a base64 image.";
+		} else {
+			text += "<b>Message Text Body:</b>";
+			text += "<pre>";
+            text +=  message.getText().getRaw();
+            text += "</pre>";
+		}
+		text += "<br><b>Message ID: </b><code>" + message.getId() + "</code>";
+        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
+
+        text += "<hr>";
+
+        text += "<b>Text Size: </b>" + message.getText().getTextSize() + " bytes<br>";
+        text += "<b>Attachments Size: </b>" + message.getText().getAttachmentsSize() + " bytes";
+
+        Alert.Alert.spawn(text);
+	};
+
+	$scope.editSvgSource = function(source){
+		Alert.Confirm.spawn("Are you sure?", "This will discard your current drawings.", function(){
+			var layer = $("#editor-frame").contents().find("#svgcontent .active-layer");
+			layer.html(source);
+			if($(window).width() < 732){
+                swapFrame();
+			}
+		});
+	};
+
+	$scope.hideLoadingScreen = function(){
+		setTimeout(function(){
+            $("#loading-screen").removeClass("shown");
+		}, 2000);
+	};
+
+	$scope.showLoadingScreen = function(){
+		$("#loading-screen").addClass("shown");
+	};
+
+	$scope.resetMessageMenu = function(){
+		$scope.showMenuMessage = null;
 	};
 
 	$socket.on("new message multi", function (data) {
@@ -242,29 +420,124 @@ angular.module('Controllers')
 
 			message.ownMsg = (message.username === $rootScope.username);
 
-            $scope.messeges.push(message);
+            $scope.messages.push(message);
+
+            var msg = new Chat.Message(message);
+
+            // Set all old message read state to true
+            msg.read = true;
+
+            $scope.allMsg.push(msg);
             // Updates chatlog with relevant message history
             chatLog += "\r";
-            chatLog += "[" + message.msgTime + "] " + message.username + ": " + message.msg;
+
+            chatLog += "ID - " + msg.getId() + "\n";
+            chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+            if(msg.getText().isImage()){
+            	chatLog += "[image]"
+			} else {
+            	chatLog += msg.getText().getRaw();
+			}
             chatLog += "\n";
+        });
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
     });
 
 	// recieving new text message
 	$socket.on("new message", function(data){
-        data.ownMsg = (data.username === $rootScope.username);
-        console.log(data.ownMsg);
 
-		$scope.messeges.push(data);
+        data.ownMsg = (data.username === $rootScope.username);
+		data.timeFormatted = moment(data.timestamp).format("LTS");
+		$scope.messages.push(data);
+
+        var msg = new Chat.Message(data);
+
+		$scope.allMsg.push(msg);
+		// Updates chatlog with relevant message history
+        chatLog += "\r";
+
+        chatLog += "ID - " + msg.getId() + "\n";
+        chatLog += "[" + msg.getTime() + "] " + msg.getUsername() + ": ";
+        if(msg.getText().isImage()){
+            chatLog += "[image]"
+        } else {
+            chatLog += msg.getText().getRaw();
+        }
+        chatLog += "\n";
+        $("#chat-body-div").dequeue();
+        $("#chat-body-div").animate({
+            scrollTop: $("#chat-body-div")[0].scrollHeight + 100
+        });
+	});
+
+	// recieving new text message delete request
+	$socket.on("delete message", function(data){
+		data.ownMsg = (data.username === $rootScope.username);
+		data.timeFormatted = moment(data.timestamp).format("LTS");
+		var messageIndex = $scope.messages.findIndex(function(item, i) {
+			return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+		});
+		if (messageIndex > -1) {
+			// Splice both raw and wrapped version
+			$scope.messages.splice(messageIndex, 1);
+            $scope.allMsg.splice(messageIndex, 1);
+		}
 		// Updates chatlog with relevant message history
 		chatLog += "\r";
-		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg;
+		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg + "###DELETED###";
 		chatLog += "\n";
 	});
 
 // ====================================== Image Sending Code ==============================
-    $scope.$watch('imageFiles', function () {
-        $scope.sendImage($scope.imageFiles);
+    $scope.$watch('upload.image', function () {
+        if (!$scope.upload.image) return;
+
+        let fr = new FileReader();
+
+        fr.addEventListener("load", function () {
+        	let url = fr.result;
+
+            let img = new Image();
+            img.onload = function(){
+            	// Get the image size, and decide if to resize it
+				let width = img.width;
+				let height = img.height;
+				// We only allow maximum of 1920x1080 images
+				if (width > 1920 || height > 1080){
+					// Resize the image
+					let targetWidth, targetHeight;
+					if (width > 1920){
+						// Resize the width
+						let scale = 1920 / width;
+						targetWidth = 1920;
+						targetHeight = height * scale;
+					} else {
+						// Resize the height
+						let scale = 1080 / height;
+						targetWidth = width * scale;
+						targetHeight = 1080;
+					}
+                    let canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d');
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    ctx.drawImage(this, 0, 0, targetWidth, targetHeight);
+                    $socket.emit("send-image", {
+                    	dataUri: canvas.toDataURL('image/jpeg', 0.7)
+					}, function (data) {});
+				} else {
+					// We just send the image
+                    $socket.emit("send-image", {dataUri: url}, function (data) {});
+				}
+            };
+
+            img.src = url;
+
+        }, false);
+        fr.readAsDataURL($scope.upload.image);
+
     });
 
     //  opens the sent image on gallery_icon click
@@ -301,23 +574,24 @@ angular.module('Controllers')
 			data.ownMsg = false;
 		}
 		if(data.ownMsg && data.repeatMsg){
-			checkMessegesImage(data);
+			checkmessagesImage(data);
 		}else{
-			$scope.messeges.push(data);
+			$scope.messages.push(data);
+			$scope.allMsg.push(new Chat.Message(data));
 		}
 	});
 
 	// replacing spinning wheel in sender message after image message delivered to everyone.
-	function checkMessegesImage(msg){
-		for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "image") {
-					if($scope.messeges[i].dwid === msg.dwid){
-						$scope.messeges[i].showme = false;
-						$scope.messeges[i].filename = msg.filename;
-						$scope.messeges[i].size = msg.size;
-						$scope.messeges[i].imgsrc = msg.serverfilename;
-						$scope.messeges[i].serverfilename = msg.serverfilename;
+	function checkmessagesImage(msg){
+		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "image") {
+					if($scope.messages[i].dwid === msg.dwid){
+						$scope.messages[i].showme = false;
+						$scope.messages[i].filename = msg.filename;
+						$scope.messages[i].size = msg.size;
+						$scope.messages[i].imgsrc = msg.serverfilename;
+						$scope.messages[i].serverfilename = msg.serverfilename;
 						break;	
 					}
 				}						
@@ -345,11 +619,11 @@ angular.module('Controllers')
 	// download image if it exists on server else return error message
 	$scope.downloadImage = function(ev, elem){		
 		var search_id = elem.id;
-    	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "image") {
-					if($scope.messeges[i].dwid === search_id){
-						$http.post("/v1/getfile",$scope.messeges[i]).success(function (response){
+    	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "image") {
+					if($scope.messages[i].dwid === search_id){
+						$http.post("/v1/getfile",$scope.messages[i]).success(function (response){
 					    	if(!response.isExpired){
 					    		var linkID = "#" + search_id + "A";
 					    		$(linkID).find('i').click();
@@ -364,13 +638,18 @@ angular.module('Controllers')
 								}	
 								return false;
 					    	}
-					    });				
+					    });
 						break;	
 					}
 				}						
 			}
 		};
     }
+
+    $scope.referenceMessage = function(msg){
+		chatInput.addBlock("Reply to " + msg.getUsername() + msg.getText().getRaw())
+		chatInput._dom.append("Message: ")
+	}
 
     // sending new images function
     $scope.sendImage = function (files) {
@@ -383,7 +662,6 @@ angular.module('Controllers')
 					alert("Image size too big, please use an image under 25MB");
 					continue;
 				}
-				console.log(file);
                 var dateString = formatAMPM(new Date());            
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var image = {
@@ -454,23 +732,23 @@ angular.module('Controllers')
 			data.ownMsg = false;
 		}
 		if((data.username == $rootScope.username) && data.repeatMsg){	
-			checkMessegesMusic(data);
+			checkmessagesMusic(data);
 		}else{
-			$scope.messeges.push(data);
+			$scope.messages.push(data);
 		}
 	});
 
 	// replacing spinning wheel in sender message after music message delivered to everyone.
-	function checkMessegesMusic(msg){
-		for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "music") {					
-					if($scope.messeges[i].dwid === msg.dwid){
-						$scope.messeges[i].showme = true;
-						$scope.messeges[i].serverfilename = msg.serverfilename;
-						$scope.messeges[i].filename = msg.filename;
-						$scope.messeges[i].size = msg.size;
-						$scope.messeges[i].dwimgsrc = "app/images/musicplay_icon.png";
+	function checkmessagesMusic(msg){
+		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "music") {					
+					if($scope.messages[i].dwid === msg.dwid){
+						$scope.messages[i].showme = true;
+						$scope.messages[i].serverfilename = msg.serverfilename;
+						$scope.messages[i].filename = msg.filename;
+						$scope.messages[i].size = msg.size;
+						$scope.messages[i].dwimgsrc = "app/images/musicplay_icon.png";
 						break;	
 					}
 				}						
@@ -481,11 +759,11 @@ angular.module('Controllers')
 	// download music file if it exists on server else return error message
 	$scope.downloadMusic = function(ev, elem){
 		var search_id = elem.id;
-    	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "music") {
-					if($scope.messeges[i].dwid === search_id){
-						$http.post("/v1/getfile",$scope.messeges[i]).success(function (response){
+    	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "music") {
+					if($scope.messages[i].dwid === search_id){
+						$http.post("/v1/getfile",$scope.messages[i]).success(function (response){
 					    	if(!response.isExpired){
 					    		var linkID = "#" + search_id + "A";
 					    		$(linkID).find('i').click();
@@ -599,23 +877,23 @@ angular.module('Controllers')
 			data.ownMsg = false;
 		}
 		if((data.username == $rootScope.username) && data.repeatMsg){	
-			checkMessegesPDF(data);
+			checkmessagesPDF(data);
 		}else{
-			$scope.messeges.push(data);
+			$scope.messages.push(data);
 		}
 	});
 
 	// replacing spinning wheel in sender message after document message delivered to everyone.
-	function checkMessegesPDF(msg){
-		for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "PDF") {
-					if($scope.messeges[i].dwid === msg.dwid){
-						$scope.messeges[i].showme = true;
-						$scope.messeges[i].serverfilename = msg.serverfilename;
-						$scope.messeges[i].filename = msg.filename;
-						$scope.messeges[i].size = msg.size;
-						$scope.messeges[i].dwimgsrc = "app/images/doc_icon.png";
+	function checkmessagesPDF(msg){
+		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "PDF") {
+					if($scope.messages[i].dwid === msg.dwid){
+						$scope.messages[i].showme = true;
+						$scope.messages[i].serverfilename = msg.serverfilename;
+						$scope.messages[i].filename = msg.filename;
+						$scope.messages[i].size = msg.size;
+						$scope.messages[i].dwimgsrc = "app/images/doc_icon.png";
 						break;	
 					}
 				}						
@@ -637,16 +915,16 @@ angular.module('Controllers')
 			}
 			return false;
 		}
-	}
+	};
 
 	// download document file if it exists on server else return error message
 	$scope.downloadPDF = function(ev, elem){
 		var search_id = elem.id;
-    	for (var i = ($scope.messeges.length-1); i >= 0 ; i--) {
-			if($scope.messeges[i].hasFile){
-				if ($scope.messeges[i].istype === "PDF") {
-					if($scope.messeges[i].dwid === search_id){
-						$http.post("/v1/getfile",$scope.messeges[i]).success(function (response){
+    	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
+			if($scope.messages[i].hasFile){
+				if ($scope.messages[i].istype === "PDF") {
+					if($scope.messages[i].dwid === search_id){
+						$http.post("/v1/getfile",$scope.messages[i]).success(function (response){
 					    	if(!response.isExpired){
 					    		var linkID = "#" + search_id + "A";
 					    		$(linkID).find('i').click();

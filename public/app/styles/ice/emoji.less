@@ -1,0 +1,378 @@
+div {
+  &.tab {
+    overflow: hidden;
+    border: 1px;
+    background-color: transparent;
+  }
+}
+
+.tabulator {
+  margin: 3px 3px 3px 3px;
+}
+
+.formulabutton {
+  height: 20px;
+  width: inherit;
+  border: none;
+  background: none;
+}
+
+#previewArea {
+  background-color: #CCCCCC;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+
+button {
+  &.accordion {
+    transition: 0.5s;
+    &.active, &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+div {
+  &#panel {
+    top: -700%;
+    width: 100%;
+    display: none;
+    position: absolute;
+    z-index: 99;
+    background-color: black;
+    opacity: 0.6;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+    border: 1px solid gray;
+    overflow: auto;
+    max-width: 700px;
+  }
+}
+
+/* Fade in tabs */
+
+@-webkit-keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Style the buttons inside the tab */
+div {
+  &.tab {
+    button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+      &:hover {
+        background-color: #ddd;
+      }
+      &.active {
+        background-color: #111;
+      }
+    }
+  }
+}
+
+/* Style the tab content */
+.tabcontent {
+  padding: 6px 12px;
+  border-top: none;
+  border: 1px black;
+}
+
+.tablinks {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+li {
+  input {
+    width: 120px;
+    text-align: center;
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin-bottom: 5px;
+    &:hover {
+      background-color: #555;
+      color: white;
+    }
+    &.active {
+      background-color: #ff6600;
+    }
+  }
+}
+
+.entry {
+  padding: 10px;
+}
+
+.tools_flyout .tool_button, .tools_flyout .tool_flyout {
+  height: 25px;
+  width: 25px;
+}
+
+.tools_flyout {
+  max-width: 400px;
+  width: 85%;
+  opacity: 0.7;
+  top: 0;
+}
+
+#tools_shapelib{
+  background-color: #eee;
+}
+
+#shape_buttons{
+  margin-left:4%;
+  padding: 2.5%;
+}
+
+#FloatingLayer {
+  background-color: #eee;
+  height: 35px;
+  width: 400px;
+}
+
+#floatingContent>h1 {
+  margin: 0;
+}
+
+/* Buttons */
+
+.dollorbutton{
+  height:20px;
+  width:30px;
+  display: flex;
+  border:none;
+  background:none;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.emojibutton {
+  height: 10%;
+  margin-bottom: 2%;
+  border: none;
+  background-color: white;
+}
+
+
+
+/* Keyboard */
+
+@media screen and (max-width: 732px) {
+  #tools_shapelib {
+    width: 100% !important;
+    margin-left: -47px !important;
+    margin-top: 0 !important;
+    /*top: calc(100vh - 170px) !important;*/
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    background-color: #ebf0ef !important;
+    height: auto;
+    top: auto !important;
+    display: block !important;
+    transition: bottom ease 0.5s, opacity ease 0.5s;
+    /*Hide keyboard on startup*/
+    bottom: -500px;
+    opacity: 0;
+  }
+
+  #tools_left {
+    z-index: 99;
+  }
+
+  #shape_buttons {
+    border-radius: 0 !important;
+    position: relative;
+    /*width: 100%;*/
+    z-index: 10;
+    left: 0;
+    margin: 0 !important;
+    padding: 5px;
+    background-color: #ebf0ef !important;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    top: 30px;
+    overflow: auto !important;
+    align-content: flex-start;
+    /*height: 130px;*/
+    .tool_button>svg {
+      display: block;
+      margin: auto;
+    }
+    .tool_button {
+      margin: 0;
+      width: 26px !important;
+      height: 26px !important;
+      border: none;
+      border-radius: 3px;
+      box-shadow: none;
+      padding: 2px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      background-color: #ebf0ef;
+      &:hover {
+        background-color: inherit;
+      }
+    }
+    .qwerty-wrapper {
+      .tool_button {
+        flex-grow: 1;
+        flex-shrink: 1;
+        max-width: 30px;
+      }
+    }
+  }
+
+  #shape_cats{
+    border-radius: 0 !important;
+    display: flex;
+    width: 100% !important;
+    background-color: #ebf0ef !important;
+    /*height: 170px;*/
+    height: auto;
+    &>div {
+      width: 100%;
+      text-align: center;
+      background-color: #e1e6e5;
+      border-radius: 0 !important;
+      line-height: 27px;
+      padding: 0;
+      &::after {
+        border: 0 !important;
+      }
+    }
+  }
+
+  .current {
+    border-color: #3f3f3c !important;
+    font-weight: normal !important;
+  }
+
+  #FloatingLayer {
+    border: 0 !important;
+    z-index: 10;
+    width: 100% !important;
+    left: 0 !important;
+    background-color: #ebf0ef !important;
+    margin-left: 0 !important;
+    &* {
+      border: 0;
+    }
+  }
+
+  #floatingContent {
+    background-color: transparent;
+    opacity: 1 !important;
+    height: 25px !important;
+    padding: 3px 0 !important;
+    h1 {
+      height: 25px !important;
+      font-size: 15px;
+      margin: 0;
+      line-height: 24px;
+      display: flex;
+      &>div {
+        padding: 0 3px;
+        margin: 0;
+        flex-grow: 1;
+        text-align: center !important;
+        background-color: transparent;
+        position: relative;
+        z-index: 11;
+        border-right: 1px #e0e0e0 solid;
+      }
+    }
+  }
+
+  #tools_mathlib {
+    opacity: 1 !important;
+    height: 55px;
+    bottom: 0;
+    top: inherit !important;
+    width: 100%;
+    margin-left: -47px !important;
+    &>div {
+      height: 60px;
+      font-size: 12px;
+    }
+  }
+
+  #math_cats {
+    &>div {
+      padding: 0;
+      text-align: center;
+      width: 50px;
+    }
+    div {
+      &.current {
+        &::after {
+          border: 0;
+        }
+      }
+    }
+  }
+
+  #math_buttons {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .qwerty-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  #shapelib_space {
+    flex-grow: 50 !important;
+    max-width: 150px !important;
+  }
+
+  #shapelib_shift {
+    flex-grow: 30 !important;
+    max-width: 65px !important;
+  }
+
+  #tools_shapelib_show {
+    display: none !important;
+  }
+}
+

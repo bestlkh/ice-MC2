@@ -12,6 +12,8 @@ function getExpression(eqns) {
         }
     }
     var items = [];
+    var limits = [];
+
     for (i = 0; i < eqns.length; i++) {
         if (eqns[i].textContent == " " || eqns[i].tagName == "g")
             continue;
@@ -21,6 +23,15 @@ function getExpression(eqns) {
         var width = rect.width;
         var height = rect.height;
         var value = eqns[i].nodeName == "path" ? eqns[i].id.split('_')[3] : eqns[i].textContent;
+        if(eqns[i].textContent == "l" || eqns[i].textContent == "i" || eqns[i].textContent ==  "m"){          
+            limits.push(eqns[i].textContent);   
+            if(limits.length == 3 && limits[0] == "l" && limits[1] == "i" && limits[2] == "m"){
+                value = "lim";
+            }
+        }else{
+            limits = [];
+        }
+                            
         var type = getSymbolType(value);
         switch (type) {
             case SYMBOL_TYPES.BRACKET:
@@ -55,7 +66,7 @@ function getExpression(eqns) {
     });
     //console.log(items);
     var bst = parse(items);
-    //console.log(bst);
+    console.log(bst);
     return bst;
 }
 
@@ -65,7 +76,7 @@ function getBST() {
     //console.log(bst);
     var tex = getTex(bst);
     //alert(tex);
-    parent.document.getElementById('textArea').value = tex;
+    return tex;
 };
 
 function parse(ls){
@@ -87,15 +98,35 @@ function parse(ls){
         while (queue.length != 0) {
             [temp1, parent] = queue.shift();
             symbol = ls[temp1];
+            symbol.marked = true;
             parent.symbols.push(symbol);
             stack.push([temp1, symbol]);
             wall = ls[temp1].wall;
             temp2 = hor(ls, temp1);
             while(temp2 != -1) {
-                ls[temp2].marked = true;
                 var oldWall = ls[temp1].wall;
                 ls[temp2].setWall(oldWall);
                 symbol = ls[temp2];
+                var parentSize = parent.symbols.length;
+                if (symbol.value === "m" && parentSize >= 2 && parent.symbols[parentSize - 1].value === "i" && parent.symbols[parentSize - 2].value === "l") {
+                    var iSymbol = parent.symbols[parentSize - 1];
+                    var lSymbol = parent.symbols[parentSize - 2];
+                    var newX = lSymbol.minX;
+                    var newY = lSymbol.minY;
+                    var newWidth = symbol.x + symbol.width - newX;
+                    var newHeight = lSymbol.height;
+                    var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
+                    newLimitSymbol.setWall(oldWall);
+                    newLimitSymbol.subSymbols = [lSymbol, iSymbol, symbol]; // fix when moving aronud actual symbols.
+                    symbol = newLimitSymbol;
+                    ls[temp2] = symbol;
+                    //console.log(ls.popls.indexOf(parent.symbols[parentSize -2]))
+                    //console.log(ls.indexOf(parent.symbols[parentSize -1]))
+                    stack.splice(stack.indexOf([ls.indexOf(lSymbol), lSymbol]), 1);
+                    stack.splice(stack.indexOf([ls.indexOf(iSymbol), iSymbol]), 1);
+                    parent.symbols.pop();
+                    parent.symbols.pop();
+                }
                 parent.symbols.push(symbol);
                 stack.push([temp2, symbol]);
                 ls[temp1].wall.right = ls[temp2].minX;
@@ -104,6 +135,7 @@ function parse(ls){
                     ls[temp2].wall.left = ls[temp1].maxX;
                 }
                 temp1 = temp2;
+                ls[temp1].marked = true;
                 temp2 = hor(ls, temp1);
             }
             stack.push("EOBL");
@@ -147,7 +179,6 @@ function parse(ls){
                     if(!symbol.region[regions[i][2]]) {
                         continue;
                     }
-                    
                     symbol.region[regions[i][2]].setWall(regions[i]);
                     temp2 = start(ls, symbol.region[regions[i][2]].wall);
                     if (temp2 != -1) {
@@ -292,44 +323,56 @@ function hor(ls, s) {
 }
 
 function getTex(bst) {
+
     var result = "";
-    //if (!bst) {
-      //  return result;
-    //}
-    //console.log(bst);
     if (bst.symbols){
+
         if (bst.region_name == 'root') {
             result += "$$";
         }
         for (var i = 0; i < bst.symbols.length; i++) {
-            result += getTex(bst.symbols[i]);
+            var lastTex = getTex(bst.symbols[i]);
+            result += lastTex;
         }
+        if(result.indexOf("lim")>=0){
+                result = result.replace('li ', ' ');
+            }
+    
         if (bst.region_name == 'root') {
             result += "$$";
+            result = result.replace(/arcsin|arccos|arctan|cosh|sinh|tanh|cos|sin|tan/gi, function(x) {return " \\" + x + " ";})
+
         }
         return result;
     }
     var value = bst.value;
     var symbol = bst;
     var type = bst.type;
-
-    if (type === "limit") {
+    if (type === "limit") {   
         result += TEX_TEXT[value] + " ";
-        if(bst.region.bleft.hasElement() || bst.region.below.hasElement() || bst.region.subsc.hasElement())
+        if(bst.hasAnyBottom())
             result += "_{" + getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc) + "} ";
-        if(bst.region.tleft.hasElement() || bst.region.above.hasElement() || bst.region.supers.hasElement())
+        if(bst.hasAnyTop())
         result += "^{" + getTex(bst.region.tleft) + getTex(bst.region.above) + getTex(bst.region.supers) + "} ";
     } else if (type === "fraction") {
-        result += TEX_TEXT[value];
-        result += "{" 
-        if (bst.region.above.hasElement()) {
-            result += getTex(bst.region.above);
-         } 
-        result += "}{";
-        if (bst.region.below.hasElement()) {
-            result += getTex(bst.region.below);
+        if (bst.hasAnyTop() && bst.hasAnyBottom()) {
+            result += TEX_TEXT["fraction"];
+            result += "{" 
+            result += getTex(bst.region.tleft) + getTex(bst.region.above) + getTex(bst.region.supers);
+            result += "}{";
+            result += getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc);
+            result += "} ";
+         } else if (bst.hasAnyBottom()) {
+            result += TEX_TEXT['overline'];
+            result += "{" + getTex(bst.region.bleft) + getTex(bst.region.below) + getTex(bst.region.subsc) + "}";
+        } else if (bst.hasAnyTop()) {
+            result += TEX_TEXT['underline'];
+            result += "{" + getTex(bst.region.tleft) + getTex(bst.region.above) + getTex(bst.region.supers) + "}";
         }
-        result += "} ";
+        else {
+            result += ' - ';
+        }
+
 
     } else if (type === "root") {
         result += TEX_TEXT[value] + "{" + getTex(bst.region.contains) + "} ";
@@ -350,7 +393,7 @@ function getTex(bst) {
             }
         }
     } else if (type == "operator") {
-        result += value;
+        result += TEX_TEXT[value];
     } else {
         result += value;
         if (bst.region.supers.hasElement()) {

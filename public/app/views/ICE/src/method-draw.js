@@ -25,6 +25,7 @@ var SOTP = 0;
   document.addEventListener("touchend", touchHandler, true);
   document.addEventListener("touchcancel", touchHandler, true);
 
+
   if(!window.methodDraw) window.methodDraw = function($) {
     var svgCanvas;
     var Editor = {};
@@ -1104,6 +1105,7 @@ var SOTP = 0;
 
                   // Create a flyout div
                   flyout_holder = makeFlyoutHolder(tls_id, ref_btn);
+                  matrixSizeHolder();
                   flyout_holder.data('isLibrary', true);
                   show_btn.data('isLibrary', true);
                 }
@@ -1809,10 +1811,12 @@ var SOTP = 0;
         if ($(button).hasClass('disabled')) return false;
         if($(button).parent().hasClass('tools_flyout')) return true;
         var fadeFlyouts = fadeFlyouts || 'normal';
-        if(!noHiding) {
-          //$('.tools_flyout').fadeOut(fadeFlyouts);  //**MDP
-          $('.tools_flyout').hide('normal'); //**MDP
+
+        // If mobile interface is not mounted, we hide the keyboard
+        if(!noHiding && $(window).width() > 732) {
+          $('.tools_flyout').hide('normal');
         }
+
         $('#styleoverrides').text('');
         $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
         $(button).addClass('tool_button_current').removeClass('tool_button');
@@ -1886,6 +1890,7 @@ var SOTP = 0;
 
       //menu handling
       var menus = $('.menu');
+      var secondmenus = $('.touch .second-level-menu');
       var blinker = function(e) {
         e.target.style.background = "#fff";
         setTimeout(function(){e.target.style.background = "#ddd";}, 50);
@@ -1929,6 +1934,19 @@ var SOTP = 0;
            $(this).parent().addClass('open');
          });
 
+
+        $('.touch nav li').on('touchstart', function() {   
+              if(  $(this).hasClass('open')){
+
+                $(this).children('.touch .second-level-menu').css('display' , 'none');
+                     $(this).removeClass('open');
+              }
+              else{
+               secondmenus.css('display', 'none')
+               $(this).children('.touch .second-level-menu').css('display' , 'block');
+                 $(this).toggleClass('open');
+              }
+        });
 
       // Made public for UI customization.
       // TODO: Group UI functions into a public methodDraw.ui interface.
@@ -2101,13 +2119,14 @@ var SOTP = 0;
       var clickSelect = function() {
         if (toolButtonClick('#tool_select')) {
           svgCanvas.setMode('select');
-          //$('#styleoverrides').text('#svgcanvas svg *{cursor:move;pointer-events:all}, #svgcanvas svg{cursor:default}'); //**MDP
+          new UI.Cursor("#svgcanvas").setType("text");
         }
       };
 
       var clickFHPath = function() {
         if (toolButtonClick('#tool_fhpath')) {
           svgCanvas.setMode('fhpath');
+          new UI.Cursor("#svgcanvas").setType("default");
         }
       };
 
@@ -2205,9 +2224,22 @@ var SOTP = 0;
 
       var clickConvert = function(){
         if (toolButtonClick('#tool_convert')) {
-          getBST();
-          if($(window).width() <= 732)
+          var tex = getBST();
+          if($(window).width() <= 732) {
             clickSwap();
+            raw_message = tex;
+            raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+            var message_attachment = {
+              'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+            };
+            raw_message += btoa(JSON.stringify(message_attachment));
+            raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+            parent.document.getElementById('textArea').value  = raw_message;
+            parent.document.getElementById('send-message-button').click();
+          } else {
+            parent.preview.window.svg_source = btoa($("#svgcontent").find(".active-layer").html());
+            parent.preview.window.previewEditor.setValue(tex);
+          }
         }
       };
 
@@ -2404,6 +2436,136 @@ var SOTP = 0;
         svgCanvas.cycleElement(0);
       };
 
+      var convertAndSend = function(){
+          $("#send-sheet").addClass("shown");
+          $("#send-sheet-background").addClass("shown");
+          $("#send-sheet-equation").html(getBST());
+          MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+      };
+      var matrixBuilder = function(col, row){
+        var result = col + row;
+        console.log(result);
+
+      }
+
+      var matrixSizeHolder= function(){
+        var div = $('<div>',{
+          'id': 'matrix_flyout'
+        });
+        var el = $('<div>',{
+          'id': 'grid-select'
+        });
+        var sizeShow = $('<span>',{
+          'id': 'sizeShow'
+        });
+
+        var cols = 4;
+        var rows = 4;
+
+        var clickHandler = function() {
+          toggleMatrixSizeBtn();
+          var target = $(this)
+          var cellIndex = target.index() + 1
+          var rowIndex = target.parent().index() + 1
+          console.log("heelo");
+          matrixBuilder(cellIndex,rowIndex);
+        }
+
+        var table = $('<table>').addClass('layout-select')
+        el.append(table)      
+        for (var i=0; i < rows; i++){
+          var row = $('<tr>')
+          table.append(row) 
+          for (var j=0; j < cols; j++){
+            var cell = $('<td>')
+            cell.append($('<div>'))
+            row.append(cell)
+          }
+        }
+        
+        function clearHighlight (target) {  
+          target.parent().parent().find('div').removeClass('grid-select-active')
+        }
+       
+        function addHighlight (target){
+          var cellIndex = target.index()
+          var rowIndex = target.parent().index()
+          var rows = target.parent().parent().children()  
+          document.getElementById('sizeShow').innerHTML = (rowIndex+1) + "x" + (cellIndex+1);
+          for (var i=0; i<=rowIndex; i++) {
+            $(rows[i])
+              .children()
+              .eq(cellIndex)
+              .prevAll()
+              .addBack()
+              .find('div')
+              .addClass('grid-select-active')
+          }  
+        }    
+        table.find('td').on('click', clickHandler)    
+        table.find('td').on('mouseover', function(){
+        var target = $(this)
+          addHighlight(target)
+          //showSize();
+        })       
+        table.on('mouseout', function(){
+          var target = $(this)
+          clearHighlight(target)
+        }) 
+        $('#svg_editor').append(div);  
+        $('#matrix_flyout').append(el);
+        $('#matrix_flyout').append(sizeShow);
+      };
+
+      var toggleMatrixSizeBtn= function(){
+          var placeHolder = document.getElementById('matrix_flyout');
+          console.log(placeHolder.childNodes);
+          if(placeHolder.style.display == 'block'){
+            
+            placeHolder.style.display = 'none';
+          }
+          else{
+            placeHolder.style.display = 'block';
+          }        
+      };
+
+      var sendAsImage = function(){
+          var svgSource = "<svg id='pre-render-svg' style='background-color: #FFFFFF;'><g>" + $("#svgcontent").find(".active-layer").html() + "</g></svg>";
+          $("body").append(svgSource);
+          $("#pre-render-svg").find("#math_cursor").remove();
+          var bbox = $("#pre-render-svg").children("g")[0].getBBox();
+          $("#pre-render-svg").find("g").prepend('<rect width="3000" height="3000" x="-500" y="-500" stroke="#000" fill="white" style="pointer-events:none" opacity="1"></rect>');
+          $("#pre-render-svg")[0].setAttribute("viewBox", (parseInt(bbox.x) - 20) + " " + (parseInt(bbox.y) - 20) + " " + (parseInt(bbox.width) + 40) + " " + (parseInt(bbox.height) + 40));
+          canvas = document.getElementById('export-dump-canvas');
+          console.log($("#pre-render-svg")[0].outerHTML);
+          canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
+              renderCallback: function(){
+                setTimeout(function(){
+
+                  var raw_message = "[mc2-image]" + canvas.toDataURL();
+                  // Add attachment to message
+                  raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+                  var message_attachment = {
+                    'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+                  };
+                  raw_message += btoa(JSON.stringify(message_attachment));
+                  raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+
+                  $(parent.document.getElementById('textArea')).val(raw_message);
+                  $(parent.document.getElementById('send-message-button')).click();
+                  $("#pre-render-svg").remove();
+                }, 500);
+                if($(window).width() <= 732){
+                    swapParentFrame();
+                }
+              },
+              forceRedraw: function(){
+                return true;
+              },
+              ignoreDimensions: false
+          });
+      };
+
       var rotateSelected = function(cw,step) {
         if (selectedElement == null || multiselected) return;
         if(!cw) step *= -1;
@@ -2457,26 +2619,6 @@ var SOTP = 0;
         }
       }
 
-      //BRIANCHEN
-      var sendToChat = function(){
-        var canvas = document.getElementById('testcanvas');
-        document.getElementById("ts").style.display="inline";
-        var ctx = canvas.getContext('2d');
-
-        var DOMURL = window.URL || window.webkitURL || window;
-
-        var img = new Image();
-        var svg = svgCanvas.getSVGBlob();
-        var url = DOMURL.createObjectURL(svg);
-
-        img.onload = function() {
-          ctx.drawImage(img, 0, 0);
-          DOMURL.revokeObjectURL(url);
-        }
-
-        img.src = url;
-        uploadToChat(img);
-      }
       // by default, svgCanvas.open() is a no-op.
       // it is up to an extension mechanism (opera widget, etc)
       // to call setCustomHandlers() which will make it do something
@@ -2484,6 +2626,7 @@ var SOTP = 0;
         svgCanvas.open();
       };
       var clickImport = function(){
+        $("#image-import-input").click();
       };
 
       var flash = function($menu){
@@ -3326,6 +3469,7 @@ var SOTP = 0;
           {sel:'#tool_selectpath', fn: clickSwapCursor, evt: 'click', kAy: ['V', true]},
           {sel:'#tool_undobutton', fn: clickUndo, evt: 'click', kAy: ['U', true]},
           {sel:'#tool_deletebutton', fn: deleteSelected, evt: 'click', kAy: ['U', true]},
+          {sel:'#tool_toggle_keyboard', fn: MobileUI.toggleKeyboard, evt: 'click'},
           {sel:'#tool_fhpath', fn: clickFHPath, evt: 'click', kAy: ['Q', true]},
           {sel:'#tool_onscreenkeyboard', fn: clickOSK, evt: 'click', kAy: ['K', true]},
           {sel:'#tool_line', fn: clickLine, evt: 'click', kAy: ['L', true]},
@@ -3340,10 +3484,10 @@ var SOTP = 0;
           {sel:'#tool_zoom', fn: clickZoom, evt: 'mouseup', kAy: ['Z', true]},
           {sel:'#tool_clear', fn: clickClear, evt: 'mouseup', kAy: [modKey + 'N', true]},
           {sel:'#tool_save', fn: function() { editingsource ? saveSourceEditor(): clickSave() }, evt: 'mouseup', key: [modKey + 'S', true]},
-          {sel:'#tool_STC', fn: sendToChat, evt: 'mouseup'},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
-          {sel:'#tool_import', fn: clickImport, evt: 'mouseup'},
+          {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},
+          {sel:'.tool_import_mobile', fn: clickImport, evt: 'mouseup'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},
@@ -3378,6 +3522,13 @@ var SOTP = 0;
         //  {sel:'#tool_italic', fn: clickItalic, evt: 'mousedown',  key: [modKey + 'I', true]},
           //{sel:'#sidepanel_handle', fn: toggleSidePanel, key: ['X']},
           {sel:'#copy_save_done', fn: cancelOverlays, evt: 'click'},
+          {sel:'#tool_send_as_image', fn: sendAsImage, evt: 'click'},
+          {sel:'#tool_matrix', fn: toggleMatrixSizeBtn, evt: 'click'},
+          {sel:'#send-sheet-equation-button', fn: clickConvert, evt: 'click'},
+          {sel:'#send-sheet-image-button', fn: sendAsImage, evt: 'click'},
+          {sel:'#tool_send_mobile', fn: convertAndSend, evt: 'click'},
+
+
 
           // Shortcuts not associated with buttons
 
@@ -3479,15 +3630,19 @@ var SOTP = 0;
   					{key: ['6', true], fn: function(){svgCanvas.keyPressed('6');}},
   					{key: ['7', true], fn: function(){svgCanvas.keyPressed('7');}},
   					{key: ['8', true], fn: function(){svgCanvas.keyPressed('8');}},
-  					{key: ['9', true], fn: function(){svgCanvas.keyPressed('9');}},
+            {key: ['9', true], fn: function(){svgCanvas.keyPressed('9');}},
+            {key: ['shift+8', true], fn: function(){svgCanvas.keyPressed('×');}},
+            {key: [String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('.');}},
+            {key: [String.fromCharCode(191), true], fn: function(){svgCanvas.keyPressed('//');}},
+            {key: ['ctrl+l', true], fn: function() {var at = svgCanvas.toggleAutoSpacing(); alert("Auto-spacing is " +  (at ? "on" : "off") + ".")}},
   				//	{key: ['<', true], fn: function(){svgCanvas.keyPressed('<');}},
   				//	{key: ['>', true], fn: function(){svgCanvas.keyPressed('>');}},
             {key: ['shift+,', true], fn: function(){svgCanvas.keyPressed('<');}},
             {key: ['shift+.', true], fn: function(){svgCanvas.keyPressed('>');}},
   					{key: '.', fn: function(){svgCanvas.keyPressed('.');}},
   					{key: 'space', fn: function(){svgCanvas.keyPressed(' ');}},
-  					{key: '-', fn: function(){svgCanvas.keyPressed('-');}},
-            {key: String.fromCharCode(189), fn: function(){svgCanvas.keyPressed('-');}},
+  					{key: '-', fn: function(){svgCanvas.keyPressed('—');}},
+            {key: String.fromCharCode(189), fn: function(){svgCanvas.keyPressed('—');}},
   					{key: 'shift+(', fn: function(){svgCanvas.keyPressed('(');}},
   					{key: 'shift+)', fn: function(){svgCanvas.keyPressed(')');}},
   					{key: '[', fn: function(){svgCanvas.keyPressed('[');}},
@@ -3526,7 +3681,12 @@ var SOTP = 0;
                 if (btn.length == 0) return true; // Skip if markup does not exist
                 if(opts.evt) {
                   if (svgedit.browser.isTouch() && opts.evt === "click") opts.evt = "mousedown"
-                  btn[opts.evt](opts.fn);
+                  if(opts.evt === "click"){
+                    btn.click(opts.fn);
+                  } else {
+                    btn.on('mousedown', opts.fn);
+                  }
+                  // btn[opts.evt](opts.fn);
                 }
 
                 // Add to parent flyout menu, if able to be displayed
@@ -3929,11 +4089,13 @@ var SOTP = 0;
         w = Math.max(w_orig, svgCanvas.contentW * zoom * multi);
         h = Math.max(h_orig, svgCanvas.contentH * zoom * multi);
 
-        if(true || w == w_orig && h == h_orig) {
+        // if(true || w == w_orig && h == h_orig) {
+        //   workarea.css('overflow','hidden');
+        // } else {
+        //   workarea.css('overflow','hidden');
+        // }
+
           workarea.css('overflow','hidden');
-        } else {
-          workarea.css('overflow','scroll');
-        }
 
         var old_can_y = cnvs.height()/2;
         var old_can_x = cnvs.width()/2;

@@ -11,8 +11,11 @@ var formidable = require('formidable');		// file upload module
 var util = require('util');
 const uuidv4 = require('uuid-v4');
 var moment = require("moment");
+var Message = require("./message");
 
 const AdminView = require("./AdminView");
+const ChatNsp = require("./chatNsp").ChatNsp;
+const constants = require("./AdminView/constants");
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -47,7 +50,7 @@ ios.use(sharedsession(session, {
     autoSave:true
 }));
 
-var AdminController =  new AdminView(ios, app);
+var AdminController =  new AdminView(ios, app, session);
 
 
 // Initializing Variables
@@ -107,10 +110,16 @@ function findRoom(roomId) {
 	return ios.sockets.adapter.rooms[roomId];
 }
 
-ios.timeOuts = {};
+//ios.timeOuts = {};
+
+
+
+var chat = new ChatNsp("", ios);
 
 //sockets handling
-ios.on('connection', function(socket){
+
+
+chat.on('connection', function(socket){
 
     // if (socket.handshake.session.id) {
     // 	console.log("clearing timeout: "+socket.handshake.session.id);
@@ -130,93 +139,52 @@ ios.on('connection', function(socket){
     }
 
     function destroySession() {
-		setSessionVars({username: null, connectedRoom: null});
+		setSessionVars({username: null, userAvatar: null});
     }
 
 	socket.on("check-session", function (data, callback) {
 
         var session = socket.handshake.session;
-        var isRoomAdmin = false;
-        if (data.roomName && session.settings) {
-			isRoomAdmin = (session.settings.chat.roomName === data.roomName);
-		}
+
 		var username = session.username;
 		if (!username) callback({});
-		else callback({username: username, avatar: session.userAvatar, room: session.connectedRoom, isAdmin: session.isAdmin, isRoomAdmin: isRoomAdmin});
+		else callback({username: username, avatar: session.userAvatar});
     });
 
-
-    // TODO: Test this with admin view, might be weird interactions
 	socket.on("join-room", function(data, callback) {
 		if (!data.roomId) return socket.disconnect();
         data.roomId = data.roomId.toLowerCase();
         var room = findRoom(data.roomId);
         var nameExists = findClient(room, data.username);
-        if (nameExists && !socket.handshake.session.isInstructor && !socket.handshake.session.isAdmin) {
+        if (nameExists) {
         	destroySession();
         	return callback({success:false, message: "Use different username."});
 		}
 		if (socket.handshake.session.username) {
-            if (room && room.inviteOnly && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
-                destroySession();
-                return callback({success: false, message: "Room is invite only."});
-            }
-			socket.leave(socket.handshake.session.connectedRoom, function () {
+			socket.leave(socket.connectedRoom, function () {
+                ios.sockets.to(socket.connectedRoom).emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", timestamp: moment().valueOf(), type: "system", hidden: true});
                 socket.join(data.roomId, function () {
-
-                    //console.log(socket.username+" joined room "+ data.roomId);
 
                     room = findRoom(data.roomId);
 
-                    if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
-                    	socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
-					else socket.handshake.session.isInstructor = false;
-
-					if (socket.handshake.session.isAdmin && !socket.handshake.session.isInstructor) {
-                        ios.sockets.adapter.rooms[data.roomId].admin = socket;
-						if (!room.sessionId) room.sessionId = uuidv4();
-						room.inviteOnly = socket.handshake.session.settings.chat.invite;
-						if (socket.handshake.session.connectedRoom && findRoom(socket.handshake.session.connectedRoom)) {
-							findRoom(socket.handshake.session.connectedRoom).admin = null;
-						}
-
-					} else if (ios.sockets.adapter.rooms[data.roomId].admin)
-						ios.sockets.adapter.rooms[data.roomId].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has joined the room.", msgTime: new Date(), type: "system"});
-
-                    setSessionVar('connectedRoom', data.roomId);
+                    socket.connectedRoom = data.roomId;
 
 					if (!room.messageHistory) room.messageHistory = [];
 
 					var history = room.messageHistory.slice();
-					history.push({msg: "You have joined room "+ data.roomId+".", type: "system"});
+					history.push({msg: "You have joined room "+ data.roomId+".", type: "system", timestamp: moment().valueOf()});
 					socket.emit('new message multi', history);
 					callback({success: true});
                 });
             });
 
 		} else {
-            socket.emit('new message', {msg: "Error failed to joined room "+ data.roomId+".", type: "system"});
+            socket.emit('new message', {msg: "Error failed to joined room "+ data.roomId+".", type: "system", timestamp: moment().valueOf()});
             destroySession();
             callback({success: false});
 		}
     });
 
-	// creating new user if nickname doesn't exists
-    var getUserTracking = function (data, callback) {
-        MongoClient.connect(constants.dbUrl, function (err, db) {
-            db.tracking.find({roomName: req.parmas.roomName}, function (err, tracking) {
-                var student = findOne(tracking.students, {token: req.params.code});
-                if (!student) return res.status(404).json({
-                    status: 404,
-                    message: "Requested registration id cannot be found."
-                });
-
-                req.student = student;
-                return next();
-            })
-        });
-
-    };
 
 	//TODO: verify username is alphanumeric
 	socket.on('new user', function(data, callback){
@@ -230,32 +198,16 @@ ios.on('connection', function(socket){
 			{
 				callback({success:false, message: "Use different username."});
 			} else {
-				if (data.token) {
-                    MongoClient.connect("mongodb://127.0.0.1:27017/control", function (err, db) {
-                        db.collection('settings').findOne({'chat.roomName': data.roomId}, function (err, setting) {
-                            var owner = setting.user;
-                            db.collection("students").findOne({owner: owner}, function (err, students) {
-                                var student = findOne(students.students, {token: data.token});
-                                if (!student) return callback({success: false, message: "Invalid id."});
+				if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
+				else data.userAvatar = "Avatar"+data.userAvatar+".jpg";
 
-                                setSessionVar("utorid", student.utorid);
-                            })
-                        });
-                    });
-					// if (!ios.tracking[data.roomId] || !ios.tracking[data.roomId].trackingIds || !ios.tracking[data.roomId].trackingIds[data.trackId]) {
-					// 	return callback({success: false, message: "Invalid tracking id."});
-					// }
-					// setSessionVar("utorid", ios.tracking[data.roomId].trackingIds[data.trackId].utorid);
-				} else if (data.isJoin && clients.inviteOnly) {
-					return callback({success: false, message: "Room is invite only"});
-				}
-            	if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+            	if (socket.handshake.session.userAvatar) {
+
+            		data.userAvatar = socket.handshake.session.userAvatar;
+                }
+
+
 				setSessionVars({username: data.username, userAvatar: data.userAvatar});
-				//nickname[data.username] = socket;
-				// socket.join(data.roomId, function () {
-                 //    socket.connectedRoom = data.roomId;
-                 //    console.log(socket.username+" joined room "+ data.roomId);
-                // });
 
             	callback({success:true});
 			}
@@ -264,18 +216,11 @@ ios.on('connection', function(socket){
 	// sending online members list
 	socket.on('get-online-members', function(data){
 		var online_member = [];
-		var i = ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom];
+		var i = ios.sockets.adapter.rooms[socket.connectedRoom];
 		if (!i) return ios.sockets.emit('online-members', online_member);
 
 		for (var clientId in i.sockets) {
             temp1 = {"username": ios.sockets.connected[clientId].handshake.session.username, "userAvatar":ios.sockets.connected[clientId].handshake.session.userAvatar};
-
-            if (socket.handshake.session.isAdmin) {
-            	temp1.utorid = ios.sockets.connected[clientId].handshake.session.utorid;
-			}
-			if (ios.sockets.connected[clientId].handshake.session.isAdmin || ios.sockets.connected[clientId].handshake.session.isInstructor) {
-            	temp1.isInstructor = true;
-			}
             online_member.push(temp1);
 		}
 		socket.emit('online-members', online_member);
@@ -285,67 +230,63 @@ ios.on('connection', function(socket){
 	socket.on('send-message', function(data, callback){
 		data.type = "chat";
 		if (socket.handshake.session.username) {
-			data.username = socket.handshake.session.username;
-			data.userAvatar = socket.handshake.session.userAvatar;
-			data.initials = data.username.slice(0, 2);
-			data.msgTime = moment().format('LT');
-			data.isInstructor = false;
+			var message = new Message.Message(data, socket.handshake.session);
 
-            data.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
-			findRoom(socket.handshake.session.connectedRoom).messageHistory.push(data);
-			if(data.hasMsg){
-                ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message', data);
-				callback({success:true});
-			}else if(data.hasFile){
-				if(data.istype == "image"){
-                    ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message image', data);
-					callback({success:true});
-				} else if(data.istype == "music"){
-                    ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message music', data);
-					callback({success:true});
-				} else if(data.istype == "PDF"){
-                    ios.sockets.to(socket.handshake.session.connectedRoom).emit('new message PDF', data);
-					callback({success:true});
-				}
-			}else{
-				socket.disconnect();
-			}
-		}
+			findRoom(socket.connectedRoom).messageHistory.push(message);
+
+            ios.sockets.to(socket.connectedRoom).emit('new message', message);
+            callback({success:true});
+
+		} else {
+            socket.disconnect();
+        }
 	});
 
+	socket.on("send-image", function (data, callback) {
+        data.type = "chat";
+		if (socket.handshake.session.username) {
+		    if (!Message.ImageMessage.validate(data)) return callback({success: false});
+            var message = new Message.ImageMessage(data, socket.handshake.session);
+
+            findRoom(socket.connectedRoom).messageHistory.push(message);
+            ios.sockets.to(socket.connectedRoom).emit('new message', message);
+            callback({success:true});
+		}
+    });
+
 	socket.on("logout", function (callback) {
-		setSessionVars({username: null, connected: null, connectedRoom: null});
+		destroySession();
 
 		callback({});
     });
-	
-	// disconnect user handling 
+
+	// disconnect user handling
 	socket.on('disconnect', function () {
 		//delete nickname[socket.username];
 
         //delete socket.username;
 
+		ios.sockets.to(socket.connectedRoom).emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", timestamp: moment().valueOf(), type: "system", hidden: true});
+		if (socket.connectedRoom) socket.leave(socket.connectedRoom, function () {
+            //logout user after gone for 5min
+            // TODO: Maybe implement this but removed due to buggy
 
-        if (socket.handshake.session.connectedRoom && ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom] && ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom].admin)
-            ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom].admin.emit("new message", {username: "[System]", msg: socket.handshake.session.username+ " has left the room.", msgTime: new Date(), type: "system"});
+            // clearTimeout(ios.timeOuts[socket.handshake.session.id]);
+            // ios.timeOuts[socket.handshake.session.id] = setTimeout(function () {
+            // console.log("deleting session: "+socket.handshake.session.id);
+            // setSessionVars({username: null, userAvatar: null, connectedRoom: null, connected: false});
+            // }, 300000);
 
-		//logout user after gone for 5min
-		// TODO: Maybe implement this but removed due to buddy
+            var online_member = [];
+            var i = ios.sockets.adapter.rooms[socket.connectedRoom];
+            if (!i) return ios.sockets.emit('online-members', online_member);
+            for (var clientId in i.sockets) {
+                temp1 = {"username": ios.sockets.connected[clientId].username, "userAvatar":ios.sockets.connected[clientId].userAvatar};
+                online_member.push(temp1);
+            }
+            ios.sockets.to(socket.connectedRoom).emit('online-members', online_member);
+        });
 
-        // clearTimeout(ios.timeOuts[socket.handshake.session.id]);
-        // ios.timeOuts[socket.handshake.session.id] = setTimeout(function () {
-			// console.log("deleting session: "+socket.handshake.session.id);
-			// setSessionVars({username: null, userAvatar: null, connectedRoom: null, connected: false});
-        // }, 300000);
-
-        var online_member = [];
-        var i = ios.sockets.adapter.rooms[socket.handshake.session.connectedRoom];
-        if (!i) return ios.sockets.emit('online-members', online_member);
-        for (var clientId in i.sockets) {
-            temp1 = {"username": ios.sockets.connected[clientId].username, "userAvatar":ios.sockets.connected[clientId].userAvatar};
-            online_member.push(temp1);
-        }
-        ios.sockets.to(socket.handshake.session.connectedRoom).emit('online-members', online_member);
     });
 });
 

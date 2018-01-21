@@ -5,9 +5,9 @@ var App = angular.module('Admin',['ngRoute','ngStorage','socket.io','Controllers
 App.config(function ($routeProvider, $locationProvider){
     //$socketProvider.setConnectionUrl('http://142.1.93.22:8080'); // Socket URL
     $routeProvider	// AngularJS Routes
-        .when('/mail', {
-            templateUrl: '/app/views/admin/mail.html',
-            controller: 'mailController'
+        .when('/ta', {
+            templateUrl: '/app/views/admin/ta.html',
+            controller: 'taController'
         })
         .when('/chat', {
             templateUrl: '/app/views/admin/chat.html',
@@ -17,20 +17,29 @@ App.config(function ($routeProvider, $locationProvider){
             templateUrl: '/app/views/admin/chatSettings.html',
             controller: 'chatSettingsController'
         })
-        .when('/students', {
-            templateUrl: '/app/views/admin/students.html',
+        .when("/classrooms", {
+            templateUrl: '/app/views/admin/class.html',
+            controller: 'classController'
+        })
+        .when("/classrooms/:name", {
+            templateUrl: '/app/views/admin/classDetail.html',
+            controller: 'classDetailController'
+        })
+        .when("/classrooms/:name/students", {
+            templateUrl: '/app/views/admin/classStudents.html',
             controller: 'studentsController'
         })
         .otherwise({
-            redirectTo: '/chat',	// Default Route
+            redirectTo: '/classrooms',	// Default Route
             templateUrl: '/app/views/admin/chat.html',
             controller: 'chatController'
         });
 
     $locationProvider.html5Mode(true);
 }).component("logoutMenu", {
-    template: "<div class='user-display' ng-mouseenter='$ctrl.onEnter()' ng-mouseleave='$ctrl.onLeave()'>" +
-                "{{ $ctrl.user.username }}" +
+    template: "<div class='user-display' ng-click='$ctrl.onClick()'>" +
+                "<div class='user-avatar' ng-style=\"{'background':'transparent url(/app/css/dist/img/' + $ctrl.user.userAvatar + ')'}\"></div>" +
+                "<div>{{ $ctrl.user.username }}</div>" +
                 "<ul class='dd-menu' ng-if='!$ctrl.hideLogout'>" +
                     "<a href='/logout'><li>" +
                         "Logout" +
@@ -41,6 +50,14 @@ App.config(function ($routeProvider, $locationProvider){
         this.hideLogout = true;
         this.interval = null;
 
+        this.getAvatar = function () {
+            return {'background-image': "URL(/app/css/dist/img/" + (this.user ? this.user.userAvatar : 'avatar1.jpg') +")"}
+        };
+
+        this.onClick = function () {
+            this.hideLogout = !this.hideLogout;
+
+        };
         this.onEnter = function () {
 
             this.hideLogout = false;
@@ -61,4 +78,6 @@ App.config(function ($routeProvider, $locationProvider){
     bindings: {
         user: '='
     }
+}).run(function ($socket) {
+    $socket.connect(null);
 });

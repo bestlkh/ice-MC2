@@ -1,5 +1,6 @@
 const SymbolTypes = require('./enums/SymbolTypes');
 const RegionTypes = require('./enums/RegionTypes');
+const Expression = require('./Expression');
 
 class Symbol {
     /**

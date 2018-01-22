@@ -299,7 +299,7 @@ AdminView.prototype.setupApi = function () {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 res.json({});
             });
-        });
+        }.bind(this));
 
 
     }.bind(this));
@@ -350,7 +350,7 @@ AdminView.prototype.setupApi = function () {
 
             });
 
-        });
+        }.bind(this));
 
 
     }.bind(this));
@@ -410,7 +410,7 @@ AdminView.prototype.setupApi = function () {
             });
         }.bind(this));
 
-    };
+    }.bind(this);
 
     this.app.get("/v1/api/namespace/:nsp/room/:roomName/track/:code", getUserTracking, function (req, res) {
 
@@ -478,7 +478,7 @@ AdminView.prototype.setupApi = function () {
                 db.close();
             });
 
-        });
+        }.bind(this));
 
     }.bind(this));
 

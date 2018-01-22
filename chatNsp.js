@@ -365,6 +365,7 @@ LectureNsp.prototype.listen = function () {
 
                     message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
                     message.isTA = !!(socket.handshake.session.ta);
+                    message.utorid = socket.handshake.session.utorid;
 
                     this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);
 

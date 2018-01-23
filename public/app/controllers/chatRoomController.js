@@ -381,7 +381,7 @@ angular.module('Controllers')
             text += "</pre>";
 		}
 		text += "<br><b>Message ID: </b><code>" + message.getId() + "</code>";
-        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
+        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\")'>Show Raw Body</a>";
 
         text += "<hr>";
 

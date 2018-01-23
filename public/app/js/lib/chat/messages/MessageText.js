@@ -41,7 +41,7 @@ var MessageText = function () {
     _createClass(MessageText, [{
         key: 'getRaw',
         value: function getRaw() {
-            return this.text;
+            return this.text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
     }, {
         key: 'getRenderedText',

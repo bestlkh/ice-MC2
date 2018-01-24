@@ -149,20 +149,10 @@ input {
   transition: all 0.3s ease-in;
 }
 
-#collapsebar{
-  background-color:#2f2f2c;;
-  height:100vh;
-  float: left;
-  width: 25px;
-  cursor: col-resize;
-  &.active {
-    display: none;
-  }
-}
-
 .arrow-left {
   position: absolute;
   top: 50%;
+  left: 65%;
   width: 20px;
   height: 20px;
   background: #DDD;
@@ -171,7 +161,7 @@ input {
   margin-right: 0px;
   &.shown {
     z-index: 99;
-    right: 5%;
+    left: 95%;
     transition: left ease 0.5s;
   }
 }
@@ -321,10 +311,6 @@ position: absolute;
     width: 100%;
     height: 100vh;
     float: left;
-  }
-
-  #collapsebar{
-    display: none;
   }
 
   #dragbar{

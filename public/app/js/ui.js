@@ -33,11 +33,11 @@ onMainLoop(function(){
             'width': ''
         });
         $("#send-message-button").css({
-            'width': containerWidth - toolButtonTotalWidth - 30
+            'width': containerWidth - toolButtonTotalWidth - 32
         });
     } else {
         $("#textArea").css({
-            'width': containerWidth - toolButtonTotalWidth - 30
+            'width': containerWidth - toolButtonTotalWidth - 32
         });
         $("#send-message-button").css({
             'width': ''

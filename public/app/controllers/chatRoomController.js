@@ -352,6 +352,10 @@ angular.module('Controllers')
 		swapFrame();
 	};
 
+	$scope.startImageUpload = function(){
+        $("#upload-input").click();
+	};
+
     /**
 	 * Get a list of messages wrapped with Message class.
      * @returns {Array}

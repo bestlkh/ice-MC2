@@ -93,19 +93,24 @@
                             <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
                                     ng-click="toggleLatexEditor()">
                                 <img src="/app/images/latex-icon.png" width="20px"/>
-                                <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
-                                        ng-click="showEquationEditor()">
-                                    <img src="/app/images/editor-icon.png" width="20px"/>
-                                </button>
-                                <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
-                                          ng-model="chatMsg"
-                                          ng-change="isMsgBoxEmpty=false"
-                                          ng-enter="sendMsg()"
-                                          ng-focus="setFocus"
-                                          class="tex2jax_ignore"></textarea>
-                                <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
-                                        class="fa fa-paper-plane" aria-hidden="true"></i> Send
-                                </button>
+                            </button>
+                            <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
+                                    ng-click="showEquationEditor()">
+                                <img src="/app/images/editor-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button" id="send-image-button" title="Send Image"
+                                    ng-click="startImageUpload()">
+                                <img src="/app/images/image-upload-icon.png" width="20px"/>
+                            </button>
+                            <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                                      ng-model="chatMsg"
+                                      ng-change="isMsgBoxEmpty=false"
+                                      ng-enter="sendMsg()"
+                                      ng-focus="setFocus"
+                                      class="tex2jax_ignore"></textarea>
+                            <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
+                                    class="fa fa-paper-plane" aria-hidden="true"></i> Send
+                            </button>
                         </div>
 
                         <div id="latex-editor-area" class="tex2jax_ignore">

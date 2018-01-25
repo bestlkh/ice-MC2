@@ -115,26 +115,30 @@ showMessageRawNewWindow = function(raw){
 function initializeChatMenu(){
     chatMenu = new UI.BubbleMenu("#chat-menu", "#chat-menu-toggle", "#chat-menu-button-container", 50);
     chatMenu._getBubbleMenuButtonMarkup = function(config){
-        return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
+        return `<div id=${config.id} class=chat-menu-button title=${config.title}> ${config.innerContent} </div>`
     };
 
     let chatMembersButton = chatMenu.addButton({
-        id: "test",
+        id: "online-users",
+        title: "'Online Users'",
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
 
     let chatHistoryButton = chatMenu.addButton({
         id: "chat-history-button",
+        title: "History",
         innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
     });
 
     let logoutButton = chatMenu.addButton({
         id: "logout-button",
+        title: "Logout",
         innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
     });
 
     let uploadButton = chatMenu.addButton({
         id: "upload-button",
+        title: "'Upload Files'",
         innerContent: "<i class=\"fa fa-upload\" aria-hidden=\"true\"></i>"
     });
 

@@ -365,6 +365,9 @@ angular.module('Controllers')
 		swapFrame();
 	};
 
+    /**
+	 * Start the image upload process
+     */
 	$scope.startImageUpload = function(){
         $("#upload-input").click();
 	};
@@ -518,6 +521,17 @@ angular.module('Controllers')
 
             let img = new Image();
             img.onload = function(){
+
+            	// Empty the file input
+				let uploadInput = $("#upload-input");
+                try{
+                    uploadInput[0].value = '';
+                    if(uploadInput[0].value){
+                        uploadInput[0].type = "text";
+                        uploadInput[0].type = "file";
+                    }
+                }catch(e){}
+
             	// Get the image size, and decide if to resize it
 				let width = img.width;
 				let height = img.height;

@@ -320,12 +320,25 @@ angular.module('Controllers')
 			$socket.emit("delete-message", msg, function(data){});
 	};
 
+    /**
+	 * Open a base64 image in new tab.
+     * @param img - Image in base64 format.
+     */
 	$scope.openBase64ImageInNewTab = function(img){
         var image = new Image();
         image.src = img;
 
         var w = window.open("");
         w.document.write(image.outerHTML);
+	};
+
+    /**
+	 * Show a base64 image using Alert.Image library.
+     * @param img - Image in base64 format
+     */
+	$scope.openBase64ImageInOverlay = function(img){
+		let overlay = new Alert.Image(img);
+		overlay.show();
 	};
 
 	$scope.toggleLatexEditor = function(){

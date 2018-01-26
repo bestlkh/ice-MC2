@@ -4,9 +4,9 @@
             title="Delete">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
     </button>
-    <button ng-click="openBase64ImageInNewTab(message.getText().getImage())"
+    <button ng-click="openBase64ImageInOverlay(message.getText().getImage())"
             ng-if="message.getText().isImage()"
-            title="Open in new window">
+            title="Open image">
         <i class="fa fa-search-plus" aria-hidden="true"></i>
     </button>
     <button ng-click="showMessageDetails(message)"

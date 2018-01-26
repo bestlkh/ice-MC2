@@ -40,7 +40,7 @@
             <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <input ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <hr>
-            <input id="nickname" required type="text" class="form-control" placeholder="Initials (2 char. max)" ng-model="form.initials" ng-change="isErrorReq=isErrorNick=false;" onkeydown="limit(this);" onkeyup="limit(this);"/>
+            <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="isErrorReq=isErrorNick=false;" onkeydown="limit(this);" onkeyup="limit(this);"/>
 
             <span ng-hide="isErrorNick" class="glyphicon glyphicon-user form-control-feedback"></span>
             <span ng-hide="!isErrorNick" class="glyphicon glyphicon-remove form-control-feedback errText"></span>

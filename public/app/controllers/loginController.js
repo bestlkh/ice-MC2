@@ -117,8 +117,18 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
     };
 
+    /**
+	 * Automatically update user's initial
+     */
 	$scope.changeInitials = function () {
-		$scope.form.initials = $scope.form.username.substring(0,2);
+		let name = $scope.form.username.split(" ");
+		let initials;
+		if(name.length >= 2){
+			initials = name[0].substring(0,1).toUpperCase() + name[name.length - 1].substring(0,1).toUpperCase();
+		} else {
+            initials = $scope.form.username.substring(0,2).toUpperCase();
+		}
+		$scope.form.initials = initials;
     };
 
 	$scope.toggle = function (isJoin) {

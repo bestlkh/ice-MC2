@@ -24,11 +24,12 @@ onMainLoop(function(){
         });
     } else {
         // Include all tool buttons
-        $.each($(".message-tool-button"), function(key, val){
+        $.each($(".message-tool-button").not(".latex-editor-symbol-button"), function(key, val){
             toolButtonTotalWidth += $(val).outerWidth();
         });
     }
     if($("#text-message-input-area").hasClass("latex-editor-shown")){
+        $(".latex-editor-symbol-button").show();
         $("#textArea").css({
             'width': ''
         });
@@ -36,6 +37,7 @@ onMainLoop(function(){
             'width': containerWidth - toolButtonTotalWidth - 32
         });
     } else {
+        $(".latex-editor-symbol-button").hide();
         $("#textArea").css({
             'width': containerWidth - toolButtonTotalWidth - 32
         });

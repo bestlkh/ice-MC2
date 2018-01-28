@@ -94,7 +94,7 @@ LectureNsp.prototype.sendMessage = function (roomName, message, callback) {
 
 LectureNsp.prototype.findRoom = function (roomName, callback) {
 
-        this.db.collection("classrooms").findOne({owner: this.owner, roomName: roomName}, function (err, classroom) {
+        this.db.collection("classrooms").findOne({owner: this.owner, roomName: new RegExp("^" + roomName + "$", 'i')}, {}, function (err, classroom) {
             if (err) return callback(err, null);
             callback(null, classroom);
         });
@@ -133,7 +133,7 @@ LectureNsp.prototype.findStudent = function (data, callback) {
 };
 
 LectureNsp.prototype.findRoomAdapter = function (roomName) {
-    return this.nsp.adapter.rooms[roomName];
+    return this.nsp.adapter.rooms[roomName.toLowerCase()];
 };
 
 LectureNsp.prototype.findClient = function (roomName, username) {
@@ -256,7 +256,7 @@ LectureNsp.prototype.listen = function () {
 
                 this.findRoom(data.roomId, function (err, room) {
                     if (!room) return callback({success: false, message: "Room does not exist"});
-                    var nameExists = this.findClient(data.roomName, data.username);
+                    var nameExists = this.findClient(data.roomId, data.username);
                     if (nameExists && !socket.handshake.session.isInstructor && !socket.handshake.session.isAdmin) {
                         destroySession();
                         return callback({success: false, message: "Use different username."});
@@ -282,7 +282,7 @@ LectureNsp.prototype.listen = function () {
                             socket.connectedRoom = data.roomId;
 
                             if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
-                                socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName !== data.roomId);
+                                socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName.toLowerCase() !== data.roomId);
                             else socket.handshake.session.isInstructor = false;
 
                             if (!room.messageHistory) room.messageHistory = [];

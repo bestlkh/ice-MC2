@@ -15,7 +15,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 })
 .controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams, $window){		// Login Controller
 	// Varialbles Initialization.
-	$scope.userAvatar = "Avatar1.jpg";
+	$scope.userAvatar = "1";
 	$scope.isErrorReq = false;
 	$scope.isErrorNick = false;
     $scope.form = {};
@@ -117,8 +117,18 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
     };
 
+    /**
+	 * Automatically update user's initial
+     */
 	$scope.changeInitials = function () {
-		$scope.form.initials = $scope.form.username.substring(0,2);
+		let name = $scope.form.username.split(" ");
+		let initials;
+		if(name.length >= 2){
+			initials = name[0].substring(0,1).toUpperCase() + name[name.length - 1].substring(0,1).toUpperCase();
+		} else {
+            initials = $scope.form.username.substring(0,2).toUpperCase();
+		}
+		$scope.form.initials = initials;
     };
 
 	$scope.toggle = function (isJoin) {
@@ -154,8 +164,8 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						$scope.printErr($scope.errMsg);
 					}
 				});
-			}else{		// blanck nickname 
-				$scope.errMsg = "Enter a nickname.";
+			} else {		// blank username or room name
+				$scope.errMsg = "Please enter both username & room name.";
 				$scope.isErrorReq = true;
 				$scope.printErr($scope.errMsg);
 			}

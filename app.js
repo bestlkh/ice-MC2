@@ -15,7 +15,6 @@ var Message = require("./message");
 
 const AdminView = require("./AdminView");
 const ChatNsp = require("./chatNsp").ChatNsp;
-const LectureNsp = require("./chatNsp").LectureNsp;
 const constants = require("./AdminView/constants");
 
 var MongoClient = require('mongodb').MongoClient;
@@ -51,7 +50,7 @@ ios.use(sharedsession(session, {
     autoSave:true
 }));
 
-var AdminController =  new AdminView(ios, app);
+var AdminController =  new AdminView(ios, app, session);
 
 
 // Initializing Variables
@@ -140,7 +139,7 @@ chat.on('connection', function(socket){
     }
 
     function destroySession() {
-		setSessionVars({username: null});
+		setSessionVars({username: null, userAvatar: null});
     }
 
 	socket.on("check-session", function (data, callback) {
@@ -199,8 +198,15 @@ chat.on('connection', function(socket){
 			{
 				callback({success:false, message: "Use different username."});
 			} else {
+				if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
+				else data.userAvatar = "Avatar"+data.userAvatar+".jpg";
 
-            	if (socket.handshake.session.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+            	if (socket.handshake.session.userAvatar) {
+
+            		data.userAvatar = socket.handshake.session.userAvatar;
+                }
+
+
 				setSessionVars({username: data.username, userAvatar: data.userAvatar});
 
             	callback({success:true});
@@ -282,31 +288,6 @@ chat.on('connection', function(socket){
         });
 
     });
-});
-
-var setupNamespaces = function (callback) {
-
-    MongoClient.connect(constants.dbUrl, function (err, db) {
-    	if (err) return callback(err, null);
-        db.collection("users").find({}).toArray(function (err, users) {
-            if (err) return callback(err, null);
-            users.forEach(function (user) {
-            	console.log(user.username+" nsp added.");
-                var nsp = new LectureNsp(user.username, user.username, ios);
-                nsp.nsp.use(sharedsession(session, {
-                    autoSave:true
-                }));
-                nsp.listen();
-                
-                callback(null, this.nsps);
-            }.bind(this));
-        }.bind(this))
-    }.bind(this));
-
-};
-
-setupNamespaces(function (err, nsps) {
-	if (err) console.log("Failed to initialize namespaces.");
 });
 
 // route for uploading images asynchronously

@@ -748,13 +748,15 @@ background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53
 	height: 30px;
 	margin: -5px 10px;
 	border-radius: 50%;
-
+	background-size: 31px 31px !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
 }
 
 .user-display {
 	display:flex;
 	font-weight: 600;
-	width: 90px;
+
 	text-align: left;
 	margin-top: -2px;
 	cursor: pointer;
@@ -1404,6 +1406,7 @@ input[type="submit"]:hover {
 	flex-flow: column;
 	justify-content: center;
 	text-align: center;
+	padding: 40px;
 }
 
 .notif-popup {

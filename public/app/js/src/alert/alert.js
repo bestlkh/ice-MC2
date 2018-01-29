@@ -1,11 +1,12 @@
-var Alert = require('./dialogs/Alert');
-var Confirm = require('./dialogs/Confirm');
-var Notification = require('./overlays/Notification');
-
+let Alert = require('./dialogs/Alert');
+let Confirm = require('./dialogs/Confirm');
+let Notification = require('./overlays/Notification');
+let Image = require('./overlays/Image');
 
 
 window.Alert = {
     Alert: Alert,
     Confirm: Confirm,
-    Notification: Notification
+    Notification: Notification,
+    Image: Image
 };

@@ -103,6 +103,7 @@ angular.module('Controllers')
             },
             onReset: function () {
                 $.ajax({
+                    method: "PATCH",
                     url: "/v1/api/classrooms/"+$routeParams.name+"/students/generate",
                     success: function () {
                         $scope.Actions.getStudentList();

@@ -81,6 +81,11 @@ angular.module('Controllers')
 
 	$scope.showMenuMessage = null;
 
+    var nsp = "";
+    if ($location.search().nsp)
+        nsp = "/"+$location.search().nsp;
+    $socket.connect($location.host() +":"+ $location.port()+nsp);
+
 
 	$scope.onClickDetails = function () {
 		$scope.enableVerbose = !$scope.enableVerbose;
@@ -315,6 +320,10 @@ angular.module('Controllers')
 			$socket.emit("delete-message", msg, function(data){});
 	};
 
+    /**
+	 * Open a base64 image in new tab.
+     * @param img - Image in base64 format.
+     */
 	$scope.openBase64ImageInNewTab = function(img){
         var image = new Image();
         image.src = img;
@@ -323,12 +332,16 @@ angular.module('Controllers')
         w.document.write(image.outerHTML);
 	};
 
+    /**
+	 * Show a base64 image using Alert.Image library.
+     * @param img - Image in base64 format
+     */
+	$scope.openBase64ImageInOverlay = function(img){
+		let overlay = new Alert.Image(img);
+		overlay.show();
+	};
+
 	$scope.toggleLatexEditor = function(){
-		var panel = document.getElementById("panel");
-		if(panel.style.display == "block"){
-			panel.style.display = "none";
-			panel.style.maxHeight = null;
-		}
 		$("#latex-editor-area").toggleClass("shown");
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
 		$("#direct-chat-container").toggleClass("latex-editor-shown");
@@ -345,6 +358,18 @@ angular.module('Controllers')
 
 	$scope.showEquationEditor = function(){
 		swapFrame();
+	};
+
+	$scope.latexEditorAddText = function(text){
+        latexEditor.replaceSelection(text, "end");
+        latexEditor.focus();
+	};
+
+    /**
+	 * Start the image upload process
+     */
+	$scope.startImageUpload = function(){
+        $("#upload-input").click();
 	};
 
     /**
@@ -376,7 +401,7 @@ angular.module('Controllers')
             text += "</pre>";
 		}
 		text += "<br><b>Message ID: </b><code>" + message.getId() + "</code>";
-        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg) + "\")'>Show Raw Body</a>";
+        text += "<br><a style='cursor:pointer;' onclick='showMessageRawNewWindow(\"" + btoa(message.raw_data.msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")) + "\")'>Show Raw Body</a>";
 
         text += "<hr>";
 
@@ -489,14 +514,58 @@ angular.module('Controllers')
     $scope.$watch('upload.image', function () {
         if (!$scope.upload.image) return;
 
-        var fr = new FileReader();
+        let fr = new FileReader();
 
         fr.addEventListener("load", function () {
-        	var url = fr.result;
+        	let url = fr.result;
 
-            $socket.emit("send-image", {dataUri: url}, function (data) {
-				console.log(data);
-            })
+            let img = new Image();
+            img.onload = function(){
+
+            	// Empty the file input
+				let uploadInput = $("#upload-input");
+                try{
+                    uploadInput[0].value = '';
+                    if(uploadInput[0].value){
+                        uploadInput[0].type = "text";
+                        uploadInput[0].type = "file";
+                    }
+                }catch(e){}
+
+            	// Get the image size, and decide if to resize it
+				let width = img.width;
+				let height = img.height;
+				// We only allow maximum of 1920x1080 images
+				if (width > 1920 || height > 1080){
+					// Resize the image
+					let targetWidth, targetHeight;
+					if (width > 1920){
+						// Resize the width
+						let scale = 1920 / width;
+						targetWidth = 1920;
+						targetHeight = height * scale;
+					} else {
+						// Resize the height
+						let scale = 1080 / height;
+						targetWidth = width * scale;
+						targetHeight = 1080;
+					}
+                    let canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext('2d');
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    ctx.drawImage(this, 0, 0, targetWidth, targetHeight);
+                    $socket.emit("send-image", {
+                    	dataUri: canvas.toDataURL('image/jpeg', 0.7)
+					}, function (data) {});
+				} else {
+					// We just send the image
+                    $socket.emit("send-image", {dataUri: url}, function (data) {});
+				}
+            };
+
+            img.src = url;
+
         }, false);
         fr.readAsDataURL($scope.upload.image);
 

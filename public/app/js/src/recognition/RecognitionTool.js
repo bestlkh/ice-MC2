@@ -1,10 +1,10 @@
 const SymbolTypes = require('./enums/SymbolTypes');
-const SymbolFactory = require('./SymbolFactory');
 const BracketTypes = require('./enums/BracketTypes');
 const Expression = require('./Expression');
 const Symbol = require('./Symbol');
 const RegionTypes = require('./enums/RegionTypes');
 const Constant = require('./constant');
+const SymbolFactory = require('./SymbolFactory');
 
 const CENTRED = ["a", "c", "e", "j", "m", "n", "o", "r", "s", "u", "v", "w", "x", "z"];
 const DECENDING = ["g", "p", "q", "y"]; // need these in when we have svgs for characters ready

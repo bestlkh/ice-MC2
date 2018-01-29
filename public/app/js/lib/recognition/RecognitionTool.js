@@ -7,12 +7,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SymbolTypes = require('./enums/SymbolTypes');
-var SymbolFactory = require('./SymbolFactory');
 var BracketTypes = require('./enums/BracketTypes');
 var Expression = require('./Expression');
 var _Symbol = require('./Symbol');
 var RegionTypes = require('./enums/RegionTypes');
 var Constant = require('./constant');
+var SymbolFactory = require('./SymbolFactory');
 
 var CENTRED = ["a", "c", "e", "j", "m", "n", "o", "r", "s", "u", "v", "w", "x", "z"];
 var DECENDING = ["g", "p", "q", "y"]; // need these in when we have svgs for characters ready
@@ -144,6 +144,7 @@ var RecognitionTool = function () {
         /**
          * returns the type of Symbol given a string value
          * @param {String} value
+         * @return {number}
          */
         value: function getSymbolType(value) {
             if (Constant.BRACKET.indexOf(value) != -1) {
@@ -152,7 +153,7 @@ var RecognitionTool = function () {
             if (Constant.LINE.indexOf(value) != -1) {
                 return SymbolTypes.FRACTION;
             }
-            if (Constant.Root.indexOf(value) != -1) {
+            if (Constant.ROOT.indexOf(value) != -1) {
                 return SymbolTypes.ROOT;
             }
             if (Constant.LIMIT.indexOf(value) != -1) {

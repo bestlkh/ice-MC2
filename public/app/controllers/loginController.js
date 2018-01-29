@@ -164,8 +164,8 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						$scope.printErr($scope.errMsg);
 					}
 				});
-			}else{		// blanck nickname 
-				$scope.errMsg = "Enter a nickname.";
+			} else {		// blank username or room name
+				$scope.errMsg = "Please enter both username & room name.";
 				$scope.isErrorReq = true;
 				$scope.printErr($scope.errMsg);
 			}

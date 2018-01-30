@@ -40,9 +40,9 @@
   background-color: transparent;
 }
 
-#dcs {
-  padding-top: 200px;
-}
+// #dcs {
+//   padding-top: 200px;
+// }
 
 .attachment-icon-right {
   float : right;
@@ -131,8 +131,11 @@
 }
 
 #slidememberlist{
-  background-color: rgba(255,255,255,0.6);
-  overflow: hidden;
+  background-color: lightgreen;//rgba(255,255,255,0.6);
+  overflow: auto;
+  z-index: 1000;
+  position: absolute;
+  height: 90vh;
 }
 
 .chat-msg {
@@ -171,10 +174,26 @@
   border: none;
   &.latex-editor-shown {
     #chat-body-div {
-      padding-bottom: 235px;
+      height: 80vh;
+      background:red;
     }
+    #slidememberlist {
+      height: 80vh;
+      background: olive;
+    }
+    #chatroom-footer {
+      background: lightblue;
+      height: 20vh;
+    }   
     div#panel {
       bottom: 0;
+    }
+  }
+  #chat-body-div {
+    #member-list-container {
+      position: sticky;
+      top: 0px;
+      z-index: 1000;
     }
   }
 }
@@ -227,6 +246,8 @@ div {
   border: none;
   padding-bottom: 20px;
   padding-top: 20px;
+  background: lavender;
+  height: 10vh;
 }
 
 .btn {
@@ -323,11 +344,6 @@ div {
 
 #equation-editor-button {
   display: none;
-}
-
-#slidememberlist {
-  z-index: 1000;
-  position: absolute;
 }
 
 @media screen and (max-width: 732px) {

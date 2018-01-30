@@ -125,13 +125,7 @@ function initializeChatMenu(){
         title: "'Online Users'",
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
-
-    let chatHistoryButton = chatMenu.addButton({
-        id: "chat-history-button",
-        title: "History",
-        innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
-    });
-
+    
     let logoutButton = chatMenu.addButton({
         id: "logout-button",
         title: "Logout",
@@ -143,11 +137,6 @@ function initializeChatMenu(){
         title: "'Upload Files'",
         innerContent: "<i class=\"fa fa-upload\" aria-hidden=\"true\"></i>"
     });
-
-    chatHistoryButton.onClick = function(){
-        historyWindow = window.open();
-        historyWindow.document.write("<pre>" + chatLog.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</pre>")
-    };
 
     chatMembersButton.onClick = function(){
         angular.element($("#chat-wrapper")).scope().toggleCustom();

@@ -513,17 +513,11 @@ angular.module('Controllers')
 // ====================================== Image Sending Code ==============================
     $scope.$watch('upload.image', function () {
         if (!$scope.upload.image) return;
-
-        let fr = new FileReader();
-
-        fr.addEventListener("load", function () {
-        	let url = fr.result;
-
+		ImageUtility.iOSOrientationAutoFix($scope.upload.image, function(url){
             let img = new Image();
             img.onload = function(){
-
-            	// Empty the file input
-				let uploadInput = $("#upload-input");
+                // Empty the file input
+                let uploadInput = $("#upload-input");
                 try{
                     uploadInput[0].value = '';
                     if(uploadInput[0].value){
@@ -531,43 +525,39 @@ angular.module('Controllers')
                         uploadInput[0].type = "file";
                     }
                 }catch(e){}
-
-            	// Get the image size, and decide if to resize it
-				let width = img.width;
-				let height = img.height;
-				// We only allow maximum of 1920x1080 images
-				if (width > 1920 || height > 1080){
-					// Resize the image
-					let targetWidth, targetHeight;
-					if (width > 1920){
-						// Resize the width
-						let scale = 1920 / width;
-						targetWidth = 1920;
-						targetHeight = height * scale;
-					} else {
-						// Resize the height
-						let scale = 1080 / height;
-						targetWidth = width * scale;
-						targetHeight = 1080;
-					}
+                // Get the image size, and decide if to resize it
+                let width = img.width;
+                let height = img.height;
+                // We only allow maximum of 1920x1080 images
+                if (width > 1920 || height > 1080){
+                    // Resize the image
+                    let targetWidth, targetHeight;
+                    if (width > 1920){
+                        // Resize the width
+                        let scale = 1920 / width;
+                        targetWidth = 1920;
+                        targetHeight = height * scale;
+                    } else {
+                        // Resize the height
+                        let scale = 1080 / height;
+                        targetWidth = width * scale;
+                        targetHeight = 1080;
+                    }
                     let canvas = document.createElement('canvas'),
                         ctx = canvas.getContext('2d');
                     canvas.width = targetWidth;
                     canvas.height = targetHeight;
                     ctx.drawImage(this, 0, 0, targetWidth, targetHeight);
                     $socket.emit("send-image", {
-                    	dataUri: canvas.toDataURL('image/jpeg', 0.7)
-					}, function (data) {});
-				} else {
-					// We just send the image
+                        dataUri: canvas.toDataURL('image/jpeg', 0.7)
+                    }, function (data) {});
+                } else {
+                    // We just send the image
                     $socket.emit("send-image", {dataUri: url}, function (data) {});
-				}
+                }
             };
-
             img.src = url;
-
-        }, false);
-        fr.readAsDataURL($scope.upload.image);
+		}, false);
 
     });
 

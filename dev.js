@@ -32,7 +32,8 @@ const JS_FILES = [
     ['public/app/js/lib/alert/alert.js', 'public/app/js/lib/alert/alert.bundle.js'],
     ['public/app/js/lib/driver/driver.js', 'public/app/js/lib/driver/driver.bundle.js'],
     ['public/app/js/lib/recognition/tool.js', 'public/app/js/lib/recognition/tool.bundle.js']
-]; 
+    ['public/app/js/lib/utilities/ImageUtility.js', 'public/app/js/lib/utilities/ImageUtility.bundle.js']
+];
 
 
 /**

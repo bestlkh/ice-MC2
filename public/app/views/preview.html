@@ -60,7 +60,7 @@
             parent.document.getElementById('textArea').value = raw_message;
             parent.document.getElementById('send-message-button').click();
         } else {
-            alert("nothing to send");
+            parent.Alert.Alert.spawn("Oops","<div style='text-align: center;'><img src='app/images/image-convert-hint.png' width='150' /><br><br>Oops! You need to convert your drawings to equation before you can send it.</div>");
         }
     }
     var previewEditor = ace.edit("mathjax-viewer");

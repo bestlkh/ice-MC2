@@ -49,7 +49,6 @@ methodDraw.addExtension("panzoom", function () {
 
                     if (!isMobile) return;
 
-
                     canv.setMode("pan");
                     var workarea = $("#svgroot");
                     if ($panzoom && $panzoom.panzoom("isDisabled")) {
@@ -67,8 +66,6 @@ methodDraw.addExtension("panzoom", function () {
                     }
                     else if (!$panzoom) {
                         $panzoom = workarea.panzoom({
-
-
                             transition: true,
                             duration: 200,
                             easing: "ease-in-out",
@@ -112,31 +109,27 @@ methodDraw.addExtension("panzoom", function () {
                     });
                 },
                 "click": function () {
-
+                    var svg = $("#svgcanvas");              
+                    svg.css({
+                        cursor: "zoom-in"
+                    });
                     var isMobile = false;
                     if ($(window).width() <= 732) isMobile = true;
                     if (isMobile) return;
 
                     canv.setMode("pan");
-
-
-
                     var workarea = $("#svgroot");
-
 
                     if ($panzoom && $panzoom.panzoom("isDisabled")) {
                         $panzoom.panzoom("enable");
                         if (isMobile) return;
                         var svg = $("#svgcanvas");
-
                         svg.css({
                             cursor: "zoom-in"
                         });
                     }
                     else if (!$panzoom) {
                         $panzoom = workarea.panzoom({
-
-
                             transition: true,
                             duration: 200,
                             easing: "ease-in-out",
@@ -149,16 +142,16 @@ methodDraw.addExtension("panzoom", function () {
                         workarea.bind("mouseup", function (e) {
 
                             var mode = canv.getMode();
-
+                            var cursor = ($("#svgcanvas")[0].style.cursor);
                             if (mode === "pan") {
-                                if (e.shiftKey) zoom -= zoomInc;
+                                if (e.shiftKey || cursor==="zoom-out") zoom -= zoomInc;
                                 else zoom += zoomInc;
                                 if (zoom < 0.5) zoom = 0.5;
                                 else if (zoom > 16) zoom = 16;
 
                                 $panzoom.panzoom("zoom", zoom);
 
-
+                                
 
                                 workarea.attr({
                                     width: width * zoom * 2,
@@ -187,8 +180,9 @@ methodDraw.addExtension("panzoom", function () {
                             var mode = canv.getMode();
 
                             if (mode === "pan") {
+                                
                                 if (e.shiftKey) {
-
+                                    console.log("pan");
                                     svg.css({
                                         cursor: "zoom-out"
                                     });

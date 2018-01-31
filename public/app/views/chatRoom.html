@@ -48,6 +48,8 @@
             <div class="col-sm-12">
                 <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
                     <div id="chat-body-div" class="box-body">
+                        <div id="member-list-container" ng-include="'/app/views/chatroom/member-list.html'"></div>
+
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
                              scroll-bottom="messages">
@@ -82,7 +84,6 @@
                             </div>
                         </div>
 
-                        <div ng-include="'/app/views/chatroom/member-list.html'"></div>
 
 
                     </div>

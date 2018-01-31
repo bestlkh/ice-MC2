@@ -40,9 +40,9 @@
   background-color: transparent;
 }
 
-#dcs {
-  padding-top: 200px;
-}
+// #dcs {
+//   padding-top: 200px;
+// }
 
 .attachment-icon-right {
   float : right;
@@ -132,7 +132,11 @@
 
 #slidememberlist{
   background-color: rgba(255,255,255,0.6);
-  overflow: hidden;
+  overflow: auto;
+  z-index: 1000;
+  position: absolute;
+  height: 45vh;
+  max-width: 50%;
 }
 
 .chat-msg {
@@ -170,11 +174,23 @@
 #direct-chat-container {
   border: none;
   &.latex-editor-shown {
+    padding-bottom: 200px;
     #chat-body-div {
-      padding-bottom: 235px;
+      height: 100%;
     }
+    #chatroom-footer {
+      height: 20vh;
+      min-height: 200px;
+    }   
     div#panel {
       bottom: 0;
+    }
+  }
+  #chat-body-div {
+    #member-list-container {
+      position: sticky;
+      top: 0px;
+      z-index: 1000;
     }
   }
 }
@@ -182,12 +198,12 @@
 #chat-body-div {
   overflow-y: scroll;
   height: 100%;
-  padding-bottom: 75px;
 }
 
 #direct-chat-container {
   height: 100%;
   height: 100vh;
+  padding-bottom: 75px;
 }
 
 div {
@@ -227,6 +243,7 @@ div {
   border: none;
   padding-bottom: 20px;
   padding-top: 20px;
+  min-height: 75px;
 }
 
 .btn {
@@ -325,35 +342,23 @@ div {
   display: none;
 }
 
-#slidememberlist {
-  z-index: 1000;
-  position: absolute;
-}
-
 @media screen and (max-width: 732px) {
-  #slidememberlist {
-    top: 110px;
-  }
-
   #chatroom-footer {
     position: fixed;
   }
 
   #chat-body-div {
-    position: fixed;
     overflow-y: scroll;
     height: 100%;
     width: 100%;
-    bottom: 75px;
     left: 0;
-    padding-bottom: 0;
   }
 
   #direct-chat-container {
     &.latex-editor-shown {
+      padding-bottom: 200px;
       #chat-body-div {
-        bottom: 235px;
-        padding-bottom: 0;
+        max-height: unset;
       }
     }
   }
@@ -362,4 +367,5 @@ div {
   #equation-editor-button {
     display: inline-block;
   }
+  
 }

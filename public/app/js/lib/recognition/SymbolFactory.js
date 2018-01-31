@@ -11,8 +11,32 @@ var FractionSymbol = require('./FractionSymbol');
 var LimitSymbol = require('./LimitSymbol');
 var OperatorSymbol = require('./OperatorSymbol');
 var RootSymbol = require('./RootSymbol');
-var RecognitionTool = require('./RecognitionTool');
 var SymbolTypes = require('./enums/SymbolTypes');
+var Constant = require('./constant');
+
+/**
+     * returns the type of Symbol given a string value
+     * @param {String} value
+     * @return {number}
+     */
+function getSymbolType(value) {
+    if (Constant.BRACKET.indexOf(value) != -1) {
+        return SymbolTypes.BRACKET;
+    }
+    if (Constant.LINE.indexOf(value) != -1) {
+        return SymbolTypes.FRACTION;
+    }
+    if (Constant.ROOT.indexOf(value) != -1) {
+        return SymbolTypes.ROOT;
+    }
+    if (Constant.LIMIT.indexOf(value) != -1) {
+        return SymbolTypes.LIMIT;
+    }
+    if (Constant.OPERATOR.indexOf(value) != -1) {
+        return SymbolTypes.OPERATOR;
+    }
+    return SymbolTypes.ALPHANUMERIC;
+}
 
 var SymbolFactory = function () {
     function SymbolFactory() {
@@ -36,14 +60,14 @@ var SymbolFactory = function () {
             var height = rect.height;
             var value = elem.nodeName == "path" ? elem.id.split('_')[3] : elem.textContent;
 
-            var type = RecognitionTool.getSymbolType(value);
+            var type = getSymbolType(value);
             var symbol;
             switch (type) {
                 case SymbolTypes.BRACKET:
                     symbol = new BracketSymbol(x, y, width, height, value);
                     break;
                 case SymbolTypes.FRACTION:
-                    sybmol = new FractionSymbol(x, y, width, height, value);
+                    symbol = new FractionSymbol(x, y, width, height, value);
                     break;
                 case SymbolTypes.ROOT:
                     symbol = new RootSymbol(x, y, width, height, value);
@@ -61,6 +85,7 @@ var SymbolFactory = function () {
                     throw "Cannot have any other symbol than type.";
                     break;
             }
+            symbol.id = elem.id;
             return symbol;
         }
     }]);

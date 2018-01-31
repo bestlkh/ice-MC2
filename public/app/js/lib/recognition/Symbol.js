@@ -6,6 +6,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var SymbolTypes = require('./enums/SymbolTypes');
 var RegionTypes = require('./enums/RegionTypes');
+var Expression = require('./Expression');
 
 var _Symbol = function () {
     /**
@@ -51,7 +52,7 @@ var _Symbol = function () {
     _createClass(_Symbol, [{
         key: 'hasAnyTop',
         value: function hasAnyTop() {
-            return this.region.tleft.hasElement() || this.region.above.hasElement() || this.region.supers.hasElement();
+            return this.region[RegionTypes.TLEFT].hasElement() || this.region[RegionTypes.ABOVE].hasElement() || this.region[RegionTypes.SUPER].hasElement();
         }
 
         /**
@@ -62,7 +63,7 @@ var _Symbol = function () {
     }, {
         key: 'hasAnyBottom',
         value: function hasAnyBottom() {
-            return this.region.bleft.hasElement() || this.region.below.hasElement() || this.region.subsc.hasElement();
+            return this.region[RegionTypes.BLEFT].hasElement() || this.region[RegionTypes.BELOW].hasElement() || this.region[RegionTypes.SUBSC].hasElement();
         }
 
         /** 

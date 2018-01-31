@@ -40,7 +40,7 @@ class Symbol {
      * @returns {boolean}
      */
     hasAnyTop() {
-        return this.region.tleft.hasElement() || this.region.above.hasElement() || this.region.supers.hasElement();
+        return this.region[RegionTypes.TLEFT].hasElement() || this.region[RegionTypes.ABOVE].hasElement() || this.region[RegionTypes.SUPER].hasElement();
     }
 
     /**
@@ -48,7 +48,7 @@ class Symbol {
      * @returns {boolean}
      */
     hasAnyBottom() {
-        return this.region.bleft.hasElement() || this.region.below.hasElement() || this.region.subsc.hasElement();
+        return this.region[RegionTypes.BLEFT].hasElement() || this.region[RegionTypes.BELOW].hasElement() || this.region[RegionTypes.SUBSC].hasElement();
     }
 
     /** 

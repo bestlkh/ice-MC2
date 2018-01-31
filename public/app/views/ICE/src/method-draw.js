@@ -2224,10 +2224,8 @@ var SOTP = 0;
 
       var clickConvert = function(){
         var getBST = window.Tool.RecognitionTool.parse;
-        console.log(getBST());
-        return;
         if (toolButtonClick('#tool_convert')) {
-          var tex = getBST();
+          var tex = window.Tool.RecognitionTool.getTex();
           if($(window).width() <= 732) {
             clickSwap();
             raw_message = tex;

@@ -13,6 +13,7 @@ class LimitSymbol extends Symbol{
      */
     constructor(x, y, width, height, value) {
         super(x, y, width, height, value, SymbolTypes.LIMIT);
+
     }
 }
 module.exports = LimitSymbol;

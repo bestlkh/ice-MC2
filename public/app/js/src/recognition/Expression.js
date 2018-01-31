@@ -1,4 +1,3 @@
-const Symbol = require('./Symbol');
 const SymbolTypes = require('./enums/SymbolTypes');
 const RegionTypes = require('./enums/RegionTypes');
 

@@ -1,4 +1,4 @@
-module.export =  {
+module.exports =  {
     REGION_NAMES: {
         'ROOT': 'root',
         'TLEFT': 'tleft',

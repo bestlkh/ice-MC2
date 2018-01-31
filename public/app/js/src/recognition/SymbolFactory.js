@@ -5,8 +5,33 @@ const FractionSymbol = require('./FractionSymbol');
 const LimitSymbol = require('./LimitSymbol');
 const OperatorSymbol = require('./OperatorSymbol');
 const RootSymbol = require('./RootSymbol');
-const RecognitionTool = require('./RecognitionTool');
 const SymbolTypes = require('./enums/SymbolTypes');
+const Constant = require('./constant');
+
+
+/**
+     * returns the type of Symbol given a string value
+     * @param {String} value
+     * @return {number}
+     */
+    function getSymbolType(value) {
+        if (Constant.BRACKET.indexOf(value) != -1) {
+            return SymbolTypes.BRACKET;
+        }
+        if (Constant.LINE.indexOf(value) != -1) {
+            return SymbolTypes.FRACTION;
+        }
+        if (Constant.ROOT.indexOf(value) != -1) {
+            return SymbolTypes.ROOT;
+        }
+        if (Constant.LIMIT.indexOf(value) != -1) {
+            return SymbolTypes.LIMIT;
+        }
+        if (Constant.OPERATOR.indexOf(value) != -1) {
+            return SymbolTypes.OPERATOR;
+        }
+        return SymbolTypes.ALPHANUMERIC;
+    }
 
 class SymbolFactory {
     /**
@@ -24,7 +49,7 @@ class SymbolFactory {
         var height = rect.height;
         var value = elem.nodeName == "path" ? elem.id.split('_')[3] : elem.textContent;
                             
-        var type = RecognitionTool.getSymbolType(value);
+        var type = getSymbolType(value);
         var symbol;
         switch (type) {
             case SymbolTypes.BRACKET:
@@ -49,6 +74,7 @@ class SymbolFactory {
                 throw "Cannot have any other symbol than type.";
                 break;
         }
+        symbol.id = elem.id;
         return symbol;
     }
 }

@@ -11,6 +11,11 @@ leftToolbar.addButton({
     title: 'Pencil Tool [P]'
 });
 leftToolbar.addButton({
+    id: 'tool_zoom_out',
+    title: 'zoom_out',
+    style: 'background-image: url(images/zoom-out.svg);'
+});
+leftToolbar.addButton({
     id: 'tool_deletebutton',
     title: 'Undo/Delete Tool [U]',
     style: 'background-image: url(images/undo-arrow.svg);'

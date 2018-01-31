@@ -14,7 +14,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     };
 })
 .controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams, $window){		// Login Controller
-	// Varialbles Initialization.
+	// Variables Initialization.
 	$scope.userAvatar = "1";
 	$scope.isErrorReq = false;
 	$scope.isErrorNick = false;
@@ -32,7 +32,9 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
 	$scope.isLoading = true;
 
-    $scope.form.username = $rootScope.username;
+	if ($rootScope.username) {
+		$scope.form.username = $rootScope.username;
+	}
 
     $scope.ta = false;
 
@@ -91,8 +93,6 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 			})
 		}
 
-
-
 	// redirection if user logged in.
 	if($rootScope.loggedIn && $routeParams.roomId){
 		$location.path('/v1/ChatRoom/'+$routeParams.roomId);
@@ -112,21 +112,21 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 				var url = "/login/?token="+result.token;
 				$window.open(url, "_self");
 			}
-
         });
-
     };
 
     /**
 	 * Automatically update user's initial
      */
 	$scope.changeInitials = function () {
-		let name = $scope.form.username.split(" ");
-		let initials;
-		if(name.length >= 2){
-			initials = name[0].substring(0,1).toUpperCase() + name[name.length - 1].substring(0,1).toUpperCase();
-		} else {
-            initials = $scope.form.username.substring(0,2).toUpperCase();
+		let initials = "";
+		if ($scope.form.username) {
+			let name = $scope.form.username.split(" ");
+			if(name.length >= 2) {
+				initials = name[0].substring(0,1).toUpperCase() + name[name.length - 1].substring(0,1).toUpperCase();
+			} else {
+				initials = $scope.form.username.substring(0,2).toUpperCase();
+			}
 		}
 		$scope.form.initials = initials;
     };
@@ -136,9 +136,8 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     };
 
 	// Functions for controlling behaviour.
-	$scope.redirect = function(create){
-
-		if ($scope.form.username.length <= 20) {
+	$scope.redirect = function(create) {
+		if ($scope.form.username && $scope.form.username.length <= 20) {
 			if($scope.form.username && $scope.form.roomId){
 
 				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
@@ -165,21 +164,25 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 					}
 				});
 			} else {		// blank username or room name
-				$scope.errMsg = "Please enter both username & room name.";
+				if (!$scope.form.username && !$scope.form.roomId) {
+					$scope.errMsg = "Please enter both username & room name.";
+				} else if (!$scope.form.username) {
+					$scope.errMsg = "Please enter a username.";
+				} else {
+					$scope.errMsg = "Please enter a room name.";
+				}
 				$scope.isErrorReq = true;
 				$scope.printErr($scope.errMsg);
 			}
-		}else{		// nickname greater than limit
-			$scope.errMsg = "Nickname exceed 20 charachters.";
+		} else {		// nickname greater than limit
+			$scope.errMsg = "Username exceeds 20 characters.";
 			$scope.isErrorNick = true;
 			$scope.isErrorReq = true;
 			$scope.printErr($scope.errMsg);
 		}
 	};
 
-
-
-	$scope.changeAvatar = function(avatar){		// secting different avatar
+	$scope.changeAvatar = function(avatar){		// selecting different avatar
 			$scope.userAvatar = avatar;
 	}
 });

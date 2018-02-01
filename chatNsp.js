@@ -410,6 +410,7 @@ LectureNsp.prototype.listen = function () {
                     callback({username: session.user.username});
                 } else {
                     var token = uuidv4();
+                    setSessionVar("redirectTo", "/#/v1/"+data.roomName+"?nsp="+this.owner);
                     callback({token: token});
                 }
 

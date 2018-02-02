@@ -34,13 +34,13 @@
         <div class="form-group errGroup">
         </div>
         <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">
-            <input required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="isErrorReq=isErrorNick=false;changeInitials();" focus-me="true"/>
+            <input maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
 
             <input ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
-            <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
             <input ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <hr>
-            <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="isErrorReq=isErrorNick=false;" onkeydown="limit(this);" onkeyup="limit(this);"/>
+            <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
 
             <span ng-hide="isErrorNick" class="glyphicon glyphicon-user form-control-feedback"></span>
             <span ng-hide="!isErrorNick" class="glyphicon glyphicon-remove form-control-feedback errText"></span>
@@ -50,33 +50,33 @@
               <p class="login-box-msg">Choose your theme</p>
             </div>
         </div>
-      <div class="form-group has-feedback" style="margin-bottom: 0">
-        <div class="avatar-thumb">
-          <img src="app/css/dist/img/Avatar1.jpg" ng-class="{'avatar-selected': userAvatar==='1', 'avatar':true}" id="Avatar1" ng-click="changeAvatar('1')"/>
-        </div>
+        <div class="form-group has-feedback" style="margin-bottom: 0">
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar1.jpg" ng-class="{'avatar-selected': userAvatar==='1', 'avatar':true}" id="Avatar1" ng-click="changeAvatar('1')"/>
+          </div>
           <div class="avatar-thumb">
               <img src="app/css/dist/img/Avatar2.jpg" ng-class="{'avatar-selected': userAvatar==='2', 'avatar':true}" id="Avatar2" ng-click="changeAvatar('2')"/>
-            </div>
-            <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar3.jpg" ng-class="{'avatar-selected': userAvatar==='3', 'avatar':true}" id="Avatar3" ng-click="changeAvatar('3')"/>
-            </div>
-            <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar4.jpg" ng-class="{'avatar-selected': userAvatar==='4', 'avatar':true}" id="Avatar4" ng-click="changeAvatar('4')"/>
-            </div>
-            <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar5.jpg" ng-class="{'avatar-selected': userAvatar==='5', 'avatar':true}" id="Avatar5" ng-click="changeAvatar('5')"/>
-            </div>
-            <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar6.jpg" ng-class="{'avatar-selected': userAvatar==='6', 'avatar':true}" id="Avatar6" ng-click="changeAvatar('6')"/>
-            </div>
-            <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar7.jpg" ng-class="{'avatar-selected': userAvatar==='7', 'avatar':true}" id="Avatar7" ng-click="changeAvatar('7')"/>
-            </div>
-            <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar8.jpg" ng-class="{'avatar-selected': userAvatar==='8', 'avatar':true}" id="Avatar8" ng-click="changeAvatar('8')"/>
-            </div>
-        <div class="chat-box"></div>
-        <br><br>
+          </div>
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar3.jpg" ng-class="{'avatar-selected': userAvatar==='3', 'avatar':true}" id="Avatar3" ng-click="changeAvatar('3')"/>
+          </div>
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar4.jpg" ng-class="{'avatar-selected': userAvatar==='4', 'avatar':true}" id="Avatar4" ng-click="changeAvatar('4')"/>
+          </div>
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar5.jpg" ng-class="{'avatar-selected': userAvatar==='5', 'avatar':true}" id="Avatar5" ng-click="changeAvatar('5')"/>
+          </div>
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar6.jpg" ng-class="{'avatar-selected': userAvatar==='6', 'avatar':true}" id="Avatar6" ng-click="changeAvatar('6')"/>
+          </div>
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar7.jpg" ng-class="{'avatar-selected': userAvatar==='7', 'avatar':true}" id="Avatar7" ng-click="changeAvatar('7')"/>
+          </div>
+          <div class="avatar-thumb">
+            <img src="app/css/dist/img/Avatar8.jpg" ng-class="{'avatar-selected': userAvatar==='8', 'avatar':true}" id="Avatar8" ng-click="changeAvatar('8')"/>
+          </div>
+          <div class="chat-box"></div>
+          <br><br>
         </div><!-- /Avatar Div -->
 
           <div class="row">

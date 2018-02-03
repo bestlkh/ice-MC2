@@ -56,12 +56,15 @@ function AdminView(socketController, expressApp, sessionObj) {
 
     this.db = null;
 
+    this.nsps = [];
+
     this.connectToDb(function (err, db) {
         if (err) throw new Error("Could not connect to database.");
         this.db = db;
 
         this.setupNamespaces(function (err, nsps) {
             if (err) console.log("Failed to initialize namespaces.");
+            this.nsps = nsps;
         });
 
         this.setupRoute();
@@ -85,6 +88,7 @@ AdminView.prototype.setupNamespaces = function (callback) {
 
     this.db.collection("users").find({}).toArray(function (err, users) {
         if (err) return callback(err, null);
+        var nsps = [];
         users.forEach(function (user) {
             console.log(user.username + " nsp added.");
             var nsp = new LectureNsp(user.username, user.username, this.ios);
@@ -92,9 +96,9 @@ AdminView.prototype.setupNamespaces = function (callback) {
                 autoSave: true
             }));
             nsp.listen();
+            nsps.push(nsp);
 
-
-            callback(null, this.nsps);
+            callback(null, nsps);
         }.bind(this));
     }.bind(this))
 
@@ -256,6 +260,7 @@ AdminView.prototype.setupApi = function () {
         this.name = data.name;
         this.invite = !!(data.invite);
         this.roomName = data.roomName;
+        this.sid = moment.valueOf();
     }
 
     this.app.patch("/v1/api/classrooms", checkAuth, function (req, res) {
@@ -402,6 +407,12 @@ AdminView.prototype.setupApi = function () {
         }.bind(this));
 
     }.bind(this);
+
+    this.app.get("/v1/api/namespace/:nsp", function (req, res) {
+        if (findOne(this.nsps, {name: req.params.nsp})) return res.json({});
+        else res.status(404).json({status: 404, message: "No such namespace"});
+    });
+
 
     this.app.get("/v1/api/namespace/:nsp/room/:roomName/track/:code", getUserTracking, function (req, res) {
 

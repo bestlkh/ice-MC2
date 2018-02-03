@@ -69,9 +69,12 @@ module.provider('$socket', function $socketProvider() {
                 socket = io(url, ioConfig);
             },
             disconnect: function () {
-                socket.off();
-                socket.disconnect();
-                socket = io(cUrl, ioConfig);
+                if (socket) {
+                    socket.off();
+                    socket.disconnect();
+                    socket = io(cUrl, ioConfig);
+                }
+
             },
             on : function on(event, callback){
                 socket.on(event, function(){

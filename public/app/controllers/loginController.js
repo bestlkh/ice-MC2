@@ -48,10 +48,25 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     };
 
     var nsp = "";
-    if ($location.search().nsp)
-        nsp = "/"+$location.search().nsp;
+
+    if ($location.search().nsp) {
+        $.ajax({
+            url: "/v1/api/namespace/"+$location.search().nsp,
+            error: function (err) {
+                $scope.error = err.responseJSON;
+                $scope.isLoading = false;
+                $scope.$apply();
+
+            }
+        });
+        nsp = "/" + $location.search().nsp;
+    }
+
+	$socket.disconnect();
     $socket.connect($location.host() +":"+ $location.port()+nsp);
 	$scope.nsp = nsp;
+
+
 
 		if ($rootScope.error) {
             $scope.isLoading = false;
@@ -102,12 +117,12 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
 	$scope.onInstructorLogin = function () {
 		$socket.emit("instructor_login", {roomName: $scope.roomId}, function (result) {
-			if (!result.token) {
+			if (result.username) {
                 $rootScope.loggedIn = true;
                 $rootScope.username = result.username;
                 $location.path('/v1/ChatRoom/'+$routeParams.roomId);
-			} else {
-				var url = "/login/?token="+result.token;
+			} else if (result.success) {
+				var url = "/login/";
 				$window.open(url, "_self");
 			}
         });

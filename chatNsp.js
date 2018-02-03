@@ -407,11 +407,11 @@ LectureNsp.prototype.listen = function () {
                     isInstructor = (socket.handshake.session.settings.chat.roomName.toLowerCase() !== data.roomId);
                 if (session.user) {
                     setSessionVars({isInstructor: isInstructor, username: session.user.username, isAdmin: !isInstructor});
-                    callback({username: session.user.username});
+                    callback({username: session.user.username, success: true});
                 } else {
                     var token = uuidv4();
                     setSessionVar("redirectTo", "/#/v1/"+data.roomName+"?nsp="+this.owner);
-                    callback({token: token});
+                    callback({success: true});
                 }
 
             }.bind(this));

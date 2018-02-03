@@ -201,7 +201,7 @@ chat.on('connection', function(socket){
 				if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
 				else data.userAvatar = "Avatar"+data.userAvatar+".jpg";
 
-            	if (socket.handshake.session.userAvatar) {
+            	if (socket.handshake.session.userAvatar && !data.userAvatar) {
 
             		data.userAvatar = socket.handshake.session.userAvatar;
                 }

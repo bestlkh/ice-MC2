@@ -15,7 +15,11 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 })
 .controller('loginCtrl', function ($scope, $location, $rootScope, $socket, $routeParams, $window){		// Login Controller
 	// Variables Initialization.
-	$scope.userAvatar = "1";
+
+	// selects from the 8 available avatars
+	let randomAvatar = String(Math.ceil(Math.random() * 8));
+
+	$scope.userAvatar = randomAvatar;
 	$scope.isErrorReq = false;
 	$scope.isErrorNick = false;
     $scope.form = {};

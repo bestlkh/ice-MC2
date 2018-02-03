@@ -24,20 +24,22 @@ onMainLoop(function(){
         });
     } else {
         // Include all tool buttons
-        $.each($(".message-tool-button"), function(key, val){
+        $.each($(".message-tool-button").not(".latex-editor-symbol-button"), function(key, val){
             toolButtonTotalWidth += $(val).outerWidth();
         });
     }
     if($("#text-message-input-area").hasClass("latex-editor-shown")){
+        $(".latex-editor-symbol-button").show();
         $("#textArea").css({
             'width': ''
         });
         $("#send-message-button").css({
-            'width': containerWidth - toolButtonTotalWidth - 30
+            'width': containerWidth - toolButtonTotalWidth - 32
         });
     } else {
+        $(".latex-editor-symbol-button").hide();
         $("#textArea").css({
-            'width': containerWidth - toolButtonTotalWidth - 30
+            'width': containerWidth - toolButtonTotalWidth - 32
         });
         $("#send-message-button").css({
             'width': ''
@@ -115,33 +117,26 @@ showMessageRawNewWindow = function(raw){
 function initializeChatMenu(){
     chatMenu = new UI.BubbleMenu("#chat-menu", "#chat-menu-toggle", "#chat-menu-button-container", 50);
     chatMenu._getBubbleMenuButtonMarkup = function(config){
-        return "<div id='" + config.id + "' class='chat-menu-button'>" + config.innerContent + "</div>"
+        return `<div id=${config.id} class=chat-menu-button title=${config.title}> ${config.innerContent} </div>`
     };
 
     let chatMembersButton = chatMenu.addButton({
-        id: "test",
+        id: "online-users",
+        title: "'Online Users'",
         innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
     });
-
-    let chatHistoryButton = chatMenu.addButton({
-        id: "chat-history-button",
-        innerContent: "<i class=\"fa fa-history\" aria-hidden=\"true\"></i>"
-    });
-
+    
     let logoutButton = chatMenu.addButton({
         id: "logout-button",
+        title: "Logout",
         innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
     });
 
     let uploadButton = chatMenu.addButton({
         id: "upload-button",
+        title: "'Upload Files'",
         innerContent: "<i class=\"fa fa-upload\" aria-hidden=\"true\"></i>"
     });
-
-    chatHistoryButton.onClick = function(){
-        historyWindow = window.open();
-        historyWindow.document.write("<pre>" + chatLog.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</pre>")
-    };
 
     chatMembersButton.onClick = function(){
         angular.element($("#chat-wrapper")).scope().toggleCustom();

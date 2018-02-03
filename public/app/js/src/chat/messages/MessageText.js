@@ -31,7 +31,7 @@ class MessageText {
     }
 
     getRaw(){
-        return this.text;
+        return this.text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
     getRenderedText(){

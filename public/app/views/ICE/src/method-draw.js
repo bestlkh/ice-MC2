@@ -2223,8 +2223,9 @@ var SOTP = 0;
       };
 
       var clickConvert = function(){
+        var getBST = window.Tool.RecognitionTool.parse;
         if (toolButtonClick('#tool_convert')) {
-          var tex = getBST();
+          var tex = window.Tool.RecognitionTool.getTex();
           if($(window).width() <= 732) {
             clickSwap();
             raw_message = tex;
@@ -2528,6 +2529,14 @@ var SOTP = 0;
             placeHolder.style.display = 'block';
           }        
       };
+
+      var zoomOutBtn= function(){
+        var svg = $("#svgcanvas");    
+          svg.css({
+              cursor: "zoom-out"
+          });
+        
+    };
 
       var sendAsImage = function(){
           var svgSource = "<svg id='pre-render-svg' style='background-color: #FFFFFF;'><g>" + $("#svgcontent").find(".active-layer").html() + "</g></svg>";
@@ -3524,6 +3533,7 @@ var SOTP = 0;
           {sel:'#copy_save_done', fn: cancelOverlays, evt: 'click'},
           {sel:'#tool_send_as_image', fn: sendAsImage, evt: 'click'},
           {sel:'#tool_matrix', fn: toggleMatrixSizeBtn, evt: 'click'},
+          {sel:'#tool_zoom_out', fn: zoomOutBtn, evt: 'click'},
           {sel:'#send-sheet-equation-button', fn: clickConvert, evt: 'click'},
           {sel:'#send-sheet-image-button', fn: sendAsImage, evt: 'click'},
           {sel:'#tool_send_mobile', fn: convertAndSend, evt: 'click'},

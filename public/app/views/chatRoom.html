@@ -35,10 +35,8 @@
             <img src="/app/images/resize-horizontal.png"/>
         </div>
     </div>
+    <div class="arrow-left"></div>
     <div id="dragbar"></div>
-    <div id="collapsebar">
-        <div class="arrow-left"></div>
-    </div>
     <!-- Chat Content -->
     <div id="chatframe">
         <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
@@ -50,6 +48,8 @@
             <div class="col-sm-12">
                 <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
                     <div id="chat-body-div" class="box-body">
+                        <div id="member-list-container" ng-include="'/app/views/chatroom/member-list.html'"></div>
+
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
                              scroll-bottom="messages">
@@ -84,107 +84,50 @@
                             </div>
                         </div>
 
-                        <div ng-include="'/app/views/chatroom/member-list.html'"></div>
 
 
                     </div>
                     <div class="box-footer" id="chatroom-footer">
 
-                        <!--Emoji panel-->
-                        <div id="panel">
-  <span style="font-color: black; font-size: 13px">
-    <div class="tab">
-      <input class="tablinks" value="&nbsp;&nbsp;Emoji&nbsp;|" type="button" onclick="openTab(event, 'Emoj');">
-      <input class="tablinks" value="&nbsp;Math&nbsp;|" type="button" onclick="openTab(event, 'Math');">
-      <input class="tablinks" value="&nbsp;Formula&nbsp;&nbsp;" type="button" onclick="openTab(event, 'Form');">
-    </div>
-    <div id="Emoj" class="tabcontent">
-      <input value="😃" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😆" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="🙁" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😋" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😣" class="emojibutton" type="button" onclick="input(this);"/>
-      <br/>
-      <input value="😉" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😵" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😢" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😤" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😲" class="emojibutton" type="button" onclick="input(this);"/>
-      <br/>
-      <input value="😑" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😕" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😎" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😇" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="😝" class="emojibutton" type="button" onclick="input(this);"/>
-    </div>
-
-    <div id="Math" class="tabcontent">
-      <input value="$$ $$" class="dollorbutton" type="button" onclick="input(this);"/>
-      <input value="α" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="β" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="δ" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="θ" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="μ" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="\" class="emojibutton" type="button" onclick="input(this);"/>
-      <br/>
-      <input value="π" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="≈" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="≠" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="≡" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="∞" class="emojibutton" type="button" onclick="input(this);"/>
-      <br/>
-      <input value="±" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="∆" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="∫" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="√" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="²" class="emojibutton" type="button" onclick="input(this);"/>
-      <br/>
-      <input value="∑" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="∪" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="∩" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="≥" class="emojibutton" type="button" onclick="input(this);"/>
-      <input value="≤" class="emojibutton" type="button" onclick="input(this);"/>
-    </div>
-    <div id="Form" class="tabcontent">
-      <input value='$$\int_{a}^{b} x^2 dx$$' placeholder="Integral Formula" class="formulabutton" type="button"
-             ondblclick="input(this);" onclick="typeset(this);"/>
-      <br/>
-      <input value='$$\sum_{n=1}^{\infty} 2^{-n} = 1$$' placeholder="Summation Formula" class="formulabutton"
-             type="button" ondblclick="input(this);" onclick="typeset(this);"/>
-      <br/>
-      <input value='$$\lim_{x\to\infty} f(x)$$' placeholder="Limit" class="formulabutton" type="button"
-             ondblclick="input(this);" onclick="typeset(this);"/>
-      <br/>
-      <input value='$$a_1^2 + a_2^2 = a_3^2$$' placeholder="Sub and Superscripts" class="formulabutton" type="button"
-             ondblclick="input(this);" onclick="typeset(this);"/>
-      <p id="previewArea">
-        [Click Preview - Double Click Add]
-      </p>
-    </div>
-  </span>
-                        </div>
-
                         <!--Size of this area is modified by JavaScript, registered in ui.js-->
                         <div id="text-message-input-area">
-                            <button class="message-tool-button accordion" id="emoji-button" title="Special Characters">
-                                <img src="/app/images/emoji-icon.png" width="20px"/>
-                            </button>
                             <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
                                     ng-click="toggleLatexEditor()">
                                 <img src="/app/images/latex-icon.png" width="20px"/>
-                                <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
-                                        ng-click="showEquationEditor()">
-                                    <img src="/app/images/editor-icon.png" width="20px"/>
-                                </button>
-                                <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
-                                          ng-model="chatMsg"
-                                          ng-change="isMsgBoxEmpty=false"
-                                          ng-enter="sendMsg()"
-                                          ng-focus="setFocus"
-                                          class="tex2jax_ignore"></textarea>
-                                <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
-                                        class="fa fa-paper-plane" aria-hidden="true"></i> Send
-                                </button>
+                            </button>
+                            <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
+                                    ng-click="showEquationEditor()">
+                                <img src="/app/images/editor-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button" id="send-image-button" title="Send Image"
+                                    ng-click="startImageUpload()">
+                                <img src="/app/images/image-upload-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
+                                    ng-click="latexEditorAddText('$$')">
+                                <img src="/app/images/add-latex-wrap-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
+                                    ng-click="latexEditorAddText('\\')">
+                                <img src="/app/images/add-latex-backslash-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
+                                    ng-click="latexEditorAddText('{')">
+                                <img src="/app/images/add-latex-left-bracket-icon.png" width="20px"/>
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
+                                    ng-click="latexEditorAddText('}')">
+                                <img src="/app/images/add-latex-right-bracket-icon.png" width="20px"/>
+                            </button>
+                            <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                                      ng-model="chatMsg"
+                                      ng-change="isMsgBoxEmpty=false"
+                                      ng-enter="sendMsg()"
+                                      ng-focus="setFocus"
+                                      class="tex2jax_ignore"></textarea>
+                            <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
+                                    class="fa fa-paper-plane" aria-hidden="true"></i> Send
+                            </button>
                         </div>
 
                         <div id="latex-editor-area" class="tex2jax_ignore">

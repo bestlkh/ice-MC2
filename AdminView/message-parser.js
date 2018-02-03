@@ -1,6 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var constants = require("./constants.js");
 var csv = require('csv');
+var fs = require("fs");
 
 // For old chat message data structure
 
@@ -21,6 +22,10 @@ function Student(data) {
 
 Student.prototype.getTotalMessages = function () {
     return this.messages.length;
+};
+
+Student.prototype.toCSV = function () {
+    return {username: this.username, utorid: this.utorid, "total messages": this.getTotalMessages()};
 };
 
 function findOne(list, params) {
@@ -66,13 +71,23 @@ MongoClient.connect(constants.dbUrl, function (err, db) {
 
         });
 
+        var csvStruct = [];
         sessions.forEach(function (session) {
-            console.log("Session: "+session.name);
 
             session.students.forEach(function (student) {
-                console.log("\tutorid: "+student.utorid+", messages: "+student.getTotalMessages());
+                var s = student.toCSV();
+                s.session = session.name;
+                csvStruct.push(s);
+
             });
         });
+
+        csv.stringify(csvStruct, {header: true}, function (err, data) {
+            console.log(data);
+        });
+
+
+
 
     });
 });

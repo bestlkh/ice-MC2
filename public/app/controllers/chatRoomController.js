@@ -84,6 +84,7 @@ angular.module('Controllers')
     var nsp = "";
     if ($location.search().nsp)
         nsp = "/"+$location.search().nsp;
+    $socket.disconnect();
     $socket.connect($location.host() +":"+ $location.port()+nsp);
 
 

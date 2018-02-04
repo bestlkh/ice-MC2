@@ -9982,6 +9982,7 @@ var moveCursorAbs = this.moveCursorAbs;
   }
 
 	this.keyPressed = function (key) {
+        
     if (key=="\u21e6") {
       moveCursor(-.25, 0);
       return;
@@ -10014,7 +10015,7 @@ var moveCursorAbs = this.moveCursorAbs;
 
     if (key=="\u232B") {
       lastKeyPress = '';
-      removeNearestToCursor()
+      removeNearestToCursor();
       return;
     }
     var shortcuts = keyHash[key];
@@ -10033,6 +10034,7 @@ var moveCursorAbs = this.moveCursorAbs;
         lastKeyPress = key;
         shortcutIndex = 0;
     }
+
 
     if(key in keyHash) {
       clearTimeout(shortcutTimer);

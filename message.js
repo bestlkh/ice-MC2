@@ -27,7 +27,9 @@ class Message {
 }
 
 class ImageMessage extends Message {
-    static limit =  30*Math.pow(10, 6);
+    static sizeLimit() {
+        return 30*Math.pow(10, 6);
+    }
 
     constructor(data, session) {
         super(data, session);
@@ -36,7 +38,7 @@ class ImageMessage extends Message {
     }
 
     static validate(data) {
-        if (data.dataUri.length > ImageMessage.limit) return false;
+        if (data.dataUri.length > ImageMessage.sizeLimit()) return false;
 
         return true;
     }

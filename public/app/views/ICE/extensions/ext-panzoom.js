@@ -43,7 +43,7 @@ methodDraw.addExtension("panzoom", function () {
             title: "Panzoom utility",
             icon: "extensions/zoom.svg",
             events: {
-                "mouseup": function () {
+                "mouseup": function () {   
                     var isMobile = false;
                     if ($(window).width() <= 732) isMobile = true;
 
@@ -136,8 +136,6 @@ methodDraw.addExtension("panzoom", function () {
                             disablePan: true,
                             animate: true
                         });
-
-
 
                         workarea.bind("mouseup", function (e) {
 

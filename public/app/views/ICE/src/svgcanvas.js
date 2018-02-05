@@ -9983,7 +9983,7 @@ var moveCursorAbs = this.moveCursorAbs;
   };
 
 	this.keyPressed = function (key) {
-    console.log('test');
+    
     if (key=="\u21e6") {
       moveCursor(-.25, 0);
       return;

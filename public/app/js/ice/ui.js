@@ -13,7 +13,7 @@ leftToolbar.addButton({
 leftToolbar.addButton({
     id: 'tool_zoom_out',
     title: 'zoom_out',
-    style: 'background-image: url(images/zoom-out.svg);'
+    style: 'background-image: url(images/zoom_out.svg);'
 });
 leftToolbar.addButton({
     id: 'tool_deletebutton',

@@ -861,7 +861,8 @@ getStrokedBBox = this.getStrokedBBox = function(elems) {
 // An array with all "visible" elements.
 var getVisibleElements = this.getVisibleElements = function(parent) {
   if(!parent) parent = $(svgcontent).children(); // Prevent layers from being included
-  if (parent.find("#canvas_background").length) parent.splice(0, 1) // Prevent background from being included
+    console.log(parent);
+  if (parent.find("#canvas_background").length) parent.splice(0, 1); // Prevent background from being included
   var contentElems = [];
   $(parent).children().each(function(i, elem) {
     try {
@@ -9974,14 +9975,15 @@ var moveCursorAbs = this.moveCursorAbs;
       shortcutTimer = setTimeout(function(){
         ToggleFloatingLayer('floatingContent',0);
     }, 2);
-  }
+  };
   this.autoSpacing = true;
   this.toggleAutoSpacing = function(){
     this.autoSpacing = !this.autoSpacing;
     return this.autoSpacing;
-  }
+  };
 
 	this.keyPressed = function (key) {
+    
     if (key=="\u21e6") {
       moveCursor(-.25, 0);
       return;
@@ -10014,7 +10016,7 @@ var moveCursorAbs = this.moveCursorAbs;
 
     if (key=="\u232B") {
       lastKeyPress = '';
-      removeNearestToCursor()
+      removeNearestToCursor();
       return;
     }
     var shortcuts = keyHash[key];
@@ -10033,6 +10035,7 @@ var moveCursorAbs = this.moveCursorAbs;
         lastKeyPress = key;
         shortcutIndex = 0;
     }
+
 
     if(key in keyHash) {
       clearTimeout(shortcutTimer);

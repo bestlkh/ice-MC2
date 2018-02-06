@@ -82,6 +82,18 @@ class SvgEditorDriver {
     }
 
     /**
+     * Get all elements in an array.
+     * @returns {SvgEditorElement[]}
+     */
+    getAllElements(){
+        let result = [];
+        for(let key in this._elements){
+            result.push(this._elements[key]);
+        }
+        return result;
+    }
+
+    /**
      * Helper to find relative scale factor.
      * @param from
      * @param to

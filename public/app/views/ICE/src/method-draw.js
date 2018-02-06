@@ -2443,7 +2443,7 @@ var SOTP = 0;
       var convertAndSend = function(){
           $("#send-sheet").addClass("shown");
           $("#send-sheet-background").addClass("shown");
-          $("#send-sheet-equation").html(getBST());
+          $("#send-sheet-equation").html(Tool.RecognitionTool.getTex());
           MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
       };
       var matrixBuilder = function(col, row){

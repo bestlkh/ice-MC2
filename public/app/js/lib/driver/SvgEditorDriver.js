@@ -101,6 +101,21 @@ var SvgEditorDriver = function () {
         }
 
         /**
+         * Get all elements in an array.
+         * @returns {SvgEditorElement[]}
+         */
+
+    }, {
+        key: 'getAllElements',
+        value: function getAllElements() {
+            var result = [];
+            for (var key in this._elements) {
+                result.push(this._elements[key]);
+            }
+            return result;
+        }
+
+        /**
          * Helper to find relative scale factor.
          * @param from
          * @param to

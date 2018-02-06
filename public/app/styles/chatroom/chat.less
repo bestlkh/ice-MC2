@@ -129,10 +129,6 @@
 #slidememberlist{
   background-color: rgba(255,255,255,0.6);
   overflow: auto;
-  z-index: 1000;
-  position: absolute;
-  height: 45vh;
-  max-width: 50%;
 }
 
 .chat-msg {
@@ -182,13 +178,13 @@
       bottom: 0;
     }
   }
-  #chat-body-div {
-    #member-list-container {
-      position: sticky;
-      top: 0px;
-      z-index: 1000;
-    }
-  }
+}
+
+#member-list-container {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  height: inherit;
 }
 
 #chat-body-div {
@@ -237,6 +233,7 @@ div {
 
 .box-footer {
   border: none;
+  border-top: 1px solid #efefef;
   padding-bottom: 20px;
   padding-top: 20px;
   min-height: 75px;

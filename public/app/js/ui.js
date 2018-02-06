@@ -152,4 +152,10 @@ function initializeChatMenu(){
     uploadButton.onClick = function () {
         $("#upload-input").click();
     }
+
+    tippy('.chat-menu-button', {
+        size: 'large',
+        touchHold: true,
+        placement: 'left'
+    });
 }

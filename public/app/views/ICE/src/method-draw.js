@@ -2241,7 +2241,7 @@ var SOTP = 0;
             parent.document.getElementById('textArea').value  = raw_message;
             parent.document.getElementById('send-message-button').click();
           } else {
-            parent.preview.window.svg_source = btoa($("#svgcontent").find(".active-layer").html());
+            parent.preview.window.svg_source = btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())));
             parent.preview.window.previewEditor.setValue(tex);
           }
         }
@@ -3663,7 +3663,7 @@ var SOTP = 0;
                     {key: '+', fn: function(){svgCanvas.keyPressed('+');}},
             {key: '*', fn: function(){svgCanvas.keyPressed('*');}},
             {key: '/', fn: function(){svgCanvas.keyPressed('/');}},
-                    {key: ['shift+'+String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('+');}},
+
   					{key: [String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('=');}},
             {key: ['shift+'+String.fromCharCode(188), true], fn: function(){svgCanvas.keyPressed('<');}},
             {key: ['shift+'+String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('>');}},

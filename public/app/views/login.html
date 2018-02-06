@@ -18,6 +18,7 @@
       </div>
 
     </div>
+    <div class="chat-box"></div>
     <div class="card login-box-body notif-popup" ng-if="errMsg.indexOf('exist') !== -1 && isJoin">
       <div>Room does not exist. Create it?</div>
       <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
@@ -75,7 +76,6 @@
           <div class="avatar-thumb">
             <img src="app/css/dist/img/Avatar8.jpg" ng-class="{'avatar-selected': userAvatar==='8', 'avatar':true}" id="Avatar8" ng-click="changeAvatar('8')"/>
           </div>
-          <div class="chat-box"></div>
           <br><br>
         </div><!-- /Avatar Div -->
 

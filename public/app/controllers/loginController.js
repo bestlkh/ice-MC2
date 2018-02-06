@@ -186,7 +186,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 			}
 		} else {		// blank username or room name
 			if (!$scope.form.username && !$scope.form.roomId) {
-				$scope.errMsg = "Please enter both username & room name.";
+				$scope.errMsg = "Please enter both a username & room name.";
 			} else if (!$scope.form.username) {
 				$scope.errMsg = "Please enter a username.";
 			} else {

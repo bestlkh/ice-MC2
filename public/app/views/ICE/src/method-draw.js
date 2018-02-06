@@ -3659,7 +3659,7 @@ var SOTP = 0;
                     {key: '+', fn: function(){svgCanvas.keyPressed('+');}},
             {key: '*', fn: function(){svgCanvas.keyPressed('*');}},
             {key: '/', fn: function(){svgCanvas.keyPressed('/');}},
-                    {key: ['shift+'+String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('+');}},
+                   
   					{key: [String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('=');}},
             {key: ['shift+'+String.fromCharCode(188), true], fn: function(){svgCanvas.keyPressed('<');}},
             {key: ['shift+'+String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('>');}},

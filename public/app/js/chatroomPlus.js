@@ -66,7 +66,7 @@ function toggleChatRoom(e) {
     var percentage = (e.pageX / window.innerWidth) * 100;
     if(percentage < 70){
         $('#editor-frame').css("width", "98%");
-        $('#editorframe').css("width", "100%");
+        $('#editorframe').css("width", "calc(100% - 5px)"); // subtract the length of the dragbar
         $('#chatframe').css("width", "0%");
         $('.arrow-left').css("left",  "95%");
     }

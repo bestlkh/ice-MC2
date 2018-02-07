@@ -40,9 +40,13 @@
   background-color: transparent;
 }
 
-// #dcs {
-//   padding-top: 200px;
-// }
+#dcs {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  background: pink;
+}
 
 .attachment-icon-right {
   float : right;
@@ -181,16 +185,12 @@
 }
 
 #member-list-container {
-  position: sticky;
-  top: 0px;
-  left: 0px;
-  height: inherit;
   z-index: 2;
   pointer-events: none;
 }
 
 #chat-body-div {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100%;
 }
 

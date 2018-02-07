@@ -52,27 +52,6 @@ onMainLoop(function(){
     });
 });
 
-// Resize dcs to let messages go from bottom to top
-let dcsMargin = 0;
-onMainLoop(function(){
-    let containerHeight = $("#chat-body-div").height();
-    let innerHeight = $("#dcs").innerHeight();
-
-    if(containerHeight > innerHeight){
-        let newMargin = containerHeight - innerHeight;
-        // If new margin is less than 2px apart, we do nothing
-        if(Math.abs(dcsMargin - newMargin) > 2){
-            dcsMargin = newMargin;
-        }
-    } else {
-        dcsMargin = 0;
-    }
-
-    $("#dcs").css({
-        'margin-top': dcsMargin
-    });
-});
-
 // Change interface size to adapt the soft keyboard
 onChatTextBoxFocus(function(e) {
     $("#chat-body-div").animate({

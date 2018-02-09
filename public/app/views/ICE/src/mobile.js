@@ -89,8 +89,10 @@ var MobileUI = {
      * Show the keyboard
      */
     showKeyboard: function(){
+        // for dynamic footer toolbar height
+        let keyboard_bottom = $("#tools_left").height();
         $(".tools_flyout").css({
-            'bottom': 70,
+            'bottom':  keyboard_bottom,
             'opacity': 1
         });
         $("#tool_toggle_keyboard").css({

@@ -2234,7 +2234,7 @@ var SOTP = 0;
             raw_message = tex;
             raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
             var message_attachment = {
-              'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+              'svg-source': btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())))
             };
             raw_message += btoa(JSON.stringify(message_attachment));
             raw_message += "\n-----MC2 END ATTACHMENT-----\n";
@@ -2559,7 +2559,7 @@ var SOTP = 0;
                   // Add attachment to message
                   raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
                   var message_attachment = {
-                    'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+                    'svg-source': btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())))
                   };
                   raw_message += btoa(JSON.stringify(message_attachment));
                   raw_message += "\n-----MC2 END ATTACHMENT-----\n";

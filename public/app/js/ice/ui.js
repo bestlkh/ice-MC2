@@ -57,19 +57,14 @@ $("#image-import-input").on('change', function(){
             image.src = e.target.result;
 
             image.onload = function() {
-                // access image size here
-                var newImage = svgCanvas.addSvgElementFromJson({
-                    "element": "image",
-                    "attr": {
-                        "x": 0,
-                        "y": 0,
-                        "width": this.width,
-                        "height": this.height,
-                        "id": svgCanvas.getNextId(),
-                        "style": "pointer-events:inherit"
-                    }
+                // Add using driver
+                driver.createElement(Driver.SvgEditorElementTypes.IMAGE, {
+                    width: this.width,
+                    height: this.height,
+                    x: 0,
+                    y: 0,
+                    base64: e.target.result
                 });
-                svgCanvas.setHref(newImage, e.target.result);
             };
         });
 

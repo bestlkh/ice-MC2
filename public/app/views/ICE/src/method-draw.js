@@ -4388,6 +4388,7 @@ var SOTP = 0;
       $(function() {
         window.svgCanvas = svgCanvas;
         svgCanvas.ready = methodDraw.ready;
+        window.driver = new Driver.SvgEditorDriver(svgCanvas);
       });
 
 

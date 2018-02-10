@@ -25,6 +25,7 @@ class SvgEditorDriver {
     createElement(type, config){
         let element = SvgEditorElementFactory.make(type, config);
         switch(element.type){
+            // It is a symbol element
             case SvgEditorElementTypes.SYMBOL:
                 element.id = this._canvas.getNextId() + "_" + element.getSymbol();
                 element.dom = this._canvas.addSvgElementFromJson({
@@ -44,6 +45,23 @@ class SvgEditorDriver {
                 let position = element.getPosition();
                 // Move element to correct position, third parameter is false so this action cannot be undone
                 this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
+                break;
+            // It is a image element
+            case SvgEditorElementTypes.IMAGE:
+                element.id = this._canvas.getNextId() + "_image";
+                element.dom = this._canvas.addSvgElementFromJson({
+                    "element": "image",
+                    "attr": {
+                        "x": config.x,
+                        "y": config.y,
+                        "width": config.width,
+                        "height": config.height,
+                        "id": element.id,
+                        "style": "pointer-events:inherit"
+                    }
+                });
+                this._canvas.setHref(element.dom, config.base64);
+                break;
         }
 
         // Push element to local storage

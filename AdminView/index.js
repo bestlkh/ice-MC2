@@ -490,6 +490,8 @@ AdminView.prototype.setupApi = function () {
             owner: req.session.user.username,
             className: req.params.name
         }, function (err, students) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (!students) return res.status(404).json({status: 404, message: "No such classroom"});
             var newStudents = [];
             var urls = {};
             students.students.forEach(function (student) {

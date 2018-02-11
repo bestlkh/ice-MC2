@@ -323,21 +323,9 @@ angular.module('Controllers')
 
 	/**
 	 * Send Announcement message to the chat room
-     * @param msg
-     * @param hasMsg
-     * @param hasFile
-     * @param callback
      */
-	$scope.sendMsgManual = function(msg, hasMsg, hasFile, callback){
-		$socket.emit("announcement-message", {
-			msg: msg,
-			hasMsg: hasMsg,
-			hasFile: hasFile
-		}, callback);
-	};
-
 	$scope.announceMsg = function(msg){
-			$socket.emit("announce-message", msg, function(data){});
+		$socket.emit("announce-message", msg, function(data){});
 	};
 
     /**
@@ -380,6 +368,11 @@ angular.module('Controllers')
 
 	$scope.showEquationEditor = function(){
 		swapFrame();
+	};
+
+	$scope.closeAnnounce = function(){
+		console.log("hello");
+		$("#announce-area").css('display', 'none');
 	};
 
 	$scope.latexEditorAddText = function(text){
@@ -539,6 +532,13 @@ angular.module('Controllers')
 		chatLog += "\r";
 		chatLog += "[" + data.msgTime + "] " + data.username + ": " + data.msg + "###DELETED###";
 		chatLog += "\n";
+	});
+
+	$socket.on("announce message", function(data){
+		$("#announce-area")[0].innerText = "";
+		$("#announce-area").css('display', 'inline-block');
+		$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + data.raw_data.msg + " by " + data.raw_data.username );
+		
 	});
 
 // ====================================== Image Sending Code ==============================

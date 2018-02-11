@@ -219,11 +219,8 @@ LectureNsp.prototype.listen = function () {
 
             // announce message
             socket.on('announce-message', function (data, callback) {
-                var history = this.findRoomAdapter(socket.connectedRoom).messageHistory;
-                var index = history.findIndex(function (item, i) {
-                    return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
-                });
-                console.log(index);
+                this.nsp.to(socket.connectedRoom).emit('announce message', data);
+                callback({success: true});
             }.bind(this));
 
             socket.on("new user", function (data, callback) {

@@ -430,8 +430,8 @@ angular.module('Controllers')
             ice.driver.createElement(ice.Driver.SvgEditorElementTypes.IMAGE, {
                 width: 300,
                 height: imageHeight,
-                x: 100,
-                y: 100,
+                x: 50,
+                y: 50,
                 base64: img
             });
         };

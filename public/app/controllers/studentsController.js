@@ -82,6 +82,11 @@ angular.module('Controllers')
                             $scope.result.success = true;
                             $scope.$apply();
                         }, 50);
+                    },
+                    error: function (err) {
+                        console.log(err.responseJSON);
+                        $scope.error = err.responseJSON;
+                        $scope.$apply();
                     }
                 })
             },
@@ -155,6 +160,8 @@ angular.module('Controllers')
         $scope.onCancelClick = function () {
             $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
             $scope.result = null;
+            $scope.import.csv = null;
+            $scope.error = null;
         };
 
         $scope.onImportSubmit = function () {

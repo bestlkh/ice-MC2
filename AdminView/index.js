@@ -332,7 +332,7 @@ AdminView.prototype.setupApi = function () {
 
     this.app.put("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
-            if (err) return res.status(400).json({status: 400, message: err});
+            if (err) return res.status(400).json({status: 400, message: "Invalid csv format"});
 
 
             this.db.collection("students").updateOne({owner: req.session.user.username, className: req.params.name}, {

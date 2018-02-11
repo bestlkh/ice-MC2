@@ -81,10 +81,15 @@
             </div>
         </div>
         <div class="import-wrapper" ng-if="!hideImport && !result">
-            <header> <span>Import student list</span> </header>
+            <header>
+                <span>Import student list</span>
+
+            </header>
             <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
+            <div class="error-popup" ng-if="error" style="margin: 10px 0 0;">{{error.message}}</div>
             <form ng-submit="onImportSubmit()">
-                <div class="form-wrapper">
+                <div class="form-wrapper" ng-class="{'form-wrapper-error': error}">
+
                     <div ng-if="!import.csv">
                         Upload student CSV file
                     </div>

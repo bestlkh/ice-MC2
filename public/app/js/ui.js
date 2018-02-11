@@ -51,12 +51,12 @@ onMainLoop(function(){
             'width': ''
         });
         $("#send-message-button").css({
-            'width': containerWidth - toolButtonTotalWidth - 31
+            'width': containerWidth - toolButtonTotalWidth - 32
         });
     } else {
         $(".latex-editor-symbol-button").hide();
         $("#textArea").css({
-            'width': containerWidth - toolButtonTotalWidth - 31
+            'width': containerWidth - toolButtonTotalWidth - 32
         });
         $("#send-message-button").css({
             'width': ''

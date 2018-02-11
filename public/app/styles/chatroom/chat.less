@@ -175,10 +175,16 @@
       height: 100%;
     }
     #chatroom-footer {
-      height: 175px;
+      height: 185px;
     }   
     div#panel {
       bottom: 0;
+    }
+    #text-message-input-extra-symbols {
+      display: block;
+    }
+    #text-message-input-area {
+      padding-bottom: 10px;
     }
   }
 }
@@ -245,7 +251,13 @@ div {
   margin: 0;
 }
 
-#text-message-input-area {
+#text-message-input-extra-symbols {
+  padding-bottom: 10px;
+  display: none;
+}
+
+#text-message-input-area,
+#text-message-input-extra-symbols {
   width: 100%;
   .message-tool-button {
     border: none;
@@ -255,6 +267,13 @@ div {
     padding-left: 5px;
     padding-right: 5px;
     outline: none;
+    &.latex-editor-symbol-button {
+      font-size: 16px;
+      min-width: 30px;
+      color: #7c7c7c;
+      font-weight: bold;
+      font-family: monospace, monospace;
+    }
     &:hover {
       opacity: 1;
     }
@@ -322,7 +341,7 @@ div {
     transition: max-height ease 0.7s;
   }
   .CodeMirror {
-    height: 120px;
+    height: 90px;
   }
   #latex-editor {
     margin-top: 10px;

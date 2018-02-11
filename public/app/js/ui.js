@@ -20,12 +20,12 @@ onMainLoop(function(){
     if($("#text-message-input-area").hasClass("latex-editor-shown")) {
         if($(window).width() > 732){
             // Include all tool buttons
-            $.each($(".message-tool-button").not("#send-message-button").not("#equation-editor-button"), function(key, val){
+            $.each($(".message-tool-button").not("#send-message-button").not("#equation-editor-button").not("#text-message-input-extra-symbols .latex-editor-symbol-button"), function(key, val){
                 toolButtonTotalWidth += $(val).outerWidth();
             });
         } else {
             // Include all tool buttons
-            $.each($(".message-tool-button").not("#send-message-button"), function(key, val){
+            $.each($(".message-tool-button").not("#send-message-button").not("#text-message-input-extra-symbols .latex-editor-symbol-button"), function(key, val){
                 toolButtonTotalWidth += $(val).outerWidth();
             });
         }

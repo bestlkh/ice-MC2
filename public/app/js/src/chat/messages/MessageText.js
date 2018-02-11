@@ -55,7 +55,7 @@ class MessageText {
     }
 
     getSvgSource(){
-        return atob(this.attachments['svg-source']);
+        return decodeURIComponent(escape(atob(this.attachments['svg-source'])));
     }
 
     isEquation(){

@@ -398,7 +398,7 @@ var SOTP = 0;
         $.prompt = function(msg, txt, cb) { dbox('prompt', msg, cb, txt);};
       }());
 
-      var setSelectMode = function() {
+      var setSelectMode = function() {    
         var curr = $('.tool_button_current');
         if(curr.length && curr[0].id !== 'tool_select') {
           curr.removeClass('tool_button_current').addClass('tool_button');
@@ -822,7 +822,6 @@ var SOTP = 0;
             //$('#workarea').one("mousedown", function(){$('#tools_shapelib').hide()})
             //$('#workarea').one("mousedown", function(){$('#tools_mathlib').hide()});
             if ($('#tools_shapelib').is(":visible")) {
-
               toolButtonClick(show_sel, false);
             }
 
@@ -895,6 +894,7 @@ var SOTP = 0;
       }
 
       var resize_timer;
+      var extButtonKeeper;
 
       var extAdded = function(window, ext) {
 
@@ -1077,7 +1077,7 @@ var SOTP = 0;
             var button = $((btn.list || btn.type == 'app_menu')?'<li/>':'<div/>')
               .attr("id", id)
               .attr("title", btn.title)
-              .addClass(cls);
+              .addClass(cls);      
             if(!btn.includeWith && !btn.list) {
               if("position" in btn) {
                 $(parent).children().eq(btn.position).before(button);
@@ -1085,7 +1085,6 @@ var SOTP = 0;
                 if (btn.type != "menu" || !btn.after) button.appendTo(parent);
                 else $(parent).after(button);
               }
-
               if(btn.type =='mode_flyout') {
               // Add to flyout menu / make flyout menu
   //              var opts = btn.includeWith;
@@ -1202,8 +1201,13 @@ var SOTP = 0;
                     if(btn.includeWith) {
                       button.bind(name, func);
                     } else {
+                  
+                      if(button[0].id === 'tool_panzoom'){
+                        extButtonKeeper = button;
+                      }  
+                      
                       button.bind(name, function() {
-                        if(toolButtonClick(button)) {
+                        if(toolButtonClick(button)) {               
                           func();
                         }
                       });
@@ -1807,7 +1811,6 @@ var SOTP = 0;
       // - hides any flyouts
       // - adds the tool_button_current class to the button passed in
       var toolButtonClick = function(button, noHiding) {
-
         if ($(button).hasClass('disabled')) return false;
         if($(button).parent().hasClass('tools_flyout')) return true;
         var fadeFlyouts = fadeFlyouts || 'normal';
@@ -2231,7 +2234,7 @@ var SOTP = 0;
             raw_message = tex;
             raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
             var message_attachment = {
-              'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+              'svg-source': btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())))
             };
             raw_message += btoa(JSON.stringify(message_attachment));
             raw_message += "\n-----MC2 END ATTACHMENT-----\n";
@@ -2440,7 +2443,7 @@ var SOTP = 0;
       var convertAndSend = function(){
           $("#send-sheet").addClass("shown");
           $("#send-sheet-background").addClass("shown");
-          $("#send-sheet-equation").html(getBST());
+          $("#send-sheet-equation").html(Tool.RecognitionTool.getTex());
           MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
       };
       var matrixBuilder = function(col, row){
@@ -2529,13 +2532,14 @@ var SOTP = 0;
             placeHolder.style.display = 'block';
           }        
       };
-
+      
       var zoomOutBtn= function(){
+        extButtonKeeper.click();
+        svgCanvas.setMode("pan");
         var svg = $("#svgcanvas");    
           svg.css({
               cursor: "zoom-out"
-          });
-        
+          });            
     };
 
       var sendAsImage = function(){
@@ -2555,7 +2559,7 @@ var SOTP = 0;
                   // Add attachment to message
                   raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
                   var message_attachment = {
-                    'svg-source': btoa($("#svgcontent").find(".active-layer").html())
+                    'svg-source': btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())))
                   };
                   raw_message += btoa(JSON.stringify(message_attachment));
                   raw_message += "\n-----MC2 END ATTACHMENT-----\n";

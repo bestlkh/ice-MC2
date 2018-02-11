@@ -70,7 +70,7 @@ var MessageText = function () {
     }, {
         key: 'getSvgSource',
         value: function getSvgSource() {
-            return atob(this.attachments['svg-source']);
+            return decodeURIComponent(escape(atob(this.attachments['svg-source'])));
         }
     }, {
         key: 'isEquation',

@@ -14,11 +14,11 @@
   .chat-menu-button {
     background-color: #2f2f2c;
     color: white;
-    width: 50px;
-    height: 50px;
+    width: ~"calc(35px + 2vh)";
+    height: ~"calc(35px + 2vh)";
     box-shadow: rgba(0,0,0,0.1) 2px 2px 5px;
     text-align: center;
-    line-height: 50px;
+    line-height: ~"calc(35px + 2vh)";
     border-radius: 40px;
     margin-bottom: 10px;
     position: relative;
@@ -64,6 +64,13 @@
 #chat-menu-header {
   display: none;
 }
+
+// Extension to font awesome icons to be dynamically sized
+.fa {
+  transform: translateY(8%);
+  font-size: ~"calc(10px + 0.8vh)";
+}
+
 
 @media screen and (max-width: 732px) {
   #chat-menu-cover {

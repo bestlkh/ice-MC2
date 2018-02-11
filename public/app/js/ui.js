@@ -39,7 +39,6 @@ onMainLoop(function(){
             // Include all tool buttons
             $.each($(".message-tool-button").not(".latex-editor-symbol-button"), function(key, val){
                 toolButtonTotalWidth += $(val).outerWidth();
-                console.log(val);
             });
         }
     }

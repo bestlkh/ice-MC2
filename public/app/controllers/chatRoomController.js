@@ -321,6 +321,25 @@ angular.module('Controllers')
 			$socket.emit("delete-message", msg, function(data){});
 	};
 
+	/**
+	 * Send Announcement message to the chat room
+     * @param msg
+     * @param hasMsg
+     * @param hasFile
+     * @param callback
+     */
+	$scope.sendMsgManual = function(msg, hasMsg, hasFile, callback){
+		$socket.emit("announcement-message", {
+			msg: msg,
+			hasMsg: hasMsg,
+			hasFile: hasFile
+		}, callback);
+	};
+
+	$scope.announceMsg = function(msg){
+			$socket.emit("announce-message", msg, function(data){});
+	};
+
     /**
 	 * Open a base64 image in new tab.
      * @param img - Image in base64 format.

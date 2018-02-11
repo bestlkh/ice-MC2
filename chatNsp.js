@@ -217,6 +217,15 @@ LectureNsp.prototype.listen = function () {
                 callback({success: true});
             }.bind(this));
 
+            // announce message
+            socket.on('announce-message', function (data, callback) {
+                var history = this.findRoomAdapter(socket.connectedRoom).messageHistory;
+                var index = history.findIndex(function (item, i) {
+                    return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
+                });
+                console.log(index);
+            }.bind(this));
+
             socket.on("new user", function (data, callback) {
                 data.roomId = data.roomId.toLowerCase();
 

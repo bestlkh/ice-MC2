@@ -61,6 +61,8 @@ class SvgEditorDriver {
                     }
                 });
                 this._canvas.setHref(element.dom, config.base64);
+                // We add a xlink property so SVG can be parsed properly
+                element.dom.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
                 break;
         }
 

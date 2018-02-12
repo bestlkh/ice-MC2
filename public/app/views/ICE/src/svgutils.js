@@ -304,8 +304,9 @@ svgedit.utilities.getHref = function(elem) {
 // Function: svgedit.utilities.setHref
 // Sets the given element's xlink:href value
 svgedit.utilities.setHref = function(elem, val) {
+  console.log(XLINKNS);
   elem.setAttributeNS(XLINKNS, "xlink:href", val);
-}
+};
 
 // Function: findDefs
 // Parameters:

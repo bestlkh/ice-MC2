@@ -75,6 +75,7 @@ var SvgEditorDriver = function () {
                         }
                     });
                     this._canvas.setHref(element.dom, config.base64);
+                    element.dom.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
                     break;
             }
 

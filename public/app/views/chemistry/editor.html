@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="vendor/kekule/themes/default/kekule.css" />
+</head>
+<body>
+
+    <div id="chem-editor"></div>
+    <button style="position: fixed; bottom: 60px; padding: 15px; right:50px; z-index: 99;" onclick="sendToChat();">Send to Chat</button>
+
+    <script src="vendor/kekule/kekule.min.js"></script>
+    <script>
+        let chemEditor;
+        let chemComposer
+        function init()
+        {
+            let elem = document.getElementById('chem-editor');
+            chemEditor = new Kekule.Editor.ChemSpaceEditor(document, null, Kekule.Render.RendererType.R2D);
+            chemComposer = new Kekule.Editor.Composer(elem, chemEditor);
+
+            // adjust size
+            adjustSize();
+
+            window.onresize = adjustSize;
+        }
+        function adjustSize()
+        {
+            let dim = Kekule.HtmlElementUtils.getViewportDimension(document);
+            chemComposer.setWidth(dim.width - 50 + 'px').setHeight(dim.height - 30 + 'px');
+        }
+
+        Kekule.X.domReady(init);
+
+        function sendToChat(){
+            let img = document.querySelector(".objContextParentElem canvas").toDataURL();
+            let raw_message = "[mc2-image]" + img;
+            parent.document.getElementById('textArea').value = raw_message;
+            parent.document.getElementById('send-message-button').click();
+        }
+    </script>
+</body>
+</html>

@@ -347,8 +347,10 @@ angular.module('Controllers')
 		$("#text-message-input-area").toggleClass("latex-editor-shown");
 		$("#direct-chat-container").toggleClass("latex-editor-shown");
 		setTimeout(function(){
-            $("#chat-body-div").scrollTop($("#dcs").height());
-		}, 100);
+            $("#dcs").animate({
+                scrollTop: $("#chat-body-div")[0].scrollHeight + 100
+            });
+		}, 200);
 
 		if($("#direct-chat-container").hasClass("latex-editor-shown")){
             $(".alertify-notifier").addClass("latex-editor-shown");
@@ -412,6 +414,10 @@ angular.module('Controllers')
         Alert.Alert.spawn(text);
 	};
 
+    /**
+	 * Put back a svg source to the editor
+     * @param source
+     */
 	$scope.editSvgSource = function(source){
 		Alert.Confirm.spawn("Are you sure?", "This will discard your current drawings.", function(){
 			var layer = $("#editor-frame").contents().find("#svgcontent .active-layer");
@@ -421,6 +427,7 @@ angular.module('Controllers')
 			}
 		});
 	};
+
 
 	$scope.putImageToEditor = function(img){
         let image = new Image();
@@ -440,6 +447,12 @@ angular.module('Controllers')
             swapFrame();
         }
     };
+
+	$scope.editTextMessage = function(msg){
+		document.getElementById("textArea").value = msg;
+		latexEditor.setValue(msg);
+	};
+
 
 	$scope.hideLoadingScreen = function(){
 		setTimeout(function(){
@@ -480,7 +493,7 @@ angular.module('Controllers')
 			}
             chatLog += "\n";
         });
-        $("#chat-body-div").animate({
+        $("#dcs").animate({
             scrollTop: $("#chat-body-div")[0].scrollHeight + 100
         });
     });

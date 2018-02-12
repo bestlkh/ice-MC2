@@ -23,6 +23,12 @@
             title="Edit in editor">
         <i class="fa fa-pencil" aria-hidden="true"></i>
     </button>
+    <!--If the message is not SVG, also not a image, then it must be a text message-->
+    <button ng-click="editTextMessage(message.getText().getRaw())"
+            ng-if="!message.getText().hasSvgSource() && !message.getText().isImage()"
+            title="Edit">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </button>
     <button ng-if="message.getText().isEquation()"
             ng-click="showEquationSource(message.getText().getRaw())"
             title="Show LaTeX source">

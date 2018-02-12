@@ -89,6 +89,44 @@
                     <div class="box-footer" id="chatroom-footer">
 
                         <!--Size of this area is modified by JavaScript, registered in ui.js-->
+                        <div id="text-message-input-extra-symbols">
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('=')">
+                                =
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('+')">
+                                +
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('-')">
+                                -
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('*')">
+                                *
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('/')">
+                                /
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('^')">
+                                ^
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('_')">
+                                _
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
+                                    ng-click="latexEditorAddText('{')">
+                                {
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
+                                    ng-click="latexEditorAddText('}')">
+                                }
+                            </button>
+                        </div>
                         <div id="text-message-input-area">
                             <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
                                     ng-click="toggleLatexEditor()">
@@ -104,19 +142,11 @@
                             </button>
                             <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
                                     ng-click="latexEditorAddText('$$')">
-                                <img src="/app/images/add-latex-wrap-icon.png" width="20px"/>
+                                $$
                             </button>
                             <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
                                     ng-click="latexEditorAddText('\\')">
-                                <img src="/app/images/add-latex-backslash-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
-                                    ng-click="latexEditorAddText('{')">
-                                <img src="/app/images/add-latex-left-bracket-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
-                                    ng-click="latexEditorAddText('}')">
-                                <img src="/app/images/add-latex-right-bracket-icon.png" width="20px"/>
+                                \
                             </button>
                             <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
                                       ng-model="chatMsg"

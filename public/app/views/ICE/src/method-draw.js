@@ -2550,7 +2550,6 @@ var SOTP = 0;
           $("#pre-render-svg").find("g").prepend('<rect width="3000" height="3000" x="-500" y="-500" stroke="#000" fill="white" style="pointer-events:none" opacity="1"></rect>');
           $("#pre-render-svg")[0].setAttribute("viewBox", (parseInt(bbox.x) - 20) + " " + (parseInt(bbox.y) - 20) + " " + (parseInt(bbox.width) + 40) + " " + (parseInt(bbox.height) + 40));
           canvas = document.getElementById('export-dump-canvas');
-          console.log($("#pre-render-svg")[0].outerHTML);
           canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
               renderCallback: function(){
                 setTimeout(function(){
@@ -4388,6 +4387,7 @@ var SOTP = 0;
       $(function() {
         window.svgCanvas = svgCanvas;
         svgCanvas.ready = methodDraw.ready;
+        window.driver = new Driver.SvgEditorDriver(svgCanvas);
       });
 
 

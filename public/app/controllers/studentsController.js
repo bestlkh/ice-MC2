@@ -84,7 +84,6 @@ angular.module('Controllers')
                         }, 50);
                     },
                     error: function (err) {
-                        console.log(err.responseJSON);
                         $scope.error = err.responseJSON;
                         $scope.$apply();
                     }

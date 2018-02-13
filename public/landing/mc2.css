@@ -1139,7 +1139,7 @@ input[type="file"] {
 .form-wrapper {
 	border: 2px #9da3bd dashed;
 	border-radius: 5px;
-	padding: 10px 0;
+	padding: 20px 0;
 	color: #5d6795;
 	text-align: center;
 }
@@ -1570,6 +1570,60 @@ input[type="submit"]:hover {
 }
 
 a {
+	color: inherit;
+}
+
+.choose-wrapper {
+	display: flex;
+	justify-content: space-between;
+
+}
+
+.choose-wrapper .choose-item {
+	margin: 10px 0 10px 10px;
+	padding: 12px;
+	border: 1px #a0a0a0 solid;
+	border-radius: 5px;
+	color: #5d6795;
+	width: 100%;
+	display: flex;
+	cursor: pointer;
+}
+
+.choose-wrapper .choose-item:first-child {
+	margin-left: 0;
+}
+
+.choose-inner-wrapper .choose-name {
+	font-weight: 600;
+}
+
+.choose-inner-wrapper .choose-description {
+	color: #5c6063;
+}
+
+.choose-wrapper .choose-radio {
+	margin-right: 24px;
+	margin-top: 6px;
+	flex: none;
+
+	background-image: url(/app/images/icon-circle.png);
+	background-position: 0 -215px;
+	height: 27px;
+	width: 26px;
+	background-repeat: no-repeat;
+}
+
+.choose-selected .choose-radio {
+	background-image: url(/app/images/icon-circle.png);
+	background-position: 0 -244px;
+}
+
+.choose-wrapper .choose-selected {
+	border-color: #5d6795;
+}
+
+.choose-wrapper div {
 	color: inherit;
 }
 

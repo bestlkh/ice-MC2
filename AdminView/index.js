@@ -334,17 +334,19 @@ AdminView.prototype.setupApi = function () {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
             if (err) return res.status(400).json({status: 400, message: "Invalid csv format"});
 
+            var operation = (req.body.mode == 0) ? {$set: {students: data}} : {$push: {students: {$each : data}}};
+            this.db.collection("students").updateOne({owner: req.session.user.username, className: req.params.name},
+                operation,
+                {upsert: true},
+                function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                    var resp = {};
+                    result = result.result;
+                    resp["n_successful"] = data.length;
+                    res.json(resp);
 
-            this.db.collection("students").updateOne({owner: req.session.user.username, className: req.params.name}, {
-                $set: {students: data}
-            }, {upsert: true}, function (err, result) {
-                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                var resp = {};
-                result = result.result;
-                resp["n_successful"] = data.length;
-                res.json(resp);
-
-            });
+                }
+            );
 
         }.bind(this));
 

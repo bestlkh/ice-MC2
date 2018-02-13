@@ -43,6 +43,8 @@ angular.module('Controllers')
 
         $scope.to = null;
 
+        $scope.chooseSelected = 0;
+
         $scope.getBase64 = function (file, callback) {
             var reader = new FileReader();
 
@@ -68,7 +70,7 @@ angular.module('Controllers')
                 $.ajax({
                     method: "PUT",
                     url: "/v1/api/classrooms/"+$routeParams.name+"/students",
-                    data:  JSON.stringify({csv: csv}),
+                    data:  JSON.stringify({csv: csv, mode: $scope.chooseSelected}),
                     processData: false,
                     contentType: "application/json",
                     success: function (result) {
@@ -116,6 +118,11 @@ angular.module('Controllers')
                     }
                 })
             }
+        };
+
+        $scope.onChooseSelect = function (index) {
+            $scope.chooseSelected = index;
+
         };
 
         $scope.newNotif = function (message, success) {

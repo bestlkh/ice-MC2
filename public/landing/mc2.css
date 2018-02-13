@@ -941,7 +941,8 @@ ul {
 }
 
 .red-text {
-	color: #df3320;
+	color: #df3320 !important;
+	font-weight: 600 !important;
 }
 
 .fullscreen-button {
@@ -1072,6 +1073,7 @@ ul {
 	display: flex;
 	flex-flow: column;
 	justify-content: center;
+
 }
 
 .import-overlay .import-wrapper {
@@ -1140,6 +1142,11 @@ input[type="file"] {
 	padding: 10px 0;
 	color: #5d6795;
 	text-align: center;
+}
+
+.form-wrapper-error {
+	border-color: #df3320;
+	color: #df3320;
 }
 
 .form-wrapper div {
@@ -1426,6 +1433,26 @@ input[type="submit"]:hover {
 }
 
 .notif-popup.ng-enter-active {
+	opacity: 1;
+}
+
+.error-popup {
+	color: #fff !important;
+	background-color: #df3320;
+	width: max-content;
+	padding: 10px 20px;
+	font-weight: 600;
+	margin-left: 20px;
+	border-radius: 3px;
+	transition: all 0.15s linear;
+	height: 42px;
+}
+
+.error-popup.ng-enter {
+	opacity: 0;
+}
+
+.error-popup.ng-enter-active {
 	opacity: 1;
 }
 

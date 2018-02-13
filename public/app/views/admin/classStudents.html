@@ -106,6 +106,31 @@
                     </div>
                 </div>
 
+                <div class="choose-wrapper">
+                    <div class="choose-item" ng-click="onChooseSelect(0)" ng-class="{'choose-selected': (chooseSelected == 0)}">
+                        <i class="choose-radio" ></i>
+                        <div class="choose-inner-wrapper">
+                            <div class="choose-name">
+                                Overwrite
+                            </div>
+                            <div class="choose-description">
+                                Replace entire student list.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choose-item" ng-click="onChooseSelect(1)" ng-class="{'choose-selected': (chooseSelected == 1)}">
+                        <i class="choose-radio"></i>
+                        <div class="choose-inner-wrapper">
+                            <div class="choose-name">
+                                Append
+                            </div>
+                            <div class="choose-description">
+                                Add students to existing list.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="button-wrapper">
                     <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
                     <input type="submit" />

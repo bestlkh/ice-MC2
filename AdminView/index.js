@@ -123,6 +123,7 @@ AdminView.prototype.setupRoute = function () {
 var Student = function (student) {
     this.utorid = student.utorid;
     this.email = student.email;
+    this.token = uuidv4();
 };
 
 var ChatSetting = function (settings) {

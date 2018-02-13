@@ -46,14 +46,13 @@ function findOne(list, params) {
 MongoClient.connect(constants.dbUrl, function (err, db) {
     db.collection("chatHistory").find({}).toArray(function (err, history) {
         let sessions = [];
-        let reg = /(.*)lec0?([1-9])/;
+        let reg = /(.*)/;
         history.forEach(function (session) {
             let match = reg.exec(session.roomName);
             if (match) {
 
                 let sess = new Session(session, match[1], match[2]);
                 sessions.push(sess);
-
 
                 session.messages.forEach(function (message) {
                     if (!findOne(sess.students, {utorid: message.utorid})) sess.students.push(new Student(message));
@@ -75,6 +74,7 @@ MongoClient.connect(constants.dbUrl, function (err, db) {
         sessions.forEach(function (session) {
 
             session.students.forEach(function (student) {
+
                 var s = student.toCSV();
                 s.session = session.name;
                 csvStruct.push(s);

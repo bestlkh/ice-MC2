@@ -125,7 +125,6 @@ function findOne(list, params) {
 }
 
 LectureNsp.prototype.findStudent = function (data, callback) {
-        console.log(data);
         this.db.collection("classrooms").findOne({owner: this.owner, roomName: new RegExp("^" + data.roomId + "$", 'i')}, function (err, classroom) {
             if (err) return callback(err, null);
             if (!classroom) return callback({}, null);
@@ -213,7 +212,6 @@ LectureNsp.prototype.listen = function () {
 
             // delete message
             socket.on('delete-message', function (data, callback) {
-                console.log(data);
                 var history = this.findRoomAdapter(socket.connectedRoom).messageHistory;
                 var index = history.findIndex(function (item, i) {
                     return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);

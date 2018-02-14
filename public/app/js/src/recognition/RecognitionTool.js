@@ -378,7 +378,7 @@ class RecognitionTool {
             }
         } else if (type === SymbolTypes.BRACKET) {
             result += Constant.TEX_TEXT[value];
-            if (symbol.bracketType == BRACKET_TYPES.CLOSE) {
+            if (symbol.bracketType == Constant.BRACKET_TYPES.CLOSE) {
                 if (bst.region[RegionTypes.SUPER].hasElement()) {
                     result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) +"}";
                 }

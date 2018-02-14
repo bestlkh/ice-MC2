@@ -13,6 +13,11 @@
             title="Detailed information">
         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
     </button>
+    <button ng-if="message.getText().isImage() && !message.getText().hasSvgSource()"
+            ng-click="putImageToEditor(message.getText().getImage())"
+            title="Edit Image">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </button>
     <button ng-click="editSvgSource(message.getText().getSvgSource())"
             ng-if="message.getText().hasSvgSource()"
             title="Edit in editor">

@@ -439,10 +439,31 @@ angular.module('Controllers')
 		});
 	};
 
+
+	$scope.putImageToEditor = function(img){
+        let image = new Image();
+        image.onload = function(){
+            let imageHeight = 300 / image.width * image.height;
+            let ice = $("#editor-frame")[0].contentWindow;
+            ice.driver.createElement(ice.Driver.SvgEditorElementTypes.IMAGE, {
+                width: 300,
+                height: imageHeight,
+                x: 50,
+                y: 50,
+                base64: img
+            });
+        };
+        image.src = img;
+        if($(window).width() < 732){
+            swapFrame();
+        }
+    };
+
 	$scope.editTextMessage = function(msg){
 		document.getElementById("textArea").value = msg;
 		latexEditor.setValue(msg);
 	};
+
 
 	$scope.hideLoadingScreen = function(){
 		setTimeout(function(){
@@ -558,20 +579,20 @@ angular.module('Controllers')
                 // Get the image size, and decide if to resize it
                 let width = img.width;
                 let height = img.height;
-                // We only allow maximum of 1920x1080 images
-                if (width > 1920 || height > 1080){
+                // We only allow maximum of 1280x720 images
+                if (width > 1280 || height > 720){
                     // Resize the image
                     let targetWidth, targetHeight;
-                    if (width > 1920){
+                    if (width > 1280){
                         // Resize the width
-                        let scale = 1920 / width;
-                        targetWidth = 1920;
+                        let scale = 1280 / width;
+                        targetWidth = 1280;
                         targetHeight = height * scale;
                     } else {
                         // Resize the height
-                        let scale = 1080 / height;
+                        let scale = 720 / height;
                         targetWidth = width * scale;
-                        targetHeight = 1080;
+                        targetHeight = 720;
                     }
                     let canvas = document.createElement('canvas'),
                         ctx = canvas.getContext('2d');
@@ -579,7 +600,7 @@ angular.module('Controllers')
                     canvas.height = targetHeight;
                     ctx.drawImage(this, 0, 0, targetWidth, targetHeight);
                     $socket.emit("send-image", {
-                        dataUri: canvas.toDataURL('image/jpeg', 0.7)
+                        dataUri: canvas.toDataURL('image/jpeg', 0.3)
                     }, function (data) {});
                 } else {
                     // We just send the image

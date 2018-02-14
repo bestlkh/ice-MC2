@@ -18,7 +18,7 @@ class RecognitionTool {
      */
     static hor(ls, s) {
         if (ls[s].type === SymbolTypes.FRACTION || 
-                (ls[s].type === SymbolTypes.BRAKET && ls[s].bracketType == BracketTypes.OPEN) || 
+                (ls[s].type === SymbolTypes.BRACKET && ls[s].bracketType == BracketTypes.OPEN) || 
                     ls[s].type === SymbolTypes.OPERATOR) {
             var wall = ls[s].getWallCopy();
             var newWall = wall;

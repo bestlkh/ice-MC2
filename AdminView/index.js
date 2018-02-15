@@ -301,6 +301,17 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
+
+    this.app.delete("/v1/api/classrooms/:name", checkAuth, function (req, res) {
+        this.db.collection("classrooms").removeOne({
+            name: req.params.name,
+            owner: req.session.user.username
+        }, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            res.json({});
+        }.bind(this));
+    }.bind(this));
+
     this.app.get("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
 
         this.db.collection("students").findOne({

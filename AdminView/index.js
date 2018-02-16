@@ -308,7 +308,15 @@ AdminView.prototype.setupApi = function () {
             owner: req.session.user.username
         }, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            res.json({});
+            this.db.collection("students").removeOne({
+                owner: req.session.user.username,
+                className: req.params.name
+            }, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                res.json({});
+
+            });
+
         }.bind(this));
     }.bind(this));
 

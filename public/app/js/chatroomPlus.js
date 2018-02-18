@@ -66,14 +66,14 @@ function toggleChatRoom(e) {
     var percentage = (e.pageX / window.innerWidth) * 100;
     if(percentage < 70){
         $('#editor-frame').css("width", "98%");
-        $('#editorframe').css("width", "100%");
+        $('#math-editor').css("width", "100%");
         $('#chatframe').css("width", "0%");
         $('.arrow-left').css("left",  "95%");
         $('#drag-bar').css('display', "none");
     }
     else{
         $('#editor-frame').css("width", e.pageX + "px");
-        $('#editorframe').css("width", "70%");
+        $('#math-editor').css("width", "70%");
         $('#chatframe').css("width", "calc("+ "30%" + " - " + "5px)");
         $('.arrow-left').css("left", "65%");
         $('#drag-bar').css('display', "initial");
@@ -167,7 +167,7 @@ $('#dragbar').mousedown(function (e) {
         }
         var mainPercentage = 100 - percentage;
         $('#editor-frame').css("width", e.pageX + "px");
-        $('#editorframe').css("width", percentage + "%");
+        $('#math-editor').css("width", percentage + "%");
         $('#chatframe').css("width", "calc(" + mainPercentage + "%" + " - " + "5px)");
         $('.arrow-left').css("left", percentage - 5 + "%");
     });

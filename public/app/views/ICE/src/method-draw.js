@@ -30,8 +30,8 @@ var SOTP = 0;
     var svgCanvas;
     var Editor = {};
     var is_ready = false;
-    var initWidth = screen.availWidth;// parent.document.getElementById("editorframe").offsetWidth;
-    var initHeight = screen.availHeight; //parent.document.getElementById("editorframe").offsetHeight;
+    var initWidth = screen.availWidth;// parent.document.getElementById("math-editor").offsetWidth;
+    var initHeight = screen.availHeight; //parent.document.getElementById("math-editor").offsetHeight;
     curConfig = {
       canvas_expansion: 1,
       dimensions: [initWidth,initHeight],

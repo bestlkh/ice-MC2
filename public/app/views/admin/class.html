@@ -61,8 +61,12 @@
             <div class="line-button add-button" ng-if="selected" ng-click="onDetailClick()">
                 Details
             </div>
+
             <div class="line-button add-button" ng-click="onAddClick()" style="width: auto; padding: 10px 16px;">
                 Create classroom
+            </div>
+            <div class="line-button delete-button" ng-if="selected" ng-click="Actions.onDeleteClick()">
+                Delete
             </div>
 
         </div>

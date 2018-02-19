@@ -818,7 +818,7 @@ ul {
 .dd-menu {
 	background-color: #fff;
 	position: absolute;
-	top: 60px;
+	top: 55px;
 	right: 0;
 	box-shadow: 0 6px 12px rgba(55,71,79,.1);
 	z-index: 999;
@@ -828,7 +828,11 @@ ul {
 	width: 150px;
 	text-align: center;
 	font-weight: 600;
-	padding: 7px;
+	padding: 10px 8px;
+}
+
+.dd-menu li:hover {
+	background-color: #f0f0f0;
 }
 
 .control-settings:hover {
@@ -1160,9 +1164,10 @@ input[type="file"] {
 }
 
 .import-wrapper .button-wrapper {
-	margin: 0;
+	margin: 0 !important;
 	width: 200px;
 	justify-content: space-between;
+	padding: 10px 0;
 }
 
 .cancel-button {
@@ -1481,10 +1486,25 @@ input[type="submit"]:hover {
 	height: fit-content;
 }
 
+.class-card.ng-leave {
+	--webkit-transition: none;
+	transition: none;
+}
+
 .class-card header {
 	text-align: left;
 	font-size: 17px;
 	color: #5d6795;
+}
+
+.delete-button {
+	background-color: #df3320;
+	color: #fff;
+	border-color: #df3320;
+}
+
+.delete-button:hover {
+	background-color: #fa5041;
 }
 
 .purple-button::before, .purple-button::after {

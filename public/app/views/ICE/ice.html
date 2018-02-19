@@ -144,115 +144,49 @@
 </div>
 
 <div id="menu_bar">
-<div id="menu-button" role="button" title="sweet hamburger">
-  <div class="hamburger"><div class="inner"></div></div>
-</div>
-      <nav>
-        <ul id="hamburger-menu">
-          <li>File
-               <ul class="second-level-menu">
-                    <div class="menu_list" id="file_menu">
-                      <div id="tool_clear" class="menu_item">New Document</div>
-                      <div id="tool_open" class="menu_item" style="display: none;"><div id="fileinputs"></div>Open SVG...</div>
-                      <div class="menu_item tool_import_mobile">Import Image...</div>
-                      <div id="tool_save" class="menu_item">Save Image...</div>
-                      <div id="tool_export" class="menu_item">Export as PNG</div>
-                    </div>
-                </ul>
-          </li>
-          <li>Edit
-              <ul class="second-level-menu">
-              <div class="menu_list" id="edit_menu">
-                <div class="menu_item" id="tool_undo">Undo</div>
-                <div class="menu_item" id="tool_redo">Redo</div>
-                <div class="separator"></div>
-                <div class="menu_item action_selected disabled" id="tool_cut">Cut</div>
-                <div class="menu_item action_selected disabled" id="tool_copy">Crop</div>
-                <div class="menu_item action_selected disabled" id="tool_paste">Paste</div>
-                <div class="menu_item action_selected disabled" id="tool_clone">Duplicate</div>
-                <div class="menu_item action_selected disabled" id="tool_delete">Delete</div>
-              </div>
-              </ul>
-          </li>
-          <li>Object
-              <ul class="second-level-menu">
-                <div class="menu_list" id="object_menu">
-                  <div class="menu_item action_selected disabled" id="tool_move_top">Bring to Front</div>
-                  <div class="menu_item action_selected disabled" id="tool_move_up">Bring Forward</div>
-                  <div class="menu_item action_selected disabled" id="tool_move_down">Send Backward</div>
-                  <div class="menu_item action_selected disabled" id="tool_move_bottom">Send to Back</div>
-                  <div class="separator"></div>
-                  <div class="menu_item action_multi_selected disabled" id="tool_group">Group Elements</div>
-                  <div class="menu_item action_group_selected disabled" id="tool_ungroup">Ungroup Elements</div>
-                  <div class="separator"></div>
-                  <div class="menu_item action_path_convert_selected disabled" id="tool_topath">Convert to Path</div>
-                  <div class="menu_item action_path_selected disabled" id="tool_reorient">Reorient path</div>
-                </div>                                          
-              </ul>
-          </li>
-        </ul>
-      </nav>
+
+  <!--Mobile hamburger menu-->
+
+<!--<div id="menu-button" role="button" title="sweet hamburger">-->
+  <!--<div class="hamburger"><div class="inner"></div></div>-->
+<!--</div>-->
+      <!--<nav>-->
+        <!--<ul id="hamburger-menu">-->
+          <!--<li>File-->
+               <!--<ul class="second-level-menu">-->
+                    <!--<div class="menu_list" id="mobile_file_menu">-->
+                      <!--<div class="menu_item tool_import_mobile">Import Image...</div>-->
+                    <!--</div>-->
+                <!--</ul>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</nav>-->
+
+
 <button style = "font-size: 27px" class="switchbtn" id="tool_swap"><i class="fa fa-times" aria-hidden="true"></i></button>
 
 
   <div class="menu">
     <div class="menu_title">File</div>
     <div class="menu_list" id="file_menu">
-      <div id="tool_clear" class="menu_item">New Document</div>
-      <div id="tool_open" class="menu_item" style="display: block;"><div id="fileinputs"></div>Open SVG...</div>
+      <!--<div id="tool_clear" class="menu_item">New Document</div>-->
+      <!--<div id="tool_open" class="menu_item" style="display: block;"><div id="fileinputs"></div>Open SVG...</div>-->
       <div class="menu_item tool_import" style="display: block;"><div id="fileinputs_import"></div>Import Image...</div>
-      <div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>
-      <div id="tool_export" class="menu_item">Export as PNG</div>
+      <!--<div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>-->
+      <!--<div id="tool_export" class="menu_item">Export as PNG</div>-->
     </div>
   </div>
 
   <div class="menu">
     <div class="menu_title">Edit</div>
     <div class="menu_list" id="edit_menu">
-      <div class="menu_item" id="tool_undo">Undo <span class="shortcut">⌘Z</span></div>
-      <div class="menu_item" id="tool_redo">Redo <span class="shortcut">⌘Y</span></div>
-      <div class="separator"></div>
-      <div class="menu_item action_selected disabled" id="tool_cut">Cut <span class="shortcut">⌘X</span></div>
-      <div class="menu_item action_selected disabled" id="tool_copy">Copy <span class="shortcut">⌘C</span></div>
-      <div class="menu_item action_selected disabled" id="tool_paste">Paste <span class="shortcut">⌘V</span></div>
-      <div class="menu_item action_selected disabled" id="tool_clone">Duplicate <span class="shortcut">⌘D</span></div>
       <div class="menu_item action_selected disabled" id="tool_delete">Delete <span>⌫</span></div>
       <div class="separator" id="grid_separator"></div>
     </div>
   </div>
 
-  <div class="menu">
-    <div class="menu_title">Object</div>
-    <div class="menu_list"  id="object_menu">
-      <div class="menu_item action_selected disabled" id="tool_move_top">Bring to Front <span class="shortcut">⌘⇧↑</span></div>
-      <div class="menu_item action_selected disabled" id="tool_move_up">Bring Forward <span class="shortcut">⌘↑</span></div>
-      <div class="menu_item action_selected disabled" id="tool_move_down">Send Backward <span class="shortcut">⌘↓</span></div>
-      <div class="menu_item action_selected disabled" id="tool_move_bottom">Send to Back <span class="shortcut">⌘⇧↓</span></div>
-      <div class="separator"></div>
-      <div class="menu_item action_multi_selected disabled" id="tool_group">Group Elements <span class="shortcut">⌘G</span></div>
-      <div class="menu_item action_group_selected disabled" id="tool_ungroup">Ungroup Elements <span class="shortcut">⌘⇧G</span></div>
-      <div class="separator"></div>
-      <div class="menu_item action_path_convert_selected disabled" id="tool_topath">Convert to Path</div>
-      <div class="menu_item action_path_selected disabled" id="tool_reorient">Reorient path</div>
-    </div>
-  </div>
-
-
-  <div class="menu">
-    <div class="menu_title" id="tool_swap">Switch</div>
-  </div>
-  <!-- <div class="menu" style="visibility: hidden">
-    <div class="menu_title">V</div>
-    <div class="menu_list" id="view_menu" >
-        <div class="menu_item push_button_pressed" id="tool_rulers">V</div>
-        <div class="menu_item" id="tool_wireframe"> s</div>
-        <div class="menu_item" id="tool_snap">S</div>
-        <div class="menu_item" id="tool_source">A</div>
-    </div>
-  </div> -->
-
   <div id="ts" style="background-color: orange; height:250px; width:250px; display:none;">
-    <canvas id="testcanvas" width="250px" height="250px" style="border:1px solid #d3d3d3;">
+    <canvas id="testcanvas" width="250px" height="250px" style="border:1px solid #d3d3d3;"></canvas>
   </div>
 
 

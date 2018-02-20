@@ -127,12 +127,6 @@ function initializeChatMenu(){
         innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
     });
 
-    let uploadButton = chatMenu.addButton({
-        id: "upload-button",
-        title: "'Upload Files'",
-        innerContent: "<i class=\"fa fa-upload\" aria-hidden=\"true\"></i>"
-    });
-
     chatMembersButton.onClick = function(){
         angular.element($("#chat-wrapper")).scope().toggleCustom();
     };
@@ -143,10 +137,6 @@ function initializeChatMenu(){
             angular.element($("#chat-wrapper")).scope().logout();
         });
     };
-
-    uploadButton.onClick = function () {
-        $("#upload-input").click();
-    }
 
     tippy('.chat-menu-button', {
         size: 'large',

@@ -4498,7 +4498,7 @@ var SOTP = 0;
     };
 
     Editor.placeMathCursor = function() {
-      svgCanvas.placeMathCursor(50, 50);
+      svgCanvas.placeMathCursor(100, 100);
     };
 
     return Editor;

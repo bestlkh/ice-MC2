@@ -90,7 +90,8 @@ LectureNsp.prototype.sendMessage = function (roomName, message, callback) {
                 this.db.collection("chatHistory").updateOne({
                     owner: this.owner,
                     roomName: roomName,
-                    sessionId: this.findRoomAdapter(roomName).sessionId
+                    sessionId: this.findRoomAdapter(roomName).sessionId,
+                    className: this.findRoomAdapter(roomName).className
                 }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
                     if (callback) callback(null, result);
                 });
@@ -142,6 +143,14 @@ LectureNsp.prototype.findStudent = function (data, callback) {
 
 LectureNsp.prototype.findRoomAdapter = function (roomName) {
     return this.nsp.adapter.rooms[roomName.toLowerCase()];
+};
+
+LectureNsp.prototype.setRoomAdapterVars = function (roomName, vars) {
+    if (!this.nsp.adapter.rooms[roomName.toLowerCase()]) return;
+    for (var key in vars) {
+
+        this.nsp.adapter.rooms[roomName.toLowerCase()][key] = vars[key];
+    }
 };
 
 LectureNsp.prototype.findClient = function (roomName, username) {
@@ -290,7 +299,8 @@ LectureNsp.prototype.listen = function () {
                             var room = this.findRoomAdapter(data.roomId);
                             socket.connectedRoom = data.roomId;
 
-                            if (!room.sessionId) room.sessionId = classroom.sessionId;
+                            if (!room.sessionId) this.setRoomAdapterVars(data.roomId, {sessionId: classroom.sessionId, className: classroom.name});
+
                             if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
                                 socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName.toLowerCase() !== data.roomId);
                             else socket.handshake.session.isInstructor = false;
@@ -376,6 +386,7 @@ LectureNsp.prototype.listen = function () {
                     message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
                     message.isTA = !!(socket.handshake.session.ta);
                     message.utorid = socket.handshake.session.utorid;
+                    message.timestamp = moment().valueOf();
 
                     this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);
 
@@ -397,6 +408,7 @@ LectureNsp.prototype.listen = function () {
 
                     message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
                     message.isTA = !!(socket.handshake.session.ta);
+                    message.timestamp = moment().valueOf();
 
                     this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);
                     this.sendMessage(socket.connectedRoom, message, function (err, result) {
@@ -434,14 +446,15 @@ LectureNsp.prototype.listen = function () {
 
                 if (!socket.connectedRoom) return;
 
+                this.sendMessage(socket.connectedRoom, {
+                    username: "[System]",
+                    msg: socket.handshake.session.username + " has left the room.",
+                    timestamp: moment().valueOf(),
+                    type: "system",
+                    hidden: true
+                });
                 if (socket.connectedRoom) socket.leave(socket.connectedRoom, function () {
-                    this.sendMessage(socket.connectedRoom, {
-                        username: "[System]",
-                        msg: socket.handshake.session.username + " has left the room.",
-                        timestamp: moment().valueOf(),
-                        type: "system",
-                        hidden: true
-                    });
+
 
                     //logout user after gone for 5min
                     // TODO: Maybe implement this but removed due to buggy

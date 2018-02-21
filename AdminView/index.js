@@ -261,7 +261,7 @@ AdminView.prototype.setupApi = function () {
         this.name = data.name;
         this.invite = !!(data.invite);
         this.roomName = data.roomName;
-        this.sid = moment.valueOf();
+        this.sessionId = moment().valueOf();
     }
 
     this.app.patch("/v1/api/classrooms", checkAuth, function (req, res) {
@@ -563,6 +563,112 @@ AdminView.prototype.setupApi = function () {
 
         });
 
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions", checkAuth, function (req, res) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name}, {messages: 0, _id: 0}).toArray(function (err, sessions) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.json(sessions);
+        })
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id)}, {_id: 0}, function (err, session) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.json(session);
+        })
+    }.bind(this));
+
+    var parseStudent = require("./message-parser");
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/students", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        parseStudent(this.db, parseInt(req.params.id), function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            res.json(result);
+        });
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/messages.csv", checkAuth, function (req, res) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name}, {_id: 0}).toArray(function (err, sessions) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            var messages = [];
+            sessions.forEach(function (item) {
+                var m = item.messages.map(function (message) {
+                    message.roomName = item.roomName;
+                    return message;
+                });
+                messages = messages.concat(m);
+            });
+            res.writeHead(200, {
+                'Content-Type': 'application/csv',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Disposition': 'attachment; filename=messages-'+req.params.name+'.csv'
+            });
+            return csv.stringify(messages, {header: true}).pipe(res);
+        })
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/messages.csv", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id)}, {_id: 0}, function (err, session) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.writeHead(200, {
+                'Content-Type': 'application/csv',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Disposition': 'attachment; filename=messages-'+session.roomName+'-'+session.sessionId+'.csv'
+            });
+            return csv.stringify(session.messages, {header: true}).pipe(res);
+        })
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/students.csv", checkAuth, function (req, res) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name}, {_id: 0}).toArray(function (err, sessions) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            var students = [];
+
+            Promise.all(sessions.map(function (session) {
+                return new Promise(function (resolve, rej) {
+                    parseStudent(this.db, session.sessionId, function (err, result) {
+                        if (err) return rej();
+
+                        students = students.concat(result);
+                        resolve();
+                    });
+                }.bind(this));
+
+            }.bind(this))).then(function () {
+                res.writeHead(200, {
+                    'Content-Type': 'application/csv',
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Disposition': 'attachment; filename=students-'+req.params.name+'.csv'
+                });
+                return csv.stringify(students, {header: true}).pipe(res);
+            }).catch(function () {
+                return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            });
+
+        }.bind(this))
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/students.csv", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        parseStudent(this.db, parseInt(req.params.id), function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.writeHead(200, {
+                'Content-Type': 'application/csv',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Disposition': 'attachment; filename=students-'+req.params.id+'.csv'
+            });
+            return csv.stringify(result, {header: true}).pipe(res);
+        })
     }.bind(this));
 
 };

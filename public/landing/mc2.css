@@ -840,7 +840,7 @@ ul {
 }
 
 .control-content {
-	padding: 30px 0;
+	padding: 30px 0 0 0;
 	height: calc(100vh - 77px);
 	overflow: auto;
 
@@ -1001,9 +1001,10 @@ ul {
 
 .student-control-wrapper {
 	display: flex;
-	margin-bottom: 20px;
+
 	justify-content: space-between;
 	margin-top: -15px;
+
 }
 
 .student-control-wrapper .button-wrapper {
@@ -1167,7 +1168,7 @@ input[type="file"] {
 	margin: 0 !important;
 	width: 200px;
 	justify-content: space-between;
-	padding: 10px 0;
+
 }
 
 .cancel-button {
@@ -1645,6 +1646,123 @@ a {
 
 .choose-wrapper div {
 	color: inherit;
+}
+
+.number-display {
+	padding: 25px 100px;
+	text-align: center;
+}
+
+.number-display>header {
+	font-size: 15px;
+
+}
+
+.number-display>.amount {
+	font-size: 45px;
+	font-weight: 600;
+	color: #606060;
+}
+
+.list-display {
+	padding: 10px 0;
+	height: calc(100vh - 321px);
+
+}
+
+.list-display>header {
+	font-size: 15px;
+	padding: 0 15px 15px;
+}
+
+.session-item {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 15px;
+	cursor: pointer;
+	transition: background-color 0.1s linear;
+}
+
+.session-item:hover {
+	background-color: #efefef;
+}
+
+.session-selected {
+	background-color: #ed8355;
+	color: #fff;
+}
+
+.session-selected:hover {
+	background-color: #ed8355;
+}
+
+.session-item div {
+	color: inherit;
+}
+
+.table-display {
+	font-size: 15px;
+
+}
+
+.table-display>header {
+	text-align: left;
+	padding: 10px;
+}
+
+.data-header {
+	font-size: 14px;
+	text-align: center;
+	color: #7d87b0;
+	font-weight: 600;
+	padding: 10px 10px 0 10px;
+}
+
+.line-button:first-child {
+	margin-left: 0 !important;
+}
+
+.table-display {
+	height: calc(100vh - 208px);
+}
+
+.table-display .student-control-wrapper {
+	padding: 10px 0;
+}
+
+.student-control-wrapper .table-tab {
+	padding: 5px 25px;
+	font-size: 13px;
+	border-color: #d0d0d0;
+	color: #b0b0b0;
+	border-radius: 10px;
+	transition: all 0.15s linear;
+	width: max-content;
+	font-weight: 600;
+	margin-left: 8px;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+
+.table-tab:hover {
+	color: #ed8355;
+	border-color: #ed8355;
+}
+
+.table-tab.tab-active {
+	color: #ed8355;
+	border-color: #ed8355;
+}
+
+.button-fit {
+	width: max-content !important;
+}
+
+.giant-button {
+	width: 100% !important;
+	padding: 25px 70px !important;
+	margin-top: 30px;
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+	font-size: 15px;
 }
 
 @keyframes OpenPulse {

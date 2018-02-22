@@ -62,7 +62,7 @@ onMainLoop(function(){
         });
     }
 
-    tippy('.direct-chat-text-menu button', {
+    tippy('.chat-text-menu button', {
         size: 'large',
         touchHold: true
     });

@@ -1667,7 +1667,7 @@ a {
 .list-display {
 	padding: 10px 0;
 	height: calc(100vh - 321px);
-
+	overflow: auto;
 }
 
 .list-display>header {
@@ -1678,9 +1678,12 @@ a {
 .session-item {
 	display: flex;
 	justify-content: space-between;
-	padding: 10px 15px;
+	padding: 0px 5px;
 	cursor: pointer;
 	transition: background-color 0.1s linear;
+	font-size:13px;
+	max-width: 268px;
+	overflow-x: auto;
 }
 
 .session-item:hover {
@@ -1698,7 +1701,39 @@ a {
 
 .session-item div {
 	color: inherit;
+	margin: 10px 5px;
+	min-width: max-content;
 }
+
+.list-display::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: #fff;
+	border-radius: 10px;
+
+}
+
+.list-display::-webkit-scrollbar-thumb {
+	background: #808080;
+	border-radius: 10px;
+
+}
+
+.session-item::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: #fff;
+	border-radius: 10px;
+
+}
+
+.session-item::-webkit-scrollbar-thumb {
+	background: #808080;
+	border-radius: 10px;
+
+}
+
+
 
 .table-display {
 	font-size: 15px;

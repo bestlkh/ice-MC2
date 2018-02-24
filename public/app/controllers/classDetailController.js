@@ -77,6 +77,8 @@ angular.module('Controllers')
 
                         $scope.newNotif("Updated classroom", true);
 
+                        $scope.block.roomName = true;
+
                     }
                 })
             }

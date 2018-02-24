@@ -247,7 +247,7 @@ keyHash["r"] = ['r', 'R', '211D', '211C', '3C1', '221A'];
 keyHash["s"] = ['s', 'S', '2211', '3C3', '2286', '2282', '3C2'];
 keyHash["t"] = ['t', 'T', '3B8', '3C4', 'D7', '3D1', '398'];
 keyHash["u"] = ['u', 'U', '222A', '2229', '3C5'];
-keyHash["v"] = ['v', 'V', '2228', '8743'];
+keyHash["v"] = ['v', 'V', '2228'];
 keyHash["w"] = ['w', 'W'];
 keyHash["x"] = ['x', 'X', '3C7', '3BE', '39E'];
 keyHash["y"] = ['y', 'Y'];
@@ -10030,8 +10030,12 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
     if (!newChar) {
+      if (shortcuts) {
         shortcutIndex++;
-        if (shortcutIndex >= shortcuts.length) shortcutIndex = 0;
+        if (shortcutIndex >= shortcuts.length) {
+          shortcutIndex = 0;
+        }
+      }
     } else {
         lastKeyPress = key;
         shortcutIndex = 0;
@@ -10120,10 +10124,12 @@ var moveCursorAbs = this.moveCursorAbs;
       if(getBBox(newText).x != math_cursorB.x) {
       }
     } else {
-        if (shortcuts[shortcutIndex].length == 1) {
-          newText.textContent = shortcuts[shortcutIndex];
-        } else {
-          newText.textContent = String.fromCharCode("0x"+shortcuts[shortcutIndex]); 
+        if (shortcuts) {
+          if (shortcuts[shortcutIndex].length == 1) {
+            newText.textContent = shortcuts[shortcutIndex];
+          } else {
+            newText.textContent = String.fromCharCode("0x"+shortcuts[shortcutIndex]);
+          }
         }
     }
     //console.log(newText);

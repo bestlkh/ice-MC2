@@ -10101,7 +10101,7 @@ var moveCursorAbs = this.moveCursorAbs;
     if(selectedElements.length > 0) {
       clearSelection();
     }
-    if (newChar) {
+    if (newChar || !shortcuts) {
     	newText = addSvgElementFromJson({
       element: 'text',
     	curStyles: true,

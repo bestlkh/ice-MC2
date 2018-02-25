@@ -574,7 +574,7 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
-        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
         this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id)}, {_id: 0}, function (err, session) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
@@ -585,7 +585,7 @@ AdminView.prototype.setupApi = function () {
     var parseStudent = require("./message-parser");
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/students", checkAuth, function (req, res) {
-        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
         parseStudent(this.db, parseInt(req.params.id), function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             res.json(result);
@@ -614,7 +614,7 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages.csv", checkAuth, function (req, res) {
-        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
         this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id)}, {_id: 0}, function (err, session) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
@@ -658,7 +658,7 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/students.csv", checkAuth, function (req, res) {
-        if (isNaN(req.params.id)) return res.status(401).json({status: 401, message: "Invalid id"});
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
         parseStudent(this.db, parseInt(req.params.id), function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 

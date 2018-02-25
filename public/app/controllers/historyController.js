@@ -20,7 +20,7 @@ angular.module('Controllers')
 
         $scope.sessions = [];
 
-        $scope.session = null;
+        $scope.session = {};
 
         $scope.selected = null;
 
@@ -45,7 +45,7 @@ angular.module('Controllers')
 
         $scope.select = function (session) {
             $scope.selected = session;
-            $scope.onSelectionChanged();
+            if ($scope.selected) $scope.onSelectionChanged();
         };
         
         $scope.onSelectionChanged = function () {
@@ -85,7 +85,7 @@ angular.module('Controllers')
                         $scope.$apply();
                     },
                     error: function () {
-                        $scope.session = {};
+                        $scope.session = null;
                         $scope.$apply();
                     }
                 })
@@ -93,6 +93,7 @@ angular.module('Controllers')
         };
 
         $scope.onExport = function () {
+            if (!$scope.selected.sessionId) return;
             $window.open("/v1/api/classrooms/"+$routeParams.name+"/sessions/"+$scope.selected.sessionId+"/"+$scope.dataType+".csv", "_self");
         };
 

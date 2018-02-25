@@ -84,12 +84,18 @@
                             </div>
                             <div class="list-wrapper" ng-repeat="student in session" ng-if="dataType === 'students'">
                                 <div class="student-item" ng-if="checkInclude(message)">
-                                    <div>{{student.utorid ? message.utorid : "N/A"}}</div>
+                                    <div>{{student.utorid ? student.utorid : "N/A"}}</div>
                                     <div>{{student.username}}</div>
                                     <div>{{student["total messages"]}}</div>
                                 </div>
                             </div>
 
+
+
+                        </div>
+
+                        <div class="error-popup" style="margin: 10px 0" ng-if="!session">
+                            Invalid session data
                         </div>
                     </div>
 

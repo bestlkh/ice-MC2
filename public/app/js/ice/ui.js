@@ -46,32 +46,6 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send.png);'
 });
 
-
-
-$("#image-import-input").on('change', function(){
-    if (this.files && this.files[0]) {
-        var fileReader = new FileReader();
-        fileReader.addEventListener("load", function(e) {
-            console.log(e.target.result);
-            var image = new Image();
-            image.src = e.target.result;
-
-            image.onload = function() {
-                // Add using driver
-                driver.createElement(Driver.SvgEditorElementTypes.IMAGE, {
-                    width: this.width,
-                    height: this.height,
-                    x: 0,
-                    y: 0,
-                    base64: e.target.result
-                });
-            };
-        });
-
-        fileReader.readAsDataURL(this.files[0]);
-    }
-});
-
 $("#send-sheet-background").mousedown(function(){
    $("#send-sheet").removeClass("shown");
    $(this).removeClass("shown");

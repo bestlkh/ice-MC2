@@ -71,7 +71,7 @@
                                 <div class="student-item" ng-if="checkInclude(message)">
                                     <div>{{message.utorid ? message.utorid : "N/A"}}</div>
                                     <div>{{message.username}}</div>
-                                    <div style="flex-grow: 3">{{(message.msg.length < 50) ? message.msg : message.msg.substring(0, 50) + "..."}}</div>
+                                    <div style="flex-grow: 3;overflow-x: auto;">{{(message.msg.length < 50) ? message.msg : message.msg.substring(0, 50) + "..."}}</div>
                                     <div>{{message.type}}</div>
                                     <div>{{formatDate(message.timestamp, true)}}</div>
                                 </div>
@@ -83,7 +83,7 @@
                                 <div> Total messages </div>
                             </div>
                             <div class="list-wrapper" ng-repeat="student in session" ng-if="dataType === 'students'">
-                                <div class="student-item" ng-if="checkInclude(message)">
+                                <div class="student-item" ng-if="checkInclude(student)">
                                     <div>{{student.utorid ? student.utorid : "N/A"}}</div>
                                     <div>{{student.username}}</div>
                                     <div>{{student["total messages"]}}</div>

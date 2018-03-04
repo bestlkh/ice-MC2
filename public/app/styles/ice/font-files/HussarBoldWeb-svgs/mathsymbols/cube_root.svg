@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'CUBE ROOT' (U+221B)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M108.2812 240.1875 Q108.2812 254.6719 97.0312 263.6719 Q86.3438 272.3906 70.875 272.3906 Q58.2188 272.3906 46.4062 265.5 L50.0625 253.9688 Q62.0156 259.7344 71.4375 259.7344 Q81.8438 259.7344 87.75 254.25 Q93.375 249.1875 93.375 241.0312 Q93.375 233.7188 86.9062 228.9375 Q79.875 223.7344 68.2031 223.7344 L61.875 223.7344 L61.875 212.2031 L65.9531 212.2031 Q91.2656 212.2031 91.2656 195.75 Q91.2656 181.6875 72 181.6875 Q64.5469 181.6875 52.1719 186.6094 L49.7812 174.5156 Q61.875 169.3125 72.5625 169.3125 Q87.4688 169.3125 96.8906 176.5547 Q106.3125 183.7969 106.3125 195.4688 Q106.3125 203.7656 99.9844 209.8125 Q94.6406 215.1562 86.625 217.125 L86.625 217.4062 Q94.9219 218.5312 101.25 224.5781 Q108.2812 231.1875 108.2812 240.1875 ZM158.0625 160.5938 L101.1094 391.3594 L44.5781 290.8125 L16.7344 303.75 L11.8125 294.8906 L54.1406 273.5156 L99.4219 353.9531 L99.9844 353.9531 L147.7969 160.5938 L158.0625 160.5938 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

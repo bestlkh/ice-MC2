@@ -9896,6 +9896,7 @@ var moveCursorAbs = this.moveCursorAbs;
     if(!math_cursor) {
       return;
     }
+    lastKeyPress = '';
     var eqns = document.querySelectorAll('[id^="svg_eqn_"]');
     var seqns = [];
     var math_cursorB = getBBox(math_cursor);

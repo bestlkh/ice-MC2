@@ -1,5 +1,5 @@
 <div class="control-header">
-    <header> {{className}} </header>
+    <header>  </header>
     <div class="header-control-wrapper">
         <logout-menu user="user"></logout-menu>
     </div>
@@ -81,10 +81,15 @@
             </div>
         </div>
         <div class="import-wrapper" ng-if="!hideImport && !result">
-            <header> <span>Import student list</span> </header>
+            <header>
+                <span>Import student list</span>
+
+            </header>
             <div class="tool-tip">In order to import student list, you must upload a csv file with headers <span>utorid</span> and <span>email</span>.</div>
+            <div class="error-popup" ng-if="error" style="margin: 10px 0 0;">{{error.message}}</div>
             <form ng-submit="onImportSubmit()">
-                <div class="form-wrapper">
+                <div class="form-wrapper" ng-class="{'form-wrapper-error': error}">
+
                     <div ng-if="!import.csv">
                         Upload student CSV file
                     </div>
@@ -101,6 +106,31 @@
                     </div>
                 </div>
 
+                <div class="choose-wrapper">
+                    <div class="choose-item" ng-click="onChooseSelect(0)" ng-class="{'choose-selected': (chooseSelected == 0)}">
+                        <i class="choose-radio" ></i>
+                        <div class="choose-inner-wrapper">
+                            <div class="choose-name">
+                                Overwrite
+                            </div>
+                            <div class="choose-description">
+                                Replace entire student list.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choose-item" ng-click="onChooseSelect(1)" ng-class="{'choose-selected': (chooseSelected == 1)}">
+                        <i class="choose-radio"></i>
+                        <div class="choose-inner-wrapper">
+                            <div class="choose-name">
+                                Append
+                            </div>
+                            <div class="choose-description">
+                                Add students to existing list.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="button-wrapper">
                     <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
                     <input type="submit" />
@@ -112,7 +142,7 @@
             <header> <span>Add student to list</span> </header>
             <form ng-submit="onAddSubmit()">
 
-                <div class="form-wrapper" style="border: 0;">
+                <div class="form-wrapper" style="border: 0;padding-top: 0">
                     <div class="add-wrapper">
                         <div>
                             Utorid:

@@ -1,5 +1,6 @@
 const SvgEditorElementTypes  = require('../enums/SvgEditorElementTypes');
 const SvgEditorSymbolElement = require('../elements/SvgEditorSymbolElement');
+const SvgEditorImageElement  = require('../elements/SvgEditorImageElement');
 
 class SvgEditorElementFactory {
     static make(type, config){
@@ -14,6 +15,8 @@ class SvgEditorElementFactory {
              */
             case SvgEditorElementTypes.SYMBOL:
                 return new SvgEditorSymbolElement(config.width, config.height, config.x, config.y, config.symbol);
+            case SvgEditorElementTypes.IMAGE:
+                return new SvgEditorImageElement(config.width, config.height, config.x, config.y, config.base64);
         }
     }
 }

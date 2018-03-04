@@ -6,6 +6,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var SvgEditorElementTypes = require('../enums/SvgEditorElementTypes');
 var SvgEditorSymbolElement = require('../elements/SvgEditorSymbolElement');
+var SvgEditorImageElement = require('../elements/SvgEditorImageElement');
 
 var SvgEditorElementFactory = function () {
     function SvgEditorElementFactory() {
@@ -26,6 +27,8 @@ var SvgEditorElementFactory = function () {
                  */
                 case SvgEditorElementTypes.SYMBOL:
                     return new SvgEditorSymbolElement(config.width, config.height, config.x, config.y, config.symbol);
+                case SvgEditorElementTypes.IMAGE:
+                    return new SvgEditorImageElement(config.width, config.height, config.x, config.y, config.base64);
             }
         }
     }]);

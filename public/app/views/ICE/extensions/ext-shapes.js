@@ -471,10 +471,6 @@ methodDraw.addExtension("shapes", function () {
 
             var shower = $('#tools_shapelib_show');
 
-            $("#tools_shapelib").css({
-                display: "block"
-            });
-
             var isOpen = false;
 
             loadLibrary('basic');
@@ -928,13 +924,6 @@ methodDraw.addExtension("shapes", function () {
 
 
             $('#tool_shapelib').remove();
-
-            var h = $('#tools_shapelib').height();
-            $('#tools_shapelib').css({
-                'margin-top': -(h / 2) + 75,
-                'margin-left': 3
-            });
-
 
         },
         mouseDown: function (opts) {

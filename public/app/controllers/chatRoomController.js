@@ -371,6 +371,10 @@ angular.module('Controllers')
 	};
 
 	$scope.closeAnnounce = function(){
+<<<<<<< HEAD
+=======
+		console.log("hello");
+>>>>>>> master
 		$("#announce-area").css('display', 'none');
 	};
 
@@ -534,10 +538,17 @@ angular.module('Controllers')
 	});
 
 	$socket.on("announce message", function(data){
+<<<<<<< HEAD
 		var msg = new Chat.Message(data.raw_data);
 		$("#announce-area")[0].innerText = "";
 		$("#announce-area").css('display', 'inline-block');
 		$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + msg.getText().getRaw() + " By "+ "\r\n" + msg.getUsername());
+=======
+		$("#announce-area")[0].innerText = "";
+		$("#announce-area").css('display', 'inline-block');
+		$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + data.raw_data.msg + " by " + data.raw_data.username );
+		
+>>>>>>> master
 	});
 
 // ====================================== Image Sending Code ==============================

@@ -2637,8 +2637,7 @@ var SOTP = 0;
       var clickOpen = function(){
         svgCanvas.open();
       };
-
-
+      
       /**
        * Open help document in a new window/tab.
        */
@@ -2657,6 +2656,7 @@ var SOTP = 0;
       var clickImport = function(){
         $("#image-import-input").click();
       };
+
 
       var flash = function($menu){
         var menu_title = $menu.prev();
@@ -3671,18 +3671,21 @@ var SOTP = 0;
             {key: ['shift+.', true], fn: function(){svgCanvas.keyPressed('>');}},
   					{key: '.', fn: function(){svgCanvas.keyPressed('.');}},
   					{key: 'space', fn: function(){svgCanvas.keyPressed(' ');}},
-  					{key: '-', fn: function(){svgCanvas.keyPressed('-');}},
+  					{key: '-', fn: function(){svgCanvas.keyPressed('−');}},
             {key: String.fromCharCode(189), fn: function(){svgCanvas.keyPressed('−');}},
   					{key: 'shift+(', fn: function(){svgCanvas.keyPressed('(');}},
   					{key: 'shift+)', fn: function(){svgCanvas.keyPressed(')');}},
   					{key: '[', fn: function(){svgCanvas.keyPressed('[');}},
-  					{key: ']', fn: function(){svgCanvas.keyPressed(']');}},
-  					{key: ['shift+'+String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('+');}},
-                    {key: '+', fn: function(){svgCanvas.keyPressed('+');}},
+            {key: ']', fn: function(){svgCanvas.keyPressed(']');}},
+            // Firefox specific binds
+            {key: [String.fromCharCode(61), true], fn: function(){svgCanvas.keyPressed('=');}},
+            {key: ['shift+' + String.fromCharCode(43), true], fn: function(){svgCanvas.keyPressed('+');}},
+            // end of Firefox specific binds
             {key: ['*', true], fn: function(){svgCanvas.keyPressed('×');}},
             {key: '/', fn: function(){svgCanvas.keyPressed('/');}},
 
   					{key: [String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('=');}},
+            {key: ['shift+'+String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('+');}},
             {key: ['shift+'+String.fromCharCode(188), true], fn: function(){svgCanvas.keyPressed('<');}},
             {key: ['shift+'+String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('>');}},
         //    {key: ['shift+'+String.fromCharCode(60), true], fn: function(){svgCanvas.keyPressed('<');}},
@@ -4522,7 +4525,7 @@ var SOTP = 0;
     };
 
     Editor.placeMathCursor = function() {
-      svgCanvas.placeMathCursor(50, 50);
+      svgCanvas.placeMathCursor(100, 100);
     };
 
     return Editor;

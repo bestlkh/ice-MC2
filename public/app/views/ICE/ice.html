@@ -167,23 +167,20 @@
 
 
   <div class="menu">
-    <div class="menu_title">File</div>
-    <div class="menu_list" id="file_menu">
-      <!--<div id="tool_clear" class="menu_item">New Document</div>-->
-      <!--<div id="tool_open" class="menu_item" style="display: block;"><div id="fileinputs"></div>Open SVG...</div>-->
-      <div class="menu_item tool_import" style="display: block;"><div id="fileinputs_import"></div>Import Image...</div>
-      <!--<div id="tool_save" class="menu_item">Save Image... <span class="shortcut">⌘S</span></div>-->
-      <!--<div id="tool_export" class="menu_item">Export as PNG</div>-->
+    <div class="menu_title">Edit</div>
+    <div class="menu_list" id="edit_menu">
+      <div class="menu_item" id="tool_import">Import Image ...</div>
     </div>
   </div>
 
   <div class="menu">
-    <div class="menu_title">Edit</div>
-    <div class="menu_list" id="edit_menu">
-      <div class="menu_item action_selected disabled" id="tool_delete">Delete <span>⌫</span></div>
-      <div class="separator" id="grid_separator"></div>
+    <div class="menu_title">Help</div>
+    <div class="menu_list" id="help_menu">
+      <div class="menu_item" id="tool_help">Help</div>
+      <div class="menu_item" id="tool_about">About</div>
     </div>
   </div>
+
 
   <div id="ts" style="background-color: orange; height:250px; width:250px; display:none;">
     <canvas id="testcanvas" width="250px" height="250px" style="border:1px solid #d3d3d3;"></canvas>

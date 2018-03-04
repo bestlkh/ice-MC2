@@ -123,7 +123,7 @@ AdminView.prototype.setupRoute = function () {
 var Student = function (student) {
     this.utorid = student.utorid;
     this.email = student.email;
-    this.token = uuidv4();
+    this.token = student.token ? student.token : uuidv4();
 };
 
 var ChatSetting = function (settings) {
@@ -221,15 +221,22 @@ AdminView.prototype.setupApi = function () {
         }, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             if (result && result.students) {
-                res.writeHead(200, {
-                    'Content-Type': 'application/csv',
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Disposition': 'attachment; filename=tokens.csv'
+
+                this.db.collection("classrooms").findOne({owner: req.session.user.username, name: req.params.name}, function (err, classroom) {
+                    res.writeHead(200, {
+                        'Content-Type': 'application/csv',
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Disposition': 'attachment; filename=tokens.csv'
+                    });
+                    result.students.forEach(function (student) {
+                        student.url = "/#/v1/"+classroom.roomName+"?nsp="+result.owner+"&token="+student.token;
+                    });
+
+                    return csv.stringify(result.students, {header: true}).pipe(res);
                 });
-                return csv.stringify(result.students, {header: true}).pipe(res);
+
             }
-            else
-                res.send('No Tokens');
+            else res.send('No Tokens');
         }.bind(this));
 
     }.bind(this));
@@ -325,11 +332,19 @@ AdminView.prototype.setupApi = function () {
         this.db.collection("students").findOne({
             owner: req.session.user.username,
             className: req.params.name
-        }, function (err, cr) {
+        }, function (err, students) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (!cr) return res.json([]);
-            res.json(cr.students);
-        });
+            if (!students) return res.json([]);
+            this.db.collection("classrooms").findOne({owner: req.session.user.username, name: req.params.name}, function (err, classroom) {
+                students.students.forEach(function (student) {
+                    student.url = "/#/v1/"+classroom.roomName+"?nsp="+students.owner+"&token="+student.token;
+                });
+
+                res.json(students.students);
+            });
+
+
+        }.bind(this));
 
     }.bind(this));
 
@@ -350,7 +365,7 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
-    this.app.put("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
+    this.app.post("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
             if (err) return res.status(400).json({status: 400, message: "Invalid csv format"});
 
@@ -441,69 +456,6 @@ AdminView.prototype.setupApi = function () {
         var resp = req.student;
 
         res.json(resp);
-    }.bind(this));
-
-    this.app.get("/v1/api/chat/start", checkAuth, function (req, res) {
-
-
-        this.db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
-            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (!settings || !settings.chat || !settings.chat.roomName) return res.status(400).json({
-                status: 400,
-                message: "Invalid chat room settings."
-            });
-            //req.session.user.roomName = settings.chat.roomName;
-            req.session.username = req.session.user.username;
-            req.session.settings = settings;
-            req.session.connected = true;
-            req.session.isInstructor = false;
-            req.session.isAdmin = true;
-            res.json({connected: true});
-        });
-
-    }.bind(this));
-
-    this.app.get("/v1/api/students", checkAuth, function (req, res) {
-        this.db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
-            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (!list) return res.json([]);
-            res.json(list.students);
-            db.close();
-        });
-
-
-    }.bind(this));
-
-    this.app.patch("/v1/api/students", checkAuth, function (req, res) {
-        var student = new Student(req.body);
-
-        this.db.collection("students").update({owner: req.session.user.username}, {$push: {students: student}}, {upsert: true}, function (err, list) {
-            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            res.json({});
-            db.close();
-        });
-
-
-    }.bind(this));
-
-    this.app.put("/v1/api/students", checkAuth, function (req, res) {
-        csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
-            if (err) return res.status(400).json({status: 400, message: err});
-
-            this.db.collection("students").updateOne({owner: req.session.user.username}, {
-                $set: {students: data}
-            }, {upsert: true}, function (err, result) {
-                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                var resp = {};
-                result = result.result;
-                resp.amount = result.n;
-                resp["n_successful"] = result.ok;
-                res.json(resp);
-                db.close();
-            });
-
-        }.bind(this));
-
     }.bind(this));
 
     this.app.patch("/v1/api/classrooms/:name/students/generate", checkAuth, function (req, res) {

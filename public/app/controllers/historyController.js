@@ -78,6 +78,7 @@ angular.module('Controllers')
                 })
             },
             getSession: function () {
+                if (!$scope.selected) return;
                 $.ajax({
                     url: "/v1/api/classrooms/"+$scope.className+"/sessions/"+$scope.selected.sessionId+"/"+$scope.dataType,
                     success: function (result) {

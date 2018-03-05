@@ -1,0 +1,37 @@
+<div ng-hide="message.hasFile()">
+    <div ng-if="message.getText().isImage()">
+        <img ng-src="{{ message.getText().getImage() }}" class="inline-image" />
+    </div>
+    <div ng-if="!message.getText().isImage()" ng-bind-html="message.getText().getRenderedText()" class="no-para-margin"></div>
+</div>
+
+<!-- {{ message.sendfile }} Media File messages -->
+<div class="item" ng-show="message.hasFile()">
+    <div class="attachment clearfix">
+        <!-- Image File Open -->
+        <div ng-class="{'filename' : true,'chat-msg' : true}" ng-show="message.isImageFile()">
+            <div>
+                <div ng-class="{'attachment-icon-right' : message.isOwn(), 'attachment-icon-left' : !message.isOwn()}">
+                    <a href ng-click="openClickImage(message.raw_data)" ng-show="message.raw_data.showme" >
+                        <img id="{{message.raw_data.dwid}}" width="100" height="30" ng-src="{{message.raw_data.dwimgsrc}}" alt="Open Image"></a> <!-- Open Icon -->
+
+                    <a ng-href="{{message.raw_data.serverfilename}}" data-lightbox="{{message.raw_data.dwid}}" data-title="{{message.getFileName()}}" ng-hide="message.raw_data.showme">
+                        <img ng-class="{'multiple-borders-white' : message.isOwn(),'multiple-borders-black' : !message.isOwn()}" id="{{message.raw_data.dwid+1}}" width="90" height="70" ng-src="{{message.raw_data.serverfilename}}" alt="Image File">
+
+                        <!-- Image -->
+                    </a>
+                </div>
+                <div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}" ng-hide="message.raw_data.showme">
+                    <!--<span class="decs-text"><b>File:</b> {{ message.filename }}</span>-->
+                    <span class="decs-text">
+                                    </span>
+                </div>
+                <div ng-class="{'attachment-msg-right' : message.isOwn(), 'attachment-msg-left' : !message.isOwn()}" ng-if="(message.raw_data.dwimgsrc !== 'app/images/spin.gif')" ng-show="message.raw_data.showme">
+                                    <span class="decs-text">
+                                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.attachment -->
+</div><!-- /.item-->

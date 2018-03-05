@@ -8,12 +8,14 @@ angular.module('Controllers')
       scrollBottom: "="
     },
     link: function (scope, element) {
-      scope.$watchCollection('scrollBottom', function (newValue) {
-        if (newValue)
-        {
-          setTimeout(function() {
-			  $(element).scrollTop($(element)[0].scrollHeight);
-		  }, 100);
+      scope.$watchCollection('scrollBottom', function (newValue, oldValue) {
+        // if messages are deleted do not scroll to bottom
+        if (oldValue.length <= newValue.length) {
+          if (newValue) {
+              setTimeout(function() {
+                  $(element).scrollTop($(element)[0].scrollHeight);
+              }, 100);
+          }
         }
       });
     }

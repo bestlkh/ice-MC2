@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'RIGHT PARENTHESIS' (U+0029)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M28.5469 176.2031 Q51.8906 206.0156 65.25 241.3125 Q78.6094 276.6094 78.6094 311.3438 Q78.6094 350.4375 64.4062 384.0469 Q50.2031 417.6562 28.5469 446.3438 L10.4062 446.3438 Q35.4375 405.2812 43.9453 374.4141 Q52.4531 343.5469 52.4531 311.625 Q52.4531 243.5625 10.4062 176.2031 L28.5469 176.2031 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

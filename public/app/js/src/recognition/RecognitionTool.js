@@ -18,7 +18,7 @@ class RecognitionTool {
      */
     static hor(ls, s) {
         if (ls[s].type === SymbolTypes.FRACTION || 
-                (ls[s].type === SymbolTypes.BRAKET && ls[s].bracketType == BracketTypes.OPEN) || 
+                (ls[s].type === SymbolTypes.BRACKET && ls[s].bracketType == BracketTypes.OPEN) || 
                     ls[s].type === SymbolTypes.OPERATOR) {
             var wall = ls[s].getWallCopy();
             var newWall = wall;
@@ -378,7 +378,7 @@ class RecognitionTool {
             }
         } else if (type === SymbolTypes.BRACKET) {
             result += Constant.TEX_TEXT[value];
-            if (symbol.bracketType == BRACKET_TYPES.CLOSE) {
+            if (symbol.bracketType == Constant.BRACKET_TYPES.CLOSE) {
                 if (bst.region[RegionTypes.SUPER].hasElement()) {
                     result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) +"}";
                 }

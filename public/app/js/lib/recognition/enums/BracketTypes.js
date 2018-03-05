@@ -1,6 +1,6 @@
 "use strict";
 
 module.exports = {
-    OPEN: "OPEN",
-    CLOSE: "CLOSE"
+    OPEN: "open",
+    CLOSE: "close"
 };

@@ -25,8 +25,9 @@ angular.module('Controllers')
         $scope.notif = null;
 
         $scope.newNotif = function (message, success) {
-            $scope.notif = {message: message};
+            $scope.notif = {message: message, error: !success};
 
+            $scope.$apply();
             clearTimeout($scope.to);
             $scope.to = setTimeout(function () {
                 $scope.notif = null;
@@ -79,6 +80,9 @@ angular.module('Controllers')
 
                         $scope.block.roomName = true;
 
+                    },
+                    error: function (err) {
+                        $scope.newNotif(err.responseJSON.message, false);
                     }
                 })
             }

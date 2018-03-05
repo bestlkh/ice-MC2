@@ -274,16 +274,21 @@ AdminView.prototype.setupApi = function () {
     this.app.patch("/v1/api/classrooms", checkAuth, function (req, res) {
         var classroom = new Classroom(req.body);
 
-        this.db.collection("classrooms").updateOne({
-            owner: req.session.user.username,
-            name: req.body.name
-        }, {$set: classroom}, function (err, cr) {
-
+        this.db.collection("classrooms").findOne({roomName: classroom.roomName, owner: req.session.user.username}, function (err, cr) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            else if (!cr) return res.status(400).json({status: 400, message: "Classroom with name does not exist"});
+            if (cr && cr.name !== classroom.name) return res.status(400).json({status: 400, message: "Classroom with room name already exist"});
+            this.db.collection("classrooms").updateOne({
+                owner: req.session.user.username,
+                name: req.body.name
+            }, {$set: classroom}, function (err, cr) {
 
-            res.json({});
-        });
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                else if (!cr) return res.status(400).json({status: 400, message: "Classroom with name does not exist"});
+
+                res.json({});
+            });
+        }.bind(this));
+
 
 
     }.bind(this));
@@ -550,6 +555,7 @@ AdminView.prototype.setupApi = function () {
 
             var messages = [];
             sessions.forEach(function (item) {
+                if (!item.sessionId) return;
                 var m = item.messages.map(function (message) {
                     message.roomName = item.roomName;
                     return message;
@@ -587,6 +593,7 @@ AdminView.prototype.setupApi = function () {
 
             Promise.all(sessions.map(function (session) {
                 return new Promise(function (resolve, rej) {
+                    if (!session.sessionId) return resolve();
                     parseStudent(this.db, session.sessionId, function (err, result) {
                         if (err) return rej();
 

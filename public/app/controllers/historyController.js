@@ -94,7 +94,7 @@ angular.module('Controllers')
         };
 
         $scope.onExport = function () {
-            if (!$scope.selected.sessionId) return;
+            if (!$scope.selected || !$scope.selected.sessionId) return;
             $window.open("/v1/api/classrooms/"+$routeParams.name+"/sessions/"+$scope.selected.sessionId+"/"+$scope.dataType+".csv", "_self");
         };
 

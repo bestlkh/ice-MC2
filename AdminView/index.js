@@ -300,10 +300,14 @@ AdminView.prototype.setupApi = function () {
 
         this.db.collection("classrooms").findOne({
             owner: req.session.user.username,
-            name: classroom.name
+            $or: [
+                {name: classroom.name},
+                {roomName: classroom.roomName}
+            ]
         }, function (err, cr) {
+
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            else if (cr) return res.status(400).json({status: 400, message: "Classroom with that name already exists"});
+            else if (cr) return res.status(400).json({status: 400, message: "Classroom with that name/room name already exists"});
             this.db.collection("classrooms").insertOne(classroom, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 res.json({});

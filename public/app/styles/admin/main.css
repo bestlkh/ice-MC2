@@ -677,6 +677,8 @@ input[type="submit"]:hover {
   border-radius: 3px;
   transition: all 0.15s linear;
   height: 42px;
+  z-index: 30;
+  position: relative;
 }
 .notif-popup.ng-enter {
   opacity: 0;

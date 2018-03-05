@@ -440,10 +440,21 @@ LectureNsp.prototype.listen = function () {
             }.bind(this));
 
             socket.on("logout", function (callback) {
+                this.sendMessage(socket.connectedRoom, {
+                    username: "[System]",
+                    msg: socket.handshake.session.username + " has left the room.",
+                    timestamp: moment().valueOf(),
+                    type: "system",
+                    hidden: true
+                }, function (err, result) {
+                    if (!this.findRoomAdapter(socket.connectedRoom)) delete this.rooms[socket.connectedRoom];
+                }.bind(this));
+
+
                 destroySession();
 
                 callback({});
-            });
+            }.bind(this));
 
             // disconnect user handling
             socket.on('disconnect', function () {
@@ -451,7 +462,7 @@ LectureNsp.prototype.listen = function () {
                 if (!socket.connectedRoom) return;
 
                 socket.leave(socket.connectedRoom, function () {
-                    this.sendMessage(socket.connectedRoom, {
+                    if (socket.handshake.session.username) this.sendMessage(socket.connectedRoom, {
                         username: "[System]",
                         msg: socket.handshake.session.username + " has left the room.",
                         timestamp: moment().valueOf(),

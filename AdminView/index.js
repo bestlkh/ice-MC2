@@ -329,9 +329,13 @@ AdminView.prototype.setupApi = function () {
                 className: req.params.name
             }, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                res.json({});
+                this.db.collection("chatHistory").update({className: req.params.name, owner: req.session.user.username}, {$set: {deleted: true}}, {multi: true}, function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                    res.json({});
+                });
 
-            });
+
+            }.bind(this));
 
         }.bind(this));
     }.bind(this));
@@ -527,7 +531,7 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions", checkAuth, function (req, res) {
-        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name}, {messages: 0, _id: 0}).toArray(function (err, sessions) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {messages: 0, _id: 0}).toArray(function (err, sessions) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(sessions);
@@ -536,7 +540,7 @@ AdminView.prototype.setupApi = function () {
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
         if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
-        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id)}, {_id: 0}, function (err, session) {
+        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id), deleted: null}, {_id: 0}, function (err, session) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(session);
@@ -554,7 +558,7 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/messages.csv", checkAuth, function (req, res) {
-        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name}, {_id: 0}).toArray(function (err, sessions) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {_id: 0}).toArray(function (err, sessions) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             var messages = [];
@@ -577,7 +581,7 @@ AdminView.prototype.setupApi = function () {
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages.csv", checkAuth, function (req, res) {
         if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
-        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id)}, {_id: 0}, function (err, session) {
+        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id), deleted: null}, {_id: 0}, function (err, session) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.writeHead(200, {
@@ -590,7 +594,7 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/students.csv", checkAuth, function (req, res) {
-        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name}, {_id: 0}).toArray(function (err, sessions) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {_id: 0}).toArray(function (err, sessions) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             var students = [];

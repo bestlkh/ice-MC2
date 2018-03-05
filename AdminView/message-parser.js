@@ -40,7 +40,7 @@ function findOne(list, params) {
 }
 
 var parseStudents = function (db, sessionId, callback) {
-    db.collection("chatHistory").findOne({sessionId: sessionId}, function (err, history) {
+    db.collection("chatHistory").findOne({sessionId: sessionId, deleted: null}, function (err, history) {
         let sessions = [];
         let reg = /(.*)/;
         var session = history;

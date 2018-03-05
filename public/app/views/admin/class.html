@@ -50,7 +50,7 @@
     <div class="student-control-wrapper" style="margin-bottom: 20px;">
         <div style="display:flex;">
             <input class="student-search" placeholder="search" ng-model="search.value" />
-            <div class="notif-popup" ng-if="notif">
+            <div class="notif-popup"  ng-class="{'error-popup': notif.error}" ng-if="notif">
                 {{notif.message}}
             </div>
         </div>

@@ -26,16 +26,6 @@ methodDraw.addExtension("shapes", function () {
         symbols: 'Symbols',
         greek: 'Greek',
         basicMath: "Math"
-
-//    arrow: 'Arrows',
-//    flowchart: 'Flowchart',
-//    nature: 'Nature',
-//    game: 'Cards & Chess',
-//    dialog_balloon: 'Dialog balloons',
-//    music: 'Music',
-//    weather: 'Weather &amp; Time',
-//    ui: 'User Interface',
-//    social: 'Social Web'
     };
 
     var library = {

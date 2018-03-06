@@ -26,11 +26,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
   <meta name="apple-mobile-web-app-capable" content="yes"/>
 
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 
   <script type="text/javascript" src="lib/jquery.js"></script>
   <script src="lib/jquery.panzoom.fixed.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.4/hammer.min.js"></script>
-
 
 
 
@@ -68,6 +71,7 @@
   <script type="text/javascript" src="lib/mousewheel.js"></script>
   <!-- <script type="text/javascript" src="extensions/ext-eyedropper.js"></script> -->
   <script type="text/javascript" src="extensions/ext-shapes.js"></script>
+  <script type="text/javascript" src="extensions/ext-imagelib.js"></script>
   <!-- <script type="text/javascript" src="/socket.io/socket.io.js"></script> -->
   <!--<script type="text/javascript" src="extensions/ext-websocket.js"></script> -->
   <!-- <script type="text/javascript" src="extensions/ext-mathsymbols.js"></script> -->
@@ -217,6 +221,7 @@
       <div class="menu_item action_selected disabled" id="tool_paste">Paste <span class="shortcut">⌘V</span></div>
       <div class="menu_item action_selected disabled" id="tool_clone">Duplicate <span class="shortcut">⌘D</span></div>
       <div class="menu_item action_selected disabled" id="tool_delete">Delete <span>⌫</span></div>
+      <div class="menu_item" id="tool_imagelib">Import from Image Library</div>
       <div class="separator" id="grid_separator"></div>
     </div>
   </div>
@@ -860,6 +865,7 @@
   <li><a href="#move_down">Send Backward<span class="shortcut">⌘↓</span></a></li>
   <li><a href="#move_back">Send to Back<span class="shortcut">⌘⇧↓</span></a></li>
 </ul>
+<div id="imgbrowser"></div>
 
 
 <!-- MDP Floating Layer -->

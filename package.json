@@ -76,7 +76,7 @@
     "browserify": "^14.5.0",
     "chokidar": "^1.7.0",
     "colors": "^1.1.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-buffer": "0.0.2",

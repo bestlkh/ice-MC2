@@ -23,7 +23,7 @@ const JS_FILES = [
     'public/app/js/src/chat/chat.js', 
     'public/app/js/src/alert/alert.js', 
     'public/app/js/src/driver/driver.js', 
-    'public/app/js/src/recognition/tool.js', 
+    'public/app/js/src/recognition/Tool.js',
     'public/app/js/src/utilities/ImageUtility.js'
 ];
 

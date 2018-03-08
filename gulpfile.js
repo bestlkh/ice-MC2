@@ -40,9 +40,9 @@ const paths = {
     watchScripts: {
         src: 'public/**/*.js',
     },
-    lint: {
-        src: 'test/**'
-    },
+    // lint: {
+    //     src: 'test/**'
+    // },
     html: {
         src:'public/index.html',
     }
@@ -80,7 +80,6 @@ function serve(done) {
     });
     done();
 }
-
 
 // javascript file bundling with sourcemaps (babel + browserify + uglify) 
 gulp.task('scripts', function() {
@@ -135,8 +134,8 @@ gulp.task('dev', gulp.series(compile, start, dev));
 // compiles necessary files for deployment
 gulp.task('deploy', gulp.series(compile));
 
-gulp.task('lint', function () {
-    return gulp.src(paths.lint.src)
-        .pipe(eslint())
-        .pipe(eslint.format());
-});
+// gulp.task('lint', function () {
+//     return gulp.src(paths.lint.src)
+//         .pipe(eslint())
+//         .pipe(eslint.format());
+// });

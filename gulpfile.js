@@ -44,7 +44,7 @@ const paths = {
     //     src: 'test/**'
     // },
     html: {
-        src:'public/index.html',
+        src:'public/**/*.html',
     }
 };
 

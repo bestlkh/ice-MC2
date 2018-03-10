@@ -41,12 +41,12 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     $scope.ta = false;
 
     $scope.printErr = function(msg){	// popup for error message
-        var html = '<p id="alert">'+ msg +'</p>';
+        var html = '<p id="login-alert">'+ msg +'</p>';
         if ($( ".chat-box" ).has( "p" ).length < 1) {
         	console.log("check");
             $(html).hide().prependTo(".chat-box").fadeIn(1500);
-            $('#alert').delay(5000).fadeOut('slow', function(){
-                $('#alert').remove();
+            $('#login-alert').delay(5000).fadeOut('slow', function(){
+                $('#login-alert').remove();
             });
         }
     };
@@ -186,7 +186,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 			}
 		} else {		// blank username or room name
 			if (!$scope.form.username && !$scope.form.roomId) {
-				$scope.errMsg = "Please enter both a username & room name.";
+				$scope.errMsg = "Please enter a username & room name.";
 			} else if (!$scope.form.username) {
 				$scope.errMsg = "Please enter a username.";
 			} else {

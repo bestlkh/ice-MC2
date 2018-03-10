@@ -196,7 +196,7 @@ chat.on('connection', function(socket){
 		//if (!data.isJoin) clients = {sockets:[]};
 		if(findClient(clients, data.username))
 			{
-				callback({success:false, message: "Use a different username.", issue: "diffUser"});
+				callback({success:false, message: "Use a different username.", issue: "userExists"});
 			} else {
 				if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
 				else data.userAvatar = "Avatar"+data.userAvatar+".jpg";

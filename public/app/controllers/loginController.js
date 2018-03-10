@@ -26,6 +26,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 	$scope.form.username = "";
 	$scope.form.initials = "";
 	$scope.errMsg = "";
+	$scope.newRoomOption = false;
 
 	$scope.form.roomId = $routeParams.roomId;
 	$scope.isJoin = true;
@@ -174,13 +175,16 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 					} else {		// if duplication will occur
 						$scope.isErrorReq = false;
 						$scope.isErrorNick = false;
+						$scope.newRoomOption = false;
 						if (data.issue !== "noRoomExists") {
 							$scope.errMsg = data.message;
 							$scope.printErr($scope.errMsg);
 						}
-						if (data.issue === "roomExists") {
+						if (data.issue === 'noRoomExists') {
+							$scope.newRoomOption = true;
+						} else if (data.issue === "roomExists") {
 							$scope.isErrorReq = false;
-						} else if (data.issue === "diffUser") {
+						} else if (data.issue === "userExists") {
 							$scope.isErrorNick = true;
 						}
 					}
@@ -191,16 +195,6 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 				$scope.isErrorReq = true;
 				$scope.printErr($scope.errMsg);
 			}
-		} else {		// blank username or room name
-			if (!$scope.form.username && !$scope.form.roomId) {
-				$scope.errMsg = "Please enter a username & room name.";
-			} else if (!$scope.form.username) {
-				$scope.errMsg = "Please enter a username.";
-			} else {
-				$scope.errMsg = "Please enter a room name.";
-			}
-			$scope.isErrorReq = true;
-			$scope.printErr($scope.errMsg);
 		}
 	};
 

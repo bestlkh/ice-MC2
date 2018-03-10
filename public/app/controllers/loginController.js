@@ -45,7 +45,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
         if ($( ".chat-box" ).has( "p" ).length < 1) {
         	console.log("check");
             $(html).hide().prependTo(".chat-box").fadeIn(1500);
-            $('#login-alert').delay(5000).fadeOut('slow', function(){
+            $('#login-alert').delay(2000).fadeOut('slow', function(){
                 $('#login-alert').remove();
             });
         }
@@ -171,11 +171,18 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						if (!$scope.isJoin || !$scope.roomId) $location.path('/v1/ChatRoom/'+$scope.form.roomId);
 						else $location.path('/v1/ChatRoom/'+$scope.roomId);
 
-					} else {		// if nickname exists
-						$scope.errMsg = data.message;
-						$scope.isErrorNick = true;
-						$scope.isErrorReq = true;
-						$scope.printErr($scope.errMsg);
+					} else {		// if duplication will occur
+						$scope.isErrorReq = false;
+						$scope.isErrorNick = false;
+						if (data.issue !== "noRoomExists") {
+							$scope.errMsg = data.message;
+							$scope.printErr($scope.errMsg);
+						}
+						if (data.issue === "roomExists") {
+							$scope.isErrorReq = false;
+						} else if (data.issue === "diffUser") {
+							$scope.isErrorNick = true;
+						}
 					}
 				});
 			} else {		// nickname greater than limit

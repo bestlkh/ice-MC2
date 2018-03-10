@@ -92,17 +92,6 @@
 	color: #ffc266;
 }
 
-.notif-popup {
-	padding: 15px;
-	text-align: center;
-}
-
-.notif-popup div {
-	margin-bottom: 15px;
-	font-size: 15px;
-	font-weight: 600;
-}
-
 /* ============================= chatRoom Page ==========================*/
 .multiple-borders-white {
   border: 4px solid rgba(255,255,255,0.5);

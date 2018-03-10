@@ -172,20 +172,25 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						if (!$scope.isJoin || !$scope.roomId) $location.path('/v1/ChatRoom/'+$scope.form.roomId);
 						else $location.path('/v1/ChatRoom/'+$scope.roomId);
 
-					} else {		// if duplication will occur
+					} else {
+
+						// reset the error flags
 						$scope.isErrorReq = false;
 						$scope.isErrorNick = false;
 						$scope.newRoomOption = false;
-						if (data.issue !== "noRoomExists") {
+
+						// print custom errors if duplication occurs
+						if (data.issue === "noRoomExists") {
+							$scope.newRoomOption = true;
+						} else {
 							$scope.errMsg = data.message;
 							$scope.printErr($scope.errMsg);
-						}
-						if (data.issue === 'noRoomExists') {
-							$scope.newRoomOption = true;
-						} else if (data.issue === "roomExists") {
-							$scope.isErrorReq = false;
-						} else if (data.issue === "userExists") {
-							$scope.isErrorNick = true;
+							
+							if (data.issue === "roomExists") {
+								$scope.isErrorReq = false;
+							} else if (data.issue === "userExists") {
+								$scope.isErrorNick = true;
+							}
 						}
 					}
 				});

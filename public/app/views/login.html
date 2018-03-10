@@ -18,7 +18,6 @@
     </div>
 
     <div ng-if="!error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
-      <div class="chat-box"></div>
       <h4 ng-if="!roomId || !isJoin" class="login-box-msg">Sign in to get started...</h4>
       <h4 ng-if="roomId && isJoin && !token" class="login-box-msg">Sign in to join room <b>{{roomId}}</b></h4>
       <h4 ng-if="roomId && isJoin && token" class="login-box-msg">Welcome, sign into <b>{{roomId}}</b></h4>
@@ -31,6 +30,7 @@
             <input ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
             <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
             <input ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <div class="chat-box"></div>
             <hr>
             <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
 

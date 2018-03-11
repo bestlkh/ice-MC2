@@ -69,14 +69,14 @@ function toggleChatRoom(e) {
         $('#math-editor').css("width", "100%");
         $('#chatframe').css("width", "0%");
         $('.arrow-left').css("left",  "95%");
-        $('#drag-bar').css('display', "none");
+        $('#dragbar').css('display', "none");
     }
     else{
         $('#editor-frame').css("width", e.pageX + "px");
         $('#math-editor').css("width", "70%");
         $('#chatframe').css("width", "calc("+ "30%" + " - " + "5px)");
         $('.arrow-left').css("left", "65%");
-        $('#drag-bar').css('display', "initial");
+        $('#dragbar').css('display', "initial");
     }
     
 }

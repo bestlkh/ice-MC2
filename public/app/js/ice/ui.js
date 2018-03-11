@@ -46,12 +46,24 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send.png);'
 });
 
-$("#send-sheet-background").mousedown(function(){
-   $("#send-sheet").removeClass("shown");
-   $(this).removeClass("shown");
-});
+if (svgedit.browser.isTouch()) {
+    $("#send-sheet-background").mousedown(function(){
+        $("#send-sheet").removeClass("shown");
+        $(this).removeClass("shown");
+    });
 
-$(".preview-button").mousedown(function(){
-    $("#send-sheet").removeClass("shown");
-    $("#send-sheet-background").removeClass("shown");
-});
+    $(".preview-button").mousedown(function(){
+        $("#send-sheet").removeClass("shown");
+        $("#send-sheet-background").removeClass("shown");
+    });
+} else {
+    $("#send-sheet-background").click(function(){
+        $("#send-sheet").removeClass("shown");
+        $(this).removeClass("shown");
+    });
+
+    $(".preview-button").click(function(){
+        $("#send-sheet").removeClass("shown");
+        $("#send-sheet-background").removeClass("shown");
+    });
+}

@@ -8,12 +8,14 @@ angular.module('Controllers')
       scrollBottom: "="
     },
     link: function (scope, element) {
-      scope.$watchCollection('scrollBottom', function (newValue) {
-        if (newValue)
-        {
-          setTimeout(function() {
-			  $(element).scrollTop($(element)[0].scrollHeight);
-		  }, 100);
+      scope.$watchCollection('scrollBottom', function (newValue, oldValue) {
+        // if messages are deleted do not scroll to bottom
+        if (oldValue.length <= newValue.length) {
+          if (newValue) {
+              setTimeout(function() {
+                  $(element).scrollTop($(element)[0].scrollHeight);
+              }, 100);
+          }
         }
       });
     }
@@ -372,6 +374,10 @@ angular.module('Controllers')
 
 	$scope.closeAnnounce = function(){
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		console.log("hello");
+>>>>>>> master
 =======
 		console.log("hello");
 >>>>>>> master
@@ -560,15 +566,21 @@ angular.module('Controllers')
 
 	$socket.on("announce message", function(data){
 <<<<<<< HEAD
+<<<<<<< HEAD
 		var msg = new Chat.Message(data.raw_data);
 		$("#announce-area")[0].innerText = "";
 		$("#announce-area").css('display', 'inline-block');
 		$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + msg.getText().getRaw() + " By "+ "\r\n" + msg.getUsername());
 =======
+=======
+>>>>>>> master
 		$("#announce-area")[0].innerText = "";
 		$("#announce-area").css('display', 'inline-block');
 		$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + data.raw_data.msg + " by " + data.raw_data.username );
 		
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 	});
 

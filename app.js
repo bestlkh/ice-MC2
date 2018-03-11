@@ -191,12 +191,12 @@ chat.on('connection', function(socket){
 		data.roomId = data.roomId.toLowerCase();
         var clients = ios.sockets.adapter.rooms[data.roomId];
 
-        if (!clients && data.isJoin) return callback({success: false, message: "Room does not exist."});
-        else if (clients && !data.isJoin) return callback({success: false, message: "Room already exists."});
+        if (!clients && data.isJoin) return callback({success: false, message: "Room does not exist.", issue: "noRoomExists"});
+        else if (clients && !data.isJoin) return callback({success: false, message: "Room already exists.", issue: "roomExists"});
 		//if (!data.isJoin) clients = {sockets:[]};
 		if(findClient(clients, data.username))
 			{
-				callback({success:false, message: "Use a different username."});
+				callback({success:false, message: "Use a different username.", issue: "userExists"});
 			} else {
 				if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
 				else data.userAvatar = "Avatar"+data.userAvatar+".jpg";

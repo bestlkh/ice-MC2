@@ -3,11 +3,10 @@
  */
 
 .notif-popup {
-  padding: 15px;
   text-align: center;
   div {
     margin-bottom: 15px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
   }
 }
@@ -20,34 +19,98 @@
   color: #4c83ba !important;
 }
 
-.avatar{
-  height : 65px;
-  width : 65px;
+/* 
+ * Room Option Buttons
+ */
+
+.selector-wrapper2 {
+  width: 100%;
+  margin: 10px 0px 10px 0px;
+  display: flex;
+  justify-content: center;
+  height: 40px;
+}
+
+.selector-wrapper2>div {
+  width: 50%;
+  padding: 7px;
+  text-align: center;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.1s linear, border 0.1s linear, color 0.1s linear;
+  line-height: 23px;
+  color: #8a8a8a;
+  font-weight: 700;
+  font-size: 16px;
+  border: 2px transparent solid;
+  margin: 0 10px;
+}
+
+
+/* 
+ * Avatar Selection
+ */
+
+.avatar {
+  height: 65px;
+  width: 65px;
   border-radius : 50%;
   margin-bottom : 0.5em;
   margin-left: 0.75em;
 }
 
 .avatar-thumb {
-  width : 24%;
+  width: 25%;
   display: inline-block;
 }
 
 .avatar-selected {
-  height : 65px;
-  width : 65px;
   border: 3px solid #fff;
   box-shadow: inset 0 0 5px tomato, 0 0 5px black;
 }
 
+#avatar-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 10px 0;
+}
+
+/* 
+ * Login Form
+ */ 
+
+.login-box {
+  height: 100%;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding-top: 7%;
+}
+
 .login-box-body {
-  width: 360px;
+  width: 100%;
   margin: 0 auto;
   .form-control-feedback {
     &.errText {
       color: #dd4b39;
     }
   }
+}
+
+#login-alert {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px; 
+  // width: fit-content;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 14px;
+  z-index: 999;
 }
 
 .has-error {
@@ -60,15 +123,12 @@
 
 .login-logo {
   margin-bottom: 0;
+  width: 100%;
 }
 
 .login-box-msg {
-  padding-bottom: 5px;
-}
-
-.login-box-body {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding: 0;
+  font-size: 18px;
 }
 
 .orange {

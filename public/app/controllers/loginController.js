@@ -25,7 +25,8 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     $scope.form = {};
 	$scope.form.username = "";
 	$scope.form.initials = "";
-	$scope.errMsg = "";
+	$scope.errMsg = null;
+	$scope.showErr = false;
 
 	$scope.form.roomId = $routeParams.roomId;
 	$scope.isJoin = true;
@@ -33,6 +34,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 	$scope.token = $location.search().token;
 	$scope.utorid = "-----";
 	$scope.error = null;
+	$scope.to = null;
 
 	$scope.isLoading = true;
 
@@ -41,14 +43,14 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     $scope.ta = false;
 
     $scope.printErr = function(msg){	// popup for error message
-        var html = '<p id="alert">'+ msg +'</p>';
-        if ($( ".chat-box" ).has( "p" ).length < 1) {
-        	console.log("check");
-            $(html).hide().prependTo(".chat-box").fadeIn(1500);
-            $('#alert').delay(5000).fadeOut('slow', function(){
-                $('#alert').remove();
-            });
-        }
+        $scope.errMsg = msg;
+        $scope.showErr = true;
+
+        clearTimeout($scope.to);
+        $scope.to = setTimeout(function () {
+            $scope.showErr = false;
+            $scope.$apply();
+        }, 5000);
     };
 
     var nsp = "";
@@ -74,8 +76,8 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
 		if ($rootScope.error) {
             $scope.isLoading = false;
-            console.log($rootScope.error);
-            $scope.printErr($rootScope.message);
+
+            $scope.printErr($rootScope.error);
 		} else {
             $socket.emit('check-session', {roomName: $scope.roomId}, function (data) {
 
@@ -100,7 +102,6 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
         		url: "/v1/api/namespace/"+$location.search().nsp+"/room/"+$routeParams.roomId+"/track/"+$scope.token,
 				success: function (result) {
 					$scope.utorid = result.utorid;
-					console.log(result);
 					$scope.$apply();
                 },
 				error: function (err) {

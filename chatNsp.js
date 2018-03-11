@@ -262,7 +262,7 @@ LectureNsp.prototype.listen = function () {
                         if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
                         else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
                         if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                        setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials});
+                        setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
                         callback({success: true});
                     }
                 }.bind(this));
@@ -279,13 +279,19 @@ LectureNsp.prototype.listen = function () {
                     var nameExists = this.findClient(data.roomId, data.username);
                     if (nameExists && !socket.handshake.session.isInstructor && !socket.handshake.session.isAdmin) {
                         destroySession();
-                        return callback({success: false, message: "Use different username."});
+                        return callback({success: false, message: "Use different username"});
                     }
                     if (socket.handshake.session.username) {
 
                         if (classroom && classroom.invite && !socket.handshake.session.ta && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
                             destroySession();
-                            return callback({success: false, message: "Room is invite only."});
+                            return callback({success: false, message: "Room is invite only"});
+                        }
+
+                        if (socket.handshake.session.utorid && socket.handshake.session.connectedClass) {
+                            if (data.roomId !== socket.handshake.session.connectedClass) {
+                                return callback({success: false, message: "Log in again to access room"});
+                            }
                         }
 
                         socket.join(data.roomId, function () {

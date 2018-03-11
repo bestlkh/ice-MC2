@@ -28,8 +28,8 @@
             <input maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
 
             <input ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
-            <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
-            <input ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <input maxlength="50" ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
+            <input maxlength="50" ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <div class="chat-box"></div>
             <hr>
             <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
@@ -72,10 +72,10 @@
           <div class="row">
             <div class="col-xs-12">
               <div class="notif-popup" ng-if="newRoomOption && isJoin">
-                    <div>Room does not exist. Create it?</div>
-                    <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
+                    <div>Room does not exist. Create it?</div>                    
               </div>
-              <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()" >Start</button>
+              <button ng-if="!isJoin || (newRoomOption && isJoin)" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
+              <button ng-if="isJoin" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
               <button ng-if="nsp" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Login as instructor</button>
               <button ng-if="nsp" ng-class="{'orange': ta}" class="btn btn-primary btn-block btn-flat" ng-click="onTaClick()">Login as TA</button>
             </div><!-- /.col -->

@@ -155,8 +155,13 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
 	// Functions for controlling behaviour.
 	$scope.redirect = function(create) {
+		// reset the error flags
+		$scope.isErrorReq = false;
+		$scope.isErrorNick = false;
+		$scope.newRoomOption = false;
+
 		if($scope.form.username && $scope.form.roomId) {
-			if ($scope.form.username.length <= 20) {
+			if ($scope.form.username.length <= 20 && $scope.form.roomId.length <= 50) {
 				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
 						$rootScope.username = $scope.form.username;
@@ -173,12 +178,6 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						else $location.path('/v1/ChatRoom/'+$scope.roomId);
 
 					} else {
-
-						// reset the error flags
-						$scope.isErrorReq = false;
-						$scope.isErrorNick = false;
-						$scope.newRoomOption = false;
-
 						// print custom errors if duplication occurs
 						if (data.issue === "noRoomExists") {
 							$scope.newRoomOption = true;
@@ -194,13 +193,19 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						}
 					}
 				});
-			} else {		// nickname greater than limit
-				$scope.errMsg = "Username exceeds 20 characters.";
-				$scope.isErrorNick = true;
+			} else {		// should not normally be able to reach here due to html maxlength constraint
 				$scope.isErrorReq = true;
-				$scope.printErr($scope.errMsg);
+
+				if ($scope.form.username.length > 20) {
+					$scope.errMsg = "Username exceeds 20 characters.";
+					$scope.isErrorNick = true;
+					$scope.printErr($scope.errMsg);
+				} else if ($scope.form.roomId.length > 50) {
+					$scope.errMsg = "Room name exceeds 50 characters.";
+					$scope.printErr($scope.errMsg);
+				}				
 			}
-		}
+		}	
 	};
 
 	$scope.changeAvatar = function(avatar){		// selecting different avatar

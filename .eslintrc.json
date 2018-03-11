@@ -9,7 +9,7 @@
         "mongo": true,
         "mocha": true
     },
-    "extends": "eslint:recommended",
+    "extends": "eslint-config-google",
     "parserOptions": {
         "sourceType": "module"
     },
@@ -17,10 +17,6 @@
         "indent": [
             "error",
             4
-        ],
-        "quotes": [
-            "error",
-            "single"
         ],
         "semi": [
             "error",

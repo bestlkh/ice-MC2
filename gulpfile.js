@@ -35,7 +35,7 @@ const paths = {
     },
     bundleScripts: {
         src: JS_FILES,
-        dest: 'public/dist'
+        dest: 'public/app/dist/js'
     },
     watchScripts: {
         src: 'public/**/*.js',

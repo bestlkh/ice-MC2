@@ -30,8 +30,8 @@ var SOTP = 0;
     var svgCanvas;
     var Editor = {};
     var is_ready = false;
-    var initWidth = screen.availWidth;// parent.document.getElementById("editorframe").offsetWidth;
-    var initHeight = screen.availHeight; //parent.document.getElementById("editorframe").offsetHeight;
+    var initWidth = screen.availWidth;// parent.document.getElementById("math-editor").offsetWidth;
+    var initHeight = screen.availHeight; //parent.document.getElementById("math-editor").offsetHeight;
     curConfig = {
       canvas_expansion: 1,
       dimensions: [initWidth,initHeight],
@@ -2550,7 +2550,6 @@ var SOTP = 0;
           $("#pre-render-svg").find("g").prepend('<rect width="3000" height="3000" x="-500" y="-500" stroke="#000" fill="white" style="pointer-events:none" opacity="1"></rect>');
           $("#pre-render-svg")[0].setAttribute("viewBox", (parseInt(bbox.x) - 20) + " " + (parseInt(bbox.y) - 20) + " " + (parseInt(bbox.width) + 40) + " " + (parseInt(bbox.height) + 40));
           canvas = document.getElementById('export-dump-canvas');
-          console.log($("#pre-render-svg")[0].outerHTML);
           canvg(canvas, $("#pre-render-svg")[0].outerHTML, {
               renderCallback: function(){
                 setTimeout(function(){
@@ -2637,9 +2636,6 @@ var SOTP = 0;
       // to call setCustomHandlers() which will make it do something
       var clickOpen = function(){
         svgCanvas.open();
-      };
-      var clickImport = function(){
-        $("#image-import-input").click();
       };
 
       var flash = function($menu){
@@ -3499,8 +3495,6 @@ var SOTP = 0;
           {sel:'#tool_save', fn: function() { editingsource ? saveSourceEditor(): clickSave() }, evt: 'mouseup', key: [modKey + 'S', true]},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
-          {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},
-          {sel:'.tool_import_mobile', fn: clickImport, evt: 'mouseup'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},
@@ -3653,18 +3647,21 @@ var SOTP = 0;
             {key: ['shift+.', true], fn: function(){svgCanvas.keyPressed('>');}},
   					{key: '.', fn: function(){svgCanvas.keyPressed('.');}},
   					{key: 'space', fn: function(){svgCanvas.keyPressed(' ');}},
-  					{key: '-', fn: function(){svgCanvas.keyPressed('-');}},
+  					{key: '-', fn: function(){svgCanvas.keyPressed('−');}},
             {key: String.fromCharCode(189), fn: function(){svgCanvas.keyPressed('−');}},
   					{key: 'shift+(', fn: function(){svgCanvas.keyPressed('(');}},
   					{key: 'shift+)', fn: function(){svgCanvas.keyPressed(')');}},
   					{key: '[', fn: function(){svgCanvas.keyPressed('[');}},
-  					{key: ']', fn: function(){svgCanvas.keyPressed(']');}},
-  					{key: ['shift+'+String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('+');}},
-                    {key: '+', fn: function(){svgCanvas.keyPressed('+');}},
+            {key: ']', fn: function(){svgCanvas.keyPressed(']');}},
+            // Firefox specific binds
+            {key: [String.fromCharCode(61), true], fn: function(){svgCanvas.keyPressed('=');}},
+            {key: ['shift+' + String.fromCharCode(43), true], fn: function(){svgCanvas.keyPressed('+');}},
+            // end of Firefox specific binds
             {key: ['*', true], fn: function(){svgCanvas.keyPressed('×');}},
             {key: '/', fn: function(){svgCanvas.keyPressed('/');}},
 
   					{key: [String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('=');}},
+            {key: ['shift+'+String.fromCharCode(187), true], fn: function(){svgCanvas.keyPressed('+');}},
             {key: ['shift+'+String.fromCharCode(188), true], fn: function(){svgCanvas.keyPressed('<');}},
             {key: ['shift+'+String.fromCharCode(190), true], fn: function(){svgCanvas.keyPressed('>');}},
         //    {key: ['shift+'+String.fromCharCode(60), true], fn: function(){svgCanvas.keyPressed('<');}},
@@ -4388,6 +4385,7 @@ var SOTP = 0;
       $(function() {
         window.svgCanvas = svgCanvas;
         svgCanvas.ready = methodDraw.ready;
+        window.driver = new Driver.SvgEditorDriver(svgCanvas);
       });
 
 
@@ -4503,7 +4501,7 @@ var SOTP = 0;
     };
 
     Editor.placeMathCursor = function() {
-      svgCanvas.placeMathCursor(50, 50);
+      svgCanvas.placeMathCursor(100, 100);
     };
 
     return Editor;

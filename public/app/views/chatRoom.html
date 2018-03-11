@@ -4,7 +4,7 @@
 <!-- Full Width Column -->
 <div id="chat-wrapper" class="content-wrapper" ng-class="{'menu-open': isMenuOpened}">
     <!-- Editor Content -->
-    <div id="editorframe" style="overflow: hidden;">
+    <div id="math-editor" style="overflow: hidden;">
         <!--Dynamically resize window to fit editor-->
         <iframe name="editor" id="editor-frame" src="/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your
             browser does not support iframes.</p></iframe>
@@ -40,15 +40,21 @@
     <!-- Chat Content -->
     <div id="chatframe">
         <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
-
+        
         <!--Bubble Menu-->
         <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
+
+
 
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
+     
                     <div id="chat-body-div" class="box-body">
-
+                    <!--Announcement-->
+                    <div id="announce-area" ng-click="closeAnnounce()">
+                        <div class="close-btn"></div>
+                    </div>
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
                              scroll-bottom="messages">
@@ -89,6 +95,44 @@
                     <div class="box-footer" id="chatroom-footer">
 
                         <!--Size of this area is modified by JavaScript, registered in ui.js-->
+                        <div id="text-message-input-extra-symbols">
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('=')">
+                                =
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('+')">
+                                +
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('-')">
+                                -
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('*')">
+                                *
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('/')">
+                                /
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('^')">
+                                ^
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button"
+                                    ng-click="latexEditorAddText('_')">
+                                _
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
+                                    ng-click="latexEditorAddText('{')">
+                                {
+                            </button>
+                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
+                                    ng-click="latexEditorAddText('}')">
+                                }
+                            </button>
+                        </div>
                         <div id="text-message-input-area">
                             <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
                                     ng-click="toggleLatexEditor()">
@@ -104,19 +148,11 @@
                             </button>
                             <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
                                     ng-click="latexEditorAddText('$$')">
-                                <img src="/app/images/add-latex-wrap-icon.png" width="20px"/>
+                                $$
                             </button>
                             <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
                                     ng-click="latexEditorAddText('\\')">
-                                <img src="/app/images/add-latex-backslash-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
-                                    ng-click="latexEditorAddText('{')">
-                                <img src="/app/images/add-latex-left-bracket-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
-                                    ng-click="latexEditorAddText('}')">
-                                <img src="/app/images/add-latex-right-bracket-icon.png" width="20px"/>
+                                \
                             </button>
                             <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
                                       ng-model="chatMsg"

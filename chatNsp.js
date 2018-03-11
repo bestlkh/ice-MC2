@@ -1,6 +1,6 @@
 // class for the creation/management of a dynamic namespace in socket io
 // the default chatnsp will replace existing code in the main app.js
-// lecturensp will be used for created classrooms
+// lecturensp will be used for creating classrooms
 var constants = require("./AdminView/constants");
 var MongoClient = require('mongodb').MongoClient;
 var moment = require("moment");
@@ -79,14 +79,18 @@ LectureNsp.prototype.connectToDb = function (callback) {
 };
 
 LectureNsp.prototype.sendMessage = function (roomName, message, callback) {
-
+    if (!this.findRoomAdapter(roomName)) {
+        if (callback) return callback("Invalid room", null);
+        return;
+    }
     this.nsp.to(roomName).emit("new message", message);
 
     this.findRoom(roomName, function (err, room) {
         if (err) return callback(err, null);
                 this.db.collection("chatHistory").updateOne({
                     owner: this.owner,
-                    roomName: roomName
+                    roomName: roomName,
+                    sessionId: this.findRoomAdapter(roomName).sessionId
                 }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
                     if (callback) callback(null, result);
                 });
@@ -121,9 +125,10 @@ function findOne(list, params) {
 }
 
 LectureNsp.prototype.findStudent = function (data, callback) {
-
-        this.db.collection("classrooms").findOne({owner: this.owner, roomName: data.roomId}, function (err, classroom) {
+        this.db.collection("classrooms").findOne({owner: this.owner, roomName: new RegExp("^" + data.roomId + "$", 'i')}, function (err, classroom) {
             if (err) return callback(err, null);
+            if (!classroom) return callback({}, null);
+
             this.db.collection("students").findOne({owner: this.owner, className: classroom.name}, function (err, students) {
                 if (err) return callback(err, null);
                 var student = findOne(students.students, {token: data.token});
@@ -219,11 +224,8 @@ LectureNsp.prototype.listen = function () {
 
             // announce message
             socket.on('announce-message', function (data, callback) {
-                var history = this.findRoomAdapter(socket.connectedRoom).messageHistory;
-                var index = history.findIndex(function (item, i) {
-                    return (item.msgTime === data.msgTime && item.username === data.username && item.msg === data.msg);
-                });
-                console.log(index);
+                this.nsp.to(socket.connectedRoom).emit('announce message', data);
+                callback({success: true});
             }.bind(this));
 
             socket.on("new user", function (data, callback) {
@@ -251,6 +253,7 @@ LectureNsp.prototype.listen = function () {
                             return callback({success: false, message: "Room is invite only"});
                         }
 
+
                         if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
                         else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
                         if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
@@ -266,8 +269,8 @@ LectureNsp.prototype.listen = function () {
                 if (!data.roomId) return socket.disconnect();
                 data.roomId = data.roomId.toLowerCase();
 
-                this.findRoom(data.roomId, function (err, room) {
-                    if (!room) return callback({success: false, message: "Room does not exist"});
+                this.findRoom(data.roomId, function (err, classroom) {
+                    if (!classroom) return callback({success: false, message: "Room does not exist"});
                     var nameExists = this.findClient(data.roomId, data.username);
                     if (nameExists && !socket.handshake.session.isInstructor && !socket.handshake.session.isAdmin) {
                         destroySession();
@@ -275,7 +278,7 @@ LectureNsp.prototype.listen = function () {
                     }
                     if (socket.handshake.session.username) {
 
-                        if (room && room.invite && !socket.handshake.session.ta && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
+                        if (classroom && classroom.invite && !socket.handshake.session.ta && !socket.handshake.session.isInstructor && !socket.handshake.session.utorid && !socket.handshake.session.isAdmin) {
                             destroySession();
                             return callback({success: false, message: "Room is invite only."});
                         }
@@ -290,9 +293,10 @@ LectureNsp.prototype.listen = function () {
                                 hidden: true
                             });
 
-                            room = this.findRoomAdapter(data.roomId);
+                            var room = this.findRoomAdapter(data.roomId);
                             socket.connectedRoom = data.roomId;
 
+                            if (!room.sessionId) room.sessionId = classroom.sessionId;
                             if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
                                 socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName.toLowerCase() !== data.roomId);
                             else socket.handshake.session.isInstructor = false;
@@ -342,7 +346,7 @@ LectureNsp.prototype.listen = function () {
                 else callback({
                     username: username,
                     avatar: session.userAvatar || session.user.userAvatar,
-                    isAdmin: session.isAdmin || session.user.username
+                    isAdmin: session.isAdmin || session.user
                 });
             });
 

@@ -82,6 +82,19 @@ angular.module('Controllers')
             },
             onConnect: function () {
                 $window.open("/#/v1/"+$scope.selected.roomName+"?nsp="+$rootScope.user.username, "_blank");
+            },
+            onDeleteClick: function () {
+                $.ajax({
+                    url: "/v1/api/classrooms/"+$scope.selected.name,
+                    method: "DELETE",
+                    success: function (result) {
+                        $scope.Actions.getClassList();
+                        $scope.selected = null;
+
+                        $scope.$apply();
+                        $scope.newNotif("Successfully deleted", true);
+                    }
+                })
             }
         };
 

@@ -46,43 +46,24 @@ leftToolbar.addButton({
     style: 'background-image: url(images/send.png);'
 });
 
+if (svgedit.browser.isTouch()) {
+    $("#send-sheet-background").mousedown(function(){
+        $("#send-sheet").removeClass("shown");
+        $(this).removeClass("shown");
+    });
 
+    $(".preview-button").mousedown(function(){
+        $("#send-sheet").removeClass("shown");
+        $("#send-sheet-background").removeClass("shown");
+    });
+} else {
+    $("#send-sheet-background").click(function(){
+        $("#send-sheet").removeClass("shown");
+        $(this).removeClass("shown");
+    });
 
-$("#image-import-input").on('change', function(){
-    if (this.files && this.files[0]) {
-        var fileReader = new FileReader();
-        fileReader.addEventListener("load", function(e) {
-            console.log(e.target.result);
-            var image = new Image();
-            image.src = e.target.result;
-
-            image.onload = function() {
-                // access image size here
-                var newImage = svgCanvas.addSvgElementFromJson({
-                    "element": "image",
-                    "attr": {
-                        "x": 0,
-                        "y": 0,
-                        "width": this.width,
-                        "height": this.height,
-                        "id": svgCanvas.getNextId(),
-                        "style": "pointer-events:inherit"
-                    }
-                });
-                svgCanvas.setHref(newImage, e.target.result);
-            };
-        });
-
-        fileReader.readAsDataURL(this.files[0]);
-    }
-});
-
-$("#send-sheet-background").mousedown(function(){
-   $("#send-sheet").removeClass("shown");
-   $(this).removeClass("shown");
-});
-
-$(".preview-button").mousedown(function(){
-    $("#send-sheet").removeClass("shown");
-    $("#send-sheet-background").removeClass("shown");
-});
+    $(".preview-button").click(function(){
+        $("#send-sheet").removeClass("shown");
+        $("#send-sheet-background").removeClass("shown");
+    });
+}

@@ -222,6 +222,12 @@ LectureNsp.prototype.listen = function () {
                 callback({success: true});
             }.bind(this));
 
+            // announce message
+            socket.on('announce-message', function (data, callback) {
+                this.nsp.to(socket.connectedRoom).emit('announce message', data);
+                callback({success: true});
+            }.bind(this));
+
             socket.on("new user", function (data, callback) {
                 data.roomId = data.roomId.toLowerCase();
 

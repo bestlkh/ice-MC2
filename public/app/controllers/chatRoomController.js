@@ -322,7 +322,13 @@ angular.module('Controllers')
 	$scope.deleteMsg = function(msg){
 			$socket.emit("delete-message", msg, function(data){});
 	};
-
+	/**
+	 * Send Announcement message to the chat room
+     */
+	$scope.announceMsg = function(msg){
+		$socket.emit("announce-message", msg, function(data){});
+	};
+	
     /**
 	 * Open a base64 image in new tab.
      * @param img - Image in base64 format.
@@ -365,6 +371,10 @@ angular.module('Controllers')
 		swapFrame();
 	};
 
+	$scope.closeAnnounce = function(){
+				$("#announce-area").css('display', 'none');
+			};
+		
 	$scope.latexEditorAddText = function(text){
         latexEditor.replaceSelection(text, "end");
         latexEditor.focus();
@@ -545,6 +555,13 @@ angular.module('Controllers')
 		chatLog += "\n";
 	});
 
+	$socket.on("announce message", function(data){
+				var msg = new Chat.Message(data.raw_data);
+				$("#announce-area")[0].innerText = "";
+				$("#announce-area").css('display', 'inline-block');
+				$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + msg.getText().getRaw() + " By "+ "\r\n" + msg.getUsername());
+
+			});
 // ====================================== Image Sending Code ==============================
     $scope.$watch('upload.image', function () {
         if (!$scope.upload.image) return;
@@ -1090,4 +1107,3 @@ angular.module('Controllers')
     }
 
 });
-

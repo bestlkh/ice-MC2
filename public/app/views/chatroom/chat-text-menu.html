@@ -34,4 +34,9 @@
             title="Show LaTeX Source">
         <i class="fa fa-code" aria-hidden="true"></i>
     </button>
+    <button ng-click="announceMsg(message)"
+            ng-if="isAdmin && message.isChat()"
+            title="Announcement Message">
+            <i class="fa fa-bullhorn" aria-hidden="true"></i>
+    </button>
 </div>

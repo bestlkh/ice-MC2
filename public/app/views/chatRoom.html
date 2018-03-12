@@ -40,15 +40,20 @@
     <!-- Chat Content -->
     <div id="chatframe">
         <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
-
+        
         <!--Bubble Menu-->
         <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
 
+
+
         <div class="row">
             <div class="col-sm-12">
-                <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
+                <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">   
                     <div id="chat-body-div" class="box-body">
-
+                    <!--Announcement-->
+                    <div id="announce-area" ng-click="closeAnnounce()">
+                        <div class="close-btn"></div>
+                    </div>
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
                              scroll-bottom="messages">

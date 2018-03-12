@@ -5,7 +5,7 @@ class Message {
     constructor(raw_data){
         this.raw_data = raw_data;
         this.text = new MessageText(raw_data.msg);
-        this.read = false;
+        this.read = false;    
     }
 
     getId(){

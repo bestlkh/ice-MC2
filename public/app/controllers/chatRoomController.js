@@ -557,11 +557,26 @@ angular.module('Controllers')
 
 	$socket.on("announce message", function(data){
 				var msg = new Chat.Message(data.raw_data);
+				var btn = document.createElement("BUTTON");
+				var content = document.createElement("DIV");
+				
 				$("#announce-area")[0].innerText = "";
 				$("#announce-area").css('display', 'inline-block');
-				$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + msg.getText().getRaw() + " By "+ "\r\n" + msg.getUsername());
-
-			});
+					
+				if(msg.getText().isImage()){
+					let image = new Image();
+					image.src = msg.getText().getImage();
+					image.width = 200;
+					image.height = 200;
+					$("#announce-area").append(image);
+				}
+				else{
+					$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + msg.getText().getRaw() + " By "+ "\r\n" + msg.getUsername());
+				};
+				$("#announce-area").append(btn);
+				$("#announce-area").append(content);
+				
+	});
 // ====================================== Image Sending Code ==============================
     $scope.$watch('upload.image', function () {
         if (!$scope.upload.image) return;
@@ -637,6 +652,7 @@ angular.module('Controllers')
     $socket.on("new message image", function(data){
 		$scope.showme = true;
 		if (data.serverfilename) {
+			console.log(data);
             var paths = data.serverfilename.split("\\");
             data.serverfilename = paths[paths.length - 1];
         }

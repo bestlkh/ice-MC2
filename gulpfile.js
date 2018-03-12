@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const less = require('gulp-less');
+const cleanCss = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
 const browserify = require('browserify');
@@ -19,10 +20,10 @@ const localServer = 'localhost:8080';
 
 // javascript source files to bundle
 const JS_FILES = [
-    'public/app/js/src/ui/ui.js', 
-    'public/app/js/src/chat/chat.js', 
-    'public/app/js/src/alert/alert.js', 
-    'public/app/js/src/driver/driver.js', 
+    'public/app/js/src/ui/ui.js',
+    'public/app/js/src/chat/chat.js',
+    'public/app/js/src/alert/alert.js',
+    'public/app/js/src/driver/driver.js',
     'public/app/js/src/recognition/Tool.js',
     'public/app/js/src/utilities/ImageUtility.js'
 ];
@@ -30,8 +31,8 @@ const JS_FILES = [
 const paths = {
     styles: {
         src: 'public/app/styles/**/*.less',
-        mainSrc: 'public/app/styles/**/*main.less',
-        dest: 'public/app/styles'
+        mainSrc: 'public/app/**/*main.less',
+        dest: 'public/app/dist/css'
     },
     bundleScripts: {
         src: JS_FILES,
@@ -60,6 +61,9 @@ function styles() {
             browsers: ['last 2 versions'],
             cascade: false
         }))
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(cleanCss())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(server.stream());
 }
@@ -81,7 +85,7 @@ function serve(done) {
     done();
 }
 
-// javascript file bundling with sourcemaps (babel + browserify + uglify) 
+// javascript file bundling with sourcemaps (browserify + babel + uglify) 
 gulp.task('scripts', function() {
     return gulp.src(JS_FILES, {read: false}) // no need of reading file because browserify does.
         // transform file objects using gulp-tap plugin

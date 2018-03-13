@@ -244,11 +244,13 @@ div {
 #announce-area {
   display: none;
   position: relative;
-  overflow-y: scroll;
+  overflow: auto;
   text-align: center;
+  word-wrap: break-word;
   top: 15px;
   left: 10%;
-  width: 70%;
+  height: 90px;
+  width: 250px;
   padding: 20px;
   margin:1px;
   border-radius: 15px;
@@ -256,7 +258,14 @@ div {
   z-index: 99;
 }
 
-
+#close{
+  position: absolute;
+  border: none;
+  background-color: Transparent;
+  padding: 5px;
+  top: 5px;
+  right: 10px;
+ }
 
 .box-footer {
   border: none;

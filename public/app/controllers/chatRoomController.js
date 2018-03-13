@@ -371,10 +371,6 @@ angular.module('Controllers')
 		swapFrame();
 	};
 
-	$scope.closeAnnounce = function(){
-				$("#announce-area").css('display', 'none');
-			};
-		
 	$scope.latexEditorAddText = function(text){
         latexEditor.replaceSelection(text, "end");
         latexEditor.focus();
@@ -558,24 +554,28 @@ angular.module('Controllers')
 	$socket.on("announce message", function(data){
 				var msg = new Chat.Message(data.raw_data);
 				var btn = document.createElement("BUTTON");
-				var content = document.createElement("DIV");
+				btn.setAttribute("id", "close");
+				btn.innerHTML = '╳';  
+				btn.onclick = function(){
+					$("#announce-area").css('display', 'none');
+				};
 				
 				$("#announce-area")[0].innerText = "";
 				$("#announce-area").css('display', 'inline-block');
-					
+				$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + 'Announcement By ' + "\r\n" + msg.getUsername());
+				$("#announce-area").append(btn);	
 				if(msg.getText().isImage()){
 					let image = new Image();
 					image.src = msg.getText().getImage();
 					image.width = 200;
 					image.height = 200;
+					$("#announce-area").css('height', '260px');
 					$("#announce-area").append(image);
 				}
 				else{
-					$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + msg.getText().getRaw() + " By "+ "\r\n" + msg.getUsername());
-				};
-				$("#announce-area").append(btn);
-				$("#announce-area").append(content);
-				
+					$("#announce-area").css('height', '90px');
+					$("#announce-area").append('<p>' + msg.getText().getRaw() + '</p>');
+				};							
 	});
 // ====================================== Image Sending Code ==============================
     $scope.$watch('upload.image', function () {

@@ -10,7 +10,7 @@ const buffer = require('gulp-buffer');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
-const eslint = require('gulp-eslint');
+// const eslint = require('gulp-eslint');
 const browserSync = require('browser-sync');
 
 const server = browserSync.create();
@@ -25,18 +25,18 @@ const JS_FILES = [
     'public/app/js/src/alert/alert.js',
     'public/app/js/src/driver/driver.js',
     'public/app/js/src/recognition/Tool.js',
-    'public/app/js/src/utilities/ImageUtility.js'
+    'public/app/js/src/utilities/ImageUtility.js',
 ];
 
 const paths = {
     styles: {
         src: 'public/app/styles/**/*.less',
         mainSrc: 'public/app/**/*main.less',
-        dest: 'public/app/dist/css'
+        dest: 'public/app/dist/css',
     },
     bundleScripts: {
         src: JS_FILES,
-        dest: 'public/app/dist/js'
+        dest: 'public/app/dist/js',
     },
     watchScripts: {
         src: 'public/**/*.js',
@@ -46,55 +46,83 @@ const paths = {
     // },
     html: {
         src: 'public/**/*.html',
-    }
+    },
 };
 
 const babelVersion = {
-    presets: ['es2015']
+    presets: ['es2015'],
 };
 
-// compile styles to css
-function styles() {
+
+/**
+ * Initialize the browsersync server to proxy the local server
+ * @param {*} done
+ */
+function serve(done) {
+    server.init({
+        proxy: localServer,
+    });
+    done();
+}
+
+
+/**
+ * Tell the browsersync server to reload the page
+ * @param {*} done
+ */
+function reload(done) {
+    server.reload();
+    done();
+}
+
+
+function styles(){
     return gulp.src(paths.styles.mainSrc)
         .pipe(less())
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
-            cascade: false
+            cascade: false,
         }))
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(cleanCss())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(server.stream());
-}
+};
 
-// compiles the main LESS files to CSS
-gulp.task('styles', gulp.series(styles));
-
-// reload the page
-function reload(done) {
-    server.reload();
-    done();
-}
-
-// initialize the browsersync server to proxy the local server
-function serve(done) {
-    server.init({
-        proxy: localServer
-    });
-    done();
-}
-
-// javascript file bundling with sourcemaps (browserify + babel + uglify) 
-gulp.task('scripts', function() {
-    return gulp.src(JS_FILES, {read: false}) // no need of reading file because browserify does.
+const scripts = () => {
+    // no need of reading file because browserify does.
+    return gulp.src(JS_FILES, {read: false})
         // transform file objects using gulp-tap plugin
-        .pipe(tap(function (file) {
+        .pipe(tap(function(file) {
             log.info('bundling ' + file.path);
             // replace file contents with browserify's bundle stream
             file.contents = browserify(file.path, {debug: true}).bundle();
         }))
-        // transform streaming contents into buffer contents (because gulp-sourcemaps does not support streaming contents)
+        // transform streaming contents into buffer contents
+        // (because gulp-sourcemaps does not support streaming contents)
+        .pipe(buffer())
+        .pipe(babel(babelVersion))
+        .pipe(rename(function(path) {
+            // exclude .bundle extension in .map files
+            if (path.extname != '.map') {
+                path.basename += '.bundle';
+            }
+        }))
+        .pipe(gulp.dest(paths.bundleScripts.dest));
+};
+
+const scriptsDist =() => {
+    // no need of reading file because browserify does.
+    return gulp.src(JS_FILES, {read: false})
+        // transform file objects using gulp-tap plugin
+        .pipe(tap(function(file) {
+            log.info('bundling ' + file.path);
+            // replace file contents with browserify's bundle stream
+            file.contents = browserify(file.path, {debug: true}).bundle();
+        }))
+        // transform streaming contents into buffer contents
+        // (because gulp-sourcemaps does not support streaming contents)
         .pipe(buffer())
         .pipe(babel(babelVersion))
         // load and init sourcemaps
@@ -102,41 +130,49 @@ gulp.task('scripts', function() {
         .pipe(uglify())
         // write sourcemaps
         .pipe(sourcemaps.write('./'))
-        .pipe(rename(function (path) {
+        .pipe(rename(function(path) {
             // exclude .bundle extension in .map files
             if (path.extname != '.map') {
                 path.basename += '.bundle';
             }
         }))
         .pipe(gulp.dest(paths.bundleScripts.dest));
-});
+};
 
-// compile LESS and Javascript
-const compile = gulp.series(styles, 'scripts');
+
+gulp.task('styles', gulp.series(styles));
+
+gulp.task('scripts', gulp.series(scripts));
+
+gulp.task('scripts-dist', gulp.series(scriptsDist));
+
+gulp.task('compile', gulp.series('styles', 'scripts-dist'));
 
 // start BrowserSync server
 const start = gulp.series(serve);
 
-// watch for Javascript changes 
-const scriptWatcher = () => gulp.watch(paths.watchScripts.src, gulp.series(reload));
+const scriptWatcher = () => {
+    return gulp.watch(paths.watchScripts.src, gulp.series(reload));
+};
+const styleWatcher = () => {
+    return gulp.watch(paths.styles.src, gulp.series(styles));
+};
+const htmlWatcher = () => {
+    return gulp.watch(paths.html.src, gulp.series(reload));
+};
+
 const scriptTask = gulp.series(scriptWatcher);
-
-// watch for LESS changes
-const styleWatcher = () => gulp.watch(paths.styles.src, gulp.series(styles));
 const styleTask = gulp.series(styleWatcher);
-
-// watch for HTML changes
-const htmlWatcher = () => gulp.watch(paths.html.src, gulp.series(reload));
 const htmlTask = gulp.series(htmlWatcher);
 
 // group watcher tasks to run in parallel
 const dev = gulp.parallel(scriptTask, styleTask, htmlTask);
 
 // start a development environment
-gulp.task('dev', gulp.series(compile, start, dev));
+gulp.task('dev', gulp.series('compile', start, dev));
 
 // compiles necessary files for deployment
-gulp.task('deploy', gulp.series(compile));
+gulp.task('dist', gulp.series('compile'));
 
 // gulp.task('lint', function () {
 //     return gulp.src(paths.lint.src)

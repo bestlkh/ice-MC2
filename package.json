@@ -4,7 +4,7 @@
     "start": "node app.js",
     "test": "mocha",
     "dev": "node app.js & gulp dev",
-    "deploy": "gulp deploy"
+    "deploy": "gulp dist"
   },
   "version": "0.0.1",
   "description": "NodeJS based Text, Image, File Real Time Chat Room",

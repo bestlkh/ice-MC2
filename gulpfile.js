@@ -39,7 +39,7 @@ const paths = {
         dest: 'public/app/dist/js',
     },
     watchScripts: {
-        src: 'public/**/*.js',
+        src: 'public/**/!(*.bundle).js',
     },
     // lint: {
     //     src: 'test/**'
@@ -152,7 +152,7 @@ gulp.task('compile', gulp.series('styles', 'scripts-dist'));
 const start = gulp.series(serve);
 
 const scriptWatcher = () => {
-    return gulp.watch(paths.watchScripts.src, gulp.series(reload));
+    return gulp.watch(paths.watchScripts.src, gulp.series(scripts, reload));
 };
 const styleWatcher = () => {
     return gulp.watch(paths.styles.src, gulp.series(styles));

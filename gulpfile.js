@@ -10,6 +10,7 @@ const buffer = require('gulp-buffer');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
+const bro = require('gulp-bro');
 // const eslint = require('gulp-eslint');
 const browserSync = require('browser-sync');
 
@@ -91,18 +92,9 @@ const styles = () => {
 };
 
 const scripts = () => {
-    // no need of reading file because browserify does.
-    return gulp.src(JS_FILES, {read: false})
-        // transform file objects using gulp-tap plugin
-        .pipe(tap(function(file) {
-            log.info('bundling ' + file.path);
-            // replace file contents with browserify's bundle stream
-            file.contents = browserify(file.path, {debug: true}).bundle();
-        }))
-        // transform streaming contents into buffer contents
-        // (because gulp-sourcemaps does not support streaming contents)
-        .pipe(buffer())
+    return gulp.src(JS_FILES)
         .pipe(babel(babelVersion))
+        .pipe(bro())
         .pipe(rename(function(path) {
             // exclude .bundle extension in .map files
             if (path.extname != '.map') {
@@ -112,9 +104,8 @@ const scripts = () => {
         .pipe(gulp.dest(paths.bundleScripts.dest));
 };
 
-const scriptsDist =() => {
-    // no need of reading file because browserify does.
-    return gulp.src(JS_FILES, {read: false})
+const scriptsDist = () => {
+    return gulp.src(JS_FILES)
         // transform file objects using gulp-tap plugin
         .pipe(tap(function(file) {
             log.info('bundling ' + file.path);

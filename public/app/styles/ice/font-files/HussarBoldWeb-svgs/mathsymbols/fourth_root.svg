@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'FOURTH ROOT' (U+221C)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M106.875 247.9219 L94.7812 247.9219 L94.7812 270.4219 L80.8594 270.4219 L80.8594 247.9219 L33.75 247.9219 L33.75 238.6406 L79.7344 170.1562 L94.7812 170.1562 L94.7812 235.2656 L106.875 235.2656 L106.875 247.9219 ZM80.8594 235.2656 L80.8594 188.0156 L49.2188 235.2656 L80.8594 235.2656 ZM158.0625 160.5938 L101.1094 391.3594 L44.5781 290.8125 L16.7344 303.75 L11.8125 294.8906 L54.1406 273.5156 L99.4219 353.9531 L99.9844 353.9531 L147.7969 160.5938 L158.0625 160.5938 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

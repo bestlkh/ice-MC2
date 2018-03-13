@@ -2,13 +2,13 @@ var state = 0;
 
 function swapFrame(){
 	// var chat = document.getElementById("chatframe");
-	// var editor = document.getElementById("editorframe");
+	// var editor = document.getElementById("math-editor");
 	// editor.style.display = "inline";
 	// chat.style.display = "none";
-	$("#editorframe").addClass("shown");
+	$("#math-editor").addClass("shown");
 }
 
 function swapParentFrame(){
-    var editor = parent.document.getElementById("editorframe");
+    var editor = parent.document.getElementById("math-editor");
     $(editor).removeClass("shown")
 }

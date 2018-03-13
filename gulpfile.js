@@ -163,7 +163,7 @@ const dev = gulp.parallel(scriptTask, styleTask, htmlTask);
 gulp.task('dev', gulp.series('compile', start, dev));
 
 // compiles necessary files for deployment
-gulp.task('dist', gulp.series('compile'));
+gulp.task('prod', gulp.series('compile'));
 
 // gulp.task('lint', function () {
 //     return gulp.src(paths.lint.src)

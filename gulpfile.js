@@ -80,19 +80,29 @@ function reload(done) {
 const styles = () => {
     return gulp.src(paths.styles.mainSrc)
         .pipe(less())
-        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false,
+        }))
+        .pipe(gulp.dest(paths.styles.dest))
+        .pipe(server.stream());
+};
+
+const stylesDist = () => {
+    return gulp.src(paths.styles.mainSrc)
+        .pipe(less())
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false,
         }))
         .pipe(cleanCss())
-        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(server.stream());
 };
 
 const scripts = () => {
     return gulp.src(JS_FILES)
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(babel(babelVersion))
         .pipe(bro())
         .pipe(rename(function(path) {
@@ -101,6 +111,7 @@ const scripts = () => {
                 path.basename += '.bundle';
             }
         }))
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.bundleScripts.dest));
 };
 
@@ -132,12 +143,11 @@ const scriptsDist = () => {
 
 
 gulp.task('styles', gulp.series(styles));
-
+gulp.task('styles-dist', gulp.series(stylesDist));
 gulp.task('scripts', gulp.series(scripts));
-
 gulp.task('scripts-dist', gulp.series(scriptsDist));
 
-gulp.task('compile', gulp.series('styles', 'scripts-dist'));
+gulp.task('compile', gulp.series('styles-dist', 'scripts-dist'));
 
 // start BrowserSync server
 const start = gulp.series(serve);

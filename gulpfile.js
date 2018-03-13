@@ -76,7 +76,7 @@ function reload(done) {
 }
 
 
-function styles(){
+const styles = () => {
     return gulp.src(paths.styles.mainSrc)
         .pipe(less())
         .pipe(autoprefixer({

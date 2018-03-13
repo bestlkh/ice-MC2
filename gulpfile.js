@@ -80,11 +80,11 @@ function reload(done) {
 const styles = () => {
     return gulp.src(paths.styles.mainSrc)
         .pipe(less())
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false,
         }))
-        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(cleanCss())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.styles.dest))

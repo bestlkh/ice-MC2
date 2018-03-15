@@ -576,10 +576,10 @@ angular.module('Controllers')
 						image.height = 240;
 
 					}else{
-						image.width = 200;
-						image.height = 240;
+						image.width = 220;
+						image.height = 220;
 					}
-					$("#announce-area").css('height', '260px');
+					$("#announce-area").css('height', '265px');
 					$("#announce-area").append(image);
 				}
 				else{

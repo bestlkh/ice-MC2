@@ -26,6 +26,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 	$scope.form.username = "";
 	$scope.form.initials = "";
 	$scope.errMsg = "";
+	$scope.newRoomOption = false;
 
 	$scope.form.roomId = $routeParams.roomId;
 	$scope.isJoin = true;
@@ -41,12 +42,12 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
     $scope.ta = false;
 
     $scope.printErr = function(msg){	// popup for error message
-        var html = '<p id="alert">'+ msg +'</p>';
+        var html = '<p id="login-alert">'+ msg +'</p>';
         if ($( ".chat-box" ).has( "p" ).length < 1) {
         	console.log("check");
             $(html).hide().prependTo(".chat-box").fadeIn(1500);
-            $('#alert').delay(5000).fadeOut('slow', function(){
-                $('#alert').remove();
+            $('#login-alert').delay(2000).fadeOut('slow', function(){
+                $('#login-alert').remove();
             });
         }
     };
@@ -154,8 +155,13 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 
 	// Functions for controlling behaviour.
 	$scope.redirect = function(create) {
+		// reset the error flags
+		$scope.isErrorReq = false;
+		$scope.isErrorNick = false;
+		$scope.newRoomOption = false;
+
 		if($scope.form.username && $scope.form.roomId) {
-			if ($scope.form.username.length <= 20) {
+			if ($scope.form.username.length <= 20 && $scope.form.roomId.length <= 50) {
 				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					if(data.success == true){	// if nickname doesn't exists
 						$rootScope.username = $scope.form.username;
@@ -171,30 +177,35 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 						if (!$scope.isJoin || !$scope.roomId) $location.path('/v1/ChatRoom/'+$scope.form.roomId);
 						else $location.path('/v1/ChatRoom/'+$scope.roomId);
 
-					} else {		// if nickname exists
-						$scope.errMsg = data.message;
-						$scope.isErrorNick = true;
-						$scope.isErrorReq = true;
-						$scope.printErr($scope.errMsg);
+					} else {
+						// print custom errors if duplication occurs
+						if (data.issue === "noRoomExists") {
+							$scope.newRoomOption = true;
+						} else {
+							$scope.errMsg = data.message;
+							$scope.printErr($scope.errMsg);
+							
+							if (data.issue === "roomExists") {
+								$scope.isErrorReq = false;
+							} else if (data.issue === "userExists") {
+								$scope.isErrorNick = true;
+							}
+						}
 					}
 				});
-			} else {		// nickname greater than limit
-				$scope.errMsg = "Username exceeds 20 characters.";
-				$scope.isErrorNick = true;
+			} else {		// should not normally be able to reach here due to html maxlength constraint
 				$scope.isErrorReq = true;
-				$scope.printErr($scope.errMsg);
+
+				if ($scope.form.username.length > 20) {
+					$scope.errMsg = "Username exceeds 20 characters.";
+					$scope.isErrorNick = true;
+					$scope.printErr($scope.errMsg);
+				} else if ($scope.form.roomId.length > 50) {
+					$scope.errMsg = "Room name exceeds 50 characters.";
+					$scope.printErr($scope.errMsg);
+				}				
 			}
-		} else {		// blank username or room name
-			if (!$scope.form.username && !$scope.form.roomId) {
-				$scope.errMsg = "Please enter both a username & room name.";
-			} else if (!$scope.form.username) {
-				$scope.errMsg = "Please enter a username.";
-			} else {
-				$scope.errMsg = "Please enter a room name.";
-			}
-			$scope.isErrorReq = true;
-			$scope.printErr($scope.errMsg);
-		}
+		}	
 	};
 
 	$scope.changeAvatar = function(avatar){		// selecting different avatar

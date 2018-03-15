@@ -9,22 +9,12 @@
   </div>
   <div ng-if="!isLoading">
     <div ng-if="!(roomId && isJoin)" class="selector-wrapper2">
-
       <div ng-class="{'create-button2': true, 'orange-button2': true, 'button-active2': !isJoin}" ng-click="toggle(false);">
-        CREATE ROOM
+        <div>CREATE ROOM</div>
       </div>
       <div ng-class="{'join-button2': true, 'orange-button2': true, 'button-active2': isJoin}" ng-click="toggle(true);">
-        JOIN ROOM
+        <div>JOIN ROOM </div>
       </div>
-
-    </div>
-    <div class="chat-box"></div>
-    <div class="card login-box-body notif-popup" ng-if="errMsg.indexOf('exist') !== -1 && isJoin">
-      <div>Room does not exist. Create it?</div>
-      <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
-    </div>
-    <div ng-if="error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
-      <div class="error" style="text-align: center;">{{error.message}}</div>
     </div>
 
     <div ng-if="!error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
@@ -38,8 +28,9 @@
             <input maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
 
             <input ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
-            <input ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
-            <input ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <input maxlength="50" ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
+            <input maxlength="50" ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <div class="chat-box"></div>
             <hr>
             <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
 
@@ -51,7 +42,7 @@
               <p class="login-box-msg">Choose your theme</p>
             </div>
         </div>
-        <div class="form-group has-feedback" style="margin-bottom: 0">
+        <div id="avatar-list" class="form-group has-feedback" style="margin-bottom: 0">
           <div class="avatar-thumb">
             <img src="app/css/dist/img/Avatar1.jpg" ng-class="{'avatar-selected': userAvatar==='1', 'avatar':true}" id="Avatar1" ng-click="changeAvatar('1')"/>
           </div>
@@ -76,12 +67,15 @@
           <div class="avatar-thumb">
             <img src="app/css/dist/img/Avatar8.jpg" ng-class="{'avatar-selected': userAvatar==='8', 'avatar':true}" id="Avatar8" ng-click="changeAvatar('8')"/>
           </div>
-          <br><br>
         </div><!-- /Avatar Div -->
 
           <div class="row">
             <div class="col-xs-12">
-              <button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
+              <div class="notif-popup" ng-if="newRoomOption && isJoin">
+                    <div>Room does not exist. Create it?</div>                    
+              </div>
+              <button ng-if="!isJoin || (newRoomOption && isJoin)" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
+              <button ng-if="isJoin" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
               <button ng-if="nsp" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Login as instructor</button>
               <button ng-if="nsp" ng-class="{'orange': ta}" class="btn btn-primary btn-block btn-flat" ng-click="onTaClick()">Login as TA</button>
             </div><!-- /.col -->
@@ -89,6 +83,9 @@
 
       </form><!-- / form -->
     </div><!-- /.login-box-body -->
+    <div ng-if="error" class="login-box-body card" ng-class="{'no-toggle': roomId && isJoin}">
+      <div class="error" style="text-align: center;">{{error.message}}</div>
+    </div>
   </div>
 
 

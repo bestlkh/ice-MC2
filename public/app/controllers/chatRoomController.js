@@ -567,8 +567,18 @@ angular.module('Controllers')
 				if(msg.getText().isImage()){
 					let image = new Image();
 					image.src = msg.getText().getImage();
-					image.width = 200;
-					image.height = 200;
+					if(image.width > image.height){
+						image.width = 240;
+						image.height = 200;
+					}
+					else if(image.width > image.height){
+						image.width = 200;
+						image.height = 240;
+
+					}else{
+						image.width = 200;
+						image.height = 240;
+					}
 					$("#announce-area").css('height', '260px');
 					$("#announce-area").append(image);
 				}

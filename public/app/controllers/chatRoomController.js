@@ -582,6 +582,10 @@ angular.module('Controllers')
 					$("#announce-area").css('height', '265px');
 					$("#announce-area").append(image);
 				}
+				else if(msg.getText().getRaw().includes("$$")){
+					$("#announce-area").css('height', '120px');
+					$("#announce-area").append('<p>' + msg.getText().getRaw() + '</p>');
+				}	
 				else{
 					$("#announce-area").css('height', '90px');
 					$("#announce-area").append('<p>' + msg.getText().getRaw() + '</p>');

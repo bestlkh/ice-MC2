@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER PHI' (U+03C6)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M81.8438 367.1719 L81.8438 274.3594 Q81.8438 252.8438 88.3125 243.0703 Q94.7812 233.2969 114.0469 233.2969 Q143.8594 233.2969 160.3125 254.25 Q176.7656 275.2031 176.7656 305.0156 Q176.7656 335.3906 157.4297 359.5078 Q138.0938 383.625 107.1562 389.3906 L107.1562 443.25 L81.8438 443.25 L81.8438 389.3906 Q49.2188 386.7188 29.6719 363.0938 Q10.125 339.4688 10.125 307.2656 Q10.125 275.2031 27.7031 254.25 Q45.2812 233.2969 70.3125 233.2969 L65.3906 255.375 Q50.7656 259.5938 43.5234 273.3047 Q36.2812 287.0156 36.2812 305.8594 Q36.2812 329.625 48.8672 346.6406 Q61.4531 363.6562 81.8438 367.1719 ZM107.1562 366.3281 Q126.5625 362.5312 138.3047 345.5859 Q150.0469 328.6406 150.0469 302.3438 Q150.0469 280.125 141.3281 267.0469 Q132.6094 253.9688 121.2188 253.9688 Q113.7656 253.9688 110.4609 259.1719 Q107.1562 264.375 107.1562 281.9531 L107.1562 366.3281 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

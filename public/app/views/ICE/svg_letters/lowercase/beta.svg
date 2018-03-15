@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER BETA' (U+03B2)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M100.8281 272.6719 Q126.8438 275.4844 139.4297 291.375 Q152.0156 307.2656 152.0156 327.375 Q152.0156 353.8125 135.7031 371.6016 Q119.3906 389.3906 90.9844 389.3906 Q75.2344 389.3906 65.25 384.1875 Q55.2656 378.9844 52.875 375.9609 Q50.4844 372.9375 44.2969 366.8906 L44.2969 443.25 L18.9844 443.25 L18.9844 238.6406 Q18.9844 208.4062 37.6875 192.3047 Q56.3906 176.2031 82.9688 176.2031 Q107.7188 176.2031 123.6797 191.3906 Q139.6406 206.5781 139.6406 228.0938 Q139.6406 244.2656 129.5859 256.6406 Q119.5312 269.0156 100.8281 272.6719 ZM66.5156 264.375 Q116.0156 264.375 116.0156 229.5 Q116.0156 215.8594 105.9609 206.4375 Q95.9062 197.0156 80.8594 197.0156 Q44.2969 197.0156 44.2969 239.3438 L44.2969 317.6719 Q44.2969 342.2812 57.0938 356.4141 Q69.8906 370.5469 87.8906 370.5469 Q104.4844 370.5469 115.3125 359.0156 Q126.1406 347.4844 126.1406 328.7812 Q126.1406 308.6719 112.4297 295.7344 Q98.7188 282.7969 72.8438 282.7969 L66.5156 282.7969 L66.5156 264.375 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

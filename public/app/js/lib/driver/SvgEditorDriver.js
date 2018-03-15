@@ -6,6 +6,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var SvgEditorElementFactory = require('./factories/SvgEditorElementFactory');
 var SvgEditorElementTypes = require('./enums/SvgEditorElementTypes');
+//const KeyConfig = require('../keys/KeyConfig');
 
 var SvgEditorDriver = function () {
 
@@ -75,6 +76,7 @@ var SvgEditorDriver = function () {
                         }
                     });
                     this._canvas.setHref(element.dom, config.base64);
+                    // We add a xlink property so SVG can be parsed properly
                     element.dom.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
                     break;
             }
@@ -84,6 +86,9 @@ var SvgEditorDriver = function () {
 
             return element;
         }
+    }, {
+        key: 'createSymbol',
+        value: function createSymbol(symbol, x, y, scale) {}
 
         /**
          * Find a element by its ID.

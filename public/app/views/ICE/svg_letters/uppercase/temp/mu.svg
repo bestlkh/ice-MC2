@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK CAPITAL LETTER MU' (U+039C)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M217.9688 385.875 L192.0938 385.875 L192.0938 213.3281 L191.5312 213.3281 L132.1875 385.875 L107.7188 385.875 L48.6562 210.5156 L47.8125 210.5156 L47.8125 385.875 L21.9375 385.875 L21.9375 179.7188 L62.7188 179.7188 L111.5156 325.6875 Q119.6719 350.0156 120.9375 356.2031 L121.5 356.2031 Q125.2969 344.25 132.4688 323.1562 L181.6875 179.7188 L217.9688 179.7188 L217.9688 385.875 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

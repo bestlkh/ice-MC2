@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER RHO' (U+03C1)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M18.9844 443.25 L18.9844 313.3125 Q18.9844 233.2969 85.2188 233.2969 Q115.875 233.2969 135.1406 254.6719 Q154.4062 276.0469 154.4062 311.625 Q154.4062 347.625 135.7031 368.5078 Q117 389.3906 88.7344 389.3906 Q61.0312 389.3906 44.2969 371.8125 L44.2969 443.25 L18.9844 443.25 ZM85.2188 368.5781 Q104.3438 368.5781 116.3672 354.1641 Q128.3906 339.75 128.3906 311.625 Q128.3906 282.9375 115.4531 268.4531 Q102.5156 253.9688 85.2188 253.9688 Q65.25 253.9688 54.9141 269.2266 Q44.5781 284.4844 44.5781 312.75 Q44.5781 339.75 54.9844 354.1641 Q65.3906 368.5781 85.2188 368.5781 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

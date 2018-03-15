@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK CAPITAL LETTER OMEGA' (U+03A9)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M203.3438 385.875 L122.9062 385.875 L122.9062 362.8125 Q173.1094 338.625 173.1094 277.875 Q173.1094 243 155.6719 221.2734 Q138.2344 199.5469 109.125 199.5469 Q81 199.5469 63.2812 221.3438 Q45.5625 243.1406 45.5625 277.875 Q45.5625 337.6406 95.3438 362.8125 L95.3438 385.875 L14.9062 385.875 L14.9062 361.4062 L60.1875 361.4062 Q17.2969 326.9531 17.2969 273.2344 Q17.2969 230.7656 42.1875 203.4844 Q67.0781 176.2031 109.125 176.2031 Q150.6094 176.2031 175.8516 203.7656 Q201.0938 231.3281 201.0938 273.2344 Q201.0938 325.6875 158.0625 361.4062 L203.3438 361.4062 L203.3438 385.875 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

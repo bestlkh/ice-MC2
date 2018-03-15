@@ -1,5 +1,6 @@
 const SvgEditorElementFactory = require('./factories/SvgEditorElementFactory');
 const SvgEditorElementTypes   = require('./enums/SvgEditorElementTypes');
+//const KeyConfig = require('../keys/KeyConfig');
 
 class SvgEditorDriver {
 
@@ -70,6 +71,11 @@ class SvgEditorDriver {
         this._elements[element.id] = element;
 
         return element;
+    }
+
+
+    createSymbol(symbol, x, y, scale) {
+        
     }
 
 

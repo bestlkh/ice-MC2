@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER ZETA' (U+03B6)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M124.7344 197.0156 Q81.1406 224.8594 58.2891 261.7031 Q35.4375 298.5469 35.4375 327.6562 Q35.4375 347.7656 45.5625 355.0781 Q55.6875 362.3906 73.9688 363.0938 Q97.875 364.0781 109.8281 374.2031 Q121.7812 384.3281 121.7812 400.5 Q121.7812 418.3594 107.5781 432.3516 Q93.375 446.3438 66.7969 446.3438 L73.6875 423 Q84.7969 422.1562 91.0547 416.9531 Q97.3125 411.75 97.3125 403.4531 Q97.3125 394.1719 90.5625 390.4453 Q83.8125 386.7188 71.7188 386.1562 Q40.9219 384.75 31.2891 377.2969 Q21.6562 369.8438 15.8906 357.9609 Q10.125 346.0781 10.125 327.375 Q10.125 294.75 33.1172 259.4531 Q56.1094 224.1562 91.2656 200.3906 L32.7656 200.3906 L32.7656 179.7188 L124.7344 179.7188 L124.7344 197.0156 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

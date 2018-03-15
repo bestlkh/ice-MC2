@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK CAPITAL LETTER PHI' (U+03A6)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M130.2188 198.9844 Q167.2031 198.9844 193.2188 222.1172 Q219.2344 245.25 219.2344 281.1094 Q219.2344 317.6719 193.5703 340.3828 Q167.9062 363.0938 130.2188 363.0938 L130.2188 393.3281 L102.7969 393.3281 L102.7969 363.0938 Q65.25 363.0938 39.375 340.5938 Q13.5 318.0938 13.5 281.9531 Q13.5 244.6875 39.8672 221.8359 Q66.2344 198.9844 102.7969 198.9844 L102.7969 173.6719 L130.2188 173.6719 L130.2188 198.9844 ZM130.2188 340.0312 Q159.3281 340.0312 175.4297 324.3516 Q191.5312 308.6719 191.5312 281.1094 Q191.5312 254.8125 175.1484 238.7109 Q158.7656 222.6094 130.2188 222.6094 L130.2188 340.0312 ZM102.7969 340.0312 L102.7969 222.6094 Q74.5312 222.6094 58.1484 238.9219 Q41.7656 255.2344 41.7656 281.1094 Q41.7656 306.9844 58.2188 323.5078 Q74.6719 340.0312 102.7969 340.0312 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

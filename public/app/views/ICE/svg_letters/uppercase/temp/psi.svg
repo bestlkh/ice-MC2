@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK CAPITAL LETTER PSI' (U+03A8)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M218.5312 240.1875 Q218.5312 278.0156 196.1719 300.0938 Q173.8125 322.1719 129.6562 322.1719 L129.6562 385.875 L102.2344 385.875 L102.2344 322.1719 Q59.3438 322.1719 36.2812 300.5859 Q13.2188 279 13.2188 240.1875 L13.2188 179.7188 L40.6406 179.7188 L40.6406 231.75 Q40.6406 268.1719 56.6016 282.5156 Q72.5625 296.8594 102.2344 298.9688 L102.2344 179.7188 L129.6562 179.7188 L129.6562 298.9688 Q159.3281 296.8594 175.2891 282.375 Q191.25 267.8906 191.25 231.75 L191.25 179.7188 L218.5312 179.7188 L218.5312 240.1875 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

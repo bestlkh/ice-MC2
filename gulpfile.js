@@ -10,9 +10,9 @@ const buffer = require('gulp-buffer');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
-const bro = require('gulp-bro');
-// const eslint = require('gulp-eslint');
 const browserSync = require('browser-sync');
+const del = require('del');
+// const eslint = require('gulp-eslint');
 
 const server = browserSync.create();
 
@@ -31,92 +31,81 @@ const JS_FILES = [
 
 const paths = {
     styles: {
-        src: 'public/app/styles/**/*.less',
-        mainSrc: 'public/app/**/*main.less',
+        watch: {
+            src: 'public/app/styles/**/*.less',
+        },
+        src: 'public/app/**/*main.less',
         dest: 'public/app/dist/css',
     },
-    bundleScripts: {
+    scripts: {
+        watch: {
+            src: 'public/**/!(*.bundle).js',
+        },
         src: JS_FILES,
         dest: 'public/app/dist/js',
     },
-    watchScripts: {
-        src: 'public/**/!(*.bundle).js',
+    html: {
+        src: 'public/**/*.html',
+    },
+    clean: {
+        all: 'public/app/dist',
+        styles: 'public/app/dist/css',
+        scripts: 'public/app/dist/js',
     },
     // lint: {
     //     src: 'test/**'
     // },
-    html: {
-        src: 'public/**/*.html',
-    },
 };
 
 const babelVersion = {
     presets: ['es2015'],
 };
 
-
-/**
- * Initialize the browsersync server to proxy the local server
- * @param {*} done
- */
-function serve(done) {
+const serve = (done) => {
     server.init({
         proxy: localServer,
     });
     done();
-}
+};
 
-
-/**
- * Tell the browsersync server to reload the page
- * @param {*} done
- */
-function reload(done) {
+const reload = (done) => {
     server.reload();
     done();
-}
-
+};
 
 const styles = () => {
-    return gulp.src(paths.styles.mainSrc)
+    return gulp.src(paths.styles.src)
         .pipe(less())
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false,
+        }))
+        .pipe(rename(function(path) {
+            path.basename += '.min';
         }))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(server.stream());
 };
 
 const stylesDist = () => {
-    return gulp.src(paths.styles.mainSrc)
+    return gulp.src(paths.styles.src)
         .pipe(less())
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false,
         }))
         .pipe(cleanCss())
+        .pipe(rename(function(path) {
+            path.basename += '.min';
+        }))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(server.stream());
 };
 
 const scripts = () => {
-    return gulp.src(JS_FILES)
+    return gulp.src(paths.scripts.src)
+        // load and init sourcemaps
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(babel(babelVersion))
-        .pipe(bro())
-        .pipe(rename(function(path) {
-            // exclude .bundle extension in .map files
-            if (path.extname != '.map') {
-                path.basename += '.bundle';
-            }
-        }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.bundleScripts.dest));
-};
-
-const scriptsDist = () => {
-    return gulp.src(JS_FILES)
         // transform file objects using gulp-tap plugin
         .pipe(tap(function(file) {
             log.info('bundling ' + file.path);
@@ -127,9 +116,6 @@ const scriptsDist = () => {
         // (because gulp-sourcemaps does not support streaming contents)
         .pipe(buffer())
         .pipe(babel(babelVersion))
-        // load and init sourcemaps
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
         // write sourcemaps
         .pipe(sourcemaps.write('./'))
         .pipe(rename(function(path) {
@@ -138,25 +124,54 @@ const scriptsDist = () => {
                 path.basename += '.bundle';
             }
         }))
-        .pipe(gulp.dest(paths.bundleScripts.dest));
+        .pipe(gulp.dest(paths.scripts.dest));
 };
 
+const scriptsDist = () => {
+    return gulp.src(paths.scripts.src)
+        // transform file objects using gulp-tap plugin
+        .pipe(tap(function(file) {
+            log.info('bundling ' + file.path);
+            // replace file contents with browserify's bundle stream
+            file.contents = browserify(file.path, {debug: true}).bundle();
+        }))
+        // transform streaming contents into buffer contents
+        // (because gulp-sourcemaps does not support streaming contents)
+        .pipe(buffer())
+        .pipe(babel(babelVersion))
+        .pipe(uglify())
+        .pipe(rename(function(path) {
+            // exclude .bundle extension in .map files
+            if (path.extname != '.map') {
+                path.basename += '.bundle';
+            }
+        }))
+        .pipe(gulp.dest(paths.scripts.dest));
+};
 
-gulp.task('styles', gulp.series(styles));
-gulp.task('styles-dist', gulp.series(stylesDist));
-gulp.task('scripts', gulp.series(scripts));
-gulp.task('scripts-dist', gulp.series(scriptsDist));
+const clean = () => del([paths.clean.all]);
+const cleanStyles = () => del([paths.clean.styles]);
+const cleanScripts = () => del([paths.clean.scripts]);
 
-gulp.task('compile', gulp.series('styles-dist', 'scripts-dist'));
+gulp.task('clean', gulp.series(clean));
+
+gulp.task('styles', gulp.series(cleanStyles, styles));
+gulp.task('styles-dist', gulp.series(cleanStyles, stylesDist));
+gulp.task('scripts', gulp.series(cleanScripts, scripts));
+gulp.task('scripts-dist', gulp.series(cleanScripts, scriptsDist));
+
+gulp.task('compile', gulp.series(styles, scripts));
+gulp.task('compile-dist', gulp.series(stylesDist, scriptsDist));
 
 // start BrowserSync server
 const start = gulp.series(serve);
 
+// the types of file watchers
 const scriptWatcher = () => {
-    return gulp.watch(paths.watchScripts.src, gulp.series(scripts, reload));
+    return gulp.watch(paths.scripts.watch.src, gulp.series(scripts, reload));
 };
 const styleWatcher = () => {
-    return gulp.watch(paths.styles.src, gulp.series(styles));
+    return gulp.watch(paths.styles.watch.src, gulp.series(styles));
 };
 const htmlWatcher = () => {
     return gulp.watch(paths.html.src, gulp.series(reload));
@@ -167,13 +182,13 @@ const styleTask = gulp.series(styleWatcher);
 const htmlTask = gulp.series(htmlWatcher);
 
 // group watcher tasks to run in parallel
-const dev = gulp.parallel(scriptTask, styleTask, htmlTask);
+const watchers = gulp.parallel(scriptTask, styleTask, htmlTask);
 
 // start a development environment
-gulp.task('dev', gulp.series('compile', start, dev));
+gulp.task('dev', gulp.series(clean, 'compile', start, watchers));
 
 // compiles necessary files for deployment
-gulp.task('prod', gulp.series('compile'));
+gulp.task('deploy', gulp.series(clean, 'compile-dist'));
 
 // gulp.task('lint', function () {
 //     return gulp.src(paths.lint.src)

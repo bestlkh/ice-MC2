@@ -254,7 +254,7 @@ LectureNsp.prototype.listen = function () {
                                 setSessionVar("ta", ta);
 
                             });
-                        } else if (data.isJoin && classroom.invite) {
+                        } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});
                         }
 

@@ -354,12 +354,16 @@ ul {
 
   overflow-y: auto;
   margin: auto;
+
+
 }
 
 .table-list-header {
   background-color: #f0f1f2;
   display: flex;
   border-bottom: 1px @light-grey solid;
+
+  min-width: calc(110px * 7) !important;
 }
 
 .table-list-header>div {
@@ -367,7 +371,8 @@ ul {
   padding: 7px;
   color: #474747;
   font-weight: 600;
-
+  min-width: 110px !important;
+  overflow-x: auto;
 }
 
 .student-item {
@@ -376,13 +381,16 @@ ul {
   cursor: pointer;
   color: @light-grey;
   transition: all 0.1s linear;
+
+  min-width: calc(110px * 7) !important;
 }
 
 .student-item>div {
   flex: 1 1 0;
   padding: 7px;
   color: inherit;
-
+  min-width: 110px;
+  overflow-x: auto;
 }
 
 .student-item:hover {

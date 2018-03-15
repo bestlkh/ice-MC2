@@ -60,30 +60,38 @@
                         <input class="student-search" style="margin-bottom: 10px;" ng-model="search.value" placeholder="search" ng-change="onSearchChange()"/>
                         <div class="table-list" style="max-height: calc(100vh - 340px)">
                             <div class="table-list-header" ng-if="dataType === 'messages'">
-                                <div> Utorid </div>
+                                <div> Instructor </div>
+                                <div style="flex-grow: .5"> TA </div>
+                                <div style="flex-grow: .5"> Utorid </div>
                                 <div> Username </div>
 
                                 <div style="flex-grow: 3"> Message </div>
-                                <div> Message type </div>
+                                <div style="flex-grow: .5"> Message type </div>
                                 <div> Timestamp </div>
                             </div>
                             <div class="list-wrapper" ng-repeat="message in session.messages" ng-if="dataType === 'messages'">
                                 <div class="student-item" ng-if="checkInclude(message)">
-                                    <div>{{message.utorid ? message.utorid : "N/A"}}</div>
+                                    <div>{{message.isInstructor ? message.isInstructor : "false"}}</div>
+                                    <div style="flex-grow: .5">{{message.isTA ? message.isTA : "false"}}</div>
+                                    <div style="flex-grow: .5">{{message.utorid ? message.utorid : "N/A"}}</div>
                                     <div>{{message.username}}</div>
                                     <div style="flex-grow: 3;overflow-x: auto;">{{(message.msg.length < 50) ? message.msg : message.msg.substring(0, 50) + "..."}}</div>
-                                    <div>{{message.type}}</div>
+                                    <div style="flex-grow: .5">{{message.type}}</div>
                                     <div>{{formatDate(message.timestamp, true)}}</div>
                                 </div>
                             </div>
 
                             <div class="table-list-header" ng-if="dataType === 'students'">
+                                <div> Instructor </div>
+                                <div> TA </div>
                                 <div> Utorid </div>
                                 <div> Username </div>
                                 <div> Total messages </div>
                             </div>
                             <div class="list-wrapper" ng-repeat="student in session" ng-if="dataType === 'students'">
                                 <div class="student-item" ng-if="checkInclude(student)">
+                                    <div>{{message.isInstructor ? message.isInstructor : "false"}}</div>
+                                    <div>{{message.isTA ? message.isTA : "false"}}</div>
                                     <div>{{student.utorid ? student.utorid : "N/A"}}</div>
                                     <div>{{student.username}}</div>
                                     <div>{{student["total messages"]}}</div>

@@ -13,7 +13,8 @@ function Student(data) {
     this.username = data.username;
     this.utorid = data.utorid;
     this.messages = [];
-
+    this.isInstructor = data.isInstructor;
+    this.isTA = data.isTA;
 }
 
 Student.prototype.getTotalMessages = function () {
@@ -21,7 +22,7 @@ Student.prototype.getTotalMessages = function () {
 };
 
 Student.prototype.toCSV = function () {
-    return {username: this.username, utorid: this.utorid, "total messages": this.getTotalMessages()};
+    return {username: this.username, utorid: this.utorid, "total messages": this.getTotalMessages(), "isInstructor": this.isInstructor, "isTA": this.isTA};
 };
 
 function findOne(list, params) {
@@ -49,6 +50,7 @@ var parseStudents = function (db, sessionId, callback) {
         sessions.push(sess);
 
         session.messages.forEach(function (message) {
+            if (!message.utorid) return;
             if (!findOne(sess.students, {utorid: message.utorid})) sess.students.push(new Student(message));
 
             let student = findOne(sess.students, {utorid: message.utorid});

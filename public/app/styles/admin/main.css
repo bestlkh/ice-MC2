@@ -300,12 +300,15 @@ ul {
   background-color: #f0f1f2;
   display: flex;
   border-bottom: 1px #a0a0a0 solid;
+  min-width: calc(770px) !important;
 }
 .table-list-header > div {
   flex: 1 1 0;
   padding: 7px;
   color: #474747;
   font-weight: 600;
+  min-width: 110px !important;
+  overflow-x: auto;
 }
 .student-item {
   display: flex;
@@ -313,11 +316,14 @@ ul {
   cursor: pointer;
   color: #a0a0a0;
   transition: all 0.1s linear;
+  min-width: calc(770px) !important;
 }
 .student-item > div {
   flex: 1 1 0;
   padding: 7px;
   color: inherit;
+  min-width: 110px;
+  overflow-x: auto;
 }
 .student-item:hover {
   background-color: #e6e6e6;

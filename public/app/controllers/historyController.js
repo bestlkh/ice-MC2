@@ -55,6 +55,7 @@ angular.module('Controllers')
         $scope.checkInclude = function (student) {
             if (!$scope.search.value) return true;
             for (var header in student) {
+
                 if (!student[header]) return false;
                 if (student[header].toString().indexOf($scope.search.value) !== -1)
                     return true;

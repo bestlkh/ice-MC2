@@ -1,3 +1,12 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<path transform="scale(0.01, -0.01) translate(0, -750)" d="M60 825h256c142 0 254 -53 254 -210c0 -76 -33 -141 -103 -177c103 -18 176 -75 176 -208c0 -136 -99 -230 -270 -230h-313v825zM248 502h15c81 0 125 25 125 94c0 59 -43 84 -125 84h-15v-178zM248 145h59c89 0 138 27 138 92c0 76 -49 103 -138 103h-59v-195z" />
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN CAPITAL LETTER B' (U+0042)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M138.5156 276.1875 Q157.9219 282.0938 167.5547 295.3828 Q177.1875 308.6719 177.1875 325.9688 Q177.1875 343.2656 168.4688 357.75 Q159.75 372.2344 143.7188 379.0547 Q127.6875 385.875 100.2656 385.875 L21.375 385.875 L21.375 179.7188 L98.7188 179.7188 Q136.2656 179.7188 151.6641 196.0312 Q167.0625 212.3438 167.0625 232.3125 Q167.0625 245.8125 159.9609 257.2734 Q152.8594 268.7344 138.5156 276.1875 ZM48.6562 266.0625 L93.375 266.0625 Q107.1562 266.0625 116.5078 264.5156 Q125.8594 262.9688 133.0312 256.3594 Q140.2031 249.75 140.2031 235.8281 Q140.2031 221.2031 132.9609 214.2422 Q125.7188 207.2812 115.6641 205.7344 Q105.6094 204.1875 89.8594 204.1875 L48.6562 204.1875 L48.6562 266.0625 ZM48.6562 361.4062 L99.9844 361.4062 Q127.5469 361.4062 138.2344 351.9844 Q148.9219 342.5625 148.9219 325.9688 Q148.9219 309.2344 137.5312 299.8828 Q126.1406 290.5312 96.4688 290.5312 L48.6562 290.5312 L48.6562 361.4062 Z" stroke="none" />
+    </g>
+  </g>
 </svg>

@@ -66,12 +66,10 @@ body {
   opacity: 0.7;
   text-align: center;
   cursor: pointer;
-  -webkit-transition: all ease 0.2s;
   transition: all ease 0.2s;
 }
 #preview-send:hover {
   opacity: 1;
-  -webkit-transition: all ease 0.2s;
   transition: all ease 0.2s;
   padding-bottom: 50px;
   font-size: 18px;

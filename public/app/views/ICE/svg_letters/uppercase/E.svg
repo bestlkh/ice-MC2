@@ -1,3 +1,12 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<path transform="scale(0.01, -0.01) translate(0, -750)" d="M532 825v-165h-284v-164h272v-165h-272v-166h284v-165h-472v825h472z" />
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN CAPITAL LETTER E' (U+0045)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M176.7656 385.875 L22.7812 385.875 L22.7812 179.7188 L171.9844 179.7188 L171.9844 204.1875 L50.0625 204.1875 L50.0625 267.1875 L164.1094 267.1875 L164.1094 291.6562 L50.0625 291.6562 L50.0625 361.4062 L176.7656 361.4062 L176.7656 385.875 Z" stroke="none" />
+    </g>
+  </g>
 </svg>

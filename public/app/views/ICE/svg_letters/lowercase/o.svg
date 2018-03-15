@@ -1,3 +1,12 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<path transform="scale(0.01, -0.01) translate(0, -750)" d="M23 256c0 160 136 272 309 272c170 0 306 -112 306 -272c0 -158 -129 -271 -306 -271c-185 0 -309 113 -309 271zM211 256c0 -70 48 -120 120 -120c69 0 119 50 119 120c0 71 -53 121 -119 121c-67 0 -120 -50 -120 -121z" />
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN SMALL LETTER O' (U+006F)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M80.0156 233.2969 Q110.25 233.2969 130.1484 252.9844 Q150.0469 272.6719 150.0469 308.9531 Q150.0469 352.9688 128.5312 371.1797 Q107.0156 389.3906 80.0156 389.3906 Q51.75 389.3906 30.9375 370.6875 Q10.125 351.9844 10.125 311.3438 Q10.125 271.9688 30.2344 252.6328 Q50.3438 233.2969 80.0156 233.2969 ZM80.0156 368.5781 Q101.6719 368.5781 112.9219 352.5469 Q124.1719 336.5156 124.1719 310.3594 Q124.1719 282.375 111.4453 268.1719 Q98.7188 253.9688 80.0156 253.9688 Q60.75 253.9688 48.375 268.3828 Q36 282.7969 36 311.3438 Q36 339.75 48.5859 354.1641 Q61.1719 368.5781 80.0156 368.5781 Z" stroke="none" />
+    </g>
+  </g>
 </svg>

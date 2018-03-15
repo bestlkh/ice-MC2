@@ -1,3 +1,12 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<path transform="scale(0.01, -0.01) translate(0, -750)" d="M71.5 256c0 150 105 272 255 272c69 0 126 -23 168 -64v49h177v-513h-175v58h-2c-38 -42 -98 -73 -168 -73c-150 0 -255 121 -255 271zM259.5 256c0 -70 48 -120 120 -120c69 0 119 50 119 120c0 71 -53 121 -119 121c-67 0 -120 -50 -120 -121z" />
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN SMALL LETTER A' (U+0061)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M148.6406 385.875 L122.0625 385.875 Q118.4062 378.8438 116.8594 367.4531 Q91.4062 389.3906 61.875 389.3906 Q38.25 389.3906 24.6094 377.5781 Q10.9688 365.7656 10.9688 346.3594 Q10.9688 327.7969 24.1172 315.7734 Q37.2656 303.75 69.75 299.8125 L93.375 296.2969 Q106.5938 294.1875 115.1719 291.0938 Q115.1719 279.7031 114.4688 274.9922 Q113.7656 270.2812 110.3203 265.2188 Q106.875 260.1562 99.2812 257.0625 Q91.6875 253.9688 78.8906 253.9688 Q62.5781 253.9688 53.0859 260.0156 Q43.5938 266.0625 40.0781 282.5156 L15.3281 279.2812 Q19.4062 256.3594 36.2812 244.8281 Q53.1562 233.2969 82.6875 233.2969 Q109.5469 233.2969 122.1328 241.2422 Q134.7188 249.1875 137.6016 260.4375 Q140.4844 271.6875 140.4844 289.4062 L140.4844 323.4375 Q140.4844 354.5156 141.6797 365.1328 Q142.875 375.75 148.6406 385.875 ZM115.1719 320.2031 L115.1719 311.0625 Q95.3438 317.6719 66.6562 321.5391 Q37.9688 325.4062 37.9688 345.7969 Q37.9688 356.0625 45.7031 362.7422 Q53.4375 369.4219 67.9219 369.4219 Q86.625 369.4219 100.8984 358.2422 Q115.1719 347.0625 115.1719 320.2031 Z" stroke="none" />
+    </g>
+  </g>
 </svg>

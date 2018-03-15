@@ -1,3 +1,12 @@
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<path transform="scale(0.01, -0.01) translate(0, -750)" d="M60 825h301c161 0 282 -83 282 -254c0 -170 -121 -265 -282 -265h-113v-306h-188v825zM248 456h53c74 0 144 25 144 109c0 85 -70 110 -144 110h-53v-219z" />
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN CAPITAL LETTER P' (U+0050)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M22.2188 179.7188 L99.9844 179.7188 Q118.4062 179.7188 131.6953 181.5469 Q144.9844 183.375 156.375 191.0391 Q167.7656 198.7031 173.6016 211.8516 Q179.4375 225 179.4375 239.3438 Q179.4375 267.8906 161.0859 285.1172 Q142.7344 302.3438 102.2344 302.3438 L49.5 302.3438 L49.5 385.875 L22.2188 385.875 L22.2188 179.7188 ZM49.5 277.875 L102.5156 277.875 Q151.1719 277.875 151.1719 240.1875 Q151.1719 227.8125 144.8438 218.3203 Q138.5156 208.8281 129.3047 206.5078 Q120.0938 204.1875 101.9531 204.1875 L49.5 204.1875 L49.5 277.875 Z" stroke="none" />
+    </g>
+  </g>
 </svg>

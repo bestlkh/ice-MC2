@@ -48,6 +48,8 @@ methodDraw.addExtension("imagelib", function () {
         svgCanvas.clearSelection();
         svgCanvas.addToSelection([newImage]);
         svgCanvas.setHref(newImage, url);
+        // Have to add this line, otherwise mobile will not work
+        newImage.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
     }
 
     /**
@@ -109,7 +111,7 @@ methodDraw.addExtension("imagelib", function () {
      * @returns {void|jQuery|HTMLElement}
      */
     function makeImageLibraryButton(lib, image){
-        var button = $("<div class='imglib-browser-button'>");
+        var button = $("<div class='imglib-browser-button ignore-touch-conversion'>");
         var buttonPreviewImage = $("<img>");
         if(image.url){
             buttonPreviewImage.attr('src', image.url);
@@ -118,10 +120,11 @@ methodDraw.addExtension("imagelib", function () {
         }
         button.append(buttonPreviewImage);
 
-        button.append("<div class='imglib-button-overlay'>" + image.title  + "</div>")
+        button.append("<div class='imglib-button-overlay ignore-touch-conversion'>" + image.title  + "</div>")
 
-        button.mouseup(function(){
+        button.click(function(){
             importImage(buttonPreviewImage.attr('src'));
+            toggleImageLibraryPanel();
         });
 
         return button;
@@ -161,7 +164,7 @@ methodDraw.addExtension("imagelib", function () {
      * @returns {void|jQuery|HTMLElement}
      */
     function makeImageLibraryPanel() {
-        var panel = $("<div id='imglib-panel'></div>");
+        var panel = $("<div id='imglib-panel' class='ignore-touch-conversion'></div>");
         var panelTitle = $("<div class='imglib-panel-title'>");
         panelTitle.text(methodDraw.uiStrings.imagelib.title);
         panel.append(panelTitle);
@@ -172,7 +175,7 @@ methodDraw.addExtension("imagelib", function () {
 
         panelAddSourceButton.mousedown(promptExternalImport);
 
-        var panelBrowser = $("<div id='imglib-browser'>");
+        var panelBrowser = $("<div id='imglib-browser' class='ignore-touch-conversion'>");
         panel.append(panelBrowser);
 
         return panel;
@@ -180,6 +183,7 @@ methodDraw.addExtension("imagelib", function () {
 
     function toggleImageLibraryPanel(){
         $("#imglib-panel").toggleClass("shown");
+        $("#imglib-backdrop").toggleClass("shown");
     }
 
 
@@ -191,7 +195,7 @@ methodDraw.addExtension("imagelib", function () {
             title: "Image Library",
             icon: "extensions/ext-shapes.png",
             events: {
-                "click": function () {
+                "mousedown": function () {
                     toggleImageLibraryPanel();
                 }
             }
@@ -209,7 +213,11 @@ methodDraw.addExtension("imagelib", function () {
                     }
                 }
             });
+            $('body').append('<div id="imglib-backdrop"></div>');
             $('body').append(makeImageLibraryPanel());
+            $("#imglib-backdrop").on('mousedown', function(){
+                toggleImageLibraryPanel();
+            });
         }
     }
 });

@@ -3,8 +3,8 @@ module.exports = {
     accreditedImageLibraries: [
         {
             'name': 'Default Library',
-            'auto-load': false,
-            'link': '/public/docs/img-libs/MC^2+Default+Image+Library+by+Jun+Zheng.json'
+            'auto-load': true,
+            'link': '/docs/img-libs/MC^2+Default+Image+Library+by+Jun+Zheng.json'
         }
     ]
 }

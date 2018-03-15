@@ -9,6 +9,8 @@
  */
 
 methodDraw.addExtension("imagelib", function () {
+    var PARENT_WINDOW = parent.window;
+    var ACCREDITED_LIB_ENDPOINT = "/api/v1/image-libraries";
 
     var uiStrings = methodDraw.uiStrings;
 
@@ -26,13 +28,17 @@ methodDraw.addExtension("imagelib", function () {
     var xlinkns = "http://www.w3.org/1999/xlink";
 
     var loadedLibs = [];
+    var accreditedLibs = [];
 
+    /**
+     * Insert a new image into SVG Canvas
+     */
     function importImage(url) {
         var newImage = svgCanvas.addSvgElementFromJson({
             "element": "image",
             "attr": {
-                "x": 0,
-                "y": 0,
+                "x": 100,
+                "y": 50,
                 "width": 200,
                 "height": 200,
                 "id": svgCanvas.getNextId(),
@@ -41,7 +47,24 @@ methodDraw.addExtension("imagelib", function () {
         });
         svgCanvas.clearSelection();
         svgCanvas.addToSelection([newImage]);
-        svgCanvas.setImageURL(url);
+        svgCanvas.setHref(newImage, url);
+    }
+
+    /**
+     * Reload all accredited libs from API
+     * Will automatically reload accreditedLibs variable
+     * @returns {Promise<Array>}
+     */
+    function reloadAccreditedLibraries(){
+        return new Promise(function(resolve, reject){
+            axios.get(ACCREDITED_LIB_ENDPOINT).then(function(data){
+                accreditedLibs = data.data;
+                resolve(data.data);
+            }).catch(function(e) {
+                PARENT_WINDOW.Alert.Notification.spawn("Failed to load accredited image libraries...", "error");
+                reject(e);
+            });
+        });
     }
 
     /**
@@ -121,6 +144,9 @@ methodDraw.addExtension("imagelib", function () {
         return buttons;
     }
 
+    /**
+     * Reload image browser UI
+     */
     function reloadImageBrowser(){
         let buttons = makeImageLibraryButtons();
         let panelBrowser = $("#imglib-browser");
@@ -171,6 +197,18 @@ methodDraw.addExtension("imagelib", function () {
             }
         }],
         callback: function () {
+            reloadAccreditedLibraries().then(function(libs){
+                // This is our first load, we will load everything that contains
+                // auto-load == true
+                for(var i = 0; i < libs.length; i++){
+                    var lib = libs[i];
+                    if(lib['auto-load']){
+                        importExternalLibrary(lib['link']).catch(function(e){
+                            PARENT_WINDOW.Alert.Notification.spawn("Failed to load image library...");
+                        });
+                    }
+                }
+            });
             $('body').append(makeImageLibraryPanel());
         }
     }

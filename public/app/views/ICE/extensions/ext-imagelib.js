@@ -75,11 +75,13 @@ methodDraw.addExtension("imagelib", function () {
      */
     function promptExternalImport(e){
         var url = prompt("Please enter your external library URL\nex. https://example.com/lib/my-img-lib.json");
-        importExternalLibrary(url).then(function(info){
-            alert("Successfully imported external library: " + info.name + " by " + info.author + ".");
-        }).catch(function(){
-
-        })
+        if(url){
+            importExternalLibrary(url).then(function(info){
+                alert("Successfully imported external library: " + info.name + " by " + info.author + ".");
+            }).catch(function(){
+                alert("Failed to import external library.");
+            })
+        }
     }
 
     /**

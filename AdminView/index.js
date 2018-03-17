@@ -541,7 +541,7 @@ AdminView.prototype.setupApi = function () {
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
         if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
         this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id), deleted: null}, {_id: 0}, function (err, session) {
-            if (err) return res.status(500).json({stexatus: 500, message: "Server error, could not resolve request"});
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(session);
         })

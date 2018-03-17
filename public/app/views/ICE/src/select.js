@@ -385,9 +385,14 @@ svgedit.select.SelectorManager.prototype.initGroup = function() {
     });
 
     if (svgedit.browser.isTouch()) {
-
-      grip.setAttribute("width", 20)
-      grip.setAttribute("height", 20)
+      // only display the top right corner resize handler
+      if (grip.getAttribute("id") === "selectorGrip_resize_ne") {
+        grip.setAttribute("width", 20)
+        grip.setAttribute("height", 20)
+      } else {
+        grip.setAttribute("width", 0)
+        grip.setAttribute("height", 0)
+      }
       grip.setAttribute("fill-opacity", 0.3)
     }
 

@@ -324,6 +324,7 @@ ul {
   color: inherit;
   min-width: 110px;
   overflow-x: auto;
+  font-size: 13px !important;
 }
 .student-item:hover {
   background-color: #e6e6e6;

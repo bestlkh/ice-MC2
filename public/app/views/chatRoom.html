@@ -6,9 +6,9 @@
     <!-- Editor Content -->
     <div id="math-editor" style="overflow: hidden;">
         <!--Dynamically resize window to fit editor-->
-        <iframe name="editor" id="editor-frame" src="/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your
+        <iframe title="math editor" name="editor" id="editor-frame" src="/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your
             browser does not support iframes.</p></iframe>
-        <iframe name="preview" id="preview-frame" src="/app/views/preview.html"></iframe>
+        <iframe title="MathJax latex preview" name="preview" id="preview-frame" src="/app/views/preview.html"></iframe>
         <script type="text/javascript">//<![CDATA[
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             document.getElementById("preview-frame").style.display = "none";
@@ -32,150 +32,152 @@
         //]]>
         </script>
         <div id="editor-resize-cover">
-            <img src="/app/images/resize-horizontal.png"/>
+            <img src="/app/images/resize-horizontal.png" alt="" />
         </div>
     </div>
     <div class="arrow-left"></div>
     <div id="dragbar"></div>
     <!-- Chat Content -->
-    <div id="chatframe">
-        <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
+    <main>
+        <div id="chatframe">
+            <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
 
-        <!--Bubble Menu-->
-        <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
+            <!--Bubble Menu-->
+            <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
-                    <div id="chat-body-div" class="box-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
+                        <div id="chat-body-div" class="box-body">
 
-                        <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
-                             scroll-bottom="messages">
+                            <!-- Conversations are loaded here -->
+                            <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
+                                scroll-bottom="messages">
 
-                            <!-- Message. Default to the left -->
-                            <div ng-repeat="message in getAllMsg()"
-                                 ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
-                                 ng-class="{'direct-chat-msg' : true, 'right' : message.isOwn(), 'wordwrap' : true}">
+                                <!-- Message. Default to the left -->
+                                <div ng-repeat="message in getAllMsg()"
+                                    ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
+                                    ng-class="{'direct-chat-msg' : true, 'right' : message.isOwn(), 'wordwrap' : true}">
 
-                                {{ message.hidden ? "["+message.timeFormatted+"] " + message.msg : message.msg }}
+                                    {{ message.hidden ? "["+message.timeFormatted+"] " + message.msg : message.msg }}
 
-                                <div ng-if="message.isChat()">
+                                    <div ng-if="message.isChat()">
 
-                                    <!--Chat Information-->
-                                    <div ng-include="'/app/views/chatroom/chat-info.html'"></div>
+                                        <!--Chat Information-->
+                                        <div ng-include="'/app/views/chatroom/chat-info.html'"></div>
 
-                                    <!-- Text message -->
-                                    <div ng-class="{'chat-text' : true, 'text-right' : message.isOwn()}">
+                                        <!-- Text message -->
+                                        <div ng-class="{'chat-text' : true, 'text-right' : message.isOwn()}">
 
-                                        <!--User avatar-->
-                                        <div ng-include="'/app/views/chatroom/chat-img.html'"></div>
+                                            <!--User avatar-->
+                                            <div ng-include="'/app/views/chatroom/chat-img.html'"></div>
 
-                                        <!--Basically the bubble-->
-                                        <div ng-include="'/app/views/chatroom/chat-text-inner.html'"></div>
-                                        <!--Tool buttons for each message-->
-                                        <div ng-include="'/app/views/chatroom/chat-text-menu.html'"></div>
+                                            <!--Basically the bubble-->
+                                            <div ng-include="'/app/views/chatroom/chat-text-inner.html'"></div>
+                                            <!--Tool buttons for each message-->
+                                            <div ng-include="'/app/views/chatroom/chat-text-menu.html'"></div>
+
+                                        </div>
 
                                     </div>
 
                                 </div>
-
                             </div>
+
+                            <div id="member-list-container" ng-include="'/app/views/chatroom/member-list.html'"></div>
+
                         </div>
+                        <div class="box-footer" id="chatroom-footer">
 
-                        <div id="member-list-container" ng-include="'/app/views/chatroom/member-list.html'"></div>
+                            <!--Size of this area is modified by JavaScript, registered in ui.js-->
+                            <div id="text-message-input-extra-symbols">
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('=')">
+                                    =
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('+')">
+                                    +
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('-')">
+                                    -
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('*')">
+                                    *
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('/')">
+                                    /
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('^')">
+                                    ^
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button"
+                                        ng-click="latexEditorAddText('_')">
+                                    _
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
+                                        ng-click="latexEditorAddText('{')">
+                                    {
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
+                                        ng-click="latexEditorAddText('}')">
+                                    }
+                                </button>
+                            </div>
+                            <div id="text-message-input-area">
+                                <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
+                                        ng-click="toggleLatexEditor()">
+                                    <img src="/app/images/latex-icon.png" alt="in chat latex button" width="20px"/>
+                                </button>
+                                <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
+                                        ng-click="showEquationEditor()">
+                                    <img src="/app/images/editor-icon.png" alt="equation editor button" width="20px"/>
+                                </button>
+                                <button class="message-tool-button" id="send-image-button" title="Send Image"
+                                        ng-click="startImageUpload()">
+                                    <img src="/app/images/image-upload-icon.png" alt="image upload icon" width="20px"/>
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
+                                        ng-click="latexEditorAddText('$$')">
+                                    $$
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
+                                        ng-click="latexEditorAddText('\\')">
+                                    \
+                                </button>
+                                <textarea aria-label="chatroom input text area" id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                                        ng-model="chatMsg"
+                                        ng-change="isMsgBoxEmpty=false"
+                                        ng-enter="sendMsg()"
+                                        ng-focus="setFocus"
+                                        class="tex2jax_ignore"></textarea>
+                                <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
+                                        class="fa fa-paper-plane" aria-hidden="true"></i> Send
+                                </button>
+                            </div>
 
-                    </div>
-                    <div class="box-footer" id="chatroom-footer">
-
-                        <!--Size of this area is modified by JavaScript, registered in ui.js-->
-                        <div id="text-message-input-extra-symbols">
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('=')">
-                                =
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('+')">
-                                +
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('-')">
-                                -
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('*')">
-                                *
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('/')">
-                                /
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('^')">
-                                ^
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button"
-                                    ng-click="latexEditorAddText('_')">
-                                _
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-left-bracket-button"
-                                    ng-click="latexEditorAddText('{')">
-                                {
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
-                                    ng-click="latexEditorAddText('}')">
-                                }
-                            </button>
-                        </div>
-                        <div id="text-message-input-area">
-                            <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
-                                    ng-click="toggleLatexEditor()">
-                                <img src="/app/images/latex-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
-                                    ng-click="showEquationEditor()">
-                                <img src="/app/images/editor-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button" id="send-image-button" title="Send Image"
-                                    ng-click="startImageUpload()">
-                                <img src="/app/images/image-upload-icon.png" width="20px"/>
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
-                                    ng-click="latexEditorAddText('$$')">
-                                $$
-                            </button>
-                            <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
-                                    ng-click="latexEditorAddText('\\')">
-                                \
-                            </button>
-                            <textarea id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
-                                      ng-model="chatMsg"
-                                      ng-change="isMsgBoxEmpty=false"
-                                      ng-enter="sendMsg()"
-                                      ng-focus="setFocus"
-                                      class="tex2jax_ignore"></textarea>
-                            <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
-                                    class="fa fa-paper-plane" aria-hidden="true"></i> Send
-                            </button>
-                        </div>
-
-                        <div id="latex-editor-area" class="tex2jax_ignore">
-                        </div>
+                            <div id="latex-editor-area" class="tex2jax_ignore">
+                            </div>
 
 
-                    </div><!-- /.box-footer-->
-                </div><!-- /.box -->
+                        </div><!-- /.box-footer-->
+                    </div><!-- /.box -->
+                </div>
+
+                <div id="chatroom-input-container">
+                    <div id="chatroom-input-test"></div>
+                </div>
+
+                <div ng-include="'/app/views/chatroom/loading.html'"></div>
+
+                <script src="app/js/chatroomPlus.js"></script>
             </div>
-
-            <div id="chatroom-input-container">
-                <div id="chatroom-input-test"></div>
-            </div>
-
-            <div ng-include="'/app/views/chatroom/loading.html'"></div>
-
-            <script src="app/js/chatroomPlus.js"></script>
-        </div>
-    </div><!-- /.content -->
+        </div><!-- /.content -->
+    </main>
 </div><!-- /.container -->
 </div><!-- /.content-wrapper -->
 <script>

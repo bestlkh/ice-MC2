@@ -1,13 +1,4 @@
-* {
-  font-family: verdana;
-  color: #414141;
-  margin:0;
-  padding:0;
-}
 
-body {
-  background-color: #fff;
-}
 
 .form_container {
   width: 50%;
@@ -39,31 +30,31 @@ body {
   font-size: 14px;
 }
 
-input {
+.login-input {
   width: 364px;
   margin: auto;
   display: block;
   height: 40px;
-  padding: 0 10px;
+  padding: 0 10px !important;
   font-size: 14px;
   line-height: 18px;
-  font-weight: 300;
-  background: #fff;
-  color: #5f6a7d;
+  font-weight: 300 !important;
+  background: #fff !important;
+  color: #5f6a7d !important;
   outline: none;
-  border: 1px solid #c4c4c4;
+  border: 1px solid #c4c4c4 !important;
   border-radius: 3px;
   box-sizing: border-box;
 }
 
-input[type="text"]:focus,input[type="password"]:focus {
-  border-color: #2996cc;
+.login-input[type="text"]:focus,login-input[type="password"]:focus {
+  border-color: #2996cc !important;
 
 }
 
-input[type="submit"]:hover {
-  border: 1px solid #2996cc;
-  color: #2996cc;
+.login-input[type="submit"]:hover {
+  border: 1px solid #2996cc !important;
+  color: #2996cc !important;
 }
 
 #signup_form label {
@@ -82,10 +73,10 @@ input[type="submit"]:hover {
   font-size: 14px;
 }
 
-.error input[type="text"],.error input[type="password"] {
-  border-color: #df3320;
-  background: #fff url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIj4KICA8cGF0aCBmaWxsPSIjREYzMzIwIiBkPSJNMTAsMTMuNmMtMC4zLDAtMC42LTAuMy0wLjYtMC42VjdjMC0wLjMsMC4zLTAuNiwwLjYtMC42czAuNiwwLjMsMC42LDAuNnY2IEMxMC42LDEzLjMsMTAuMywxMy42LDEwLDEzLjZ6IiAvPgogIDxwYXRoIGZpbGw9IiNERjMzMjAiIGQ9Ik0xMCwxNi42Yy0wLjMsMC0wLjYtMC4zLTAuNi0wLjZ2LTAuNWMwLTAuMywwLjMtMC42LDAuNi0wLjZzMC42LDAuMywwLjYsMC42VjE2IEMxMC42LDE2LjMsMTAuMywxNi42LDEwLDE2LjZ6IiAvPgogIDxwYXRoIGZpbGw9IiNERjMzMjAiIGQ9Ik0xMCwxLjljMC42LDAsMC45LDAuMywxLjEsMC42bDcuNiwxMy40bDAuMSwwLjJjMC4xLDAuMywwLjIsMC40LDAuMiwwLjYgYzAsMC4yLTAuMSwwLjQtMC4yLDAuNmwwLDBsMCwwLjFDMTguNSwxNy43LDE4LDE4LDE3LjYsMThIMi40Yy0wLjQsMC0wLjktMC4zLTEuMS0wLjdsMC0wLjFsMCwwQzEuMSwxNywxLDE2LjksMSwxNi41IGMwLTAuMSwwLjItMC41LDAuMy0wLjZMOC44LDIuNUM5LDIuMSw5LjUsMS45LDEwLDEuOSBNMTAsMC45QzkuMiwwLjksOC40LDEuMyw4LDJMMC40LDE1LjRDMC4yLDE1LjgsMCwxNi4yLDAsMTYuNSBjMCwwLjUsMC4xLDAuOSwwLjQsMS4zYzAuNCwwLjcsMS4yLDEuMiwyLDEuMmgxNS4yYzAuOCwwLDEuNi0wLjUsMi0xLjJjMC4zLTAuNCwwLjQtMC44LDAuNC0xLjJjMC0wLjUtMC4yLTAuOC0wLjQtMS4yTDExLjksMiBDMTEuNCwxLjMsMTAuNywwLjksMTAsMC45TDEwLDAuOXoiIC8+Cjwvc3ZnPgo=") calc(100% - 10px) 50% no-repeat;
-  padding-right: 40px;
+.error .login-input[type="text"],.error .login-input[type="password"] {
+  border-color: #df3320 !important;
+  background: #fff url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIj4KICA8cGF0aCBmaWxsPSIjREYzMzIwIiBkPSJNMTAsMTMuNmMtMC4zLDAtMC42LTAuMy0wLjYtMC42VjdjMC0wLjMsMC4zLTAuNiwwLjYtMC42czAuNiwwLjMsMC42LDAuNnY2IEMxMC42LDEzLjMsMTAuMywxMy42LDEwLDEzLjZ6IiAvPgogIDxwYXRoIGZpbGw9IiNERjMzMjAiIGQ9Ik0xMCwxNi42Yy0wLjMsMC0wLjYtMC4zLTAuNi0wLjZ2LTAuNWMwLTAuMywwLjMtMC42LDAuNi0wLjZzMC42LDAuMywwLjYsMC42VjE2IEMxMC42LDE2LjMsMTAuMywxNi42LDEwLDE2LjZ6IiAvPgogIDxwYXRoIGZpbGw9IiNERjMzMjAiIGQ9Ik0xMCwxLjljMC42LDAsMC45LDAuMywxLjEsMC42bDcuNiwxMy40bDAuMSwwLjJjMC4xLDAuMywwLjIsMC40LDAuMiwwLjYgYzAsMC4yLTAuMSwwLjQtMC4yLDAuNmwwLDBsMCwwLjFDMTguNSwxNy43LDE4LDE4LDE3LjYsMThIMi40Yy0wLjQsMC0wLjktMC4zLTEuMS0wLjdsMC0wLjFsMCwwQzEuMSwxNywxLDE2LjksMSwxNi41IGMwLTAuMSwwLjItMC41LDAuMy0wLjZMOC44LDIuNUM5LDIuMSw5LjUsMS45LDEwLDEuOSBNMTAsMC45QzkuMiwwLjksOC40LDEuMyw4LDJMMC40LDE1LjRDMC4yLDE1LjgsMCwxNi4yLDAsMTYuNSBjMCwwLjUsMC4xLDAuOSwwLjQsMS4zYzAuNCwwLjcsMS4yLDEuMiwyLDEuMmgxNS4yYzAuOCwwLDEuNi0wLjUsMi0xLjJjMC4zLTAuNCwwLjQtMC44LDAuNC0xLjJjMC0wLjUtMC4yLTAuOC0wLjQtMS4yTDExLjksMiBDMTEuNCwxLjMsMTAuNywwLjksMTAsMC45TDEwLDAuOXoiIC8+Cjwvc3ZnPgo=") calc(~"100% - 10px") 50% no-repeat !important;
+  padding-right: 40px !important;
 }
 
 .error label {
@@ -114,24 +105,12 @@ input[type="submit"]:hover {
   justify-content: center;
 }
 
-a {
-  color: #337ab7;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  text-decoration: none;
-  color: #23527c;
-  cursor: pointer;
-}
-
 @media (min-width: 416px) and (max-width: 720px) {
   .form_container {
     width: 70%;
   }
 
-  input {
+  .login-input {
     width: 100% !important;
   }
 
@@ -145,7 +124,7 @@ a:hover {
     width: 90%;
   }
 
-  input {
+  .login-input {
     width: 100% !important;
   }
 

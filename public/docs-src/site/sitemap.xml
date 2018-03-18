@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2017-11-17</lastmod>
+     <lastmod>2018-03-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,8 +12,14 @@
     
         
     <url>
-     <loc>/ui-library/overview/</loc>
-     <lastmod>2017-11-17</lastmod>
+     <loc></loc>
+     <lastmod></lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc></loc>
+     <lastmod></lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -22,38 +28,32 @@
     
         
     <url>
-     <loc>/alert-library/overview/</loc>
-     <lastmod>2017-11-17</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    
-
-    
-    <url>
-     <loc>/message-format/</loc>
-     <lastmod>2017-11-17</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-        
-    <url>
-     <loc>/ui-library/controls/basic-control/</loc>
-     <lastmod>2017-11-17</lastmod>
+     <loc>/developer/overview/</loc>
+     <lastmod>2018-03-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/alert-library/dialogs/alert/</loc>
-     <lastmod>2017-11-17</lastmod>
+     <loc></loc>
+     <lastmod></lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/alert-library/overlays/notification/</loc>
-     <lastmod>2017-11-17</lastmod>
+     <loc></loc>
+     <lastmod></lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/developer/message-format/</loc>
+     <lastmod>2018-03-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc></loc>
+     <lastmod></lastmod>
      <changefreq>daily</changefreq>
     </url>
         

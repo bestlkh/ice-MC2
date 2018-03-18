@@ -1,18 +1,28 @@
-site_name: MC^2 Documentation
+site_name: MC<sup>2</sup> Documentation
 pages:
-  - Index: 'index.md'
-  - UI Library:
-    - Overview: 'ui-library/overview.md'
+  - Home: 'index.md'
+  - End User Documentation:
+    - End User:
+      - Login: 'end-user/user-guide/login.md'
+      - Chatroom: 'end-user/user-guide/chatroom.md'
+      - Math Editor: 'end-user/user-guide/math-editor.md'
+    - Administration:
+      - Overview: 'end-user/admin-guide/overview.md'
+      - Classroom Management: 'end-user/admin-guide/classroom.md'
+      - Chatroom Management: 'end-user/admin-guide/chatroom.md'
+      - TA Management: 'end-user/admin-guide/ta.md'
 
-  - Alert Library:
-      - Overview: 'alert-library/overview.md'
-
-  - Message Format: 'message-format.md'
-
-  - Classes:
-    - UI.BasicControl: 'ui-library/controls/basic-control.md'
-    - Alert.Alert: 'alert-library/dialogs/alert.md'
-    - Alert.Notification: 'alert-library/overlays/notification.md'
+  - Developer Documentation:
+    - Overview: 'developer/overview.md'
+    - UI Library:
+      - Overview: 'developer/ui-library/overview.md'
+    - Alert Library:
+      - Overview: 'developer/alert-library/overview.md'
+    - Message Format: 'developer/message-format.md'
+    - Classes:
+      - UI.BasicControl: 'developer/ui-library/controls/basic-control.md'
+      - Alert.Alert: 'developer/alert-library/dialogs/alert.md'
+      - Alert.Notification: 'developer/alert-library/overlays/notification.md'
 theme:
   name: 'material'
 

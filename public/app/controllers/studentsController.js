@@ -68,7 +68,7 @@ angular.module('Controllers')
             },
             putStudentList: function (csv) {
                 $.ajax({
-                    method: "PUT",
+                    method: "POST",
                     url: "/v1/api/classrooms/"+$routeParams.name+"/students",
                     data:  JSON.stringify({csv: csv, mode: $scope.chooseSelected}),
                     processData: false,

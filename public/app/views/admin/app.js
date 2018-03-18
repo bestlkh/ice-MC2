@@ -28,6 +28,10 @@ App.config(function ($routeProvider, $locationProvider){
         .when("/classrooms/:name/students", {
             templateUrl: '/app/views/admin/classStudents.html',
             controller: 'studentsController'
+        }).
+        when("/classrooms/:name/history", {
+            templateUrl: '/app/views/admin/classHistory.html',
+            controller: 'historyController'
         })
         .otherwise({
             redirectTo: '/classrooms',	// Default Route

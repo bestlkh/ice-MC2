@@ -75,7 +75,7 @@
                     <div>Room does not exist. Create it?</div>                    
               </div>
               <button ng-if="!isJoin || (newRoomOption && isJoin)" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
-              <button ng-if="isJoin" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
+              <button ng-if="isJoin" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Login</button>
               <button ng-if="nsp" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Login as instructor</button>
               <button ng-if="nsp" ng-class="{'orange': ta}" class="btn btn-primary btn-block btn-flat" ng-click="onTaClick()">Login as TA</button>
             </div><!-- /.col -->

@@ -1,5 +1,6 @@
-
 # Chatroom
+??? "Authors"
+    Daniel Hugh (hughdani)
 
 ## How to Send Text Messages
 1. Enter text into the message box.

@@ -1,4 +1,6 @@
 # TA Management
+??? "Authors"
+    Daniel Hugh (hughdani)
 
 ## How to Add a TA
 1. Click TAs menu item

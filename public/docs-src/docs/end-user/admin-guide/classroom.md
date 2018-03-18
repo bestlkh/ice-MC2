@@ -1,4 +1,6 @@
 # Classroom Management
+??? "Authors"
+    Daniel Hugh (hughdani)
 
 ## How to Create a Classroom
 1. After logging in, click the Create Classroom button

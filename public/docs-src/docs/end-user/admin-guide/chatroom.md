@@ -1,4 +1,6 @@
 # Chatroom Management
+??? "Authors"
+    Daniel Hugh (hughdani)
 
 ## How to Delete a Message
 1. Join an existing classroom if not already in one

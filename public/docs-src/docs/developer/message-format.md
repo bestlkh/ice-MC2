@@ -1,6 +1,6 @@
 # Message Format
 
-/ [Home](index.md) / Message Format
+/ [Home](../../) / Message Format
 
 ??? "Authors"
     Jun Zheng (junthehacker)

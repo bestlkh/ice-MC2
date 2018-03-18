@@ -1,7 +1,7 @@
-site_name: MC<sup>2</sup> Documentation
+site_name: MC² Documentation
 pages:
   - Home: 'index.md'
-  - End User Documentation:
+  - User Documentation:
     - End User:
       - Login: 'end-user/user-guide/login.md'
       - Chatroom: 'end-user/user-guide/chatroom.md'
@@ -23,8 +23,24 @@ pages:
       - UI.BasicControl: 'developer/ui-library/controls/basic-control.md'
       - Alert.Alert: 'developer/alert-library/dialogs/alert.md'
       - Alert.Notification: 'developer/alert-library/overlays/notification.md'
+
+repo_name: 'bestlkh/ice-MC2'
+repo_url: 'https://github.com/bestlkh/ice-MC2'
+edit_uri: 'tree/master/public/docs-src'
+      
 theme:
   name: 'material'
+  palette:
+    primary: 'blue'
+    accent: 'cyan'
+  language: 'en'
+
+extra:
+  search:
+    language: 'en'
+  social:
+    - type: 'github'
+      link: 'https://github.com/bestlkh/ice-MC2'
 
 markdown_extensions:
   - admonition

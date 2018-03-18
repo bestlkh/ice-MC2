@@ -1,6 +1,8 @@
 # Math Editor
+??? "Authors"
+    Daniel Hugh (hughdani)
 
-## How to Undo*
+## How to Undo (in progress)
 
 ## How to Import Images from the Editor
 1. Click the Edit menu item

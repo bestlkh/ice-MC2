@@ -2,42 +2,32 @@
     "docs": [
         {
             "location": "/", 
-            "text": "MC\n2\n Documentation\n\n\nAuthor\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nWelcome to the MC\n2\n Project documentation! This documentation is aimed to provide documentation to both end users and developers. \n\n\nFull source of the project in available at \nhttps://github.com/bestlkh/ice-MC2\n.", 
+            "text": "MC\u00b2 Documentation\n\n\nAuthors\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nWelcome to the documentation for the MC\u00b2 Project.", 
             "title": "Home"
         }, 
         {
             "location": "/#mc2-documentation", 
-            "text": "Author :   Jun   Zheng   ( junthehacker ),   Daniel   Hugh   ( hughdani )   Welcome to the MC 2  Project documentation! This documentation is aimed to provide documentation to both end users and developers.   Full source of the project in available at  https://github.com/bestlkh/ice-MC2 .", 
-            "title": "MC2 Documentation"
+            "text": "Authors :   Jun   Zheng   ( junthehacker ),   Daniel   Hugh   ( hughdani )   Welcome to the documentation for the MC\u00b2 Project.", 
+            "title": "MC\u00b2 Documentation"
         }, 
         {
             "location": "/end-user/user-guide/login/", 
-            "text": "Login\n\n\nHow to Create a New Room\n\n\n\n\nSelect Create Room.\n\n\nEnter a username and a room name.\n\n\nChoose an avatar from the set of themes.\n\n\nClick Start to create and join the room.\n\n\n\n\nHow to Join an Existing Room\n\n\n\n\nSelect Join Room.\n\n\nEnter a username and an existing room name.\n\n\nChoose an avatar from the set of themes.\n\n\nClick Start to join the room.", 
-            "title": "Login"
-        }, 
-        {
-            "location": "/end-user/user-guide/login/#login", 
-            "text": "", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Create a New Room\n\n\n\n\nSelect \nCreate Room\n.\n\n\nEnter a username and a room name.\n\n\nChoose an avatar from the set of themes.\n\n\nClick \nStart\n to create and join the room.\n\n\n\n\nHow to Join an Existing Room\n\n\n\n\nSelect \nJoin Room\n.\n\n\nEnter a username and an existing room name.\n\n\nChoose an avatar from the set of themes.\n\n\nClick \nStart\n to join the room.", 
             "title": "Login"
         }, 
         {
             "location": "/end-user/user-guide/login/#how-to-create-a-new-room", 
-            "text": "Select Create Room.  Enter a username and a room name.  Choose an avatar from the set of themes.  Click Start to create and join the room.", 
+            "text": "Select  Create Room .  Enter a username and a room name.  Choose an avatar from the set of themes.  Click  Start  to create and join the room.", 
             "title": "How to Create a New Room"
         }, 
         {
             "location": "/end-user/user-guide/login/#how-to-join-an-existing-room", 
-            "text": "Select Join Room.  Enter a username and an existing room name.  Choose an avatar from the set of themes.  Click Start to join the room.", 
+            "text": "Select  Join Room .  Enter a username and an existing room name.  Choose an avatar from the set of themes.  Click  Start  to join the room.", 
             "title": "How to Join an Existing Room"
         }, 
         {
             "location": "/end-user/user-guide/chatroom/", 
-            "text": "Chatroom\n\n\nHow to Send Text Messages\n\n\n\n\nEnter text into the message box.\n\n\nClick Send.\n\n\n\n\nHow to Send LaTeX Messages\n\n\n\n\nClick the icon to access the LaTeX Editor.\n\n\nEnter your LaTeX expression.\n\n\nPrepend and append $$ to your LaTeX.\n\n\nClick Send.\n\n\n\n\nHow to Import Images to Chat\n\n\n\n\nClick the Image icon \n\n\nSelect the file you wish to upload.\n\f\n\n\n\n\nChat Menu Options\n\n\nHow to Display All Online Users\n\n\n\n\nClick the Chat Options tab to expand the options\n\n\nClick the Online Users button\n\n\n\n\nHow to Logout\n\n\n\n\nClick the Chat Options tab to expand the options\n\n\nClick the Logout button\n\n\n\n\nMessage Options\n\n\nHide Chat Message Options\n\n\n\n\nClick on the user\u2019s Initials Bubble to hide the options.\n\n\n\n\nRegular Text Messages\n\n\nHow to Copy a Message to the Chat\n\n\n\n\nClick on a message that has been sent to chat\n\n\nClick the Pencil icon to copy the contents to the message textbox\n\n\n\n\nHow to View Message Details\n\n\n\n\nClick on a message that has been sent to chat.\n\n\nClick the Ellipsis to open a window containing message details\n\n\n\n\nLaTeX Messages\n\n\nHow to View LaTex Details\n\n\n\n\nClick on an equation that has been sent to chat.\n\n\nClick the Ellipsis to open a window containing equation details\n\n\n\n\nHow to Copy LaTeX\n\n\n\n\nClick on an equation that has been sent to chat.\n\n\nClick the Pencil icon.\n\n\nThe equation will now appear in your math editor or chat textbox (depending on the origin of the equation).\n\n\n\n\nHow to View the LaTeX Source\n\n\n\n\nClick on an equation that has been sent to chat.\n\n\nClick the \n/\n icon.\n\n\nA window containing the source will appear\n\n\n\n\nImages\n\n\nHow to Change Magnification of Images\n\n\n\n\nClick on an image that has been sent to chat\n\n\nClick the Magnification Glass icon\n\n\nClick either the Magnification Glass with the plus symbol to zoom in or the Magnification Glass with the minus symbol to zoom out\n\n\n\n\nHow to View Image Details\n\n\n\n\nClick on an image that has been sent to chat.\n\n\nClick the Ellipsis to open a window containing image details\n\n\n\n\nHow to Copy an Image from the Chat to the Math Editor\n\n\n\n\nClick on a image that has been sent to chat.\n\n\nClick the Pencil icon.\n\n\nThe image will now appear in the math editor and can be annotated", 
-            "title": "Chatroom"
-        }, 
-        {
-            "location": "/end-user/user-guide/chatroom/#chatroom", 
-            "text": "", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Send Text Messages\n\n\n\n\nEnter text into the message box.\n\n\nClick Send.\n\n\n\n\nHow to Send LaTeX Messages\n\n\n\n\nClick the icon to access the LaTeX Editor.\n\n\nEnter your LaTeX expression.\n\n\nPrepend and append $$ to your LaTeX.\n\n\nClick Send.\n\n\n\n\nHow to Import Images to Chat\n\n\n\n\nClick the Image icon \n\n\nSelect the file you wish to upload.\n\f\n\n\n\n\nChat Menu Options\n\n\nHow to Display All Online Users\n\n\n\n\nClick the Chat Options tab to expand the options\n\n\nClick the Online Users button\n\n\n\n\nHow to Logout\n\n\n\n\nClick the Chat Options tab to expand the options\n\n\nClick the Logout button\n\n\n\n\nMessage Options\n\n\nHide Chat Message Options\n\n\n\n\nClick on the user\u2019s Initials Bubble to hide the options.\n\n\n\n\nRegular Text Messages\n\n\nHow to Copy a Message to the Chat\n\n\n\n\nClick on a message that has been sent to chat\n\n\nClick the Pencil icon to copy the contents to the message textbox\n\n\n\n\nHow to View Message Details\n\n\n\n\nClick on a message that has been sent to chat.\n\n\nClick the Ellipsis to open a window containing message details\n\n\n\n\nLaTeX Messages\n\n\nHow to View LaTex Details\n\n\n\n\nClick on an equation that has been sent to chat.\n\n\nClick the Ellipsis to open a window containing equation details\n\n\n\n\nHow to Copy LaTeX\n\n\n\n\nClick on an equation that has been sent to chat.\n\n\nClick the Pencil icon.\n\n\nThe equation will now appear in your math editor or chat textbox (depending on the origin of the equation).\n\n\n\n\nHow to View the LaTeX Source\n\n\n\n\nClick on an equation that has been sent to chat.\n\n\nClick the \n/\n icon.\n\n\nA window containing the source will appear\n\n\n\n\nImages\n\n\nHow to Change Magnification of Images\n\n\n\n\nClick on an image that has been sent to chat\n\n\nClick the Magnification Glass icon\n\n\nClick either the Magnification Glass with the plus symbol to zoom in or the Magnification Glass with the minus symbol to zoom out\n\n\n\n\nHow to View Image Details\n\n\n\n\nClick on an image that has been sent to chat.\n\n\nClick the Ellipsis to open a window containing image details\n\n\n\n\nHow to Copy an Image from the Chat to the Math Editor\n\n\n\n\nClick on a image that has been sent to chat.\n\n\nClick the Pencil icon.\n\n\nThe image will now appear in the math editor and can be annotated", 
             "title": "Chatroom"
         }, 
         {
@@ -137,18 +127,13 @@
         }, 
         {
             "location": "/end-user/user-guide/math-editor/", 
-            "text": "Math Editor\n\n\nHow to Undo*\n\n\nHow to Import Images from the Editor\n\n\n\n\nClick the Edit menu item\n\n\nClick on Import Image\n\n\nSelect the image to be imported\n\n\n\n\nHow to Select Items\n\n\n\n\nSelect the Select Tool  \n\n\nClick and drag to select an area\n\n\n\n\nHow to Draw Freehand on the Canvas\n\n\n\n\nSelect the Pencil Tool \n\n\nClick on the canvas to start drawing\n\n\n\n\nHow to Zoom In on the Canvas (Desktop)\n\n\n\n\nSelect the Zoom In Tool \n\n\nClick the canvas to zoom in\n\n\n\n\nHow to Zoom Out on the Canvas (Desktop)\n\n\n\n\nSelect the Zoom Out Tool \n\n\nClick the canvas to zoom out\n\n\n\n\nHow to Input Symbols (Desktop)\n\n\n\n\nSelect the Shape Library Tool \n\n\nA keyboard with mathematical symbols and general characters will now be available\n\n\nClick a symbol to add it to the canvas\n\n\n\n\nHow to Delete Items on the Canvas\n\n\n\n\nUse the Select Tool to highlight the area to delete. The highlighted area will be coloured red.\n\n\nClick the Delete icon \n\n\n\n\nHow to Convert Symbols into LaTeX (Desktop)\n\n\n\n\nSelect the Convert Tool \n\n\nCheck the preview to ensure that the correct expression is created.\n\n\nClick Send to Chat if you want to send the expression to the chat\n\n\n\n\nHow to Convert Symbols into LaTeX (Mobile)\n\n\n\n\nClick Convert and Send icon \n\n\nThen click Send as Equation\n\n\nThis will send its contents to the chat\n\n\n\n\nHow to Send LaTeX Expressions (Desktop)\n\n\n\n\nNavigate to the math editor.\n\n\nWrite LaTeX into the text space.\n\n\nPrepend and append $$ symbols to the LaTeX\n\n\nCheck the preview to verify the contents.\n\n\nClick Send to Chat to send the equation to the chat.\n\n\n\n\nHow to Send LaTeX Expressions (Mobile)\n\n\n\n\nClick the { } icon.\n\n\nWrite LaTeX into the text space.\n\n\nPrepend and append $$ symbols to the LaTeX\n\n\nClick Send to send the equation to the chat.\n\n\n\n\nHow to Send Contents on the Canvas as an Image to Chat (Desktop)\n\n\n\n\nClick the Send as Image icon \n\n\nThe current state of your canvas will be automatically sent to the chat.\n\n\n\n\nHow to Send Contents on the Canvas as an Image to Chat (Mobile)\n\n\n\n\nClick Convert and Send icon\n\n\nThen click Send as Image\n\n\n\n\nHow to Resize the Interface (Desktop)\n\n\n\n\nClick and drag the vertical bar partitioning the math editor and the chat.\n\n\nDrag the vertical bar to partition the math editor space to your preference\n\n\n\n\nHow to go into Editor Only View (Desktop)\n\n\n\n\nClick the Right Arrow to make the math editor take up the entire view.\n\n\nUse the Left Arrow to reset the partitioning to its default to include the chat.", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Undo (in progress)\n\n\nHow to Import Images from the Editor\n\n\n\n\nClick the Edit menu item\n\n\nClick on Import Image\n\n\nSelect the image to be imported\n\n\n\n\nHow to Select Items\n\n\n\n\nSelect the Select Tool  \n\n\nClick and drag to select an area\n\n\n\n\nHow to Draw Freehand on the Canvas\n\n\n\n\nSelect the Pencil Tool \n\n\nClick on the canvas to start drawing\n\n\n\n\nHow to Zoom In on the Canvas (Desktop)\n\n\n\n\nSelect the Zoom In Tool \n\n\nClick the canvas to zoom in\n\n\n\n\nHow to Zoom Out on the Canvas (Desktop)\n\n\n\n\nSelect the Zoom Out Tool \n\n\nClick the canvas to zoom out\n\n\n\n\nHow to Input Symbols (Desktop)\n\n\n\n\nSelect the Shape Library Tool \n\n\nA keyboard with mathematical symbols and general characters will now be available\n\n\nClick a symbol to add it to the canvas\n\n\n\n\nHow to Delete Items on the Canvas\n\n\n\n\nUse the Select Tool to highlight the area to delete. The highlighted area will be coloured red.\n\n\nClick the Delete icon \n\n\n\n\nHow to Convert Symbols into LaTeX (Desktop)\n\n\n\n\nSelect the Convert Tool \n\n\nCheck the preview to ensure that the correct expression is created.\n\n\nClick Send to Chat if you want to send the expression to the chat\n\n\n\n\nHow to Convert Symbols into LaTeX (Mobile)\n\n\n\n\nClick Convert and Send icon \n\n\nThen click Send as Equation\n\n\nThis will send its contents to the chat\n\n\n\n\nHow to Send LaTeX Expressions (Desktop)\n\n\n\n\nNavigate to the math editor.\n\n\nWrite LaTeX into the text space.\n\n\nPrepend and append $$ symbols to the LaTeX\n\n\nCheck the preview to verify the contents.\n\n\nClick Send to Chat to send the equation to the chat.\n\n\n\n\nHow to Send LaTeX Expressions (Mobile)\n\n\n\n\nClick the { } icon.\n\n\nWrite LaTeX into the text space.\n\n\nPrepend and append $$ symbols to the LaTeX\n\n\nClick Send to send the equation to the chat.\n\n\n\n\nHow to Send Contents on the Canvas as an Image to Chat (Desktop)\n\n\n\n\nClick the Send as Image icon \n\n\nThe current state of your canvas will be automatically sent to the chat.\n\n\n\n\nHow to Send Contents on the Canvas as an Image to Chat (Mobile)\n\n\n\n\nClick Convert and Send icon\n\n\nThen click Send as Image\n\n\n\n\nHow to Resize the Interface (Desktop)\n\n\n\n\nClick and drag the vertical bar partitioning the math editor and the chat.\n\n\nDrag the vertical bar to partition the math editor space to your preference\n\n\n\n\nHow to go into Editor Only View (Desktop)\n\n\n\n\nClick the Right Arrow to make the math editor take up the entire view.\n\n\nUse the Left Arrow to reset the partitioning to its default to include the chat.", 
             "title": "Math Editor"
         }, 
         {
-            "location": "/end-user/user-guide/math-editor/#math-editor", 
+            "location": "/end-user/user-guide/math-editor/#how-to-undo-in-progress", 
             "text": "", 
-            "title": "Math Editor"
-        }, 
-        {
-            "location": "/end-user/user-guide/math-editor/#how-to-undo", 
-            "text": "", 
-            "title": "How to Undo*"
+            "title": "How to Undo (in progress)"
         }, 
         {
             "location": "/end-user/user-guide/math-editor/#how-to-import-images-from-the-editor", 
@@ -227,13 +212,8 @@
         }, 
         {
             "location": "/end-user/admin-guide/overview/", 
-            "text": "Adminstration\n\n\nHow to Access the Instructor Page\n\n\n\n\nNavigate to the admin login page\n\n\nEnter your username and password\n\n\nClick the Login button", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Access the Instructor Page\n\n\n\n\nNavigate to the admin login page\n\n\nEnter your username and password\n\n\nClick the Login button", 
             "title": "Overview"
-        }, 
-        {
-            "location": "/end-user/admin-guide/overview/#adminstration", 
-            "text": "", 
-            "title": "Adminstration"
         }, 
         {
             "location": "/end-user/admin-guide/overview/#how-to-access-the-instructor-page", 
@@ -242,12 +222,7 @@
         }, 
         {
             "location": "/end-user/admin-guide/classroom/", 
-            "text": "Classroom Management\n\n\nHow to Create a Classroom\n\n\n\n\nAfter logging in, click the Create Classroom button\n\n\nEnter a label for the class and the classroom name\n\n\nChoose whether this room will require an invite\n\n\n\n\nClick Submit\n\n\n\n\nHow to Delete a Classroom\n\n\nSelect a classroom\n\n\nClick Delete\n\n\n\n\nHow to Connect to a Classroom\n\n\n\n\nClick on an existing classroom\n\n\nClick Connect\n\n\n\n\nHow to View Classroom Details\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\n\n\nHow to View All Classrooms\n\n\n\n\nClick on the Classrooms tab.\n\n\n\n\nHow to Change Classroom Name\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick Change on the room name\n\n\nClick Save\n\n\n\n\nHow to Change Classroom Invite Settings\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nToggle the Invite Only slider\n\n\nClick Save\n\n\n\n\nHow to Add Individual Students to the Classroom\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick the Students tab\n\n\nClick Add Item\n\n\nEnter their utorid and email\n\n\nClick Submit\n\n\n\n\nHow to Add Students using CSV\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick the Students tab\n\n\nClick Import\n\n\nFollow the instructions to upload a CSV file\n\n\nClick Submit\n\n\n\n\nHow to Export Student Details as CSV\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick the Students tab\n\n\nClick Export to download the CSV file\n\n\n\n\nHow to Search for a Classroom\n\n\n\n\nEnter the classroom into the search bar\n\n\n\n\nHow to Search for a Student\n\n\n\n\nClick Classrooms tab\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick Students tab\n\n\nEnter the student\u2019s name into the search bar\n\n\n\n\nHow to Reset Student Tokens\n\n\n\n\nClick on the Classrooms tab\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick on the Students tab\n\n\nClick Reset\n\n\n\n\nHow to Generate a Transcript of the Chat History (in progress)\n\n\n\n\nClick on an existing classroom\n\n\nClick History\n\n\nClick Export", 
-            "title": "Classroom Management"
-        }, 
-        {
-            "location": "/end-user/admin-guide/classroom/#classroom-management", 
-            "text": "", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Create a Classroom\n\n\n\n\nAfter logging in, click the Create Classroom button\n\n\nEnter a label for the class and the classroom name\n\n\nChoose whether this room will require an invite\n\n\n\n\nClick Submit\n\n\n\n\nHow to Delete a Classroom\n\n\nSelect a classroom\n\n\nClick Delete\n\n\n\n\nHow to Connect to a Classroom\n\n\n\n\nClick on an existing classroom\n\n\nClick Connect\n\n\n\n\nHow to View Classroom Details\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\n\n\nHow to View All Classrooms\n\n\n\n\nClick on the Classrooms tab.\n\n\n\n\nHow to Change Classroom Name\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick Change on the room name\n\n\nClick Save\n\n\n\n\nHow to Change Classroom Invite Settings\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nToggle the Invite Only slider\n\n\nClick Save\n\n\n\n\nHow to Add Individual Students to the Classroom\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick the Students tab\n\n\nClick Add Item\n\n\nEnter their utorid and email\n\n\nClick Submit\n\n\n\n\nHow to Add Students using CSV\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick the Students tab\n\n\nClick Import\n\n\nFollow the instructions to upload a CSV file\n\n\nClick Submit\n\n\n\n\nHow to Export Student Details as CSV\n\n\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick the Students tab\n\n\nClick Export to download the CSV file\n\n\n\n\nHow to Search for a Classroom\n\n\n\n\nEnter the classroom into the search bar\n\n\n\n\nHow to Search for a Student\n\n\n\n\nClick Classrooms tab\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick Students tab\n\n\nEnter the student\u2019s name into the search bar\n\n\n\n\nHow to Reset Student Tokens\n\n\n\n\nClick on the Classrooms tab\n\n\nClick on an existing classroom\n\n\nClick Details\n\n\nClick on the Students tab\n\n\nClick Reset\n\n\n\n\nHow to Generate a Transcript of the Chat History (in progress)\n\n\n\n\nClick on an existing classroom\n\n\nClick History\n\n\nClick Export", 
             "title": "Classroom Management"
         }, 
         {
@@ -322,12 +297,7 @@
         }, 
         {
             "location": "/end-user/admin-guide/chatroom/", 
-            "text": "Chatroom Management\n\n\nHow to Delete a Message\n\n\n\n\nJoin an existing classroom if not already in one\n\n\nClick on the message you want to remove\n\n\nClick the Trash icon\n\n\n\n\nHow to Pin a Message (in progress)\n\n\n\n\nJoin an existing classroom if not already in one\n\n\nClick on the message you want to pin\n\n\nClick the Pin icon", 
-            "title": "Chatroom Management"
-        }, 
-        {
-            "location": "/end-user/admin-guide/chatroom/#chatroom-management", 
-            "text": "", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Delete a Message\n\n\n\n\nJoin an existing classroom if not already in one\n\n\nClick on the message you want to remove\n\n\nClick the Trash icon\n\n\n\n\nHow to Pin a Message (in progress)\n\n\n\n\nJoin an existing classroom if not already in one\n\n\nClick on the message you want to pin\n\n\nClick the Pin icon", 
             "title": "Chatroom Management"
         }, 
         {
@@ -342,12 +312,7 @@
         }, 
         {
             "location": "/end-user/admin-guide/ta/", 
-            "text": "TA Management\n\n\nHow to Add a TA\n\n\n\n\nClick TAs menu item\n\n\nClick Create TA\n\n\nEnter the name of the TA\n\n\nClick Submit\n\n\n\n\nHow to Login in as a TA*\n\n\n\n\nNavigate to the namespace instance URL\n\n\nClick Login as TA\n\n\nEnter the secret.", 
-            "title": "TA Management"
-        }, 
-        {
-            "location": "/end-user/admin-guide/ta/#ta-management", 
-            "text": "", 
+            "text": "Authors\nDaniel Hugh (hughdani)\nHow to Add a TA\n\n\n\n\nClick TAs menu item\n\n\nClick Create TA\n\n\nEnter the name of the TA\n\n\nClick Submit\n\n\n\n\nHow to Login in as a TA*\n\n\n\n\nNavigate to the namespace instance URL\n\n\nClick Login as TA\n\n\nEnter the secret.", 
             "title": "TA Management"
         }, 
         {

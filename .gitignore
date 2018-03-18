@@ -106,3 +106,6 @@ public/app/upload/music/
 public/app/styles/latex-preview/*.css
 public/app/styles/chatroom/*.css
 public/app/styles/ice/*.css
+
+# Gulp generated compiled files
+public/app/dist/**/*.*

@@ -152,9 +152,6 @@
 .decs-text:hover{
 	color: #333;
 }
-.wordwrap {    
-   word-wrap: break-word;      /* IE */
-}
 
 .slideout_inner {
     position: absolute;

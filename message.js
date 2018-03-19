@@ -19,7 +19,7 @@ class Message {
         }
         this.initials = initials;
 
-        this.msgTime = moment().format('LT');
+        this.msgTime = data.msgTime ? data.msgTime : moment().format('LT');
         this.hasMsg = true;
         this.msg = data.msg;
         this.type = data.type;

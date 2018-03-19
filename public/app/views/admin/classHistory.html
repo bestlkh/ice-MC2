@@ -1,0 +1,116 @@
+<div class="control-header">
+    <header>  </header>
+    <div class="header-control-wrapper">
+        <logout-menu user="user"></logout-menu>
+    </div>
+</div>
+<div class="control-content">
+    <div class="student-control-wrapper" style="display: block;padding:0">
+        <div style="display:flex;justify-content: space-between;padding: 5px;margin-bottom: 0;border-bottom: 1px #e0e0e0 solid">
+            <div style="font-size: 17px;padding: 10px 0;">{{className}} history</div>
+
+            <div class="button-wrapper">
+                <div class="inner-nav">
+                    <a href={{"/admin/classrooms/"+className}}>
+                        Settings
+                    </a>
+                    <a href={{"/admin/classrooms/"+className+"/students"}}>
+                        Students
+                    </a>
+                    <a class="nav-active" href={{"/admin/classrooms/"+className+"/history"}}>
+                        History
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-view" style="border:0">
+            <div class="inner-wrapper">
+                <div class="line-button add-button giant-button" ng-click="onExportAll()">Export all sessions</div>
+                <div class="data-header">Sessions</div>
+                <div class="card list-display" style="width: auto">
+
+                    <div class="session-list">
+                        <div ng-class="{'session-selected': (session === selected)}" ng-click="select(session)" class="session-item" ng-repeat="session in sessions">
+                            <div>{{session.roomName}}</div>
+                            <div>{{formatDate(session.sessionId)}}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div style="display: block;width:calc(100% - 280px);">
+                <div class="data-header" style="padding-top: 0;">{{selected.roomName}} chat data</div>
+                <div class="card table-display" style="width:calc(100% - 20px)">
+
+                    <div style="padding: 10px;">
+                        <div class="student-control-wrapper">
+                            <div class="button-wrapper" style="height: max-content;margin-top: 5px;">
+                                <div class="line-button table-tab" ng-click="onChangeType('messages')" ng-class="{'tab-active': (dataType === 'messages')}">
+                                    Messages
+                                </div>
+                                <div class="line-button table-tab" ng-click="onChangeType('students')" ng-class="{'tab-active': (dataType === 'students')}">
+                                    Students
+                                </div>
+                            </div>
+                            <div class="line-button add-button" ng-click="onExport()">
+                                Export
+                            </div>
+                        </div>
+                        <input class="student-search" style="margin-bottom: 10px;" ng-model="search.value" placeholder="search" ng-change="onSearchChange()"/>
+                        <div class="table-list" style="max-height: calc(100vh - 340px)">
+                            <div class="table-list-header" ng-if="dataType === 'messages'">
+                                <div> Instructor </div>
+                                <div style="flex-grow: .3"> TA </div>
+                                <div style="flex-grow: .3"> Utorid </div>
+                                <div> Username </div>
+
+                                <div style="flex-grow: 3"> Message </div>
+                                <div style="flex-grow: .5"> Type </div>
+                                <div> Timestamp </div>
+                            </div>
+                            <div class="list-wrapper" ng-repeat="message in session.messages" ng-if="dataType === 'messages'">
+                                <div class="student-item" ng-if="checkInclude(message)">
+                                    <div>{{message.isInstructor ? message.isInstructor : "false"}}</div>
+                                    <div style="flex-grow: .3">{{message.isTA ? message.isTA : "false"}}</div>
+                                    <div style="flex-grow: .3">{{message.utorid ? message.utorid : "N/A"}}</div>
+                                    <div>{{message.username}}</div>
+                                    <div style="flex-grow: 3;overflow-x: auto;">{{(message.msg.length < 50) ? message.msg : message.msg.substring(0, 50) + "..."}}</div>
+                                    <div style="flex-grow: .5">{{message.type}}</div>
+                                    <div>{{formatDate(message.timestamp, true)}}</div>
+                                </div>
+                            </div>
+
+                            <div class="table-list-header" ng-if="dataType === 'students'">
+                                <div> Instructor </div>
+                                <div> TA </div>
+                                <div> Utorid </div>
+                                <div> Username </div>
+                                <div> Total messages </div>
+                            </div>
+                            <div class="list-wrapper" ng-repeat="student in session" ng-if="dataType === 'students'">
+                                <div class="student-item" ng-if="checkInclude(student)">
+                                    <div>{{message.isInstructor ? message.isInstructor : "false"}}</div>
+                                    <div>{{message.isTA ? message.isTA : "false"}}</div>
+                                    <div>{{student.utorid ? student.utorid : "N/A"}}</div>
+                                    <div>{{student.username}}</div>
+                                    <div>{{student["total messages"]}}</div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="error-popup" style="margin: 10px 0" ng-if="!session">
+                            Invalid session data
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

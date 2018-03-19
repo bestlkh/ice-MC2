@@ -3,12 +3,8 @@ var constants = require("./constants.js");
 var csv = require('csv');
 var fs = require("fs");
 
-// For old chat message data structure
-
-function Session(data, date, lec) {
+function Session(data) {
     this.name = data.roomName;
-    this.date = date;
-    this.lec = lec;
     this.students = [];
 
 }
@@ -17,7 +13,8 @@ function Student(data) {
     this.username = data.username;
     this.utorid = data.utorid;
     this.messages = [];
-
+    this.isInstructor = data.isInstructor;
+    this.isTA = data.isTA;
 }
 
 Student.prototype.getTotalMessages = function () {
@@ -25,7 +22,7 @@ Student.prototype.getTotalMessages = function () {
 };
 
 Student.prototype.toCSV = function () {
-    return {username: this.username, utorid: this.utorid, "total messages": this.getTotalMessages()};
+    return {username: this.username, utorid: this.utorid, "total messages": this.getTotalMessages(), "isInstructor": this.isInstructor, "isTA": this.isTA};
 };
 
 function findOne(list, params) {
@@ -43,32 +40,25 @@ function findOne(list, params) {
     return result;
 }
 
-MongoClient.connect(constants.dbUrl, function (err, db) {
-    db.collection("chatHistory").find({}).toArray(function (err, history) {
+var parseStudents = function (db, sessionId, callback) {
+    db.collection("chatHistory").findOne({sessionId: sessionId, deleted: null}, function (err, history) {
         let sessions = [];
         let reg = /(.*)/;
-        history.forEach(function (session) {
-            let match = reg.exec(session.roomName);
-            if (match) {
+        var session = history;
 
-                let sess = new Session(session, match[1], match[2]);
-                sessions.push(sess);
+        let sess = new Session(session);
+        sessions.push(sess);
 
-                session.messages.forEach(function (message) {
-                    if (!findOne(sess.students, {utorid: message.utorid})) sess.students.push(new Student(message));
+        session.messages.forEach(function (message) {
+            if (!message.utorid) return;
+            if (!findOne(sess.students, {utorid: message.utorid})) sess.students.push(new Student(message));
 
-                    let student = findOne(sess.students, {utorid: message.utorid});
-
-
-                    student.messages.push(message);
-                });
+            let student = findOne(sess.students, {utorid: message.utorid});
 
 
-
-
-            }
-
+            student.messages.push(message);
         });
+
 
         var csvStruct = [];
         sessions.forEach(function (session) {
@@ -82,12 +72,12 @@ MongoClient.connect(constants.dbUrl, function (err, db) {
             });
         });
 
-        csv.stringify(csvStruct, {header: true}, function (err, data) {
-            console.log(data);
-        });
+        callback(null, csvStruct);
 
 
 
 
     });
-});
+};
+
+module.exports = parseStudents;

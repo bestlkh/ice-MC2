@@ -139,7 +139,7 @@
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #000;
+  background-color: #df3320;
   color: #fff;
   padding: 5px 10px; 
   // width: fit-content;
@@ -147,6 +147,17 @@
   text-align: center;
   font-size: 14px;
   z-index: 999;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: 0.2s linear all;
+  opacity: 0.8;
+}
+
+#login-alert.ng-enter {
+  opacity: 0;
+}
+
+#login-alert.ng-enter-active {
+  opacity: 1;
 }
 
 .has-error {

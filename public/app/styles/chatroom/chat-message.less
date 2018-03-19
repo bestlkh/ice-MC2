@@ -3,134 +3,132 @@
  * Bubbles, message menu, avatar etc.
  */
 
-.admin {
-  color: black !important;
-}
+
 
 .direct-chat-msg {
   display: block;
-  margin-top: 5px;
+  // override AdminLTE.css
   margin-bottom: 0px;
-  .chat-img {
-    border-radius: 50%;
-    float: left;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    line-height: 40px;
+}
+
+.chat-img {
+  border-radius: 50%;
+  float: left;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  line-height: 40px;
+}
+
+.chat-info {
+  display: block;
+}
+
+.chat-timestamp {
+  color: #999;
+}
+
+.chat-name {
+  font-weight: bold;
+  opacity: 0.5;
+  &.admin {
+    color: black;
+    opacity: 0.8;
   }
-  .chat-info {
-    display: block;
+}
+
+.chat-text {
+  display: block;
+  position: relative;
+  .inline-image {
+    max-width: 100%;
   }
-  .chat-timestamp {
-    color: #999;
-  }
-  .chat-name {
-    opacity: 0.5 !important;
-    font-weight: bold;
-  }
-  .chat-text {
-    display: block;
-    vertical-align: bottom;
-    position: relative;
-    .inline-image {
-      max-width: 100%;
+  .chat-text-menu {
+    overflow: hidden;
+    margin-left: 60px;
+    height: 0;
+    transition: all ease 0.2s;
+    opacity: 0;
+    &.shown {
+      opacity: 1;
+      height: 40px;
     }
-    .chat-text-menu {
-      overflow: hidden;
-      margin-left: 60px;
-      height: 0;
+    button {
+      height: 30px;
+      width: 30px;
+      margin-top: 5px;
+      border-radius: 5px;
+      color: #1c1c1c;
+      background-color: rgba(0,0,0,0.1);
+      opacity: 0.7;
+      border: rgba(0,0,0,0.2) 2px solid;
       transition: all ease 0.2s;
-      opacity: 0;
-      &.shown {
-        opacity: 1;
-        height: 40px;
+      &:hover {
+        background-color: rgba(0,0,0,0.2);
         transition: all ease 0.2s;
-      }
-      button {
-        height: 30px;
-        width: 30px;
-        margin-top: 5px;
-        border-radius: 5px;
-        color: #1c1c1c;
-        background-color: rgba(0,0,0,0.1);
-        opacity: 0.7;
-        border: rgba(0,0,0,0.2) 2px solid;
-        transition: all ease 0.2s;
-        &:hover {
-          background-color: rgba(0,0,0,0.2);
-          transition: all ease 0.2s;
-        }
       }
     }
-    &.text-right {
-      text-align: right;
-      .chat-text-inner {
-        margin-right: 10px;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 0;
-        transform-origin: 100% 0;
-        background-color: #F9A825;
-        border-color: #F9A825;
-        color: white;
-        &.darken-background {
-          background-color: #F57F17;
-          border-color: #F57F17;
-        }
-        &.instructor-message {
-          background-color: #196619;
-          border-color: #196619;
-          transition: all ease 0.2s;
-          color: white;
-          &.darken-background {
-            background-color: #114611;
-            border-color: #114611;
-            transition: all ease 0.2s;
-          }
-        }
+  }
+  .chat-text-inner {
+    padding: 7px 20px 7px 20px;
+    margin-left: 10px;
+    border-radius: 0 20px 20px 20px;
+    max-width: 70%;
+    overflow: hidden;
+    color: black;
+    margin-top: 5px;
+    display: inline-block;
+    animation: direct-chat-text-inner-enter 0.2s ease;
+    animation-fill-mode: forwards;
+    transform: scale(0);
+    transform-origin: 0 0;
+    cursor: pointer;
+    background-color: #EEEEEE;
+    transition: all ease 0.2s;
+    border-color: #EEEEEE;
+    // Used to indicate selected message
+    &.darken-background {
+      background-color: #E0E0E0;
+      border-color: #E0E0E0;
+    }
+    &.instructor-message {
+      background-color: #84E184;
+      border-color: #84E184;
+      &.darken-background {
+        background-color: #269026;
+        border-color: #269026;
       }
-      .chat-text-menu {
-        margin-right: 60px;
-      }
-      .chat-img {
-        float: right;
-      }      
+    }
+  }
+  &.text-right {
+    text-align: right;
+    .chat-text-menu {
+      margin-right: 60px;
+    }
+    .chat-img {
+      float: right;
     }
     .chat-text-inner {
-      padding: 7px 20px 7px 20px;
-      margin-left: 10px;
-      border-radius: 0 20px 20px 20px;
-      max-width: 70%;
-      overflow: hidden;
-      color: black;
-      margin-top: 5px;
-      display: inline-block;
-      animation: direct-chat-text-inner-enter 0.2s ease;
-      animation-fill-mode: forwards;
-      transform: scale(0);
-      transform-origin: 0 0;
-      cursor: pointer;
-      background-color: #EEEEEE;
-      transition: all ease 0.2s;
-      border-color: #EEEEEE;
-      // Used to indicate selected message
+      margin-right: 10px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 0;
+      transform-origin: 100% 0;
+      background-color: #F9A825;
+      border-color: #F9A825;
+      color: white;
       &.darken-background {
-        background-color: #E0E0E0;
-        border-color: #E0E0E0;
-        transition: all ease 0.2s;
+        background-color: #F57F17;
+        border-color: #F57F17;
       }
       &.instructor-message {
-        background-color: #84E184;
-        border-color: #84E184;
-        transition: all ease 0.2s;
-        color: black;
+        background-color: #196619;
+        border-color: #196619;
         &.darken-background {
-          background-color: #269026;
-          border-color: #269026;
-          transition: all ease 0.2s;
+          background-color: #114611;
+          border-color: #114611;
         }
       }
-    }
+    }    
   }
 }

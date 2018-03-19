@@ -1,4 +1,4 @@
-# MC^2 Project Developer Documentation
+# MC² Project Developer Documentation
 
 ```
 Author: Jun Zheng (junthehacker)
@@ -23,3 +23,11 @@ Full source of the project in available at [https://github.com/bestlkh/ice-MC2](
 | ---+ index.html  - Angular enterence point
 + app.js           - Primary Node.js script
 ```
+
+## Start Developing
+
+1. Download the source code.
+2. Run `npm run dev`
+
+!!! caution "Windows Developers"
+    Instead run `node app.js & gulp dev`

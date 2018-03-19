@@ -2,13 +2,18 @@
     "docs": [
         {
             "location": "/", 
-            "text": "MC\u00b2 Documentation\n\n\nAuthors\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nWelcome to the documentation for the MC\u00b2 Project.", 
+            "text": "MC\u00b2 Documentation\n\n\nAuthors\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nWelcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.\n\n\nRequirements\n\n\nYou must have the following installed:\n\n\n\n\nnpm\n\n\nNode.js\n\n\nMongoDB\n\n\n\n\nRun \nnpm run deploy\n to run the application.", 
             "title": "Home"
         }, 
         {
             "location": "/#mc2-documentation", 
-            "text": "Authors :   Jun   Zheng   ( junthehacker ),   Daniel   Hugh   ( hughdani )   Welcome to the documentation for the MC\u00b2 Project.", 
+            "text": "Authors :   Jun   Zheng   ( junthehacker ),   Daniel   Hugh   ( hughdani )   Welcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.", 
             "title": "MC\u00b2 Documentation"
+        }, 
+        {
+            "location": "/#requirements", 
+            "text": "You must have the following installed:   npm  Node.js  MongoDB   Run  npm run deploy  to run the application.", 
+            "title": "Requirements"
         }, 
         {
             "location": "/end-user/user-guide/login/", 
@@ -327,18 +332,23 @@
         }, 
         {
             "location": "/developer/overview/", 
-            "text": "MC^2 Project Developer Documentation\n\n\nAuthor\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n)\n\n\n\n\n\n\nThis documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.\n\n\nFull source of the project in available at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nProject Layout\n\n\n+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script", 
+            "text": "MC\u00b2 Project Developer Documentation\n\n\nAuthor\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n)\n\n\n\n\n\n\nThis documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.\n\n\nFull source of the project in available at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nProject Layout\n\n\n+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script\n\n\n\n\n\nStart Developing\n\n\n\n\nDownload the source code.\n\n\nRun \nnpm run dev\n\n\n\n\n\n\nWindows Developers\n\n\nInstead run \nnode app.js \n gulp dev", 
             "title": "Overview"
         }, 
         {
             "location": "/developer/overview/#mc2-project-developer-documentation", 
             "text": "Author :   Jun   Zheng   ( junthehacker )   This documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.  Full source of the project in available at  https://github.com/bestlkh/ice-MC2 .", 
-            "title": "MC^2 Project Developer Documentation"
+            "title": "MC\u00b2 Project Developer Documentation"
         }, 
         {
             "location": "/developer/overview/#project-layout", 
             "text": "+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script", 
             "title": "Project Layout"
+        }, 
+        {
+            "location": "/developer/overview/#start-developing", 
+            "text": "Download the source code.  Run  npm run dev    Windows Developers  Instead run  node app.js   gulp dev", 
+            "title": "Start Developing"
         }, 
         {
             "location": "/developer/ui-library/overview/", 

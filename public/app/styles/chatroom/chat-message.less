@@ -3,6 +3,10 @@
  * Bubbles, message menu, avatar etc.
  */
 
+.admin {
+  color: black !important;
+}
+
 .direct-chat-msg {
   display: block;
   margin-top: 5px;
@@ -74,13 +78,24 @@
           background-color: #F57F17;
           border-color: #F57F17;
         }
+        &.instructor-message {
+          background-color: #196619;
+          border-color: #196619;
+          transition: all ease 0.2s;
+          color: white;
+          &.darken-background {
+            background-color: #114611;
+            border-color: #114611;
+            transition: all ease 0.2s;
+          }
+        }
       }
       .chat-text-menu {
         margin-right: 60px;
       }
       .chat-img {
         float: right;
-      }
+      }      
     }
     .chat-text-inner {
       padding: 7px 20px 7px 20px;
@@ -106,9 +121,10 @@
         transition: all ease 0.2s;
       }
       &.instructor-message {
-        background-color: #32CD32;
-        border-color: #32CD32;
+        background-color: #84E184;
+        border-color: #84E184;
         transition: all ease 0.2s;
+        color: black;
         &.darken-background {
           background-color: #269026;
           border-color: #269026;

@@ -1,4 +1,4 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2, shrink-to-fit=no">
 <div class="login-box">
   <div class="login-logo">
     <a href="/"><b>MC²</b>Chat<small></small></a>
@@ -32,13 +32,15 @@
         <div class="form-group errGroup">
         </div>
         <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">
-            <input maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
+            <input aria-label="Username" maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
 
-            <input ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
-            <input maxlength="50" ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
-            <input maxlength="50" ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <input aria-label="TA secret" ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
+            <input aria-label="Room Name" maxlength="50" ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
+            <input aria-label="Room Name" maxlength="50" ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
+            <div class="chat-box"></div>
+
             <hr>
-            <input id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
+            <input aria-label="Nickname" id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
 
             <span ng-hide="isErrorNick" class="glyphicon glyphicon-user form-control-feedback"></span>
             <span ng-hide="!isErrorNick" class="glyphicon glyphicon-remove form-control-feedback errText"></span>
@@ -50,28 +52,28 @@
         </div>
         <div id="avatar-list" class="form-group has-feedback" style="margin-bottom: 0">
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar1.jpg" ng-class="{'avatar-selected': userAvatar==='1', 'avatar':true}" id="Avatar1" ng-click="changeAvatar('1')"/>
+            <img src="app/css/dist/img/Avatar1.jpg" alt="blue avatar" ng-class="{'avatar-selected': userAvatar==='1', 'avatar':true}" id="Avatar1" ng-click="changeAvatar('1')"/>
           </div>
           <div class="avatar-thumb">
-              <img src="app/css/dist/img/Avatar2.jpg" ng-class="{'avatar-selected': userAvatar==='2', 'avatar':true}" id="Avatar2" ng-click="changeAvatar('2')"/>
+              <img src="app/css/dist/img/Avatar2.jpg" alt="orange avatar" ng-class="{'avatar-selected': userAvatar==='2', 'avatar':true}" id="Avatar2" ng-click="changeAvatar('2')"/>
           </div>
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar3.jpg" ng-class="{'avatar-selected': userAvatar==='3', 'avatar':true}" id="Avatar3" ng-click="changeAvatar('3')"/>
+            <img src="app/css/dist/img/Avatar3.jpg" alt="green avatar" ng-class="{'avatar-selected': userAvatar==='3', 'avatar':true}" id="Avatar3" ng-click="changeAvatar('3')"/>
           </div>
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar4.jpg" ng-class="{'avatar-selected': userAvatar==='4', 'avatar':true}" id="Avatar4" ng-click="changeAvatar('4')"/>
+            <img src="app/css/dist/img/Avatar4.jpg" alt="yellow avatar" ng-class="{'avatar-selected': userAvatar==='4', 'avatar':true}" id="Avatar4" ng-click="changeAvatar('4')"/>
           </div>
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar5.jpg" ng-class="{'avatar-selected': userAvatar==='5', 'avatar':true}" id="Avatar5" ng-click="changeAvatar('5')"/>
+            <img src="app/css/dist/img/Avatar5.jpg" alt="black avatar" ng-class="{'avatar-selected': userAvatar==='5', 'avatar':true}" id="Avatar5" ng-click="changeAvatar('5')"/>
           </div>
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar6.jpg" ng-class="{'avatar-selected': userAvatar==='6', 'avatar':true}" id="Avatar6" ng-click="changeAvatar('6')"/>
+            <img src="app/css/dist/img/Avatar6.jpg" alt="grayish blue avatar" ng-class="{'avatar-selected': userAvatar==='6', 'avatar':true}" id="Avatar6" ng-click="changeAvatar('6')"/>
           </div>
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar7.jpg" ng-class="{'avatar-selected': userAvatar==='7', 'avatar':true}" id="Avatar7" ng-click="changeAvatar('7')"/>
+            <img src="app/css/dist/img/Avatar7.jpg" alt="purple avatar" ng-class="{'avatar-selected': userAvatar==='7', 'avatar':true}" id="Avatar7" ng-click="changeAvatar('7')"/>
           </div>
           <div class="avatar-thumb">
-            <img src="app/css/dist/img/Avatar8.jpg" ng-class="{'avatar-selected': userAvatar==='8', 'avatar':true}" id="Avatar8" ng-click="changeAvatar('8')"/>
+            <img src="app/css/dist/img/Avatar8.jpg" alt="light blue avatar" ng-class="{'avatar-selected': userAvatar==='8', 'avatar':true}" id="Avatar8" ng-click="changeAvatar('8')"/>
           </div>
         </div><!-- /Avatar Div -->
 
@@ -81,7 +83,7 @@
                     <div>Room does not exist. Create it?</div>                    
               </div>
               <button ng-if="!isJoin || (newRoomOption && isJoin)" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect(true)">Create</button>
-              <button ng-if="isJoin" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Start</button>
+              <button ng-if="isJoin" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="redirect()">Login</button>
               <button ng-if="nsp" class="btn btn-primary btn-block btn-flat" ng-click="onInstructorLogin()">Login as instructor</button>
               <button ng-if="nsp" ng-class="{'orange': ta}" class="btn btn-primary btn-block btn-flat" ng-click="onTaClick()">Login as TA</button>
             </div><!-- /.col -->

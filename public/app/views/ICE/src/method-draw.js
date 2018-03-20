@@ -338,7 +338,7 @@ var SOTP = 0;
         tool_scale = 1,
         ui_context = 'toolbars',
         orig_source = '';
-        
+
 
 
       // This puts the correct shortcuts in the menus
@@ -398,7 +398,7 @@ var SOTP = 0;
         $.prompt = function(msg, txt, cb) { dbox('prompt', msg, cb, txt);};
       }());
 
-      var setSelectMode = function() {    
+      var setSelectMode = function() {
         var curr = $('.tool_button_current');
         if(curr.length && curr[0].id !== 'tool_select') {
           curr.removeClass('tool_button_current').addClass('tool_button');
@@ -1077,7 +1077,7 @@ var SOTP = 0;
             var button = $((btn.list || btn.type == 'app_menu')?'<li/>':'<div/>')
               .attr("id", id)
               .attr("title", btn.title)
-              .addClass(cls);      
+              .addClass(cls);
             if(!btn.includeWith && !btn.list) {
               if("position" in btn) {
                 $(parent).children().eq(btn.position).before(button);
@@ -1201,13 +1201,13 @@ var SOTP = 0;
                     if(btn.includeWith) {
                       button.bind(name, func);
                     } else {
-                  
+
                       if(button[0].id === 'tool_panzoom'){
                         extButtonKeeper = button;
-                      }  
-                      
+                      }
+
                       button.bind(name, function() {
-                        if(toolButtonClick(button)) {               
+                        if(toolButtonClick(button)) {
                           func();
                         }
                       });
@@ -1432,7 +1432,7 @@ var SOTP = 0;
 
         var menu_items = $('#cmenu_canvas li');
         $('.context_panel').hide();
-        $('.menu_item', '#edit_menu').addClass('disabled');
+        // $('.menu_item', '#edit_menu').addClass('disabled');
         $('.menu_item', '#object_menu').addClass('disabled');
 
 
@@ -1938,7 +1938,7 @@ var SOTP = 0;
          });
 
 
-        $('.touch nav li').on('touchstart', function() {   
+        $('.touch nav li').on('touchstart', function() {
               if(  $(this).hasClass('open')){
 
                 $(this).children('.touch .second-level-menu').css('display' , 'none');
@@ -2264,7 +2264,7 @@ var SOTP = 0;
           //svgCanvas.moveCursor(-1.9,0);
           //svgCanvas.resetSelection();
           svgCanvas.clearSelection();
-          
+
 
         }
         // **MDP)
@@ -2476,25 +2476,25 @@ var SOTP = 0;
         }
 
         var table = $('<table>').addClass('layout-select')
-        el.append(table)      
+        el.append(table)
         for (var i=0; i < rows; i++){
           var row = $('<tr>')
-          table.append(row) 
+          table.append(row)
           for (var j=0; j < cols; j++){
             var cell = $('<td>')
             cell.append($('<div>'))
             row.append(cell)
           }
         }
-        
-        function clearHighlight (target) {  
+
+        function clearHighlight (target) {
           target.parent().parent().find('div').removeClass('grid-select-active')
         }
-       
+
         function addHighlight (target){
           var cellIndex = target.index()
           var rowIndex = target.parent().index()
-          var rows = target.parent().parent().children()  
+          var rows = target.parent().parent().children()
           document.getElementById('sizeShow').innerHTML = (rowIndex+1) + "x" + (cellIndex+1);
           for (var i=0; i<=rowIndex; i++) {
             $(rows[i])
@@ -2504,19 +2504,19 @@ var SOTP = 0;
               .addBack()
               .find('div')
               .addClass('grid-select-active')
-          }  
-        }    
-        table.find('td').on('click', clickHandler)    
+          }
+        }
+        table.find('td').on('click', clickHandler)
         table.find('td').on('mouseover', function(){
         var target = $(this)
           addHighlight(target)
           //showSize();
-        })       
+        })
         table.on('mouseout', function(){
           var target = $(this)
           clearHighlight(target)
-        }) 
-        $('#svg_editor').append(div);  
+        })
+        $('#svg_editor').append(div);
         $('#matrix_flyout').append(el);
         $('#matrix_flyout').append(sizeShow);
       };
@@ -2525,21 +2525,21 @@ var SOTP = 0;
           var placeHolder = document.getElementById('matrix_flyout');
           console.log(placeHolder.childNodes);
           if(placeHolder.style.display == 'block'){
-            
+
             placeHolder.style.display = 'none';
           }
           else{
             placeHolder.style.display = 'block';
-          }        
+          }
       };
-      
+
       var zoomOutBtn= function(){
         extButtonKeeper.click();
         svgCanvas.setMode("pan");
-        var svg = $("#svgcanvas");    
+        var svg = $("#svgcanvas");
           svg.css({
               cursor: "zoom-out"
-          });            
+          });
     };
 
       var sendAsImage = function(){
@@ -2637,7 +2637,7 @@ var SOTP = 0;
       var clickOpen = function(){
         svgCanvas.open();
       };
-      
+
       /**
        * Open help document in a new window/tab.
        */
@@ -4533,7 +4533,7 @@ var SOTP = 0;
 
   // Run init once DOM is loaded
   $(methodDraw.init);
- 
+
   //methodDraw.placeMathCursor();
 
 

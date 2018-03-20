@@ -38,15 +38,11 @@
     <div class="arrow-left"></div>
     <div id="dragbar"></div>
     <!-- Chat Content -->
-<<<<<<< HEAD
     <div id="chatframe">
         <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
         
         <!--Bubble Menu-->
         <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
-
-
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">   
@@ -58,23 +54,6 @@
                         <!-- Conversations are loaded here -->
                         <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
                              scroll-bottom="messages">
-=======
-    <main>
-        <div id="chatframe">
-            <input id="upload-input" style="display: none" type="file" fileread="upload.image"/>
-
-            <!--Bubble Menu-->
-            <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
-                        <div id="chat-body-div" class="box-body">
-
-                            <!-- Conversations are loaded here -->
-                            <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs"
-                                scroll-bottom="messages">
->>>>>>> master
 
                                 <!-- Message. Default to the left -->
                                 <div ng-repeat="message in getAllMsg()"

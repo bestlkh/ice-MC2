@@ -172,8 +172,7 @@ angular.module('Controllers')
 
                 $rootScope.loggedIn = false;
                 $rootScope.error = data.message;
-                console.log(data);
-                return $location.path('/v1/');
+                return $location.path($location.path().replace("/ChatRoom", ""));
             }
             //$scope.messages.push(data);
             $scope.isLoading = false;

@@ -1,20 +1,19 @@
 # Developer Documentation
 
-```
-Authors: Jun Zheng (junthehacker), Daniel Hugh (hughdani)
-```
+??? "Authors"
+    Jun Zheng (junthehacker), Daniel Hugh (hughdani)
 
-This documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.
+This documentation is aimed to provide developers a better understanding of the project. It also includes some very important API documentation.
 
 ## Start Developing
 
 1. Download the source code at [https://github.com/bestlkh/ice-MC2](https://github.com/bestlkh/ice-MC2).
 2. Run `npm run dev`
 
-This will start up a development server that will watch for file changes. By default the server will be hosted on [http://localhost:3000](http://localhost:3000).
-
 !!! caution "Windows Developers"
-    Instead run `node app.js & gulp dev`. To properly exit from the application, you may need to kill the background task `node app.js`.
+    Instead run `node app.js & gulp dev`. To fully exit from the application, you will need to kill the background task `node app.js`.
+
+This will start up a development server that will watch for file changes. By default the server will be hosted on [http://localhost:3000](http://localhost:3000).
 
 ## Project Layout
 
@@ -22,7 +21,7 @@ This will start up a development server that will watch for file changes. By def
 + AdminView/       - Self explaintory
 + public/          - Everything that will be served with Node.js
 | ---+ app/        - Controllers, libs etc.
-| ------+ dist/    - destination for Gulp compiled files
+| ---|---+ dist/   - Gulp's destination for compiled files 
 | ---+ docs-src/   - Documentation source
 | ---+ docs/       - Compiled documentation
 | ---+ landing/    - Landing page

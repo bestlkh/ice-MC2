@@ -1,8 +1,8 @@
 # MC² Project
 
-```
-Authors: Jun Zheng (junthehacker), Daniel Hugh (hughdani)
-```
+??? "Authors"
+    Jun Zheng (junthehacker), Daniel Hugh (hughdani)
+
 Welcome to the documentation for the MC² Project, a collaborative math equation editing software.
 
 ## Requirements

@@ -1432,7 +1432,7 @@ var SOTP = 0;
 
         var menu_items = $('#cmenu_canvas li');
         $('.context_panel').hide();
-        $('.menu_item', '#edit_menu').addClass('disabled');
+        // $('.menu_item', '#edit_menu').addClass('disabled');
         $('.menu_item', '#object_menu').addClass('disabled');
 
 
@@ -2638,6 +2638,26 @@ var SOTP = 0;
         svgCanvas.open();
       };
 
+      /**
+       * Open help document in a new window/tab.
+       */
+      var clickHelp = function(){
+          var win = window.open('/files/mc2-help.pdf', '_blank');
+          win.focus();
+      };
+
+      /**
+       * Open about window
+       */
+      var clickAbout = function(){
+          parent.window.Alert.Alert.spawn('About MC^2', 'Build 20180304');
+      };
+
+      var clickImport = function(){
+        $("#image-import-input").click();
+      };
+
+
       var flash = function($menu){
         var menu_title = $menu.prev();
         menu_title.css({
@@ -3464,7 +3484,7 @@ var SOTP = 0;
 
       $('#zoom').change(function(){
         changeZoom(this)
-      })
+      });
 
       //Prevent browser from erroneously repopulating fields
       $('input,select').attr("autocomplete","off");
@@ -3495,6 +3515,10 @@ var SOTP = 0;
           {sel:'#tool_save', fn: function() { editingsource ? saveSourceEditor(): clickSave() }, evt: 'mouseup', key: [modKey + 'S', true]},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
+          {sel:'#tool_help', fn: clickHelp, evt: 'mouseup'},
+          {sel:'#tool_about', fn: clickAbout, evt: 'mouseup'},
+          {sel:'.tool_import', fn: clickImport, evt: 'mousedown'},
+          {sel:'.tool_import_mobile', fn: clickImport, evt: 'mouseup'},
           {sel:'#tool_source', fn: showSourceEditor, evt: 'click', kAy: [modKey + 'U', true]},
           {sel:'#tool_wireframe', fn: clickWireframe, evt: 'click'},
           {sel:'#tool_snap', fn: clickSnapGrid, evt: 'click'},

@@ -1,12 +1,12 @@
 site_name: MC² Documentation
 pages:
   - Home: 'index.md'
-  - User Documentation:
+  - User Guide:
     - End User:
       - Login: 'end-user/user-guide/login.md'
       - Chatroom: 'end-user/user-guide/chatroom.md'
       - Math Editor: 'end-user/user-guide/math-editor.md'
-    - Administration:
+    - Administrator:
       - Overview: 'end-user/admin-guide/overview.md'
       - Classroom Management: 'end-user/admin-guide/classroom.md'
       - Chatroom Management: 'end-user/admin-guide/chatroom.md'
@@ -15,15 +15,17 @@ pages:
   - Developer Documentation:
     - Overview: 'developer/overview.md'
     - Build Tools: 'developer/build-tools/gulp.md'
-    - UI Library:
-      - Overview: 'developer/ui-library/overview.md'
-    - Alert Library:
-      - Overview: 'developer/alert-library/overview.md'
-    - Message Format: 'developer/message-format.md'
-    - Classes:
-      - UI.BasicControl: 'developer/ui-library/controls/basic-control.md'
-      - Alert.Alert: 'developer/alert-library/dialogs/alert.md'
-      - Alert.Notification: 'developer/alert-library/overlays/notification.md'
+    - Libraries:
+      - UI Library:
+        - Overview: 'developer/ui-library/overview.md'
+      - Alert Library:
+        - Overview: 'developer/alert-library/overview.md'
+    - API:
+      - Message Format: 'developer/message-format.md'
+      - Classes:
+        - UI.BasicControl: 'developer/ui-library/controls/basic-control.md'
+        - Alert.Alert: 'developer/alert-library/dialogs/alert.md'
+        - Alert.Notification: 'developer/alert-library/overlays/notification.md'
 
 repo_name: 'bestlkh/ice-MC2'
 repo_url: 'https://github.com/bestlkh/ice-MC2'

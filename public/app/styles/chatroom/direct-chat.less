@@ -29,8 +29,30 @@
   overflow: auto;
 }
 
+#chat-sending-animation {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    display: none;
+    #chat-sending-animation-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 5px;
+        width: 100px;
+        background-color: #64B5F6;
+        animation-timing-function: linear;
+        animation: sending-bounce 1s infinite;
+    }
+}
 
-
+@keyframes sending-bounce {
+    0% {left: 0%;}
+    50% {left: 90%;}
+    100% {left: 0%;}
+}
 
 // Fancy enter animation for direct chat messages
 @keyframes direct-chat-text-inner-enter {

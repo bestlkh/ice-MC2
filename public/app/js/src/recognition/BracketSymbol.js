@@ -17,7 +17,7 @@ class BracketSymbol extends Symbol {
         const BRACKET = ["lbracket", "(", ")", "rbracket"]; // organization needed
         if (BRACKET.indexOf(value) < BRACKET.length / 2) {
             this.minX -= width;
-            this.maxX -= width;
+            // this.maxX -= width;
             this.x -= width;
             this.bracketType = BracketTypes.OPEN;
         }

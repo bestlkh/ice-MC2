@@ -1,6 +1,6 @@
 # Alert.Notification
 
-/ [Home](../../) / [Alert Library](../overview) / Alert.Notification
+/ [Home](../../../) / [Alert Library](../overview) / Alert.Notification
 
 ??? "Authors"
     Jun Zheng (junthehacker)

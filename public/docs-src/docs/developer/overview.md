@@ -5,15 +5,26 @@
 
 This documentation is aimed to provide developers a better understanding of the project. It also includes some very important API documentation.
 
-## Start Developing
+## Requirements
+
+You must have the following installed:
+
+* npm
+* Node.js
+* MongoDB
+
+## Running the Application Locally
 
 1. Download the source code at [https://github.com/bestlkh/ice-MC2](https://github.com/bestlkh/ice-MC2).
-2. Run `npm run dev`
+2. Run `npm install`.
+3. Start MongoDB.
+4. Run `npm run dev`.
 
 !!! caution "Windows Developers"
     Instead run `node app.js & gulp dev`. To fully exit from the application, you will need to kill the background task `node app.js`.
 
-This will start up a development server that will watch for file changes. By default the server will be hosted on [http://localhost:3000](http://localhost:3000).
+
+This will start up a development server that will watch for file changes. A browser window will open to the default server hosted on [http://localhost:3000](http://localhost:3000).
 
 ## Project Layout
 

@@ -1,6 +1,6 @@
 # UI.BasicControl
 
-/ [Home](../../) / [UI Library](../overview) / UI.BasicControl
+/ [Home](../../../) / [UI Library](../overview) / UI.BasicControl
 
 ??? "Authors"
     Jun Zheng (junthehacker)

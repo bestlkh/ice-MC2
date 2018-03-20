@@ -20,11 +20,13 @@ var app = new Vue({
         importExternal: function(){
             var self = this;
             var url = prompt("Enter external library URL");
-            axios.get(url).then(data => {
-                self.imglibData = data.data;
-            }).catch(e => {
-                alert(e);
-            });
+            if(url){
+              axios.get(url).then(data => {
+                  self.imglibData = data.data;
+              }).catch(e => {
+                  alert(e);
+              });  
+            }
         },
         exportLibrary: function(){
             var element = document.createElement('a');

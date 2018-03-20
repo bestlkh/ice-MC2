@@ -32,6 +32,10 @@ App.config(function ($routeProvider, $locationProvider){
         when("/classrooms/:name/history", {
             templateUrl: '/app/views/admin/classHistory.html',
             controller: 'historyController'
+        }).
+        when("/ta/:id", {
+            templateUrl: '/app/views/admin/ta.html',
+            controller: 'taController'
         })
         .otherwise({
             redirectTo: '/classrooms',	// Default Route

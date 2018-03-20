@@ -496,7 +496,7 @@ ul {
   padding: 0 30px;
 }
 
-.import-wrapper header {
+.import-wrapper>header {
 
   padding: 10px 0;
   border-bottom: 1px @lighter-grey solid;
@@ -505,7 +505,7 @@ ul {
   justify-content: space-between;
 }
 
-.import-wrapper header>span {
+.import-wrapper>header span {
   font-size: 20px;
   font-weight: 600;
   line-height: 50px;
@@ -528,7 +528,9 @@ ul {
   color: @pri-color;
 }
 
-
+.highlight {
+  color: @pri-color;
+}
 
 input[type="file"] {
   position: fixed;
@@ -537,7 +539,7 @@ input[type="file"] {
 
 .import-wrapper form {
 
-  padding: 10px 0;
+  padding: 10px 0 20px 0;
 
 }
 
@@ -604,16 +606,23 @@ input[type="submit"]:hover {
 }
 
 .setting {
+  color: #919191;
   display: flex;
   justify-content: space-between;
-
+  border: 1px #d6d7d8 solid;
   background-color: #f0f1f2;
   padding: 10px;
   width: 800px;
+  transition: 0.1s all linear;
+}
+
+.setting:hover {
+  color: #414141;
 }
 
 .setting:nth-child(2) {
   background-color: #fff;
+  border-top: 0;
 }
 
 .setting input[type="text"] {
@@ -639,12 +648,18 @@ input[type="submit"]:hover {
 }
 
 .setting-label {
-  color: #919191;
+  color: inherit;
   padding: 7px;
   padding-left: 0;
   width: 150px;
   display: flex;
 
+}
+
+.chat-setting-form input[type="submit"] {
+  margin: 25px auto;
+  width: fit-content;
+  display: block;
 }
 
 .change-button {
@@ -683,6 +698,7 @@ input[type="submit"]:hover {
   border: 1px #c0c0c0 solid;
   padding: 10px;
   outline: none;
+
 }
 
 .add-wrapper input:focus {
@@ -703,7 +719,6 @@ input[type="submit"]:hover {
 }
 
 .overlay.ng-leave {
-  --webkit-transition: none;
   transition: none;
 }
 
@@ -832,8 +847,7 @@ input[type="submit"]:hover {
   border-radius: 3px;
   transition: all 0.15s linear;
   height: 42px;
-  z-index: 30;
-  position: relative;
+
 }
 
 .notif-popup.ng-enter {

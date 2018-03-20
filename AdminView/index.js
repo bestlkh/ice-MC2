@@ -500,34 +500,69 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
-    function TA(ta) {
+    function TA(ta, owner) {
         this.name = ta.name;
         this.token = ta.token ? ta.token : uuidv4().substring(0, 8);
+        this.owner = owner;
+        this.avatar = ta.avatar;
     }
 
     this.app.post("/v1/api/ta", checkAuth, function (req, res) {
-        var ta = new TA(req.body);
+        var ta = new TA(req.body, req.session.user.username);
 
 
-        this.db.collection("ta").updateOne({owner: req.session.user.username}, {$push: {tas: ta}}, {upsert: true}, function (err, result) {
+        this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (result) return res.status(401).json({status: 400, message: "Token already exists"});
+            this.db.collection("ta").insertOne(ta, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
-            res.json({});
 
-        });
+                res.json({});
+
+            });
+        }.bind(this));
 
     }.bind(this));
 
     this.app.get("/v1/api/ta", checkAuth, function (req, res) {
 
 
-        this.db.collection("ta").findOne({owner: req.session.user.username}, function (err, result) {
+        this.db.collection("ta").find({owner: req.session.user.username}, {avatar: 0, owner: 0}).toArray(function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
-            res.json(result ? result.tas : []);
+            res.json(result);
 
         });
 
+    }.bind(this));
+
+    this.app.patch("/v1/api/ta", checkAuth, function (req, res) {
+        var ta = new TA(req.body, req.session.user.username);
+
+        this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (result) return res.status(401).json({status: 400, message: "Token already exists"});
+            this.db.collection("ta").updateOne({
+                _id: new ObjectID(req.body._id),
+                owner: req.session.user.username
+            }, ta, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+                res.json({});
+
+            });
+        }.bind(this));
+
+    }.bind(this));
+
+    this.app.get("/v1/api/ta/:id", checkAuth, function (req, res) {
+        this.db.collection("ta").findOne({owner: req.session.user.username, _id: new ObjectID(req.params.id)}, function (err, ta) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            if (!ta) return res.status(404).json({status: 404, message: "No such TA exists"});
+            res.json(ta);
+        });
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions", checkAuth, function (req, res) {
@@ -535,7 +570,7 @@ AdminView.prototype.setupApi = function () {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(sessions);
-        })
+        });
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
@@ -544,7 +579,7 @@ AdminView.prototype.setupApi = function () {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(session);
-        })
+        });
     }.bind(this));
 
     var parseStudent = require("./message-parser");

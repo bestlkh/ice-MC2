@@ -168,11 +168,9 @@ LectureNsp.prototype.findClient = function (roomName, username) {
 };
 
 LectureNsp.prototype.findTa = function (data, callback) {
-
-        this.db.collection("ta").findOne({owner: this.owner}, function (err, tas) {
+        this.db.collection("ta").findOne({owner: this.owner, token: data.secret}, function (err, ta) {
             if (err) return callback(err, null);
 
-            var ta = findOne(tas.tas, {token: data.secret});
             callback(null, ta);
         });
 
@@ -241,29 +239,33 @@ LectureNsp.prototype.listen = function () {
                     if (this.findClient(data.roomId, data.username)) {
                         callback({success: false, message: "Use different username."});
                     } else {
+                        var login = function () {
+                            if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
+                            else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
+                            if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+                            setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
+                            callback({success: true});
+                        };
                         if (data.token) {
                             this.findStudent(data, function (err, student) {
                                 if (err) return callback({success: false, message: "Invalid id"});
                                 setSessionVar("utorid", student.utorid);
-
+                                login();
                             });
 
                         } else if (data.secret) {
                             this.findTa(data, function (err, ta) {
-                                if (err) return callback({success: false, message: "Invalid secret"});
-                                setSessionVar("ta", ta);
+                                if (err || !ta) return callback({success: false, message: "Invalid secret"});
 
+                                setSessionVar("ta", ta);
+                                login();
                             });
                         } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});
                         }
 
 
-                        if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
-                        else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
-                        if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                        setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
-                        callback({success: true});
+
                     }
                 }.bind(this));
                 //if (!data.isJoin) clients = {sockets:[]};

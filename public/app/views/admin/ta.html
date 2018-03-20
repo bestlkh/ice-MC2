@@ -8,6 +8,60 @@
     </div>
     <div class="overlay" ng-if="!hideOverlay" >
 
+        <div class="import-wrapper" ng-if="selected">
+
+            <header>
+                <div style="display: flex;">
+                    <span>
+                        Update TA
+                        <span class="highlight">
+                            [{{selected.name}}]
+                        </span>
+                    </span>
+                    <div class="notif-popup" ng-class="{'error-popup': notif.error}" ng-if="notif">
+                        {{notif.message}}
+                    </div>
+                </div>
+
+
+                <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+            </header>
+
+            <form class="chat-setting-form" ng-submit="Actions.onUpdateTA()">
+                <div class="setting-category">
+                    <header>Details</header>
+                    <div class="setting-wrapper">
+                        <div class="setting">
+                            <div class="setting-label">
+                                Name
+                                <div class="change-button" ng-click="block.name = false">
+                                    Change
+                                </div>
+                            </div>
+                            <input required ng-disabled="block.name" type="text" ng-class="{'setting-blocked': block.name}" ng-model="ta.name"/>
+
+                        </div>
+                        <div class="setting">
+                            <div class="setting-label">
+                                Token
+                                <div class="change-button" ng-click="block.token = false">
+                                    Change
+                                </div>
+                            </div>
+                            <input required ng-disabled="block.token" type="text" ng-class="{'setting-blocked': block.token}" ng-model="ta.token"/>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <input type="submit" value="Save" ng-class="{'disabled': block.save}" ng-disabled="block.save">
+
+            </form>
+        </div>
+
         <div class="import-wrapper" ng-if="!hideAdd">
 
             <header>
@@ -19,7 +73,7 @@
             </header>
 
             <form >
-                <div class="form-wrapper" style="border: 0;">
+                <div class="form-wrapper" style="border: 0;padding: 0">
                     <div class="add-wrapper">
                         <div>
                             Name
@@ -60,7 +114,7 @@
 
                 </div>
                 <div class="list-wrapper" ng-repeat="ta in tas">
-                    <div class="student-item" ng-if="checkInclude(ta)">
+                    <div class="student-item" ng-if="checkInclude(ta)" ng-click="setSelected(ta._id, true)">
                         <div>{{ta.name}}</div>
 
                         <div>{{ta.token}}</div>

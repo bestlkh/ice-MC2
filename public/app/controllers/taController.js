@@ -1,9 +1,10 @@
 angular.module('Controllers', [])
-    .controller("taController", function ($scope, $rootScope, $routeParams, $window) {
+    .controller("taController", function ($scope, $rootScope, $routeParams, $window, $location) {
         $rootScope.tabActive = "ta";
 
         $scope.hideOverlay = true;
         $scope.hideOauth = true;
+        $scope.hideAdd = true;
         $scope.isLoading = false;
         $scope.error = null;
 
@@ -17,12 +18,20 @@ angular.module('Controllers', [])
 
         $scope.test = false;
 
+        $scope.selected = null;
+
+        $scope.block = {
+            name: true,
+            token: true,
+            save: true
+        };
+
         $scope.search = {
             value: ""
         };
 
         $scope.newNotif = function (message, success) {
-            $scope.notif = {message: message};
+            $scope.notif = {message: message, error: !success};
 
             clearTimeout($scope.to);
             $scope.to = setTimeout(function () {
@@ -30,6 +39,24 @@ angular.module('Controllers', [])
                 $scope.$apply();
             }, 5000);
         };
+        
+        $scope.setSelected = function (id, click) {
+            if (!id) return;
+            if (click) return $location.path("/ta/"+id);
+            $scope.Actions.onGetTA(id);
+            $scope.hideOverlay = false;
+        };
+
+        $scope.onFormChange = function () {
+            $scope.block.save = (checkDetails());
+        };
+
+        function checkDetails() {
+            for (var key in $scope.ta) {
+                if ($scope.ta[key] !== $scope.selected[key]) return false;
+            }
+            return true;
+        }
 
         $scope.Actions = {
             getTAList: function () {
@@ -50,17 +77,62 @@ angular.module('Controllers', [])
                     contentType: "application/json",
                     success: function (result) {
                         //$scope.tas = result;
-                        $scope.hideImport = $scope.hideOverlay = true;
+                        $scope.hideAdd = $scope.hideOverlay = true;
                         $scope.active = false;
                         $scope.Actions.getTAList();
                         $scope.ta.name = "";
 
                         $scope.newNotif("Successfully added", true);
+                    }
+                })
+            },
+            onGetTA: function (id) {
+                $.ajax({
+                    url: "/v1/api/ta/"+id,
+                    success: function (result) {
+                        $scope.selected = result;
+                        $scope.ta = Object.assign({}, result);
 
+                        $scope.$watch("ta", function () {
+                            $scope.onFormChange();
+                        }, true);
+
+                        $scope.$apply();
+                    }
+                })
+            },
+            onUpdateTA: function () {
+                $.ajax({
+                    method: "PATCH",
+                    url: "/v1/api/ta",
+                    data:  JSON.stringify($scope.ta),
+                    processData: false,
+                    contentType: "application/json",
+                    success: function (result) {
+
+                        $scope.active = false;
+                        $scope.Actions.onGetTA($scope.selected._id);
+                        $scope.ta = {};
+                        $scope.block = {
+                            save: true,
+                            name: true,
+                            token: true
+                        };
+
+                        $scope.newNotif("Successfully Updated", true);
+
+                    },
+                    error: function (err) {
+                        $scope.newNotif(err.responseJSON.message, false);
+                        $scope.$apply();
                     }
                 })
             }
         };
+
+        setTimeout(function() {
+            $scope.setSelected($routeParams.id)
+        }, 10);
 
         $scope.onAddClick = function () {
             $scope.hideAdd = $scope.hideOverlay = false;
@@ -71,7 +143,13 @@ angular.module('Controllers', [])
         };
 
         $scope.onCancelClick = function () {
+            if ($routeParams.id) $location.path("/ta/");
             $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
+            //$scope.selected = null;
+            //$scope.ta = {};
+
+
+
             $scope.active = false;
         };
 
@@ -90,7 +168,7 @@ angular.module('Controllers', [])
             }
         };
 
-        $scope.Actions.getTAList();
+        if (!$routeParams.id) $scope.Actions.getTAList();
 
         if (!$rootScope.user) {
             $.ajax({

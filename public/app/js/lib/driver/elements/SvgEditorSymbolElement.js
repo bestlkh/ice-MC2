@@ -32,22 +32,20 @@ var SvgEditorSymbolElement = function (_SvgEditorElement) {
      * @param y
      * @param symbol
      */
-    function SvgEditorSymbolElement(width, height, x, y) {
-        var symbol = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : SvgEditorSymbols.SUM;
-
+    function SvgEditorSymbolElement(x, y, symbol) {
         _classCallCheck(this, SvgEditorSymbolElement);
 
         // Check to see if symbol is defined
-        var _this = _possibleConstructorReturn(this, (SvgEditorSymbolElement.__proto__ || Object.getPrototypeOf(SvgEditorSymbolElement)).call(this, width, height, x, y));
-
         if (SymbolData[symbol]) {
+            var _this = _possibleConstructorReturn(this, (SvgEditorSymbolElement.__proto__ || Object.getPrototypeOf(SvgEditorSymbolElement)).call(this, SymbolData[symbol].width, SymbolData[symbol].height, x, y));
+
             _this._symbol = symbol;
-            _this._symbolData = SymbolData[symbol];
+            _this._symbolData = SymbolData[symbol].d;
         } else {
             throw new SvgEditorDriverSymbolNotDefinedError();
         }
         _this.type = SvgEditorElementTypes.SYMBOL;
-        return _this;
+        return _possibleConstructorReturn(_this);
     }
 
     /**

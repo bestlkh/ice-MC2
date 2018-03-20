@@ -1,6 +1,5 @@
 const SvgEditorElementFactory = require('./factories/SvgEditorElementFactory');
 const SvgEditorElementTypes   = require('./enums/SvgEditorElementTypes');
-//const KeyConfig = require('../keys/KeyConfig');
 
 class SvgEditorDriver {
 
@@ -38,14 +37,15 @@ class SvgEditorDriver {
                     }
                 });
                 // Set element DOM size and position
-                let size = element.getSize();
-                let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
-                let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
-                this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
+                // let size = element.getSize();
+                // let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
+                // let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
+                // element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
+                element.dom.setAttribute("transform", "scale(" + 0.1 + "," + 0.1 + ")");
                 let position = element.getPosition();
                 // Move element to correct position, third parameter is false so this action cannot be undone
                 this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
+                this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
                 break;
             // It is a image element
             case SvgEditorElementTypes.IMAGE:
@@ -72,12 +72,6 @@ class SvgEditorDriver {
 
         return element;
     }
-
-
-    createSymbol(symbol, x, y, scale) {
-        
-    }
-
 
     /**
      * Find a element by its ID.

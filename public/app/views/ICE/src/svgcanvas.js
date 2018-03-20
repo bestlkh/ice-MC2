@@ -1472,6 +1472,7 @@ var updateClipPath = function(attr, tx, ty) {
 var recalculateDimensions = this.recalculateDimensions = function(selected) {
   if (selected == null) return null;
   var tlist = getTransformList(selected);
+  console.log(tlist);
 
   // remove any unnecessary transforms
   if (tlist && tlist.numberOfItems > 0) {
@@ -9984,7 +9985,6 @@ var moveCursorAbs = this.moveCursorAbs;
   };
 
 	this.keyPressed = function (key) {
-    
     if (key=="\u21e6") {
       moveCursor(-.25, 0);
       return;
@@ -10018,6 +10018,19 @@ var moveCursorAbs = this.moveCursorAbs;
     if (key=="\u232B") {
       lastKeyPress = '';
       removeNearestToCursor();
+      return;
+    }
+
+    if (key == "a") {
+      console.log(1);
+      var svgDrv = new window.Driver.SvgEditorDriver();
+      console.log(svgDrv);
+      var elem = svgDrv.createElement(0, {
+        symbol: 2,
+        x: 200,
+        y: 200
+      });
+      console.log(elem);
       return;
     }
     var shortcuts = keyHash[key];

@@ -20,12 +20,12 @@ class SvgEditorSymbolElement extends SvgEditorElement {
      * @param y
      * @param symbol
      */
-    constructor(width, height, x, y, symbol = SvgEditorSymbols.SUM){
-        super(width, height, x, y);
+    constructor(x, y, symbol){
         // Check to see if symbol is defined
         if(SymbolData[symbol]){
+            super(SymbolData[symbol].width, SymbolData[symbol].height, x, y);
             this._symbol     = symbol;
-            this._symbolData = SymbolData[symbol];
+            this._symbolData = SymbolData[symbol].d;
         } else {
             throw new SvgEditorDriverSymbolNotDefinedError();
         }

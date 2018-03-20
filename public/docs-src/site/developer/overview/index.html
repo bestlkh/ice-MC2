@@ -452,8 +452,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#start-developing" title="Start Developing" class="md-nav__link">
-    Start Developing
+  <a href="#requirements" title="Requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-application-locally" title="Running the Application Locally" class="md-nav__link">
+    Running the Application Locally
   </a>
   
 </li>
@@ -706,8 +713,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#start-developing" title="Start Developing" class="md-nav__link">
-    Start Developing
+  <a href="#requirements" title="Requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-application-locally" title="Running the Application Locally" class="md-nav__link">
+    Running the Application Locally
   </a>
   
 </li>
@@ -740,16 +754,25 @@
                 
                 <h1 id="developer-documentation">Developer Documentation<a class="headerlink" href="#developer-documentation" title="Permanent link">&para;</a></h1>
 <details><summary>Authors</summary><p>Jun Zheng (junthehacker), Daniel Hugh (hughdani)</p></details><p>This documentation is aimed to provide developers a better understanding of the project. It also includes some very important API documentation.</p>
-<h2 id="start-developing">Start Developing<a class="headerlink" href="#start-developing" title="Permanent link">&para;</a></h2>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>You must have the following installed:</p>
+<ul>
+<li>npm</li>
+<li>Node.js</li>
+<li>MongoDB</li>
+</ul>
+<h2 id="running-the-application-locally">Running the Application Locally<a class="headerlink" href="#running-the-application-locally" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Download the source code at <a href="https://github.com/bestlkh/ice-MC2">https://github.com/bestlkh/ice-MC2</a>.</li>
-<li>Run <code class="codehilite">npm run dev</code></li>
+<li>Run <code class="codehilite">npm install</code>.</li>
+<li>Start MongoDB.</li>
+<li>Run <code class="codehilite">npm run dev</code>.</li>
 </ol>
 <div class="admonition caution">
 <p class="admonition-title">Windows Developers</p>
 <p>Instead run <code class="codehilite">node app.js &amp; gulp dev</code>. To fully exit from the application, you will need to kill the background task <code class="codehilite">node app.js</code>.</p>
 </div>
-<p>This will start up a development server that will watch for file changes. By default the server will be hosted on <a href="http://localhost:3000">http://localhost:3000</a>.</p>
+<p>This will start up a development server that will watch for file changes. A browser window will open to the default server hosted on <a href="http://localhost:3000">http://localhost:3000</a>.</p>
 <h2 id="project-layout">Project Layout<a class="headerlink" href="#project-layout" title="Permanent link">&para;</a></h2>
 <div class="codehilite"><pre><span></span>+ AdminView/       - Self explaintory
 + public/          - Everything that will be served with Node.js

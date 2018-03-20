@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MC^2 Image Library Maker v1.0</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid" id="app">
+        <b>MC^2 Image Library Maker v1.0</b>
+        <pre>Copyright (c) Jun Zheng, MIT.</pre>
+        <button class="btn btn-primary" @click="importExternal">Import Library File</button>
+        <button class="btn btn-primary" @click="exportLibrary">Export...</button>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <b>Library Name</b>
+                <input class="form-control" type="text" v-model="imglibData.name" />
+            </div>
+            <div class="col-md-6">
+                <b>Author</b>
+                <input class="form-control" type="text" v-model="imglibData.author" />
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="file" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" v-model="newImageName" />
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-light" @click="addToLibrary">Add To Library</button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Controls</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="image in imglibData.images">
+                            <th><input type="text" class="form-control" v-model="image.title" /></th>
+                            <td><img :src="image.url" width="100" /></td>
+                            <td><button class="btn btn-danger" @click="imglibData.images.splice(imglibData.images.indexOf(image), 1)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'INFINITY' (U+221E)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M152.2969 311.9062 Q152.2969 333.8438 140.4844 346.2188 Q130.0781 357.3281 114.3281 357.3281 Q92.6719 357.3281 78.0469 326.25 Q65.25 351.5625 42.8906 351.5625 Q26.7188 351.5625 16.2422 340.3125 Q5.7656 329.0625 5.7656 311.625 Q5.7656 293.4844 15.3281 282.5156 Q24.6094 272.1094 39.2344 272.1094 Q58.9219 272.1094 71.1562 296.8594 Q77.2031 280.5469 86.2734 273.5859 Q95.3438 266.625 110.8125 266.625 Q129.0938 266.625 140.6953 279.4219 Q152.2969 292.2188 152.2969 311.9062 ZM145.4062 311.9062 Q145.4062 296.7188 136.7578 286.3125 Q128.1094 275.9062 115.4531 275.9062 Q104.0625 275.9062 96.75 285.0469 Q94.2188 288.2812 89.2969 299.6719 Q82.125 316.8281 81.2812 318.5156 Q89.2969 334.125 96.3281 340.7344 Q104.3438 348.1875 114.8906 348.1875 Q128.6719 348.1875 137.0391 338.4141 Q145.4062 328.6406 145.4062 311.9062 ZM67.9219 305.2969 Q56.8125 281.3906 38.8125 281.3906 Q26.8594 281.3906 19.7578 289.8281 Q12.6562 298.2656 12.6562 311.625 Q12.6562 324.5625 19.8984 333.4922 Q27.1406 342.4219 36.8438 342.4219 Q55.8281 342.4219 67.9219 305.2969 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

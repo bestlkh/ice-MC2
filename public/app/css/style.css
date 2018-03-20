@@ -1,5 +1,3 @@
-*{margin:0;padding:0;}
-
 .chat-settings {
 	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUyIDUyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MiA1MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIHN0eWxlPSJmaWxsOiNFN0VDRUQ7IiBkPSJNNTAuMjE5LDIxaC0yLjc5N2MtMC41NTItMi4zNzUtMS40ODYtNC42MDItMi43MzktNi42MTNsMS45NzgtMS45NzhjMC42OTUtMC42OTUsMC42OTUtMS44MjMsMC0yLjUxOGwtNC41NTMtNC41NTNjLTAuNjk1LTAuNjk1LTEuODIzLTAuNjk1LTIuNTE4LDBsLTEuOTc4LDEuOTc4QzM1LjYwMiw2LjA2NCwzMy4zNzUsNS4xMywzMSw0LjU3OFYxLjc4MUMzMSwwLjc5NywzMC4yMDMsMCwyOS4yMTksMGgtNi40MzlDMjEuNzk3LDAsMjEsMC43OTcsMjEsMS43ODF2Mi43OTdjLTIuMzc1LDAuNTUyLTQuNjAyLDEuNDg2LTYuNjEzLDIuNzM5TDEyLjQxLDUuMzM5Yy0wLjY5NS0wLjY5NS0xLjgyMy0wLjY5NS0yLjUxOCwwTDUuMzM5LDkuODkyYy0wLjY5NSwwLjY5NS0wLjY5NSwxLjgyMywwLDIuNTE4bDEuOTc4LDEuOTc4QzYuMDY0LDE2LjM5OCw1LjEzLDE4LjYyNSw0LjU3OCwyMUgxLjc4MUMwLjc5NywyMSwwLDIxLjc5NywwLDIyLjc4MXY2LjQzOUMwLDMwLjIwMywwLjc5NywzMSwxLjc4MSwzMWgyLjc5N2MwLjU1MiwyLjM3NSwxLjQ4Niw0LjYwMiwyLjczOSw2LjYxM0w1LjMzOSwzOS41OWMtMC42OTUsMC42OTYtMC42OTUsMS44MjMsMCwyLjUxOGw0LjU1Myw0LjU1M2MwLjY5NSwwLjY5NSwxLjgyMywwLjY5NSwyLjUxOCwwbDEuOTc4LTEuOTc4YzIuMDExLDEuMjUyLDQuMjM4LDIuMTg3LDYuNjEzLDIuNzM5djIuNzk3QzIxLDUxLjIwMywyMS43OTcsNTIsMjIuNzgxLDUyaDYuNDM5QzMwLjIwMyw1MiwzMSw1MS4yMDMsMzEsNTAuMjE5di0yLjc5N2MyLjM3NS0wLjU1Miw0LjYwMi0xLjQ4Niw2LjYxMy0yLjczOWwxLjk3OCwxLjk3OGMwLjY5NSwwLjY5NSwxLjgyMywwLjY5NSwyLjUxOCwwbDQuNTUzLTQuNTUzYzAuNjk1LTAuNjk1LDAuNjk1LTEuODIzLDAtMi41MThsLTEuOTc4LTEuOTc4YzEuMjUyLTIuMDEsMi4xODYtNC4yMzgsMi43MzktNi42MTNoMi43OTdDNTEuMjAzLDMxLDUyLDMwLjIwMyw1MiwyOS4yMTl2LTYuNDM5QzUyLDIxLjc5Nyw1MS4yMDMsMjEsNTAuMjE5LDIxeiBNMjYsMzVjLTQuOTcxLDAtOS00LjAzLTktOWMwLTQuOTcxLDQuMDI5LTksOS05czksNC4wMjksOSw5QzM1LDMwLjk3LDMwLjk3MSwzNSwyNiwzNXoiLz48cGF0aCBzdHlsZT0iZmlsbDojQzdDQUM3OyIgZD0iTTI2LDEzYy03LjE4LDAtMTMsNS44Mi0xMywxM3M1LjgyLDEzLDEzLDEzczEzLTUuODIsMTMtMTNTMzMuMTgsMTMsMjYsMTN6IE0yNiwzNWMtNC45NzEsMC05LTQuMDMtOS05YzAtNC45NzEsNC4wMjktOSw5LTlzOSw0LjAyOSw5LDlDMzUsMzAuOTcsMzAuOTcxLDM1LDI2LDM1eiIvPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjwvc3ZnPg==);
 
@@ -94,54 +92,6 @@
 	color: #ffc266;
 }
 
-.notif-popup {
-	padding: 15px;
-	text-align: center;
-}
-
-.notif-popup div {
-	margin-bottom: 15px;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-/* ============================= login Page =============================*/
-.error {
-	color: #df3320 !important;
-}
-.admin {
-	color: #4c83ba !important;
-}
-.avatar{
-	height : 65px; 
-	width : 65px; 
-	border-radius : 50%; 
-	margin-bottom : 0.5em; 
-	margin-left: 0.75em;
-}
-.avatar-thumb{
-	width : 24%;
-	display: inline-block;
-}
-.avatar-selected{
-	height : 65px; 
-	width : 65px;
-	border: 3px solid #fff;
-	box-shadow: inset 0 0 5px tomato, 0 0 5px black;
-}
-.login-box-body{
-	width: 360px;
-	margin:0px auto;
-}
-.has-error{
-	border-color: #dd4b39;
-}
-.errGroup{
-	margin-bottom: 0px;
-}
-.login-box-body .form-control-feedback.errText{
-	color: #dd4b39;
-}
 /* ============================= chatRoom Page ==========================*/
 .multiple-borders-white {
   border: 4px solid rgba(255,255,255,0.5);
@@ -258,167 +208,12 @@
 	color : #333; 
 	float : right;
 }
-/*============================ Sreen size 768px ============================*/
-@media screen and (max-width: 768px) {
-.login-box-body{
-	width: 65%;
-	margin:0px auto;
-}
-	.selector-wrapper2 {
-		width: 65% !important;
-	}
-.avatar{
-	height : 50px; 
-	width : 50px; 
-	border-radius : 50%; 
-	margin-bottom : 0.5em; 
-	margin-left: 0.50em;
-}
-.avatar-thumb{
-	width : 24%;
-	display: inline-block;
-}
-.avatar-selected{
-	height : 50px; 
-	width : 50px;
-	border: 3px solid #fff;
-	box-shadow: inset 0 0 5px tomato, 0 0 5px black;
-}
-.toggle-contact-icon{
-	display: block;
-}
-.toggle-contact-list{
-	display: none;
-}
-}
-/*============================ Sreen size 480px ============================*/
+
 @media screen and (max-width: 732px) {
-	.login-box-body {
-		width: 95%;
-		min-width: 258px;
-		max-width: 280px;
-		padding: 20px 15px;
-	}
-	
-	.selector-wrapper2 {
-		width: 95% !important;
-		min-width: 258px;
-		max-width: 280px;
+	.input-group{
+		width: 100%;
+		float: none;
 	}
 
-	.selector-wrapper2>div {
-		width: 120px !important;
-		margin: 0 calc((100% - 240px) / 6) !important;
-	}
-.input-group{
-	width: 100%;
-	float: none;
-}
-.mobile{
-	display: inline-block;
-}
-.desktop{
-	display: none;
-}
 }
 
-#math-editor {
-	height: 100vh;
-}
-
-
-.selector-wrapper2 {
-	width: auto;
-	margin: 20px auto 15px;
-	display: flex;
-	justify-content: center;
-	height: 40px;
-}
-
-.selector-wrapper2>div {
-	width: 133px;
-	padding: 7px;
-	text-align: center;
-	border-radius: 30px;
-	cursor: pointer;
-	transition: background-color 0.1s linear, border 0.1s linear, color 0.1s linear;
-	margin: 0 calc((100% - 266px) / 6);
-	line-height: 23px;
-	color: #8a8a8a;
-	font-weight: 700;
-	font-size: 13px;
-	border: 2px transparent solid;
-}
-
-input {
-	margin: 10px auto;
-}
-
-.create-button2 {
-
-
-}
-
-.join-button2 {
-
-}
-
-
-
-.join-button2:hover {
-	color: #ed8355;
-
-}
-
-.create-button2:hover {
-	color: #ed8355;
-}
-
-.button-active2 {
-
-	background-color: #ed8355 !important;
-	background-image: none;
-	color: #fff !important;
-
-	font-size: 14px;
-	line-height: inherit;
-}
-
-.button-not2 {
-	background-color: transparent;
-
-	border-radius: 50%;
-	background-size: 20px;
-	background-position: center;
-	background-repeat: no-repeat;
-	color: #a0a0a0;
-}
-
-.button-not2:hover {
-	 background-color: #ed8355;
-	 color: #fff;
- }
-
-.card {
-	background-color: #fff;
-
-	box-shadow:0 1px 3px rgba(0,0,0,.1);
-	transition: all 0.3s ease-in;
-}
-
-.login-logo {
-	margin-bottom: 0;
-}
-
-.login-box-msg {
-	padding-bottom: 5px;
-}
-
-.login-box-body {
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-
-.no-toggle {
-	margin-top: 15px;
-}

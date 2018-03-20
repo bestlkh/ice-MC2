@@ -1,0 +1,193 @@
+#less-warning {
+  display: none;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,300italic,400italic,600italic);
+* {
+  margin: 0;
+  padding: 0;
+  text-rendering: geometricPrecision;
+  color: #414141;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  outline: none;
+}
+
+a:active, a:focus, a:hover {
+  text-decoration: none !important;
+}
+
+
+
+@import "landing";
+
+@keyframes OpenPulse {
+  from {
+    transform: scale3d(1,1,1);
+    opacity: .5
+  }
+
+  75% {
+    transform: scale3d(4,4,4);
+    opacity: 0
+  }
+
+  to {
+    transform: scale3d(4,4,4);
+    opacity: 0
+  }
+}
+@media (min-width: 877px) and (max-width: 1486px) {
+  .container-wrapper {
+    width: 90% !important;
+  }
+
+  .selector-wrapper {
+    width: 35%;
+  }
+
+  .card {
+    width: 35%;
+  }
+
+  .cont {
+    width: 90% !important;
+  }
+}
+
+@media (min-width: 851px) and (max-width: 876px) {
+
+  .container-wrapper {
+    width: 90% !important;
+  }
+
+  .cont {
+    width: 90% !important;
+  }
+
+  .selector-wrapper {
+    width: 50%;
+  }
+
+  .card {
+    width: 50%;
+  }
+
+  .landing-splash {
+    margin-top: 2vh;
+  }
+
+  .card-container {
+    flex-wrap: wrap;
+  }
+
+}
+
+@media (min-width: 0px) and (max-width: 850px) {
+
+  .control-content-wrapper {
+    min-width: 0;
+  }
+
+  .container-wrapper {
+    width: 90% !important;
+  }
+
+
+  .selector-wrapper {
+    width: 90%;
+  }
+
+  .card {
+    width: 90%;
+
+  }
+
+  .ng-scope .card {
+    margin: 10px auto;
+  }
+
+  .cont {
+    width: 90% !important;
+  }
+
+  .landing {
+    height: calc(100vh - 80px);
+
+    padding: 30px 5px;
+  }
+
+  .card-container {
+    flex-wrap: wrap;
+  }
+
+  .landing-card {
+    min-width: 350px;
+  }
+
+  .landing-text {
+
+    width: 100%;
+    text-align: center;
+  }
+
+  .landing-splash {
+    margin-top: 0;
+  }
+
+  .chat-button {
+    margin: auto;
+  }
+
+}
+
+@media (min-width: 0px) and (max-width: 420px) {
+  .selector-wrapper>div {
+    text-align: right;
+  }
+
+  .button-active {
+    text-align: center !important;
+  }
+
+  .landing {
+    width: 100%;
+  }
+
+  .landing-card {
+    min-width: 99%;
+  }
+
+  .landing-splash {
+    width: 100%;
+    height: 40vh;
+  }
+
+  .landing-buttons {
+    margin-top: 12px;
+  }
+
+  .landing-text .text {
+    line-height: 1.1;
+  }
+
+}
+
+@media (min-width: 0px) and (max-width: 330px) {
+
+  .landing {
+    width: 100%;
+    min-height: 587px;
+  }
+
+  .ng-scope .card {
+    height: calc(100vh - 35px);
+  }
+
+}
+@media (max-height: 420px) and (min-height: 0px) {
+  .landing {
+
+    min-height: 450px;
+  }
+}

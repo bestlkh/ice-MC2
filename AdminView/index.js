@@ -123,7 +123,7 @@ AdminView.prototype.setupRoute = function () {
 var Student = function (student) {
     this.utorid = student.utorid;
     this.email = student.email;
-    this.token = uuidv4();
+    this.token = student.token ? student.token : uuidv4();
 };
 
 var ChatSetting = function (settings) {
@@ -221,15 +221,22 @@ AdminView.prototype.setupApi = function () {
         }, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
             if (result && result.students) {
-                res.writeHead(200, {
-                    'Content-Type': 'application/csv',
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Disposition': 'attachment; filename=tokens.csv'
+
+                this.db.collection("classrooms").findOne({owner: req.session.user.username, name: req.params.name}, function (err, classroom) {
+                    res.writeHead(200, {
+                        'Content-Type': 'application/csv',
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Disposition': 'attachment; filename=tokens.csv'
+                    });
+                    result.students.forEach(function (student) {
+                        student.url = "/#/v1/"+classroom.roomName+"?nsp="+result.owner+"&token="+student.token;
+                    });
+
+                    return csv.stringify(result.students, {header: true}).pipe(res);
                 });
-                return csv.stringify(result.students, {header: true}).pipe(res);
+
             }
-            else
-                res.send('No Tokens');
+            else res.send('No Tokens');
         }.bind(this));
 
     }.bind(this));
@@ -261,22 +268,27 @@ AdminView.prototype.setupApi = function () {
         this.name = data.name;
         this.invite = !!(data.invite);
         this.roomName = data.roomName;
-        this.sid = moment.valueOf();
+        this.sessionId = moment().valueOf();
     }
 
     this.app.patch("/v1/api/classrooms", checkAuth, function (req, res) {
         var classroom = new Classroom(req.body);
 
-        this.db.collection("classrooms").updateOne({
-            owner: req.session.user.username,
-            name: req.body.name
-        }, {$set: classroom}, function (err, cr) {
-
+        this.db.collection("classrooms").findOne({roomName: classroom.roomName, owner: req.session.user.username}, function (err, cr) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            else if (!cr) return res.status(400).json({status: 400, message: "Classroom with name does not exist"});
+            if (cr && cr.name !== classroom.name) return res.status(400).json({status: 400, message: "Classroom with room name already exist"});
+            this.db.collection("classrooms").updateOne({
+                owner: req.session.user.username,
+                name: req.body.name
+            }, {$set: classroom}, function (err, cr) {
 
-            res.json({});
-        });
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                else if (!cr) return res.status(400).json({status: 400, message: "Classroom with name does not exist"});
+
+                res.json({});
+            });
+        }.bind(this));
+
 
 
     }.bind(this));
@@ -288,10 +300,14 @@ AdminView.prototype.setupApi = function () {
 
         this.db.collection("classrooms").findOne({
             owner: req.session.user.username,
-            name: classroom.name
+            $or: [
+                {name: classroom.name},
+                {roomName: classroom.roomName}
+            ]
         }, function (err, cr) {
+
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            else if (cr) return res.status(400).json({status: 400, message: "Classroom with that name already exists"});
+            else if (cr) return res.status(400).json({status: 400, message: "Classroom with that name/room name already exists"});
             this.db.collection("classrooms").insertOne(classroom, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
                 res.json({});
@@ -313,9 +329,13 @@ AdminView.prototype.setupApi = function () {
                 className: req.params.name
             }, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                res.json({});
+                this.db.collection("chatHistory").update({className: req.params.name, owner: req.session.user.username}, {$set: {deleted: true}}, {multi: true}, function (err, result) {
+                    if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+                    res.json({});
+                });
 
-            });
+
+            }.bind(this));
 
         }.bind(this));
     }.bind(this));
@@ -325,11 +345,19 @@ AdminView.prototype.setupApi = function () {
         this.db.collection("students").findOne({
             owner: req.session.user.username,
             className: req.params.name
-        }, function (err, cr) {
+        }, function (err, students) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (!cr) return res.json([]);
-            res.json(cr.students);
-        });
+            if (!students) return res.json([]);
+            this.db.collection("classrooms").findOne({owner: req.session.user.username, name: req.params.name}, function (err, classroom) {
+                students.students.forEach(function (student) {
+                    student.url = "/#/v1/"+classroom.roomName+"?nsp="+students.owner+"&token="+student.token;
+                });
+
+                res.json(students.students);
+            });
+
+
+        }.bind(this));
 
     }.bind(this));
 
@@ -350,7 +378,7 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
-    this.app.put("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
+    this.app.post("/v1/api/classrooms/:name/students", checkAuth, function (req, res) {
         csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
             if (err) return res.status(400).json({status: 400, message: "Invalid csv format"});
 
@@ -443,69 +471,6 @@ AdminView.prototype.setupApi = function () {
         res.json(resp);
     }.bind(this));
 
-    this.app.get("/v1/api/chat/start", checkAuth, function (req, res) {
-
-
-        this.db.collection("settings").findOne({user: req.session.user.username}, function (err, settings) {
-            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (!settings || !settings.chat || !settings.chat.roomName) return res.status(400).json({
-                status: 400,
-                message: "Invalid chat room settings."
-            });
-            //req.session.user.roomName = settings.chat.roomName;
-            req.session.username = req.session.user.username;
-            req.session.settings = settings;
-            req.session.connected = true;
-            req.session.isInstructor = false;
-            req.session.isAdmin = true;
-            res.json({connected: true});
-        });
-
-    }.bind(this));
-
-    this.app.get("/v1/api/students", checkAuth, function (req, res) {
-        this.db.collection("students").findOne({owner: req.session.user.username}, function (err, list) {
-            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (!list) return res.json([]);
-            res.json(list.students);
-            db.close();
-        });
-
-
-    }.bind(this));
-
-    this.app.patch("/v1/api/students", checkAuth, function (req, res) {
-        var student = new Student(req.body);
-
-        this.db.collection("students").update({owner: req.session.user.username}, {$push: {students: student}}, {upsert: true}, function (err, list) {
-            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            res.json({});
-            db.close();
-        });
-
-
-    }.bind(this));
-
-    this.app.put("/v1/api/students", checkAuth, function (req, res) {
-        csv.parse(Buffer.from(req.body.csv, "base64"), {columns: true}, function (err, data) {
-            if (err) return res.status(400).json({status: 400, message: err});
-
-            this.db.collection("students").updateOne({owner: req.session.user.username}, {
-                $set: {students: data}
-            }, {upsert: true}, function (err, result) {
-                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-                var resp = {};
-                result = result.result;
-                resp.amount = result.n;
-                resp["n_successful"] = result.ok;
-                res.json(resp);
-                db.close();
-            });
-
-        }.bind(this));
-
-    }.bind(this));
-
     this.app.patch("/v1/api/classrooms/:name/students/generate", checkAuth, function (req, res) {
 
         this.db.collection("students").findOne({
@@ -563,6 +528,116 @@ AdminView.prototype.setupApi = function () {
 
         });
 
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions", checkAuth, function (req, res) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {messages: 0, _id: 0}).toArray(function (err, sessions) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.json(sessions);
+        })
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
+        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id), deleted: null}, {_id: 0}, function (err, session) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.json(session);
+        })
+    }.bind(this));
+
+    var parseStudent = require("./message-parser");
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/students", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
+        parseStudent(this.db, parseInt(req.params.id), function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            res.json(result);
+        });
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/messages.csv", checkAuth, function (req, res) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {_id: 0}).toArray(function (err, sessions) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            var messages = [];
+            sessions.forEach(function (item) {
+                if (!item.sessionId) return;
+                var m = item.messages.map(function (message) {
+                    message.roomName = item.roomName;
+                    return message;
+                });
+                messages = messages.concat(m);
+            });
+            res.writeHead(200, {
+                'Content-Type': 'application/csv',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Disposition': 'attachment; filename=messages-'+req.params.name+'.csv'
+            });
+            return csv.stringify(messages, {columns: messageColumns, header: true}).pipe(res);
+        })
+    }.bind(this));
+
+    var messageColumns = ["username", "msg", "timestamp", "isTA", "isInstructor", "type", "utorid"];
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/messages.csv", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
+        this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id), deleted: null}, {_id: 0}, function (err, session) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.writeHead(200, {
+                'Content-Type': 'application/csv',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Disposition': 'attachment; filename=messages-'+session.roomName+'-'+session.sessionId+'.csv'
+            });
+            return csv.stringify(session.messages, {columns: messageColumns, header: true}).pipe(res);
+        })
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/students.csv", checkAuth, function (req, res) {
+        this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {_id: 0}).toArray(function (err, sessions) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            var students = [];
+
+            Promise.all(sessions.map(function (session) {
+                return new Promise(function (resolve, rej) {
+                    if (!session.sessionId) return resolve();
+                    parseStudent(this.db, session.sessionId, function (err, result) {
+                        if (err) return rej();
+
+                        students = students.concat(result);
+                        resolve();
+                    });
+                }.bind(this));
+
+            }.bind(this))).then(function () {
+                res.writeHead(200, {
+                    'Content-Type': 'application/csv',
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Disposition': 'attachment; filename=students-'+req.params.name+'.csv'
+                });
+                return csv.stringify(students, {header: true}).pipe(res);
+            }).catch(function () {
+                return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            });
+
+        }.bind(this))
+    }.bind(this));
+
+    this.app.get("/v1/api/classrooms/:name/sessions/:id/students.csv", checkAuth, function (req, res) {
+        if (isNaN(req.params.id)) return res.status(400).json({status: 400, message: "Invalid id"});
+        parseStudent(this.db, parseInt(req.params.id), function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            res.writeHead(200, {
+                'Content-Type': 'application/csv',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Disposition': 'attachment; filename=students-'+req.params.id+'.csv'
+            });
+            return csv.stringify(result, {header: true}).pipe(res);
+        })
     }.bind(this));
 
 };

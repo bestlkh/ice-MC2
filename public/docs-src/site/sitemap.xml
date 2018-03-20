@@ -34,6 +34,12 @@
     </url>
         
     <url>
+     <loc>/developer/build-tools/gulp/</loc>
+     <lastmod>2018-03-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc></loc>
      <lastmod></lastmod>
      <changefreq>daily</changefreq>

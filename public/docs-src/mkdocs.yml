@@ -14,6 +14,7 @@ pages:
 
   - Developer Documentation:
     - Overview: 'developer/overview.md'
+    - Build Tools: 'developer/build-tools/gulp.md'
     - UI Library:
       - Overview: 'developer/ui-library/overview.md'
     - Alert Library:

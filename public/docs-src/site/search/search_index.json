@@ -2,18 +2,23 @@
     "docs": [
         {
             "location": "/", 
-            "text": "MC\u00b2 Documentation\n\n\nAuthors\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nWelcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.\n\n\nRequirements\n\n\nYou must have the following installed:\n\n\n\n\nnpm\n\n\nNode.js\n\n\nMongoDB\n\n\n\n\nRun \nnpm run deploy\n to run the application.", 
+            "text": "MC\u00b2 Project\n\n\nAuthors\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nWelcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.\n\n\nRequirements\n\n\nYou must have the following installed:\n\n\n\n\nnpm\n\n\nnode.js\n\n\nmongoDB\n\n\n\n\nRunning the Application Locally\n\n\n\n\nStart MongoDB.\n\n\nRun \nnpm run deploy \n node app.js\n\n\nGo to \nlocalhost:8080\n.", 
             "title": "Home"
         }, 
         {
-            "location": "/#mc2-documentation", 
+            "location": "/#mc2-project", 
             "text": "Authors :   Jun   Zheng   ( junthehacker ),   Daniel   Hugh   ( hughdani )   Welcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.", 
-            "title": "MC\u00b2 Documentation"
+            "title": "MC\u00b2 Project"
         }, 
         {
             "location": "/#requirements", 
-            "text": "You must have the following installed:   npm  Node.js  MongoDB   Run  npm run deploy  to run the application.", 
+            "text": "You must have the following installed:   npm  node.js  mongoDB", 
             "title": "Requirements"
+        }, 
+        {
+            "location": "/#running-the-application-locally", 
+            "text": "Start MongoDB.  Run  npm run deploy   node app.js  Go to  localhost:8080 .", 
+            "title": "Running the Application Locally"
         }, 
         {
             "location": "/end-user/user-guide/login/", 
@@ -332,23 +337,83 @@
         }, 
         {
             "location": "/developer/overview/", 
-            "text": "MC\u00b2 Project Developer Documentation\n\n\nAuthor\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n)\n\n\n\n\n\n\nThis documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.\n\n\nFull source of the project in available at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nProject Layout\n\n\n+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script\n\n\n\n\n\nStart Developing\n\n\n\n\nDownload the source code.\n\n\nRun \nnpm run dev\n\n\n\n\n\n\nWindows Developers\n\n\nInstead run \nnode app.js \n gulp dev", 
+            "text": "Developer Documentation\n\n\nAuthors\n:\n \nJun\n \nZheng\n \n(\njunthehacker\n),\n \nDaniel\n \nHugh\n \n(\nhughdani\n)\n\n\n\n\n\n\nThis documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.\n\n\nStart Developing\n\n\n\n\nDownload the source code at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nRun \nnpm run dev\n\n\n\n\nThis will start up a development server that will watch for file changes. By default the server will be hosted on \nhttp://localhost:3000\n.\n\n\n\n\nWindows Developers\n\n\nInstead run \nnode app.js \n gulp dev\n. To properly exit from the application, you may need to kill the background task \nnode app.js\n.\n\n\n\n\nProject Layout\n\n\n+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ------+ dist/    - destination for Gulp compiled files\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script\n+ gulp.js          - Gulp task file", 
             "title": "Overview"
         }, 
         {
-            "location": "/developer/overview/#mc2-project-developer-documentation", 
-            "text": "Author :   Jun   Zheng   ( junthehacker )   This documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.  Full source of the project in available at  https://github.com/bestlkh/ice-MC2 .", 
-            "title": "MC\u00b2 Project Developer Documentation"
-        }, 
-        {
-            "location": "/developer/overview/#project-layout", 
-            "text": "+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script", 
-            "title": "Project Layout"
+            "location": "/developer/overview/#developer-documentation", 
+            "text": "Authors :   Jun   Zheng   ( junthehacker ),   Daniel   Hugh   ( hughdani )   This documentation is aimed to provide developer a better understanding of the project. It also includes some very important API documentation.", 
+            "title": "Developer Documentation"
         }, 
         {
             "location": "/developer/overview/#start-developing", 
-            "text": "Download the source code.  Run  npm run dev    Windows Developers  Instead run  node app.js   gulp dev", 
+            "text": "Download the source code at  https://github.com/bestlkh/ice-MC2 .  Run  npm run dev   This will start up a development server that will watch for file changes. By default the server will be hosted on  http://localhost:3000 .   Windows Developers  Instead run  node app.js   gulp dev . To properly exit from the application, you may need to kill the background task  node app.js .", 
             "title": "Start Developing"
+        }, 
+        {
+            "location": "/developer/overview/#project-layout", 
+            "text": "+ AdminView/       - Self explaintory\n+ public/          - Everything that will be served with Node.js\n| ---+ app/        - Controllers, libs etc.\n| ------+ dist/    - destination for Gulp compiled files\n| ---+ docs-src/   - Documentation source\n| ---+ docs/       - Compiled documentation\n| ---+ landing/    - Landing page\n| ---+ lib/        - External libs\n| ---+ login/      - Login page\n| ---+ register/   - Register page\n| ---+ index.html  - Angular enterence point\n+ app.js           - Primary Node.js script\n+ gulp.js          - Gulp task file", 
+            "title": "Project Layout"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/", 
+            "text": "Gulp\n\n\nMost of the Gulp scripts have been abstracted to npm's script runner. However you can directly leverage Gulp to run and create new tasks. This can be done by modifying \ngulp.js\n. \n\n\nTasks\n\n\ngulp dev\n\n\nStarts up a development server at \nlocalhost:3000\n by default. Does a one time initial compilation of necessary files and starts watchers for HTML, LESS and JavaScript files.\n\n\ngulp deploy\n\n\nCompiles necessary files for deployment.\n\n\ngulp styles\n\n\nRecompiles LESS files into CSS.\n\n\ngulp scripts\n\n\nBundle and transpile JavaScript files listed in the \nJS_FILES\n array. Source maps are generated.\n\n\ngulp compile\n\n\nCompilation for development. Essentially \ngulp styles\n and \ngulp scripts\n\n\ngulp scripts-dist\n\n\ngulp scripts\n with minification, minus source maps.\n\n\ngulp styles-dist\n\n\ngulp styles\n with minification.\n\n\ngulp compile-dist\n\n\nCompilation for deployment. Essentially \ngulp styles-dist\n and \ngulp scripts-dist\n\n\ngulp clean\n\n\nRemoves all compiled LESS and JavaScript files.", 
+            "title": "Build Tools"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp", 
+            "text": "Most of the Gulp scripts have been abstracted to npm's script runner. However you can directly leverage Gulp to run and create new tasks. This can be done by modifying  gulp.js .", 
+            "title": "Gulp"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#tasks", 
+            "text": "", 
+            "title": "Tasks"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-dev", 
+            "text": "Starts up a development server at  localhost:3000  by default. Does a one time initial compilation of necessary files and starts watchers for HTML, LESS and JavaScript files.", 
+            "title": "gulp dev"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-deploy", 
+            "text": "Compiles necessary files for deployment.", 
+            "title": "gulp deploy"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-styles", 
+            "text": "Recompiles LESS files into CSS.", 
+            "title": "gulp styles"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-scripts", 
+            "text": "Bundle and transpile JavaScript files listed in the  JS_FILES  array. Source maps are generated.", 
+            "title": "gulp scripts"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-compile", 
+            "text": "Compilation for development. Essentially  gulp styles  and  gulp scripts", 
+            "title": "gulp compile"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-scripts-dist", 
+            "text": "gulp scripts  with minification, minus source maps.", 
+            "title": "gulp scripts-dist"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-styles-dist", 
+            "text": "gulp styles  with minification.", 
+            "title": "gulp styles-dist"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-compile-dist", 
+            "text": "Compilation for deployment. Essentially  gulp styles-dist  and  gulp scripts-dist", 
+            "title": "gulp compile-dist"
+        }, 
+        {
+            "location": "/developer/build-tools/gulp/#gulp-clean", 
+            "text": "Removes all compiled LESS and JavaScript files.", 
+            "title": "gulp clean"
         }, 
         {
             "location": "/developer/ui-library/overview/", 

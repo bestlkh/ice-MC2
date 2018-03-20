@@ -68,17 +68,17 @@ function toggleChatRoom(e) {
         $('#editor-frame').css("width", "98%");
         $('#math-editor').css("width", "100%");
         $('#chatframe').css("width", "0%");
-        $('.arrow-left').css("left",  "95%");
+        $('.arrow-left').css("left",  "97%");
         $('#dragbar').css('display', "none");
     }
     else{
         $('#editor-frame').css("width", e.pageX + "px");
         $('#math-editor').css("width", "70%");
         $('#chatframe').css("width", "calc("+ "30%" + " - " + "5px)");
-        $('.arrow-left').css("left", "65%");
+        $('.arrow-left').css("left", "68%");
         $('#dragbar').css('display', "initial");
     }
-    
+
 }
 
 function openkeyboard() {
@@ -169,7 +169,7 @@ $('#dragbar').mousedown(function (e) {
         $('#editor-frame').css("width", e.pageX + "px");
         $('#math-editor').css("width", percentage + "%");
         $('#chatframe').css("width", "calc(" + mainPercentage + "%" + " - " + "5px)");
-        $('.arrow-left').css("left", percentage - 5 + "%");
+        $('.arrow-left').css("left", percentage - 2 + "%");
     });
 
 

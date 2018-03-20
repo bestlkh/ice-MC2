@@ -37,7 +37,7 @@ angular.module('Controllers')
     return {
         link: function(scope, element, attrs) {
           scope.$watch(attrs.focusMe, function(value) {
-            if(value === true) { 
+            if(value === true) {
               $timeout(function() {
                 element[0].focus();
                 scope[attrs.focusMe] = false;
@@ -98,7 +98,7 @@ angular.module('Controllers')
 	$scope.onMenuClick = function () {
 		$scope.isMenuOpened = !$scope.isMenuOpened;
 			if(angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){
-				angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");	
+				angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");
 			}
     };
 
@@ -190,12 +190,12 @@ angular.module('Controllers')
 		$scope.users = data;
 	});
 
-// ================================== Common Functions ==================================    
+// ================================== Common Functions ==================================
 	// device/desktop detection
 	var isMobile = false;
-    if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
+    if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
     || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4)))
-		isMobile = true;        
+		isMobile = true;
 
         // if(isMobile){
         // 	var height = $( window ).height() * 0.7;
@@ -210,7 +210,7 @@ angular.module('Controllers')
         // 	var height = $( document ).height() * 0.8;
 			// $('.direct-chat-messages').height(height);
         // }
-    // message time formatting into string    
+    // message time formatting into string
 	function formatAMPM(date) {
 		var hours = date.getHours();
 		var minutes = date.getMinutes();
@@ -226,16 +226,16 @@ angular.module('Controllers')
     $scope.toggleCustom = function() {
 
         $socket.emit('get-online-members', {roomName: $routeParams.roomId});
-        $scope.custom = $scope.custom === false ? true: false;	
+        $scope.custom = $scope.custom === false ? true: false;
         if(!$scope.custom){
         	if(!angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")){
         		angular.element(document.querySelector("#slidememberlist")).addClass("slideout_inner_trans");
         	}
         }else{
         	if (angular.element(document.querySelector("#slidememberlist")).hasClass("slideout_inner_trans")) {
-        		angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");        		
+        		angular.element(document.querySelector("#slidememberlist")).removeClass("slideout_inner_trans");
         	}
-        }        
+        }
     };
 
     $scope.hambugerOpen = function() {
@@ -244,7 +244,7 @@ angular.module('Controllers')
 	    	}
 
     	  if (angular.element(document.querySelector("#chat-wrapper")).hasClass("menu-open")) {
-    		  angular.element(document.querySelector("#chat-wrapper")).removeClass("menu-open");        		
+    		  angular.element(document.querySelector("#chat-wrapper")).removeClass("menu-open");
     	  }
 
     };
@@ -547,7 +547,11 @@ angular.module('Controllers')
 
 // ====================================== Image Sending Code ==============================
     $scope.$watch('upload.image', function () {
-        if (!$scope.upload.image) return;
+        $("#chat-sending-animation").fadeIn();
+        if (!$scope.upload.image){
+            $("#chat-sending-animation").fadeOut();
+            return;
+        }
 		ImageUtility.iOSOrientationAutoFix($scope.upload.image, function(url){
             let img = new Image();
             img.onload = function(){
@@ -564,19 +568,19 @@ angular.module('Controllers')
                 let width = img.width;
                 let height = img.height;
                 // We only allow maximum of 1280x720 images
-                if (width > 1280 || height > 720){
+                if (width > 1920 || height > 1080){
                     // Resize the image
                     let targetWidth, targetHeight;
-                    if (width > 1280){
+                    if (width > 1920){
                         // Resize the width
-                        let scale = 1280 / width;
-                        targetWidth = 1280;
+                        let scale = 1920 / width;
+                        targetWidth = 1920;
                         targetHeight = height * scale;
                     } else {
                         // Resize the height
-                        let scale = 720 / height;
+                        let scale = 1080 / height;
                         targetWidth = width * scale;
-                        targetHeight = 720;
+                        targetHeight = 1080;
                     }
                     let canvas = document.createElement('canvas'),
                         ctx = canvas.getContext('2d');
@@ -584,11 +588,21 @@ angular.module('Controllers')
                     canvas.height = targetHeight;
                     ctx.drawImage(this, 0, 0, targetWidth, targetHeight);
                     $socket.emit("send-image", {
-                        dataUri: canvas.toDataURL('image/jpeg', 0.3)
-                    }, function (data) {});
+                        dataUri: canvas.toDataURL('image/jpeg', 0.7)
+                    }, function (data) {
+                        $("#chat-sending-animation").fadeOut();
+                        console.log("upload image finished...");
+                    }, function(e){
+                        alert(e);
+                    });
                 } else {
                     // We just send the image
-                    $socket.emit("send-image", {dataUri: url}, function (data) {});
+                    $socket.emit("send-image", {dataUri: url}, function (data) {
+                        $("#chat-sending-animation").fadeOut();
+                        console.log("upload image finished...");
+                    }, function(e){
+                        alert(e);
+                    });
                 }
             };
             img.src = url;
@@ -612,10 +626,10 @@ angular.module('Controllers')
 					});
 				}
 	    	}
-	    });	
+	    });
 		//}
     };
-    
+
     // recieving new image message
     $socket.on("new message image", function(data){
 		$scope.showme = true;
@@ -624,8 +638,8 @@ angular.module('Controllers')
             data.serverfilename = paths[paths.length - 1];
         }
 		if(data.username == $rootScope.username){
-			data.ownMsg = true;	
-			data.dwimgsrc = "app/images/spin.gif";	
+			data.ownMsg = true;
+			data.dwimgsrc = "app/images/spin.gif";
 		}else{
 			data.ownMsg = false;
 		}
@@ -648,9 +662,9 @@ angular.module('Controllers')
 						$scope.messages[i].size = msg.size;
 						$scope.messages[i].imgsrc = msg.serverfilename;
 						$scope.messages[i].serverfilename = msg.serverfilename;
-						break;	
+						break;
 					}
-				}						
+				}
 			}
 		}
 	}
@@ -667,13 +681,13 @@ angular.module('Controllers')
 				$('#alert').delay(1000).fadeOut('slow', function(){
 					$('#alert').remove();
 				});
-			}	
+			}
 			return false;
 		}
 	}
 
 	// download image if it exists on server else return error message
-	$scope.downloadImage = function(ev, elem){		
+	$scope.downloadImage = function(ev, elem){
 		var search_id = elem.id;
     	for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
 			if($scope.messages[i].hasFile){
@@ -691,13 +705,13 @@ angular.module('Controllers')
 									$('#alert').delay(1000).fadeOut('slow', function(){
 										$('#alert').remove();
 									});
-								}	
+								}
 								return false;
 					    	}
 					    });
-						break;	
+						break;
 					}
-				}						
+				}
 			}
 		};
     }
@@ -718,22 +732,22 @@ angular.module('Controllers')
 					alert("Image size too big, please use an image under 25MB");
 					continue;
 				}
-                var dateString = formatAMPM(new Date());            
+                var dateString = formatAMPM(new Date());
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var image = {
 						//file: file,
-			      		username : $rootScope.username, 
-			      		userAvatar : $rootScope.userAvatar, 
+			      		username : $rootScope.username,
+			      		userAvatar : $rootScope.userAvatar,
 			      		hasFile : $scope.isFileSelected ,
-			      		isImageFile : true, 
-			      		istype : "image", 
-			      		showme : true , 
-			      		dwimgsrc : "app/images/gallery_icon5.png", 
-			      		dwid : DWid, 
+			      		isImageFile : true,
+			      		istype : "image",
+			      		showme : true ,
+			      		dwimgsrc : "app/images/gallery_icon5.png",
+			      		dwid : DWid,
 						msgTime : dateString,
-						filename : file.name       		
+						filename : file.name
 			    };
-                $socket.emit('send-message',image,function (data){       // sending new image message via socket    
+                $socket.emit('send-message',image,function (data){       // sending new image message via socket
                 });
                 var fd = new FormData();
     			fd.append('file', file);
@@ -741,7 +755,7 @@ angular.module('Controllers')
         		fd.append('userAvatar', $rootScope.userAvatar);
         		fd.append('hasFile', $scope.isFileSelected);
         		fd.append('isImageFile', true);
-				fd.append('istype', "image");        		
+				fd.append('istype', "image");
 				fd.append('showme', true);
 				fd.append('dwimgsrc', "app/images/gallery_icon5.png");
 				fd.append('dwid', DWid);
@@ -767,7 +781,7 @@ angular.module('Controllers')
     	$http.post("/v1/getfile",msg).success(function (response){
 	    	if(!response.isExpired){
 	    		window.open($rootScope.baseUrl +'/'+response.serverfilename, "_blank");
-	    	}else{	    		
+	    	}else{
 		    		var html = '<p id="alert">'+ response.expmsg +'</p>';
 				if ($( ".chat-box" ).has( "p" ).length < 1) {
 					$(html).hide().prependTo(".chat-box").fadeIn(1500);
@@ -776,7 +790,7 @@ angular.module('Controllers')
 					});
 				}
 	    	}
-	    });	
+	    });
 	}
 
 	// recieving new music message
@@ -787,7 +801,7 @@ angular.module('Controllers')
 		}else{
 			data.ownMsg = false;
 		}
-		if((data.username == $rootScope.username) && data.repeatMsg){	
+		if((data.username == $rootScope.username) && data.repeatMsg){
 			checkmessagesMusic(data);
 		}else{
 			$scope.messages.push(data);
@@ -798,16 +812,16 @@ angular.module('Controllers')
 	function checkmessagesMusic(msg){
 		for (var i = ($scope.messages.length-1); i >= 0 ; i--) {
 			if($scope.messages[i].hasFile){
-				if ($scope.messages[i].istype === "music") {					
+				if ($scope.messages[i].istype === "music") {
 					if($scope.messages[i].dwid === msg.dwid){
 						$scope.messages[i].showme = true;
 						$scope.messages[i].serverfilename = msg.serverfilename;
 						$scope.messages[i].filename = msg.filename;
 						$scope.messages[i].size = msg.size;
 						$scope.messages[i].dwimgsrc = "app/images/musicplay_icon.png";
-						break;	
+						break;
 					}
-				}						
+				}
 			}
 		};
 	}
@@ -834,10 +848,10 @@ angular.module('Controllers')
 								}
 								return false;
 					    	}
-					    });				
-						break;	
+					    });
+						break;
 					}
-				}						
+				}
 			}
 		};
     }
@@ -856,7 +870,7 @@ angular.module('Controllers')
 			}
 			return false;
 		}
-	}    
+	}
 
 	// sending new 'music file' function
     $scope.sendAudio = function (files) {
@@ -867,16 +881,16 @@ angular.module('Controllers')
                 var dateString = formatAMPM(new Date());
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var audio = {
-                		username : $rootScope.username, 
-			      		userAvatar : $rootScope.userAvatar, 
+                		username : $rootScope.username,
+			      		userAvatar : $rootScope.userAvatar,
 			      		hasFile : $scope.isFileSelected ,
 			      		isMusicFile : true,
                 		istype : "music",
                 		showme : false,
-                		dwimgsrc : "app/images/musicplay_icon.png", 
-			      		dwid : DWid, 
+                		dwimgsrc : "app/images/musicplay_icon.png",
+			      		dwid : DWid,
                 		msgTime : dateString
-                }		
+                }
 
                 $socket.emit('send-message',audio,function (data){		// sending new image message via socket
                 });
@@ -886,7 +900,7 @@ angular.module('Controllers')
         		fd.append('userAvatar', $rootScope.userAvatar);
         		fd.append('hasFile', $scope.isFileSelected);
         		fd.append('isMusicFile', true);
-				fd.append('istype', "music");        		
+				fd.append('istype', "music");
 				fd.append('showme', false);
 				fd.append('dwimgsrc', "app/images/musicplay_icon.png");
 				fd.append('dwid', DWid);
@@ -896,7 +910,7 @@ angular.module('Controllers')
 		            transformRequest: angular.identity,
 		            headers: { 'Content-Type': undefined }
 		        }).then(function (response) {
-		        });    
+		        });
             }
         }
     };
@@ -907,7 +921,7 @@ angular.module('Controllers')
         $scope.sendPDF($scope.PDFFiles);
     });
 
-    //  download the document file on doc_icon click 
+    //  download the document file on doc_icon click
     $scope.openClickPDF = function(msg){
     	$http.post("/v1/getfile",msg).success(function (response){
 	    	if(!response.isExpired){
@@ -932,7 +946,7 @@ angular.module('Controllers')
 		}else{
 			data.ownMsg = false;
 		}
-		if((data.username == $rootScope.username) && data.repeatMsg){	
+		if((data.username == $rootScope.username) && data.repeatMsg){
 			checkmessagesPDF(data);
 		}else{
 			$scope.messages.push(data);
@@ -950,13 +964,13 @@ angular.module('Controllers')
 						$scope.messages[i].filename = msg.filename;
 						$scope.messages[i].size = msg.size;
 						$scope.messages[i].dwimgsrc = "app/images/doc_icon.png";
-						break;	
+						break;
 					}
-				}						
+				}
 			}
 		};
 	}
-	
+
 	// validate file type to 'document file' function
 	$scope.validatePDF = function(file){
 		if (file.type == "application/pdf" || file.type == "application/msword" || file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || file.type == "text/plain" || file.type == "application/vnd.ms-excel") {
@@ -995,10 +1009,10 @@ angular.module('Controllers')
 								}
 								return false;
 					    	}
-					    });				
-						break;	
+					    });
+						break;
 					}
-				}						
+				}
 			}
 		};
     }
@@ -1012,14 +1026,14 @@ angular.module('Controllers')
                 var dateString = formatAMPM(new Date());
                 var DWid = $rootScope.username + "dwid" + Date.now();
                 var PDF = {
-                		username : $rootScope.username, 
-			      		userAvatar : $rootScope.userAvatar, 
+                		username : $rootScope.username,
+			      		userAvatar : $rootScope.userAvatar,
 			      		hasFile : $scope.isFileSelected ,
 			      		isPDFFile : true,
                 		istype : "PDF",
                 		showme : false,
-                		dwimgsrc : "app/images/doc_icon.png", 
-			      		dwid : DWid, 
+                		dwimgsrc : "app/images/doc_icon.png",
+			      		dwid : DWid,
                 		msgTime : dateString
                 }
                 $socket.emit('send-message',PDF,function (data){
@@ -1030,7 +1044,7 @@ angular.module('Controllers')
         		fd.append('userAvatar', $rootScope.userAvatar);
         		fd.append('hasFile', $scope.isFileSelected);
         		fd.append('isPDFFile', true);
-				fd.append('istype', "PDF");        		
+				fd.append('istype', "PDF");
 				fd.append('showme', false);
 				fd.append('dwimgsrc', "app/images/doc_icon.png");
 				fd.append('dwid', DWid);
@@ -1063,7 +1077,7 @@ angular.module('Controllers')
 					$('#alert').remove();
 				});
 			}
-        }    
+        }
     });
 
     // function for checking file type
@@ -1090,4 +1104,3 @@ angular.module('Controllers')
     }
 
 });
-

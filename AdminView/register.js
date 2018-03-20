@@ -17,7 +17,7 @@ var User = function(user){
 var schema = {
     properties: {
         username: {
-            validator: /^[a-zA-Z\s\-]+$/,
+            validator: /^[a-zA-Z0-9\s\-]+$/,
             warning: 'Username must be only letters, spaces, or dashes',
             description: "Enter username:"
         },

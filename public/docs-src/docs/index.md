@@ -16,7 +16,7 @@ You must have the following installed:
 ## Running the Application Locally
 
 1. Download the source code at [https://github.com/bestlkh/ice-MC2](https://github.com/bestlkh/ice-MC2).
-1. Run `npm install`.
-1. Start MongoDB.
-2. Run `npm run deploy && node app.js`.
-3. Go to [localhost:8080](localhost:8080).
+2. Run `npm install`.
+3. Start MongoDB.
+4. Run `npm start`.
+5. Go to [localhost:8080](localhost:8080).

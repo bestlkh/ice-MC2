@@ -59,7 +59,7 @@ eyJhdHRhY2htZW50LW5hbWUiOiAiZGF0YSJ9
 
 ### SVG Source
 
-Wit SVG source, user can put the message back to editor.
+With SVG source, user can put the message back to editor.
 
 ```json
 {

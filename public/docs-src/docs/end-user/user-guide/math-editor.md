@@ -2,9 +2,7 @@
 ??? "Authors"
     Daniel Hugh (hughdani)
 
-## How to Undo (in progress)
-
-## How to Import Images from the Editor (in progress)
+## How to Import Images from the Editor
 1. Click the **Edit** menu item.
 2. Click on **Import Image**.
 3. Select the image to be imported.

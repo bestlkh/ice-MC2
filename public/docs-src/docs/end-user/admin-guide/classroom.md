@@ -80,7 +80,7 @@
 4. Click on the **Students** tab.
 5. Click **Reset**.
 
-!!! warning "Post Reset"
+!!! warning "After Resetting"
     Users who are still logged in with an old token still have access to the room until they logout.
 
 ## How to view Chat History

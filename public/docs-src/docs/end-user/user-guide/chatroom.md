@@ -7,7 +7,7 @@
 2. Click **Send**.
 
 ## How to Send LaTeX Messages
-1. Click the `TeX` icon to access the LaTeX Editor.
+1. Click the **TeX** icon to access the LaTeX Editor.
 2. Enter your LaTeX expression.
 3. Prepend and append `$$` to your LaTeX.
 4. Click **Send**.
@@ -39,14 +39,16 @@
 
 ### LaTeX Messages
 
-#### How to View LaTex Details
+#### How to View LaTeX Details
 1. Click on an equation that has been sent to chat.
 2. Click the **Ellipsis** to open a window containing equation details.
 
 #### How to Copy LaTeX
 1. Click on an equation that has been sent to chat.
 2. Click the **Pencil** icon.
-3. The equation will now appear in your math editor or chat textbox (depending on the origin of the equation).
+
+!!! info "LaTeX Destination"
+    The equation will appear in your math editor or chat textbox depending on the origin of the equation.
 
 #### How to View the LaTeX Source
 1. Click on an equation that has been sent to chat.

@@ -5,7 +5,7 @@
 
 Welcome to the documentation for the MC² Project, a collaborative math equation editing software.
 
-## Requirements
+## Installation and Setup Requirements
 
 You must have the following installed:
 

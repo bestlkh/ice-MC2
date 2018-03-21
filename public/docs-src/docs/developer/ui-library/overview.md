@@ -1,7 +1,6 @@
 # UI Library Overview
-```
-Author: Jun Zheng (junthehacker)
-```
+??? "Authors"
+    Jun Zheng (junthehacker)
 
 !!! note
     **Dependencies**: jQuery Full Version

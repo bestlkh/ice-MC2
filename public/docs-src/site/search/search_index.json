@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "MC\u00b2 Project\n\n\nAuthors\nJun Zheng (junthehacker), Daniel Hugh (hughdani)\nWelcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.\n\n\nRequirements\n\n\nYou must have the following installed:\n\n\n\n\nnpm\n\n\nNode.js\n\n\nMongoDB\n\n\n\n\nRunning the Application Locally\n\n\n\n\nDownload the source code at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nRun \nnpm install\n.\n\n\nStart MongoDB.\n\n\nRun \nnpm run deploy \n node app.js\n.\n\n\nGo to \nlocalhost:8080\n.", 
+            "text": "MC\u00b2 Project\n\n\nAuthors\nJun Zheng (junthehacker), Daniel Hugh (hughdani)\nWelcome to the documentation for the MC\u00b2 Project, a collaborative math equation editing software.\n\n\nRequirements\n\n\nYou must have the following installed:\n\n\n\n\nnpm\n\n\nNode.js\n\n\nMongoDB\n\n\n\n\nRunning the Application Locally\n\n\n\n\nDownload the source code at \nhttps://github.com/bestlkh/ice-MC2\n.\n\n\nRun \nnpm install\n.\n\n\nStart MongoDB.\n\n\nRun \nnpm start\n.\n\n\nGo to \nlocalhost:8080\n.", 
             "title": "Home"
         }, 
         {
@@ -17,7 +17,7 @@
         }, 
         {
             "location": "/#running-the-application-locally", 
-            "text": "Download the source code at  https://github.com/bestlkh/ice-MC2 .  Run  npm install .  Start MongoDB.  Run  npm run deploy   node app.js .  Go to  localhost:8080 .", 
+            "text": "Download the source code at  https://github.com/bestlkh/ice-MC2 .  Run  npm install .  Start MongoDB.  Run  npm start .  Go to  localhost:8080 .", 
             "title": "Running the Application Locally"
         }, 
         {

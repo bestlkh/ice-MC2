@@ -41,7 +41,7 @@ Show the alert instance.
 
 ### `#!js static spawn(title, message, callback)`
 
-Spawn a anonymous alert instance.
+Spawn an anonymous alert instance.
 
 The usage is same as constructor, this method does not return anything.
 

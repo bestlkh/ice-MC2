@@ -2,12 +2,12 @@
 ??? "Authors"
     Daniel Hugh (hughdani)
 
-Most of the Gulp scripts have been abstracted to npm's script runner. However you can directly leverage Gulp to run and create new tasks. This can be done by modifying `gulp.js`. 
+Most of the Gulp scripts have been abstracted to npm's script runner. However you can directly leverage Gulp to run and create new tasks. This can be done by through the `gulp.js` file. 
 
 ## Tasks
 
 ### `gulp dev`
-Starts up a development server at [localhost:3000](localhost:3000) (by default). Then begins an initial clean compilation of necessary files and starts watchers for HTML, LESS and JavaScript files.
+Starts up a development server at [localhost:3000](localhost:3000) (by default). It then begins a clean compilation of necessary files and starts watchers for HTML, LESS and JavaScript files.
 
 ### `gulp deploy`
 Compiles necessary files for deployment.

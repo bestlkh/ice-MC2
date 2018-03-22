@@ -9,6 +9,7 @@
   width: 50%;
   display: flex;
   flex-wrap: wrap;
+  border-left: 1px solid #ccc;
 }
 
 #mathjax-viewer {
@@ -29,12 +30,14 @@
   justify-content: center;
   text-align: center;
   color: @text-color;
+  background-color: #3c3c38;
 }
 
 .ace_editor {
   width: 50%;
   height: 100%;
   margin: 0;
+  border: none;
   font-size: 18px !important; // Override default font size
 }
 
@@ -44,7 +47,7 @@
   border: none;
   color: @text-color;
   font-size: 16px;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255, 0.2);
   opacity: 0.7;
   cursor: pointer;
   transition: all ease 0.2s;

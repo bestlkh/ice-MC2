@@ -59,7 +59,7 @@ App.config(function ($routeProvider, $locationProvider){
         this.interval = null;
 
         this.getAvatar = function () {
-            return {'background-image': "URL(/app/css/dist/img/" + (this.user ? this.user.userAvatar : 'avatar1.jpg') +")"}
+            return {'background-image': "URL(/app/css/dist/img/" + (this.user ? this.user.userAvatar : 'Avatar1.jpg') +")"}
         };
 
         this.onClick = function () {

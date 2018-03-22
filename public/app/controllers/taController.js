@@ -1,4 +1,18 @@
 angular.module('Controllers', [])
+    .directive("uploadavatar", [function () {
+        return {
+            scope: {
+                uploadavatar: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    scope.$apply(function () {
+                        scope.uploadavatar(changeEvent.target.files[0]);
+
+                    });
+                });
+            }
+        }}])
     .controller("taController", function ($scope, $rootScope, $routeParams, $window, $location) {
         $rootScope.tabActive = "ta";
 
@@ -10,6 +24,7 @@ angular.module('Controllers', [])
 
         $scope.hideToolTip = true;
         $scope.active = false;
+        $scope.editAvatar = false;
 
         $scope.tas = [];
         $scope.ta = {};
@@ -39,6 +54,15 @@ angular.module('Controllers', [])
                 $scope.$apply();
             }, 5000);
         };
+
+        $scope.setAvatar = function (i) {
+            $scope.ta.avatar = "Avatar"+i+".jpg";
+            $scope.editAvatar = false;
+        };
+
+        $scope.getAvatar = function () {
+            return "/app/css/dist/img/"+$scope.selected.avatar;
+        };
         
         $scope.setSelected = function (id, click) {
             if (!id) return;
@@ -49,6 +73,10 @@ angular.module('Controllers', [])
 
         $scope.onFormChange = function () {
             $scope.block.save = (checkDetails());
+        };
+
+        $scope.onEdit = function () {
+            $scope.editAvatar = !$scope.editAvatar;
         };
 
         function checkDetails() {
@@ -104,7 +132,7 @@ angular.module('Controllers', [])
             onUpdateTA: function () {
                 $.ajax({
                     method: "PATCH",
-                    url: "/v1/api/ta",
+                    url: "/v1/api/ta/"+$scope.selected._id,
                     data:  JSON.stringify($scope.ta),
                     processData: false,
                     contentType: "application/json",
@@ -124,6 +152,22 @@ angular.module('Controllers', [])
                     },
                     error: function (err) {
                         $scope.newNotif(err.responseJSON.message, false);
+                        $scope.$apply();
+                    }
+                })
+            },
+            onUploadAvatar: function (avatar) {
+                var form = new FormData();
+                form.append("image", avatar);
+
+                $.ajax({
+                    method: "POST",
+                    url: "/v1/api/ta/"+$scope.selected._id+"/avatar",
+                    data: form,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        $scope.ta.avatar = result.avatar;
                         $scope.$apply();
                     }
                 })

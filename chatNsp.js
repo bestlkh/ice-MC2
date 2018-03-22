@@ -240,7 +240,7 @@ LectureNsp.prototype.listen = function () {
                         callback({success: false, message: "Use different username."});
                     } else {
                         var login = function () {
-                            if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
+                            if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false, message: "Invalid user avatar"});
                             else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
                             if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
                             setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
@@ -258,7 +258,9 @@ LectureNsp.prototype.listen = function () {
                                 if (err || !ta) return callback({success: false, message: "Invalid secret"});
 
                                 setSessionVar("ta", ta);
+
                                 login();
+                                setSessionVar("userAvatar", ta.avatar);
                             });
                         } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});

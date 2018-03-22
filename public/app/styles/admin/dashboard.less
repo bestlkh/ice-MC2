@@ -41,7 +41,6 @@
   color: #5d6795;
 
   cursor: pointer;
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ3Ny4xNzUgNDc3LjE3NSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDc3LjE3NSA0NzcuMTc1OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij48Zz48cGF0aCBkPSJNMzYwLjczMSwyMjkuMDc1bC0yMjUuMS0yMjUuMWMtNS4zLTUuMy0xMy44LTUuMy0xOS4xLDBzLTUuMywxMy44LDAsMTkuMWwyMTUuNSwyMTUuNWwtMjE1LjUsMjE1LjUgICBjLTUuMyw1LjMtNS4zLDEzLjgsMCwxOS4xYzIuNiwyLjYsNi4xLDQsOS41LDRjMy40LDAsNi45LTEuMyw5LjUtNGwyMjUuMS0yMjUuMUMzNjUuOTMxLDI0Mi44NzUsMzY1LjkzMSwyMzQuMjc1LDM2MC43MzEsMjI5LjA3NXogICAiIGZpbGw9IiM1ZDY3OTUiLz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PGc+PC9nPjxnPjwvZz48Zz48L2c+PC9zdmc+);
   background-size: 12px;
   background-position: calc(100% - 8px);
   background-repeat: no-repeat;
@@ -614,15 +613,20 @@ input[type="submit"]:hover {
   padding: 10px;
   width: 800px;
   transition: 0.1s all linear;
+  border-top: 0;
 }
 
 .setting:hover {
   color: #414141;
 }
 
+.setting:first-child {
+  border-top: 1px #d6d7d8 solid;
+}
+
 .setting:nth-child(2) {
   background-color: #fff;
-  border-top: 0;
+
 }
 
 .setting input[type="text"] {
@@ -1219,3 +1223,73 @@ a {
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
   font-size: 15px;
 }
+
+
+.avatar-picker {
+  color: @sec-color-light;
+  cursor: pointer;
+}
+
+.avatar-picker .avatar {
+  width: 92px;
+  height: 68px;
+
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+
+}
+
+.avatar-picker .edit {
+  width: 92px;
+  height: 24px;
+  text-align: center;
+  background-color: #fff;
+  font-weight: 600;
+
+  line-height: 20px;
+  color: inherit;
+  border: 1px solid #adafb1;
+}
+
+.avatar-picker:hover {
+  color: @normal-text-color;
+}
+
+.avatar-selector {
+  position: absolute;
+  width: 190px;
+  padding: 5px;
+  height: max-content;
+  left: 825px;
+  margin: 0 !important;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+.avatar-colours {
+  display:  flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.avatar-colours div {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  margin: 5px;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+}
+
+.avatar-upload .line-button {
+  font-weight: normal;
+  display: block;
+  margin: 5px auto !important;
+  width: 158px
+}
+
+.avatar-upload {
+
+}
+

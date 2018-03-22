@@ -14,6 +14,7 @@ var outlook = require("node-outlook");
 var Bot = require("./bot.js");
 var LectureNsp = require("../chatNsp").LectureNsp;
 var sharedsession = require("express-socket.io-session");
+var mimeMap = require("mime-types");
 
 function findOne(list, params) {
     var result;
@@ -137,6 +138,27 @@ var ChatSetting = function (settings) {
     }
 
 };
+
+var filter = function(req, file, cb) {
+    if (file.mimetype.indexOf("image/") == -1) {
+        cb(null, false);
+    } else {
+        cb(null, true);
+    }
+};
+
+var naming = function(req, file, cb) {
+    var ext = mimeMap.extensions[file.mimetype][0];
+    cb(null, crypto.createHash('md5').update(new Date().toLocaleString()).digest("hex")+"."+ext);
+};
+
+var multer  = require("multer");
+var storage = multer.diskStorage({
+    filename: naming,
+    destination: "./public/app/css/dist/img"
+});
+
+var upload = multer({fileFilter: filter, storage: storage});
 
 AdminView.prototype.setupApi = function () {
 
@@ -504,7 +526,7 @@ AdminView.prototype.setupApi = function () {
         this.name = ta.name;
         this.token = ta.token ? ta.token : uuidv4().substring(0, 8);
         this.owner = owner;
-        this.avatar = ta.avatar;
+        this.avatar = ta.avatar ? ta.avatar : "Avatar1.jpg";
     }
 
     this.app.post("/v1/api/ta", checkAuth, function (req, res) {
@@ -537,14 +559,14 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
-    this.app.patch("/v1/api/ta", checkAuth, function (req, res) {
+    this.app.patch("/v1/api/ta/:id", checkAuth, function (req, res) {
         var ta = new TA(req.body, req.session.user.username);
 
         this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (result) return res.status(401).json({status: 400, message: "Token already exists"});
+            if (result && (result._id.toString() !== req.params.id)) return res.status(400).json({status: 400, message: "Token already exists"});
             this.db.collection("ta").updateOne({
-                _id: new ObjectID(req.body._id),
+                _id: new ObjectID(req.params.id),
                 owner: req.session.user.username
             }, ta, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
@@ -554,6 +576,12 @@ AdminView.prototype.setupApi = function () {
             });
         }.bind(this));
 
+    }.bind(this));
+
+    this.app.post("/v1/api/ta/:id/avatar", checkAuth, upload.single("image"), function (req, res) {
+        if (!req.file) return res.status(400).json({status: 400, message: "Invalid image"});
+
+        res.json({avatar: req.file.filename});
     }.bind(this));
 
     this.app.get("/v1/api/ta/:id", checkAuth, function (req, res) {

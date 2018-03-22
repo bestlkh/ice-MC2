@@ -2241,8 +2241,8 @@ var SOTP = 0;
             parent.document.getElementById('textArea').value  = raw_message;
             parent.document.getElementById('send-message-button').click();
           } else {
-            parent.preview.window.svg_source = btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())));
-            parent.preview.window.previewEditor.setValue(tex);
+            parent.window.svg_source = btoa(unescape(encodeURIComponent($("#svgcontent").find(".active-layer").html())));
+            parent.window.previewEditor.setValue(tex);
           }
         }
       };

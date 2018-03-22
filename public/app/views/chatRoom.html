@@ -88,6 +88,37 @@
 
                         </div>
                         <div class="box-footer" id="chatroom-footer">
+                            <div id="text-message-input-area">
+                                <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
+                                        ng-click="toggleLatexEditor()">
+                                    <img src="/app/images/latex-icon.png" alt="in chat latex button" width="20px"/>
+                                </button>
+                                <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
+                                        ng-click="showEquationEditor()">
+                                    <img src="/app/images/editor-icon.png" alt="equation editor button" width="20px"/>
+                                </button>
+                                <button class="message-tool-button" id="send-image-button" title="Send Image"
+                                        ng-click="startImageUpload()">
+                                    <img src="/app/images/image-upload-icon.png" alt="image upload icon" width="20px"/>
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
+                                        ng-click="latexEditorAddText('$$')">
+                                    $$
+                                </button>
+                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
+                                        ng-click="latexEditorAddText('\\')">
+                                    \
+                                </button>
+                                <textarea aria-label="chatroom input text area" id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
+                                        ng-model="chatMsg"
+                                        ng-change="isMsgBoxEmpty=false"
+                                        ng-enter="sendMsg()"
+                                        ng-focus="setFocus"
+                                        class="tex2jax_ignore"></textarea>
+                                <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
+                                        class="fa fa-paper-plane" aria-hidden="true"></i> Send
+                                </button>
+                            </div>
 
                             <!--Size of this area is modified by JavaScript, registered in ui.js-->
                             <div id="text-message-input-extra-symbols">
@@ -126,37 +157,6 @@
                                 <button class="message-tool-button latex-editor-symbol-button" id="add-latex-right-bracket-button"
                                         ng-click="latexEditorAddText('}')">
                                     }
-                                </button>
-                            </div>
-                            <div id="text-message-input-area">
-                                <button class="message-tool-button" id="latex-button" title="LaTeX Editor"
-                                        ng-click="toggleLatexEditor()">
-                                    <img src="/app/images/latex-icon.png" alt="in chat latex button" width="20px"/>
-                                </button>
-                                <button class="message-tool-button" id="equation-editor-button" title="Equation Editor"
-                                        ng-click="showEquationEditor()">
-                                    <img src="/app/images/editor-icon.png" alt="equation editor button" width="20px"/>
-                                </button>
-                                <button class="message-tool-button" id="send-image-button" title="Send Image"
-                                        ng-click="startImageUpload()">
-                                    <img src="/app/images/image-upload-icon.png" alt="image upload icon" width="20px"/>
-                                </button>
-                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-wrap-button"
-                                        ng-click="latexEditorAddText('$$')">
-                                    $$
-                                </button>
-                                <button class="message-tool-button latex-editor-symbol-button" id="add-latex-backslash-button"
-                                        ng-click="latexEditorAddText('\\')">
-                                    \
-                                </button>
-                                <textarea aria-label="chatroom input text area" id="textArea" rows="1" wrap="soft" placeholder="Type Message ..."
-                                        ng-model="chatMsg"
-                                        ng-change="isMsgBoxEmpty=false"
-                                        ng-enter="sendMsg()"
-                                        ng-focus="setFocus"
-                                        class="tex2jax_ignore"></textarea>
-                                <button class="message-tool-button" ng-click="sendMsg()" id="send-message-button"><i
-                                        class="fa fa-paper-plane" aria-hidden="true"></i> Send
                                 </button>
                             </div>
 

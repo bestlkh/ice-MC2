@@ -15,6 +15,7 @@ var Bot = require("./bot.js");
 var LectureNsp = require("../chatNsp").LectureNsp;
 var sharedsession = require("express-socket.io-session");
 var mimeMap = require("mime-types");
+var fs = require("fs");
 
 function findOne(list, params) {
     var result;
@@ -149,7 +150,7 @@ var filter = function(req, file, cb) {
 
 var naming = function(req, file, cb) {
     var ext = mimeMap.extensions[file.mimetype][0];
-    cb(null, crypto.createHash('md5').update(new Date().toLocaleString()).digest("hex")+"."+ext);
+    cb(null, crypto.createHash('md5').update(new Date().toLocaleString()).digest("hex")+"_custom."+ext);
 };
 
 var multer  = require("multer");
@@ -562,15 +563,23 @@ AdminView.prototype.setupApi = function () {
     this.app.patch("/v1/api/ta/:id", checkAuth, function (req, res) {
         var ta = new TA(req.body, req.session.user.username);
 
-        this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, result) {
+        this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, originalTA) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (result && (result._id.toString() !== req.params.id)) return res.status(400).json({status: 400, message: "Token already exists"});
+            if (originalTA && (originalTA._id.toString() !== req.params.id)) return res.status(400).json({status: 400, message: "Token already exists"});
+
+
             this.db.collection("ta").updateOne({
                 _id: new ObjectID(req.params.id),
                 owner: req.session.user.username
             }, ta, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
+                if (originalTA && (originalTA.avatar !== ta.avatar)) {
+                    if (originalTA.avatar.indexOf("_custom.") !== -1) return fs.unlink("./public/app/css/dist/img/"+originalTA.avatar, function () {
+                        res.json({});
+                    });
+
+                }
                 res.json({});
 
             });

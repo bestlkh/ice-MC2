@@ -532,11 +532,11 @@ AdminView.prototype.setupApi = function () {
 
     this.app.post("/v1/api/ta", checkAuth, function (req, res) {
         var ta = new TA(req.body, req.session.user.username);
+        if (!ta.name || ta.name === "") return res.status(400).json({status: 400, message: "Invalid TA name"});
 
-
-        this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, result) {
+        this.db.collection("ta").findOne({owner: ta.owner, name: ta.name}, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (result) return res.status(401).json({status: 400, message: "Token already exists"});
+            if (result) return res.status(400).json({status: 400, message: "Name already exists"});
             this.db.collection("ta").insertOne(ta, function (err, result) {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
@@ -563,11 +563,20 @@ AdminView.prototype.setupApi = function () {
     this.app.patch("/v1/api/ta/:id", checkAuth, function (req, res) {
         var ta = new TA(req.body, req.session.user.username);
 
-        this.db.collection("ta").findOne({owner: ta.owner, token: ta.token}, function (err, originalTA) {
+        if (!ta.name || ta.name === "") return res.status(400).json({status: 400, message: "Invalid TA name"});
+
+        this.db.collection("ta").findOne({
+            owner: ta.owner,
+            $or: [
+                {token: ta.token},
+                {name: ta.name}
+                ]
+        }, function (err, originalTA) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
-            if (originalTA && (originalTA._id.toString() !== req.params.id)) return res.status(400).json({status: 400, message: "Token already exists"});
-
-
+            if (originalTA && (originalTA._id.toString() !== req.params.id)) return res.status(400).json({
+                status: 400,
+                message: "Token or Name already exists"
+            });
             this.db.collection("ta").updateOne({
                 _id: new ObjectID(req.params.id),
                 owner: req.session.user.username
@@ -585,6 +594,13 @@ AdminView.prototype.setupApi = function () {
             });
         }.bind(this));
 
+    }.bind(this));
+
+    this.app.delete("/v1/api/ta/:id", checkAuth, function (req, res) {
+        this.db.collection("ta").removeOne({owner: req.session.user.username, _id: new ObjectID(req.params.id)}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            res.json({});
+        });
     }.bind(this));
 
     this.app.post("/v1/api/ta/:id/avatar", checkAuth, upload.single("image"), function (req, res) {

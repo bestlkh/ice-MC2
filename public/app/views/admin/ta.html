@@ -23,8 +23,11 @@
                     </div>
                 </div>
 
+                <div class="button-wrapper">
+                    <div class="line-button delete-button" ng-click="Actions.onDeleteTA()">Delete</div>
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+                </div>
 
-                <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
             </header>
 
             <form class="chat-setting-form" ng-submit="Actions.onUpdateTA()">
@@ -101,10 +104,17 @@
         <div class="import-wrapper" ng-if="!hideAdd">
 
             <header>
-                <span>Create TA</span>
+                <div style="display:flex;">
+                    <span>Create TA</span>
+                    <div class="notif-popup" ng-class="{'error-popup': notif.error}" ng-if="notif">
+                        {{notif.message}}
+                    </div>
+                </div>
+
                 <div class="button-wrapper">
-                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
                     <input type="submit" ng-click="Actions.onTASubmit()"/>
+                    <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+
                 </div>
             </header>
 
@@ -131,7 +141,7 @@
         <div class="student-control-wrapper" style="margin-bottom: 20px;">
             <div style="display:flex;">
                 <input class="student-search" ng-model="search.value" placeholder="search" ng-change="onSearchChange()"/>
-                <div class="notif-popup" ng-if="notif">
+                <div class="notif-popup" ng-class="{'error-popup': notif.error}" ng-if="notif">
                     {{notif.message}}
                 </div>
             </div>

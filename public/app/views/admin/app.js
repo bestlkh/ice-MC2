@@ -5,6 +5,10 @@ var App = angular.module('Admin',['ngRoute','ngStorage','socket.io','Controllers
 App.config(function ($routeProvider, $locationProvider){
     //$socketProvider.setConnectionUrl('http://142.1.93.22:8080'); // Socket URL
     $routeProvider	// AngularJS Routes
+        .when('/ta/create', {
+            templateUrl: '/app/views/admin/ta.html',
+            controller: 'taController'
+        })
         .when('/ta', {
             templateUrl: '/app/views/admin/ta.html',
             controller: 'taController'

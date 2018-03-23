@@ -47,7 +47,6 @@ angular.module('Controllers', [])
 
         $scope.newNotif = function (message, success) {
             $scope.notif = {message: message, error: !success};
-
             clearTimeout($scope.to);
             $scope.to = setTimeout(function () {
                 $scope.notif = null;
@@ -86,6 +85,11 @@ angular.module('Controllers', [])
             return true;
         }
 
+        if ($rootScope.notif) {
+            $scope.newNotif($rootScope.notif.message, $rootScope.notif.success);
+            $rootScope.notif = null;
+        }
+
         $scope.Actions = {
             getTAList: function () {
                 $.ajax({
@@ -105,12 +109,16 @@ angular.module('Controllers', [])
                     contentType: "application/json",
                     success: function (result) {
                         //$scope.tas = result;
-                        $scope.hideAdd = $scope.hideOverlay = true;
+                        $location.path("/ta/");
                         $scope.active = false;
-                        $scope.Actions.getTAList();
-                        $scope.ta.name = "";
 
-                        $scope.newNotif("Successfully added", true);
+                        $rootScope.notif = {message: "Successfully added", success: true};
+
+                        $scope.$apply();
+                    },
+                    error: function (err) {
+                        $scope.newNotif(err.responseJSON.message, false);
+                        $scope.$apply();
                     }
                 })
             },
@@ -124,6 +132,12 @@ angular.module('Controllers', [])
                         $scope.$watch("ta", function () {
                             $scope.onFormChange();
                         }, true);
+
+                        $scope.$apply();
+                    },
+                    error: function (err) {
+                        $rootScope.notif = {message: err.responseJSON.message, success: false};
+                        $location.path('/ta');
 
                         $scope.$apply();
                     }
@@ -171,23 +185,37 @@ angular.module('Controllers', [])
                         $scope.$apply();
                     }
                 })
+            },
+            onDeleteTA: function () {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/v1/api/ta/"+$scope.selected._id,
+                    success: function (result) {
+                        $rootScope.notif = {message: "TA deleted", success: true};
+                        $location.path("/ta/");
+                        $scope.$apply();
+                    }
+                })
             }
         };
 
         setTimeout(function() {
-            $scope.setSelected($routeParams.id)
+            $scope.setSelected($routeParams.id);
+            $scope.setCreate();
         }, 10);
 
-        $scope.onAddClick = function () {
+        $scope.setCreate = function () {
+            if ($location.path() !== "/ta/create") return;
             $scope.hideAdd = $scope.hideOverlay = false;
-            // setTimeout(function () {
-            //     $scope.active = true;
-            //     $scope.$apply();
-            // }, 30);
+            $scope.$apply();
+        };
+
+        $scope.onAddClick = function () {
+            $location.path("/ta/create");
         };
 
         $scope.onCancelClick = function () {
-            if ($routeParams.id) $location.path("/ta/");
+            if ($routeParams.id || $location.path() === "/ta/create") $location.path("/ta/");
             $scope.hideImport = $scope.hideAdd = $scope.hideOverlay = true;
             //$scope.selected = null;
             //$scope.ta = {};

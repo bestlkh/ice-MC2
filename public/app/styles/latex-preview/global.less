@@ -34,9 +34,11 @@
   height: ~"calc(100% - 50px)"; // subtract the send button
   position: relative !important;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
   text-align: center;
+  overflow-y: auto;
   color: @text-color;
   background-color: #3c3c38;
   font-size: 18px;
@@ -66,7 +68,7 @@
   }
 }
 
-// increase latex preview text size
 .MJXc-display {
-  font-size: 1.25em;
+  font-size: 1.25em; // increase latex preview text size 
+  width: 100%;
 }

@@ -226,7 +226,8 @@ var lastKeyPress;
 var shortcutIndex = 0;
 
 var keyHash = new Object();
-keyHash["a"] = ['a', 'A', '3B1', '2200', '2227', '2135', '2220'];
+var svgEditSymbols = window.Driver.SvgEditorSymbols;
+keyHash["a"] = [ svgEditSymbols.lowercase_a, 'a', 'A', '3B1','2200', '2227', '2135', '2220'];
 keyHash["b"] = ['b', 'B', '3B2', '2235'];
 keyHash["c"] = ['c', 'C', '2218', '2102'];
 keyHash["d"] = ['d', 'D', '3B4', '394', '2202', '247'];

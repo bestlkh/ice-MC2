@@ -7,4 +7,3 @@ window.Chat = {
     Message: Message,
     MessageText: MessageText
 };
-//# sourceMappingURL=chat.js.map

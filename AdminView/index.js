@@ -61,7 +61,7 @@ function AdminView(socketController, expressApp, sessionObj) {
     this.nsps = [];
 
     this.connectToDb(function (err, db) {
-        if (err) throw new Error("Could not connect to database.");
+        if (err) return console.log("Could not connect to database.");
         this.db = db;
 
         this.setupNamespaces(function (err, nsps) {

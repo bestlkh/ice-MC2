@@ -150,7 +150,7 @@ var filter = function(req, file, cb) {
 
 var naming = function(req, file, cb) {
     var ext = mimeMap.extensions[file.mimetype][0];
-    cb(null, crypto.createHash('md5').update(new Date().toLocaleString()).digest("hex")+"_custom."+ext);
+    cb(null, req.params.id+"."+ext);
 };
 
 var multer  = require("multer");
@@ -560,8 +560,11 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
-    this.app.patch("/v1/api/ta/:id", checkAuth, function (req, res) {
+    this.app.patch("/v1/api/ta/:id", checkAuth, upload.single("image"), function (req, res) {
         var ta = new TA(req.body, req.session.user.username);
+
+        var r = Math.random();
+        if (req.file) ta.avatar = req.file.filename+"?"+r;
 
         if (!ta.name || ta.name === "") return res.status(400).json({status: 400, message: "Invalid TA name"});
 

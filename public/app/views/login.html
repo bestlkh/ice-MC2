@@ -32,7 +32,7 @@
         <div class="form-group errGroup">
         </div>
         <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">
-            <input maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
+            <input ng-if="!ta" maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
 
             <input ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
             <input maxlength="50" ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />

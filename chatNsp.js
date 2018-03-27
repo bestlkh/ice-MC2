@@ -216,7 +216,7 @@ LectureNsp.prototype.listen = function () {
             }
 
             function destroySession() {
-                setSessionVars({username: null, connectedRoom: null, userAvatar: null});
+                setSessionVars({username: null, connectedRoom: null, userAvatar: null, ta: null});
             }
 
             // delete message
@@ -260,11 +260,11 @@ LectureNsp.prototype.listen = function () {
                                 setSessionVar("ta", ta);
 
                                 login();
-                                setSessionVar("userAvatar", ta.avatar);
+                                setSessionVars({userAvatar: ta.avatar, username: ta.name});
                             });
                         } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});
-                        }
+                        } else login();
 
 
 
@@ -400,6 +400,7 @@ LectureNsp.prototype.listen = function () {
                     message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
                     message.isTA = !!(socket.handshake.session.ta);
                     message.utorid = socket.handshake.session.utorid;
+
                     message.timestamp = moment().valueOf();
 
                     this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);

@@ -167,7 +167,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 		if($scope.form.username && $scope.form.roomId) {
 			if ($scope.form.username.length <= 20 && $scope.form.roomId.length <= 50) {
 				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
-					console.log(data);
+					//console.log(data);
 					if(data.success == true){	// if nickname doesn't exists
 						$rootScope.username = $scope.form.username;
 						$rootScope.initials = $scope.form.initials;

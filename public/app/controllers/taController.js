@@ -35,6 +35,8 @@ angular.module('Controllers', [])
 
         $scope.selected = null;
 
+        $scope.avatar = null;
+
         $scope.block = {
             name: true,
             token: true,
@@ -57,10 +59,11 @@ angular.module('Controllers', [])
         $scope.setAvatar = function (i) {
             $scope.ta.avatar = "Avatar"+i+".jpg";
             $scope.editAvatar = false;
+            $scope.avatar = null;
         };
 
         $scope.getAvatar = function () {
-            return "/app/css/dist/img/"+$scope.selected.avatar;
+            return $scope.avatar ? $scope.ta.avatar : "/app/css/dist/img/"+$scope.ta.avatar;
         };
         
         $scope.setSelected = function (id, click) {
@@ -144,17 +147,24 @@ angular.module('Controllers', [])
                 })
             },
             onUpdateTA: function () {
+                var form = new FormData();
+                form.append("image", $scope.avatar);
+                for (var key in $scope.ta) {
+                    if (key === "avatar" && $scope.avatar) continue;
+                    form.append(key, $scope.ta[key]);
+                }
                 $.ajax({
                     method: "PATCH",
                     url: "/v1/api/ta/"+$scope.selected._id,
-                    data:  JSON.stringify($scope.ta),
+                    data: form,
                     processData: false,
-                    contentType: "application/json",
+                    contentType: false,
                     success: function (result) {
 
                         $scope.active = false;
                         $scope.Actions.onGetTA($scope.selected._id);
                         $scope.ta = {};
+                        $scope.avatar = null;
                         $scope.block = {
                             save: true,
                             name: true,
@@ -171,20 +181,17 @@ angular.module('Controllers', [])
                 })
             },
             onUploadAvatar: function (avatar) {
-                var form = new FormData();
-                form.append("image", avatar);
 
-                $.ajax({
-                    method: "POST",
-                    url: "/v1/api/ta/"+$scope.selected._id+"/avatar",
-                    data: form,
-                    contentType: false,
-                    processData: false,
-                    success: function (result) {
-                        $scope.ta.avatar = result.avatar;
-                        $scope.$apply();
-                    }
-                })
+                $scope.avatar = avatar;
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $scope.ta.avatar = e.target.result;
+                    $scope.editAvatar = false;
+                    $scope.$apply();
+                };
+
+                reader.readAsDataURL(avatar);
             },
             onDeleteTA: function () {
                 $.ajax({

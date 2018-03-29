@@ -29,6 +29,9 @@ const JS_FILES = [
     'public/app/js/src/utilities/ImageUtility.js',
 ];
 
+// all javascript files excluding bundled files
+const VANILLA_FILES = ['public/app/**/*.js', '!(public/app/js/src/**/*.*)'];
+
 const paths = {
     styles: {
         watch: {
@@ -38,11 +41,16 @@ const paths = {
         dest: 'public/app/dist/css',
     },
     scripts: {
-        watch: {
-            src: 'public/**/!(*.bundle).js',
+        bundle: {
+            watch: {
+                src: 'public/app/js/src/**/*.js',
+            },
+            src: JS_FILES,
+            dest: 'public/app/dist/js',
         },
-        src: JS_FILES,
-        dest: 'public/app/dist/js',
+        vanilla: {
+            src: VANILLA_FILES,
+        },
     },
     html: {
         src: 'public/**/*.html',
@@ -103,7 +111,7 @@ const stylesDist = () => {
 };
 
 const scripts = () => {
-    return gulp.src(paths.scripts.src)
+    return gulp.src(paths.scripts.bundle.src)
         // load and init sourcemaps
         .pipe(sourcemaps.init({loadMaps: true}))
         // transform file objects using gulp-tap plugin
@@ -124,11 +132,11 @@ const scripts = () => {
                 path.basename += '.bundle';
             }
         }))
-        .pipe(gulp.dest(paths.scripts.dest));
+        .pipe(gulp.dest(paths.scripts.bundle.dest));
 };
 
 const scriptsDist = () => {
-    return gulp.src(paths.scripts.src)
+    return gulp.src(paths.scripts.bundle.src)
         // transform file objects using gulp-tap plugin
         .pipe(tap(function(file) {
             log.info('bundling ' + file.path);
@@ -146,7 +154,7 @@ const scriptsDist = () => {
                 path.basename += '.bundle';
             }
         }))
-        .pipe(gulp.dest(paths.scripts.dest));
+        .pipe(gulp.dest(paths.scripts.bundle.dest));
 };
 
 const clean = () => del([paths.clean.all]);
@@ -167,8 +175,11 @@ gulp.task('compile-dist', gulp.series(stylesDist, scriptsDist));
 const start = gulp.series(serve);
 
 // the types of file watchers
-const scriptWatcher = () => {
-    return gulp.watch(paths.scripts.watch.src, gulp.series(scripts, reload));
+const bundleScriptWatcher = () => {
+    return gulp.watch(paths.scripts.bundle.watch.src, gulp.series(scripts, reload));
+};
+const vanillaScriptWatcher = () => {
+    return gulp.watch(paths.scripts.vanilla.src, gulp.series(reload));
 };
 const styleWatcher = () => {
     return gulp.watch(paths.styles.watch.src, gulp.series(styles));
@@ -177,12 +188,13 @@ const htmlWatcher = () => {
     return gulp.watch(paths.html.src, gulp.series(reload));
 };
 
-const scriptTask = gulp.series(scriptWatcher);
+const bundleScriptTask = gulp.series(bundleScriptWatcher);
+const vanillaScriptTask = gulp.series(vanillaScriptWatcher);
 const styleTask = gulp.series(styleWatcher);
 const htmlTask = gulp.series(htmlWatcher);
 
 // group watcher tasks to run in parallel
-const watchers = gulp.parallel(scriptTask, styleTask, htmlTask);
+const watchers = gulp.parallel(bundleScriptTask, vanillaScriptTask, styleTask, htmlTask);
 
 // start a development environment
 gulp.task('dev', gulp.series(clean, 'compile', start, watchers));

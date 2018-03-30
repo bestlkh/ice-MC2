@@ -326,7 +326,7 @@ var addSvgElementFromJson = this.addSvgElementFromJson = function(data) {
   shape.setAttribute('opacity', 1.0); //**MDF Hack to deal with bug in passing params TODO
 
   if (data.textContent != null) {    //**MDP Hack to set text Content
-			shape.textContent = data.textContent; //**MDP
+      shape.textContent = data.textContent; //**MDP
     } //**MDP
   return shape;
 };
@@ -1068,51 +1068,51 @@ var ffClone = function(elem) {
 this.setRotationAngle = function(val, preventUndo) {
   //**MDP[ Diabled rotations
   // ensure val is the proper type
-//   val = parseFloat(val);
-//   var elem = selectedElements[0];
-//   if (!elem) return;
-//   var oldTransform = elem.getAttribute("transform");
-//   var bbox = svgedit.utilities.getBBox(elem);
-//   var cx = bbox.x+bbox.width/2, cy = bbox.y+bbox.height/2;
-//   var tlist = getTransformList(elem);
-//
-//   // only remove the real rotational transform if present (i.e. at index=0)
-//   if (tlist.numberOfItems > 0) {
-//     var xform = tlist.getItem(0);
-//     if (xform.type == 4) {
-//       tlist.removeItem(0);
-//     }
-//   }
-//   // find R_nc and insert it
-//   if (val != 0) {
-//     var center = transformPoint(cx,cy,transformListToTransform(tlist).matrix);
-//     var R_nc = svgroot.createSVGTransform();
-//     R_nc.setRotate(val, center.x, center.y);
-//     if(tlist.numberOfItems) {
-//       tlist.insertItemBefore(R_nc, 0);
-//     } else {
-//       tlist.appendItem(R_nc);
-//     }
-//   }
-//   else if (tlist.numberOfItems == 0) {
-//     elem.removeAttribute("transform");
-//   }
-//
-//   if (!preventUndo) {
-//     // we need to undo it, then redo it so it can be undo-able! :)
-//     // TODO: figure out how to make changes to transform list undo-able cross-browser?
-//     var newTransform = elem.getAttribute("transform");
-//     elem.setAttribute("transform", oldTransform);
-//     changeSelectedAttribute("transform",newTransform,selectedElements);
-//     call("changed", selectedElements);
-//   }
-//   var pointGripContainer = getElem("pathpointgrip_container");
-// //    if(elem.nodeName == "path" && pointGripContainer) {
-// //      pathActions.setPointContainerTransform(elem.getAttribute("transform"));
-// //    }
-//   var selector = selectorManager.requestSelector(selectedElements[0]);
-//   selector.resize();
-//   selector.updateGripCursors(val);
+  val = parseFloat(val);
+  var elem = selectedElements[0];
+  if (!elem) return;
+  var oldTransform = elem.getAttribute("transform");
+  var bbox = svgedit.utilities.getBBox(elem);
+  var cx = bbox.x+bbox.width/2, cy = bbox.y+bbox.height/2;
+  var tlist = getTransformList(elem);
+
+  // only remove the real rotational transform if present (i.e. at index=0)
+  if (tlist.numberOfItems > 0) {
+    var xform = tlist.getItem(0);
+    if (xform.type == 4) {
+      tlist.removeItem(0);
+    }
+  }
+  // find R_nc and insert it
+  if (val != 0) {
+    var center = transformPoint(cx,cy,transformListToTransform(tlist).matrix);
+    var R_nc = svgroot.createSVGTransform();
+    R_nc.setRotate(val, center.x, center.y);
+    if(tlist.numberOfItems) {
+      tlist.insertItemBefore(R_nc, 0);
+    } else {
+      tlist.appendItem(R_nc);
+    }
+  }
+  else if (tlist.numberOfItems == 0) {
+    elem.removeAttribute("transform");
+  }
+
+  if (!preventUndo) {
+    // we need to undo it, then redo it so it can be undo-able! :)
+    // TODO: figure out how to make changes to transform list undo-able cross-browser?
+    var newTransform = elem.getAttribute("transform");
+    elem.setAttribute("transform", oldTransform);
+    changeSelectedAttribute("transform",newTransform,selectedElements);
+    call("changed", selectedElements);
+  }
+  var pointGripContainer = getElem("pathpointgrip_container");
+//    if(elem.nodeName == "path" && pointGripContainer) {
+//      pathActions.setPointContainerTransform(elem.getAttribute("transform"));
+//    }
+  var selector = selectorManager.requestSelector(selectedElements[0]);
+  selector.resize();
+  selector.updateGripCursors(val);
 //**MDP]
 };
 

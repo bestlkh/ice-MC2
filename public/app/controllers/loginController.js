@@ -169,7 +169,7 @@ angular.module('Controllers',["ngRoute", "ngSanitize"])
 				$socket.emit('new user',{secret: $scope.form.secret, username : $scope.form.username, userAvatar : $scope.userAvatar, initials : $scope.form.initials, roomId: $scope.form.roomId, isJoin: $scope.isJoin && !create, token: $scope.token},function(data){
 					//console.log(data);
 					if(data.success == true){	// if nickname doesn't exists
-						$rootScope.username = $scope.form.username;
+						$rootScope.username = data.username;
 						$rootScope.initials = $scope.form.initials;
 						$rootScope.userAvatar = $scope.userAvatar;
 						$rootScope.loggedIn = true;

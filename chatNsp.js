@@ -239,18 +239,18 @@ LectureNsp.prototype.listen = function () {
                     if (this.findClient(data.roomId, data.username)) {
                         callback({success: false, message: "Use different username."});
                     } else {
-                        var login = function () {
+                        var login = function (data) {
                             if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false, message: "Invalid user avatar"});
                             else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
                             if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
                             setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
-                            callback({success: true});
+                            callback({success: true, username: data.username});
                         };
                         if (data.token) {
                             this.findStudent(data, function (err, student) {
                                 if (err) return callback({success: false, message: "Invalid id"});
                                 setSessionVar("utorid", student.utorid);
-                                login();
+                                login(data);
                             });
 
                         } else if (data.secret) {
@@ -259,12 +259,13 @@ LectureNsp.prototype.listen = function () {
 
                                 setSessionVar("ta", ta);
 
-                                login();
-                                setSessionVars({userAvatar: ta.avatar, username: ta.name});
+                                data.username = ta.name;
+                                login(data);
+                                setSessionVars({userAvatar: ta.avatar});
                             });
                         } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});
-                        } else login();
+                        } else login(data);
 
 
 
@@ -314,10 +315,6 @@ LectureNsp.prototype.listen = function () {
                                 type: "system",
                                 hidden: true
                             });
-
-                            if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
-                                socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName.toLowerCase() !== data.roomId);
-                            else socket.handshake.session.isInstructor = false;
 
                             if (!room.messageHistory) room.messageHistory = [];
 

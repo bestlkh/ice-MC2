@@ -118,13 +118,13 @@ function initializeChatMenu(){
     let chatMembersButton = chatMenu.addButton({
         id: "online-users",
         title: "'Online Users'",
-        innerContent: "<i class=\"fa fa-users\" aria-hidden=\"true\"></i>"
+        innerContent: "<i class=\"fa fa-users\" ></i>"
     });
     
     let logoutButton = chatMenu.addButton({
         id: "logout-button",
         title: "Logout",
-        innerContent: "<i class=\"fa fa-sign-out\" aria-hidden=\"true\"></i>"
+        innerContent: "<i class=\"fa fa-sign-out\" ></i>"
     });
 
     chatMembersButton.onClick = function(){

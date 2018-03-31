@@ -321,7 +321,13 @@ angular.module('Controllers')
 	$scope.deleteMsg = function(msg){
 			$socket.emit("delete-message", msg, function(data){});
 	};
-
+	/**
+	 * Send Announcement message to the chat room
+     */
+	$scope.announceMsg = function(msg){
+		$socket.emit("announce-message", msg, function(data){});
+	};
+	
     /**
 	 * Open a base64 image in new tab.
      * @param img - Image in base64 format.
@@ -544,6 +550,46 @@ angular.module('Controllers')
 		chatLog += "\n";
 	});
 
+	$socket.on("announce message", function(data){
+				var msg = new Chat.Message(data.raw_data);
+				var btn = document.createElement("BUTTON");
+				btn.setAttribute("id", "close");
+				btn.innerHTML = '╳';  
+				btn.onclick = function(){
+					$("#announce-area").css('display', 'none');
+				};
+				
+				$("#announce-area")[0].innerText = "";
+				$("#announce-area").css('display', 'inline-block');
+				$("#announce-area").append('<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + 'Announcement By ' + "\r\n" + msg.getUsername());
+				$("#announce-area").append(btn);	
+				if(msg.getText().isImage()){
+					let image = new Image();
+					image.src = msg.getText().getImage();
+					if(image.width > image.height){
+						image.width = 240;
+						image.height = 200;
+					}
+					else if(image.width > image.height){
+						image.width = 200;
+						image.height = 240;
+
+					}else{
+						image.width = 220;
+						image.height = 220;
+					}
+					$("#announce-area").css('height', '265px');
+					$("#announce-area").append(image);
+				}
+				else if(msg.getText().getRaw().includes("$$")){
+					$("#announce-area").css('height', '120px');
+					$("#announce-area").append('<p>' + msg.getText().getRaw() + '</p>');
+				}	
+				else{
+					$("#announce-area").css('height', '90px');
+					$("#announce-area").append('<p>' + msg.getText().getRaw() + '</p>');
+				};							
+	});
 // ====================================== Image Sending Code ==============================
     $scope.$watch('upload.image', function () {
         if (!$scope.upload.image) return;
@@ -619,6 +665,7 @@ angular.module('Controllers')
     $socket.on("new message image", function(data){
 		$scope.showme = true;
 		if (data.serverfilename) {
+			console.log(data);
             var paths = data.serverfilename.split("\\");
             data.serverfilename = paths[paths.length - 1];
         }
@@ -1089,4 +1136,3 @@ angular.module('Controllers')
     }
 
 });
-

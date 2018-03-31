@@ -13,6 +13,7 @@ var Message = function () {
 
         this.raw_data = raw_data;
         this.text = new MessageText(raw_data.msg);
+        this.read = false;
     }
 
     _createClass(Message, [{

@@ -53,6 +53,14 @@ ios.use(sharedsession(session, {
 var AdminController =  new AdminView(ios, app, session);
 
 
+const Controllers = {
+    SystemInfoController: require('./controllers/rest/SystemInfoController'),
+    ImageLibraryController: require('./controllers/rest/ImageLibraryController')
+}
+
+app.get('/api/v1', Controllers.SystemInfoController.getBasicSystemInformation);
+app.get('/api/v1/image-libraries', Controllers.ImageLibraryController.getAllAccredited);
+
 // Initializing Variables
 //var nickname = [];
 var i = [];
@@ -69,7 +77,7 @@ var port = process.env.PORT || 8080;
 server.listen(port);		// server starting on port '8080'
 
 // cofiguring body-parser
-app.use(bodyParser.json({	// setting json limit 	
+app.use(bodyParser.json({	// setting json limit
     limit: 1024 * 10000
 }));
 app.use(bodyParser.text({ 	// setting text limit
@@ -89,7 +97,7 @@ app.use(express.static(__dirname + '/public/app/upload/doc'));
 app.use(express.static(__dirname + '/public/app/views/*'));
 
 // CORS Issue Fix
-app.use(function(req, res, next) {														
+app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
@@ -301,30 +309,30 @@ app.post('/v1/uploadImage',function (req, res){
 	form.on('end', function() {
       res.end();
     });
-    
+
     form.parse(req,function(err,fields,files){
-		var data = { 
+		var data = {
 				username : fields.username,
-				userAvatar : fields.userAvatar, 
-				repeatMsg : true, 
-				hasFile : fields.hasFile, 
-				isImageFile : fields.isImageFile, 
-				istype : fields.istype, 
-				showme : fields.showme, 
-				dwimgsrc : fields.dwimgsrc, 
+				userAvatar : fields.userAvatar,
+				repeatMsg : true,
+				hasFile : fields.hasFile,
+				isImageFile : fields.isImageFile,
+				istype : fields.istype,
+				showme : fields.showme,
+				dwimgsrc : fields.dwimgsrc,
 				dwid : fields.dwid,
-				serverfilename : baseName(files.file.path), 
+				serverfilename : baseName(files.file.path),
 				msgTime : fields.msgTime,
 				filename : files.file.name,
 				size : bytesToSize(files.file.size)
 		};
-	    var image_file = { 
+	    var image_file = {
 		        dwid : fields.dwid,
 		        filename : files.file.name,
 		        filetype : fields.istype,
 		        serverfilename : baseName(files.file.path),
 		        serverfilepath : files.file.path,
-		        expirytime : imgdatetimenow + (3600000 * expiryTime)           
+		        expirytime : imgdatetimenow + (3600000 * expiryTime)
 		};
 		files_array.push(image_file);
 		ios.sockets.emit('new message image', data);
@@ -347,28 +355,28 @@ app.post('/v1/uploadAudio',function (req, res){
     form.parse(req,function(err,fields,files){
 		console.log("files : ",files);
 		console.log("fields : ", fields);
-		var data = { 
-				username : fields.username, 
-				userAvatar : fields.userAvatar, 
-				repeatMsg : true, 
-				hasFile : fields.hasFile, 
-				isMusicFile : fields.isMusicFile, 
-				istype : fields.istype, 
-				showme : fields.showme, 
-				dwimgsrc : fields.dwimgsrc, 
+		var data = {
+				username : fields.username,
+				userAvatar : fields.userAvatar,
+				repeatMsg : true,
+				hasFile : fields.hasFile,
+				isMusicFile : fields.isMusicFile,
+				istype : fields.istype,
+				showme : fields.showme,
+				dwimgsrc : fields.dwimgsrc,
 				dwid : fields.dwid,
-				serverfilename : baseName(files.file.path), 
+				serverfilename : baseName(files.file.path),
 				msgTime : fields.msgTime,
 				filename : files.file.name,
 				size : bytesToSize(files.file.size)
 		};
-	    var audio_file = { 
+	    var audio_file = {
 		        dwid : fields.dwid,
 		        filename : files.file.name,
 		        filetype : fields.istype,
 		        serverfilename : baseName(files.file.path),
 		        serverfilepath : files.file.path,
-		        expirytime : imgdatetimenow + (3600000 * expiryTime)           
+		        expirytime : imgdatetimenow + (3600000 * expiryTime)
 	    };
 	    files_array.push(audio_file);
 		ios.sockets.emit('new message music', data);
@@ -387,28 +395,28 @@ app.post('/v1/uploadPDF',function (req, res){
       res.end();
     });
     form.parse(req,function(err,fields,files){
-		var data = { 
-				username : fields.username, 
-				userAvatar : fields.userAvatar, 
-				repeatMsg : true, 
-				hasFile : fields.hasFile, 
-				isPDFFile : fields.isPDFFile, 
-				istype : fields.istype, 
-				showme : fields.showme, 
-				dwimgsrc : fields.dwimgsrc, 
+		var data = {
+				username : fields.username,
+				userAvatar : fields.userAvatar,
+				repeatMsg : true,
+				hasFile : fields.hasFile,
+				isPDFFile : fields.isPDFFile,
+				istype : fields.istype,
+				showme : fields.showme,
+				dwimgsrc : fields.dwimgsrc,
 				dwid : fields.dwid,
-				serverfilename : baseName(files.file.path), 
+				serverfilename : baseName(files.file.path),
 				msgTime : fields.msgTime,
 				filename : files.file.name,
 				size : bytesToSize(files.file.size)
 		};
-	    var pdf_file = { 
+	    var pdf_file = {
 		        dwid : fields.dwid,
 		        filename : files.file.name,
 		        filetype : fields.istype,
 		        serverfilename : baseName(files.file.path),
 		        serverfilepath : files.file.path,
-		        expirytime : imgdatetimenow + (3600000 * expiryTime)           
+		        expirytime : imgdatetimenow + (3600000 * expiryTime)
 	    };
 	    files_array.push(pdf_file);
 		ios.sockets.emit('new message PDF', data);
@@ -436,7 +444,7 @@ app.post('/v1/getfile', function(req, res){
     	//CASE 2 : File Expired and Deleted
         if(req_file_data.expirytime < Date.now())
         {
-	        var deletedfileinfo = { 
+	        var deletedfileinfo = {
                 isExpired : true,
 	            expmsg : "File has beed removed."
 	        	};
@@ -444,25 +452,25 @@ app.post('/v1/getfile', function(req, res){
 	               	if (err) {
 	                   	return console.error(err);
 	                }
-	    				res.send(deletedfileinfo);           
+	    				res.send(deletedfileinfo);
 	            });
                var index = files_array.indexOf(req_file_data);
-               files_array.splice(index,1);           
+               files_array.splice(index,1);
         }else{
         	// CASE 3 : File Exist and returned serverfilename in response
             var fileinfo = {
-            	isExpired : false, 
-            	filename : req_file_data.filename,            
+            	isExpired : false,
+            	filename : req_file_data.filename,
             	serverfilename : req_file_data.serverfilename };
             res.send(fileinfo);
         }
-    }else{  
-    		// CASE 4 : File Doesn't Exists.       
-	    	var deletedfileinfo = { 
+    }else{
+    		// CASE 4 : File Doesn't Exists.
+	    	var deletedfileinfo = {
 	                isExpired : true,
 	                expmsg : "File has beed removed."
 	        };
-	        res.send(deletedfileinfo);       
+	        res.send(deletedfileinfo);
         }
 });
 
@@ -474,7 +482,7 @@ function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return 'n/a';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    if (i == 0) return bytes + ' ' + sizes[i]; 
+    if (i == 0) return bytes + ' ' + sizes[i];
     return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
 }
 //get file name from server file path
@@ -491,7 +499,7 @@ function routine_cleanup()
     {
             if(Date.now() > files_array[i].expirytime)
             {
-                fs.unlink(files_array[i].serverfilepath, function(err) 
+                fs.unlink(files_array[i].serverfilepath, function(err)
                           {
                    if (err) {
                        return console.error(err);

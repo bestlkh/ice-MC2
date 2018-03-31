@@ -93,21 +93,34 @@
   word-wrap: break-word;      /* IE */
 }
 
-.chat-box {
+.login-chat-box, .chat-box {
   width: 100%;
 }
 
 #alert{
-  background-color: #000;
-  padding: 5px 10px;
+  background-color: #df3320;
+  padding: 5px 22px;
   color: #fff;
-  width: fit-content;
+  width: max-content;
+  width: -moz-fit-content;
   border-radius: 50px;
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
   position: relative;
   margin: 0 auto;
+  margin-bottom: 10px;
   z-index: 999;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: 0.2s linear all;
+  opacity: 0.8;
+}
+
+#alert.ng-enter {
+  opacity: 0;
+}
+
+#alert.ng-enter-active {
+  opacity: 1;
 }
 
 .slideout_inner {
@@ -241,6 +254,44 @@ div {
   border: none;
 }
 
+#announce-area {
+  display: none;
+  position: relative;
+  overflow: auto;
+  text-align: center;
+  word-wrap: break-word;
+  top: 15px;
+  left: 10%;
+  height: 100px;
+  width: 65%;
+  padding: 20px;
+  margin:1px;
+  border-radius: 15px;
+  background-color: rgb(255, 166, 0);
+  z-index: 99;
+}
+
+#close{
+  position: absolute;
+  border: none;
+  background-color: Transparent;
+  padding: 5px;
+  top: 5px;
+  right: 10px;
+ }
+
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+.box-footer {
+  border: none;
+  border-top: 1px solid #efefef;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  min-height: 75px;
+}
 .btn {
   border: none;
   margin: 0;
@@ -361,6 +412,13 @@ div {
     height: 100%;
     width: 100%;
     left: 0;
+  }
+
+  #announce-area {
+    overflow-y: scroll;
+    height: 120px;
+    width: 70%;
+    left: 10%;
   }
 
   #direct-chat-container {

@@ -21,6 +21,7 @@ class BracketSymbol extends Symbol {
             this.x -= width;
             this.bracketType = BracketTypes.OPEN;
         }
+        ;
     }
 }
 module.exports = BracketSymbol;

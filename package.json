@@ -1,7 +1,7 @@
 {
   "name": "chatRoom",
   "scripts": {
-    "start": "node app.js",
+    "start": "gulp deploy && node app.js",
     "test": "mocha",
     "dev": "node app.js & gulp dev",
     "deploy": "gulp deploy"

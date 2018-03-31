@@ -9,7 +9,7 @@ const SymbolFactory = require('./SymbolFactory');
 const CENTRED = ["a", "c", "e", "j", "m", "n", "o", "r", "s", "u", "v", "w", "x", "z"];
 const DECENDING = ["g", "p", "q", "y"]; // need these in when we have svgs for characters ready
 
-class RecognitionTool {   
+class RecognitionTool {
     /**
      * returns the next index of ls that is the next symbol in baseline given s
      * @param {[Symbol]} ls sorted baseline symbols
@@ -17,8 +17,8 @@ class RecognitionTool {
      * @returns the next baseline symbol index of ls, if nothing is found -1
      */
     static hor(ls, s) {
-        if (ls[s].type === SymbolTypes.FRACTION || 
-                (ls[s].type === SymbolTypes.BRACKET && ls[s].bracketType == BracketTypes.OPEN) || 
+        if (ls[s].type === SymbolTypes.FRACTION ||
+                (ls[s].type === SymbolTypes.BRACKET && ls[s].bracketType == BracketTypes.OPEN) ||
                     ls[s].type === SymbolTypes.OPERATOR) {
             var wall = ls[s].getWallCopy();
             var newWall = wall;
@@ -33,7 +33,7 @@ class RecognitionTool {
         while (index < ls.length) {
             if (RecognitionTool.isInRegion(ls[s].wall, ls[index]) && !ls[index].marked) {
                 if (ls[s].maxX <= ls[index].minX) {
-                    if (ls[s].minY + 2/5 * ls[s].height <= ls[index].y 
+                    if (ls[s].minY + 2/5 * ls[s].height <= ls[index].y
                         && ls[index].y < ls[s].maxY - ls[s].height * 1/5)
                         return RecognitionTool.overlap(index, ls[s].wall, ls);
                 }
@@ -45,8 +45,8 @@ class RecognitionTool {
 
     /**
      * Returns the starting index of Baseline Tree given the boundaries in wall.
-     * @param {[Symbol]} ls 
-     * @param {Object} wall 
+     * @param {[Symbol]} ls
+     * @param {Object} wall
      * @returns index or -1 if not found any starting index.
      */
     static start(ls, wall){
@@ -63,22 +63,22 @@ class RecognitionTool {
                 i += 1;
             }
         }
-    
+
         if (leftMostIndex == -1 || limitIndex == leftMostIndex) {
             return leftMostIndex;
         }
         while (i < n && limitIndex == -1) {
-            if (!ls[i].marked && ls[i].type === SymbolTypes.LIMIT && 
+            if (!ls[i].marked && ls[i].type === SymbolTypes.LIMIT &&
             RecognitionTool.isInRegion(wall, ls[i]))
                 limitIndex = i;
             else
                 i += 1;
         }
-    
+
         if (limitIndex == -1 || limitIndex == leftMostIndex) {
             return RecognitionTool.overlap(leftMostIndex, wall, ls);
         }
-    
+
         var upperThreshold = ls[limitIndex].maxY;
         var lowerThreshold = ls[limitIndex].minY;
         while (i > leftMostIndex) {
@@ -96,7 +96,7 @@ class RecognitionTool {
 
     /**
      * Returns the main index after checking vertically for any overlap
-     * @param {number} index main index 
+     * @param {number} index main index
      * @param {*} wall boundary
      * @param {[Symbol]} ls list of Symbols
      * @returns the mainline's index in ls
@@ -113,7 +113,7 @@ class RecognitionTool {
         } else {
             maxLength = ls[index].width;
         }
-    
+
         var mainLine = -1;
         while (i > 0 && !stop) {
             if (ls[i - 1].maxX < ls[index].minX) {
@@ -123,10 +123,10 @@ class RecognitionTool {
             }
         }
         while (i < n && ls[i].minX < ls[index].maxX) {
-            if (!ls[i].marked && 
+            if (!ls[i].marked &&
             ls[i].type === SymbolTypes.Fraction &&
             ls[i].y > top &&
-            ls[i].y <= bottom && 
+            ls[i].y <= bottom &&
             ls[i].minX <= ls[index].x &&
             ls[i].width > maxLength) {
                 maxLength = ls[i].width;
@@ -135,7 +135,7 @@ class RecognitionTool {
                 i++;
             }
         }
-    
+
         if (mainLine == -1) {
             return index;
         } else {
@@ -145,8 +145,8 @@ class RecognitionTool {
 
     /**
      * Returns true iff the element is in the wall.
-     * @param {*} wall 
-     * @param {*} element 
+     * @param {*} wall
+     * @param {*} element
      * @returns true iff element is in the wall.
      */
     static isInRegion(wall, element) {
@@ -195,9 +195,9 @@ class RecognitionTool {
         var temp1, temp2;
         var parent, symbol, relation;
         var wall = expression.wall;
-    
+
         var s = RecognitionTool.start(ls, wall);
-    
+
         if (s != -1) {
             ls[s].setWall(wall); //deep copy
             queue.push([s, expression]);
@@ -239,7 +239,7 @@ class RecognitionTool {
                     parent.symbols.push(symbol);
                     stack.push([temp2, symbol]);
                     ls[temp1].wall.right = ls[temp2].minX;
-                    if (ls[temp2].type === SymbolTypes.LIMIT && 
+                    if (ls[temp2].type === SymbolTypes.LIMIT &&
                         (ls[temp1].type === SymbolTypes.BRACKET || ls[temp1].type === SymbolTypes.FRACTION)) {
                         ls[temp2].wall.left = ls[temp1].maxX;
                     }
@@ -267,21 +267,21 @@ class RecognitionTool {
                             left = parent.symbols[si - 1].maxX;
                         }
                     }
-                    
+
                     var minX = symbol.minX;
                     var maxX = symbol.maxX;
                     var minY = symbol.minY;
                     var maxY = symbol.maxY;
                     var upperThreshold = minY + 2/5 * (maxY - minY);
                     var lowerThreshold = maxY - 2/5 * (maxY - minY);
-    
+
                     var above = [[minX, minY], [maxX, top], RegionTypes.ABOVE];
                     var below = [[minX, bottom], [maxX, maxY], RegionTypes.BELOW];
                     var supers = [[maxX, upperThreshold], [right, top], RegionTypes.SUPER];
                     var subsc = [[maxX, bottom], [right, lowerThreshold], RegionTypes.SUBSC];
                     var tleft = [[left, upperThreshold], [minX, top], RegionTypes.TLEFT];
                     var bleft = [[left, bottom], [minX, lowerThreshold], RegionTypes.BLEFT];
-                    var contains = [[minX, maxY], [maxX, minY], RegionTypes.CONTAINS];    
+                    var contains = [[minX, maxY], [maxX, minY], RegionTypes.CONTAINS];
                     var region_walls = [above, below, supers, subsc, tleft, bleft, contains];
                     var regions = [RegionTypes.ABOVE, RegionTypes.BELOW, RegionTypes.SUPER, RegionTypes.SUBSC, RegionTypes.TLEFT, RegionTypes.BLEFT, RegionTypes.CONTAINS];
                     for (var i = 0; i < regions.length; i++) {
@@ -294,7 +294,7 @@ class RecognitionTool {
                             queue.push([temp2, relation]);
                         }
                     }
-                    
+
                 }
             }
         }
@@ -308,7 +308,7 @@ class RecognitionTool {
     static getTex(bst=RecognitionTool.parse()) {
         var result = "";
         if (bst.symbols){
-    
+
             if (bst.region_name == RegionTypes.ROOT) {
                 result += "$$";
             }
@@ -319,7 +319,7 @@ class RecognitionTool {
             if(result.indexOf("lim")>=0){
                     result = result.replace('li ', ' ');
                 }
-        
+
             if (bst.region_name == RegionTypes.ROOT) {
                 result += "$$";
                 result = result.replace(/arcsin|arccos|arctan|cosh|sinh|tanh|cos|sin|tan/gi, function(x) {return " \\" + x + " ";})
@@ -329,45 +329,45 @@ class RecognitionTool {
         var value = bst.value;
         var symbol = bst;
         var type = bst.type;
-        if (type === SymbolTypes.LIMIT) {   
+        if (type === SymbolTypes.LIMIT) {
             result += Constant.TEX_TEXT[value] + " ";
             if(bst.hasAnyBottom())
-                result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT]) 
-                            + RecognitionTool.getTex(bst.region[RegionTypes.BELOW]) 
+                result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT])
+                            + RecognitionTool.getTex(bst.region[RegionTypes.BELOW])
                                 + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "} ";
             if(bst.hasAnyTop())
-            result += "^{" 
-                    + RecognitionTool.getTex(bst.region[RegionTypes.TLEFT]) 
-                        + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE]) 
+            result += "^{"
+                    + RecognitionTool.getTex(bst.region[RegionTypes.TLEFT])
+                        + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE])
                             + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "} ";
         } else if (type === SymbolTypes.FRACTION) {
             if (bst.hasAnyTop() && bst.hasAnyBottom()) {
                 result += Constant.TEX_TEXT["fraction"];
-                result += "{" 
-                result += RecognitionTool.getTex(bst.region[RegionTypes.TLEFT]) 
-                            + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE]) 
+                result += "{"
+                result += RecognitionTool.getTex(bst.region[RegionTypes.TLEFT])
+                            + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE])
                                 + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]);
                 result += "}{";
-                result += RecognitionTool.getTex(bst.region[RegionTypes.BLEFT]) 
-                            + RecognitionTool.getTex(bst.region[RegionTypes.BELOW]) 
+                result += RecognitionTool.getTex(bst.region[RegionTypes.BLEFT])
+                            + RecognitionTool.getTex(bst.region[RegionTypes.BELOW])
                                 + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]);
                 result += "} ";
              } else if (bst.hasAnyBottom()) {
                 result += Constant.TEX_TEXT['overline'];
-                result += "{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT]) 
-                                + RecognitionTool.getTex(bst.region[RegionTypes.BELOW]) 
+                result += "{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT])
+                                + RecognitionTool.getTex(bst.region[RegionTypes.BELOW])
                                     + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) + "}";
             } else if (bst.hasAnyTop()) {
                 result += Constant.TEX_TEXT['underline'];
-                result += "{" + RecognitionTool.getTex(bst.region[RegionTypes.TLEFT]) 
-                                + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE]) 
+                result += "{" + RecognitionTool.getTex(bst.region[RegionTypes.TLEFT])
+                                + RecognitionTool.getTex(bst.region[RegionTypes.ABOVE])
                                     + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) + "}";
             }
             else {
                 result += ' - ';
             }
-    
-    
+
+
         } else if (type === SymbolTypes.ROOT) {
             result += Constant.TEX_TEXT[value] + "{" + RecognitionTool.getTex(bst.region[RegionTypes.CONTAINS]) + "} ";
             if (bst.region[RegionTypes.SUPER].hasElement()) {

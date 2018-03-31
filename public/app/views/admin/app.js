@@ -5,6 +5,10 @@ var App = angular.module('Admin',['ngRoute','ngStorage','socket.io','Controllers
 App.config(function ($routeProvider, $locationProvider){
     //$socketProvider.setConnectionUrl('http://142.1.93.22:8080'); // Socket URL
     $routeProvider	// AngularJS Routes
+        .when('/ta/create', {
+            templateUrl: '/app/views/admin/ta.html',
+            controller: 'taController'
+        })
         .when('/ta', {
             templateUrl: '/app/views/admin/ta.html',
             controller: 'taController'
@@ -32,6 +36,10 @@ App.config(function ($routeProvider, $locationProvider){
         when("/classrooms/:name/history", {
             templateUrl: '/app/views/admin/classHistory.html',
             controller: 'historyController'
+        }).
+        when("/ta/:id", {
+            templateUrl: '/app/views/admin/ta.html',
+            controller: 'taController'
         })
         .otherwise({
             redirectTo: '/classrooms',	// Default Route
@@ -55,7 +63,7 @@ App.config(function ($routeProvider, $locationProvider){
         this.interval = null;
 
         this.getAvatar = function () {
-            return {'background-image': "URL(/app/css/dist/img/" + (this.user ? this.user.userAvatar : 'avatar1.jpg') +")"}
+            return {'background-image': "URL(/app/css/dist/img/" + (this.user ? this.user.userAvatar : 'Avatar1.jpg') +")"}
         };
 
         this.onClick = function () {

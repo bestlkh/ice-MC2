@@ -4012,9 +4012,12 @@ var SOTP = 0;
                               img_width = img.offsetWidth;
                               img_height = img.offsetHeight;
 
+                              let insertWidth = img_width > 300 ? 300 : img_width;
+                              let insertHeight = img_width > 300 ? 300 * (img_height / img_width) : img_height;
+
                               driver.createElement(Driver.SvgEditorElementTypes.IMAGE, {
-                                  width: 300,
-                                  height: 300 * (img_height / img_width),
+                                  width: insertWidth,
+                                  height: insertHeight,
                                   x: 50,
                                   y: 50,
                                   base64: e.target.result

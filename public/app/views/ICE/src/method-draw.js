@@ -3989,73 +3989,47 @@ var SOTP = 0;
 
       if (window.FileReader) {
 
-        var import_image = function(e) {
-          e.stopPropagation();
-          e.preventDefault();
-          $("#workarea").removeAttr("style");
-          $('#main_menu').hide();
-          var file = null;
-          if (e.type == "drop") file = e.dataTransfer.files[0]
-          else file = this.files[0];
-          if (file) {
-            if(file.type.indexOf("image") != -1) {
-              //detected an image
+          let import_image = function (e) {
+              e.stopPropagation();
+              e.preventDefault();
+              $("#workarea").removeAttr("style");
+              $('#main_menu').hide();
+              let file = null;
+              if (e.type === "drop") file = e.dataTransfer.files[0]
+              else file = this.files[0];
+              if (file) {
+                  if (file.type.indexOf("image") !== -1) {
+                      //detected an image
+                      let reader = new FileReader();
+                      reader.onloadend = function (e) {
+                          // put a placeholder img so we know the default dimensions
+                          let img_width = 100;
+                          let img_height = 100;
+                          let img = new Image()
+                          img.src = e.target.result
+                          document.body.appendChild(img);
+                          img.onload = function () {
+                              img_width = img.offsetWidth;
+                              img_height = img.offsetHeight;
 
-              //svg handing
-              if(file.type.indexOf("svg") != -1) {
-                var reader = new FileReader();
-                reader.onloadend = function(e) {
-                  svgCanvas.importSvgString(e.target.result, true);
-                  svgCanvas.ungroupSelectedElement()
-                  svgCanvas.ungroupSelectedElement()
-                  svgCanvas.groupSelectedElements()
-                  svgCanvas.alignSelectedElements("m", "page")
-                  svgCanvas.alignSelectedElements("c", "page")
-                };
-                reader.readAsText(file);
-              }
+                              let insertWidth = img_width > 300 ? 300 : img_width;
+                              let insertHeight = img_width > 300 ? 300 * (img_height / img_width) : img_height;
 
-              //image handling
-              else {
-                var reader = new FileReader();
-                reader.onloadend = function(e) {
-                  // lets insert the new image until we know its dimensions
-                  insertNewImage = function(img_width, img_height){
-                      var newImage = svgCanvas.addSvgElementFromJson({
-                      "element": "image",
-                      "attr": {
-                        "x": 0,
-                        "y": 0,
-                        "width": img_width,
-                        "height": img_height,
-                        "id": svgCanvas.getNextId(),
-                        "style": "pointer-events:inherit"
-                      }
-                    });
-                    svgCanvas.setHref(newImage, e.target.result);
-                    svgCanvas.selectOnly([newImage])
-                    svgCanvas.alignSelectedElements("m", "page")
-                    svgCanvas.alignSelectedElements("c", "page")
-                    updateContextPanel();
+                              driver.createElement(Driver.SvgEditorElementTypes.IMAGE, {
+                                  width: insertWidth,
+                                  height: insertHeight,
+                                  x: 50,
+                                  y: 50,
+                                  base64: e.target.result
+                              });
+
+                              document.body.removeChild(img);
+                          }
+                      };
+                      reader.readAsDataURL(file)
                   }
-                  // put a placeholder img so we know the default dimensions
-                  var img_width = 100;
-                  var img_height = 100;
-                  var img = new Image()
-                  img.src = e.target.result
-                  document.body.appendChild(img);
-                  img.onload = function() {
-                    img_width = img.offsetWidth
-                    img_height = img.offsetHeight
-                    insertNewImage(img_width, img_height);
-                    document.body.removeChild(img);
-                  }
-                };
-                reader.readAsDataURL(file)
               }
-            }
-          }
-        }
+          };
 
         var workarea = $("#workarea")
 

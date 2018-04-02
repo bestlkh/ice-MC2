@@ -441,9 +441,13 @@ angular.module('Controllers')
         image.onload = function(){
             let imageHeight = 300 / image.width * image.height;
             let ice = $("#editor-frame")[0].contentWindow;
+
+            let insertWidth = image.width > 300 ? 300 : image.width;
+            let insertHeight = image.width > 300 ? 300 * (image.height / image.width) : image.height;
+
             ice.driver.createElement(ice.Driver.SvgEditorElementTypes.IMAGE, {
-                width: 300,
-                height: imageHeight,
+                width: insertWidth,
+                height: insertHeight,
                 x: 50,
                 y: 50,
                 base64: img

@@ -1,4 +1,4 @@
-let EXIF = require('exif-js');
+let EXIF = require('./vendor/exif');
 
 function _getFileOrientation(file, callback){
     let orientation = null;

@@ -254,6 +254,44 @@ div {
   border: none;
 }
 
+#announce-area {
+  display: none;
+  position: relative;
+  overflow: auto;
+  text-align: center;
+  word-wrap: break-word;
+  top: 15px;
+  left: 10%;
+  height: 100px;
+  width: 65%;
+  padding: 20px;
+  margin:1px;
+  border-radius: 15px;
+  background-color: rgb(255, 166, 0);
+  z-index: 99;
+}
+
+#close{
+  position: absolute;
+  border: none;
+  background-color: Transparent;
+  padding: 5px;
+  top: 5px;
+  right: 10px;
+ }
+
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
+  background: transparent;  /* optional: just make scrollbar invisible */
+}
+
+.box-footer {
+  border: none;
+  border-top: 1px solid #efefef;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  min-height: 75px;
+}
 .btn {
   border: none;
   margin: 0;
@@ -374,6 +412,13 @@ div {
     height: 100%;
     width: 100%;
     left: 0;
+  }
+
+  #announce-area {
+    overflow-y: scroll;
+    height: 120px;
+    width: 70%;
+    left: 10%;
   }
 
   #direct-chat-container {

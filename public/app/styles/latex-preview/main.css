@@ -1,0 +1,76 @@
+/* latex-preview/main.less
+ * Main stylesheet for ICE LaTeX Preview window.
+ * Please follow the naming scheme: .class-name #id-name when writing new styles.
+ *
+ * DEPLOYMENT INSTRUCTION:
+ * Compile this file to dist/main.css. More information can be found in README.md.
+ * Author(s): Jun Zheng
+ */
+/* latex-preview/global.less
+ * Global styles for LaTeX preview window
+ * Author(s): Jun Zheng
+ */
+/* latex-preview/variables.less
+ * Variables for LaTeX preview window style
+ * Author(s): Jun Zheng
+ */
+body {
+  background-color: #3c3c38;
+  margin: 0;
+  overflow: hidden;
+}
+#mathjax-viewer {
+  width: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  font-size: 18px;
+}
+#math-preview {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  text-align: center;
+  color: white;
+}
+#math-buffer {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  text-align: center;
+  color: white;
+}
+.ace_editor {
+  width: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  margin: 0;
+  font-size: 18px !important;
+}
+#preview-send {
+  position: absolute;
+  left: 50%;
+  height: 50px;
+  border: none;
+  bottom: 7px;
+  color: white;
+  font-size: 16px;
+  padding: 20px;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 0.7;
+  text-align: center;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+#preview-send:hover {
+  opacity: 1;
+  transition: all ease 0.2s;
+  padding-bottom: 50px;
+  font-size: 18px;
+}

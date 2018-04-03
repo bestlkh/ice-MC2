@@ -29,6 +29,8 @@ methodDraw.addExtension("imagelib", function () {
 
     var loadedLibs = [];
     var accreditedLibs = [];
+    let panelSelector = null;
+    let currentSelectedLibrary = "All";
 
     /**
      * Insert a new image into SVG Canvas
@@ -113,19 +115,20 @@ methodDraw.addExtension("imagelib", function () {
      * @returns {void|jQuery|HTMLElement}
      */
     function makeImageLibraryButton(lib, image){
-        var button = $("<div class='imglib-browser-button ignore-touch-conversion'>");
-        var buttonPreviewImage = $("<img>");
+        let button = $("<div class='imglib-browser-button ignore-touch-conversion'>");
+        let currentImageSource = null;
         if(image.url){
-            buttonPreviewImage.attr('src', image.url);
+            button[0].style.backgroundImage = "url(" + image.url + ")";
+            currentImageSource = image.url;
         } else {
-            buttonPreviewImage.attr('src', image.base64);
+            button[0].style.backgroundImage = "url(" + image.base64 + ")";
+            currentImageSource = image.base64;
         }
-        button.append(buttonPreviewImage);
 
         button.append("<div class='imglib-button-overlay ignore-touch-conversion'>" + image.title  + "</div>")
 
         button.click(function(){
-            importImage(buttonPreviewImage.attr('src'));
+            importImage(currentImageSource);
             toggleImageLibraryPanel();
         });
 
@@ -142,6 +145,9 @@ methodDraw.addExtension("imagelib", function () {
         // Loop though all libs
         for(var i = 0; i < loadedLibs.length; i++){
             // Loop though all lib images
+            if(currentSelectedLibrary !== 'All' && currentSelectedLibrary !== loadedLibs[i].name){
+                continue;
+            }
             for(var k = 0; k < loadedLibs[i].images.length; k++){
                 buttons.push(makeImageLibraryButton(loadedLibs[i], loadedLibs[i].images[k]))
             }
@@ -152,10 +158,20 @@ methodDraw.addExtension("imagelib", function () {
     /**
      * Reload image browser UI
      */
-    function reloadImageBrowser(){
+    function reloadImageBrowser(reloadSelection = true){
         let buttons = makeImageLibraryButtons();
         let panelBrowser = $("#imglib-browser");
         panelBrowser.html("");
+        if(reloadSelection){
+            panelSelector.html("");
+            panelSelector.append("<option value='All'>All</option>")
+            for(let i = 0; i < loadedLibs.length; i++) {
+                let option = $("<option>" + loadedLibs[i].name + "</option>");
+                option.attr('value', loadedLibs[i].name);
+                panelSelector.append(option);
+            }
+        }
+
         for(var i = 0; i < buttons.length; i++){
             panelBrowser.append(buttons[i]);
         }
@@ -166,19 +182,29 @@ methodDraw.addExtension("imagelib", function () {
      * @returns {void|jQuery|HTMLElement}
      */
     function makeImageLibraryPanel() {
-        var panel = $("<div id='imglib-panel' class='ignore-touch-conversion'></div>");
-        var panelTitle = $("<div class='imglib-panel-title'>");
+        let panel = $("<div id='imglib-panel' class='ignore-touch-conversion'></div>");
+        let panelTitle = $("<div class='imglib-panel-title'>");
         panelTitle.text(methodDraw.uiStrings.imagelib.title);
         panel.append(panelTitle);
 
-        var panelAddSourceButton = $("<div class='imglib-button'></div>");
+        let panelAddSourceButton = $("<div class='imglib-button'></div>");
         panelAddSourceButton.text(methodDraw.uiStrings.imagelib.add_source);
         panelTitle.append(panelAddSourceButton);
 
         panelAddSourceButton.mousedown(promptExternalImport);
 
-        var panelBrowser = $("<div id='imglib-browser' class='ignore-touch-conversion'>");
+        let panelBrowser = $("<div id='imglib-browser' class='ignore-touch-conversion'>");
         panel.append(panelBrowser);
+
+        panelSelector = $("<select>");
+        panelSelector.append("<option>Loading ...</option>");
+
+        panelSelector.on('change', function(){
+            currentSelectedLibrary = $(this).val();
+            reloadImageBrowser(false);
+        });
+
+        panelTitle.append(panelSelector);
 
         return panel;
     }

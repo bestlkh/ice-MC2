@@ -1,54 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dynamic Preview of Textarea with MathJax Content</title>
-    <!-- Copyright (c) 2012-2017 The MathJax Consortium -->
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/app/dist/css/styles/latex-preview/main.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-    <script src="/app/js/latex-preview/events.js"></script>
-    <script src="/app/js/latex-preview/ui.js"></script>
-    <script type="text/javascript" src="/app/js/latex-preview/mathjax_preview.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sanitize-html@1.16.3/dist/sanitize-html.min.js"></script>
-    <!--MathJaX Configurations-->
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-          showProcessingMessages: false,
-          tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-          CommonHTML: { linebreaks: { automatic: true, width: "container" } },
-          "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
-          SVG: {
-            linebreaks: { automatic: true, width: "container" },
-            scale: 150
-          }
-        });
-        MathJax.Hub.setRenderer("SVG");
-    </script>
-</head>
-<body>
+<div id="mathjax-frame">
     <textarea id="mathjax-viewer" cols="40" rows="10" onchange="Preview.CreatePreview()"
-              onkeyup="Preview.CreatePreview()" style="margin-top:5px"></textarea>
-    <div id="math-preview"></div>
-    <div id="math-buffer"></div>
-    <button id="preview-send">Send to Chat <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                onkeyup="Preview.CreatePreview()" style="margin-top:5px"></textarea>
+    <div id="math-preview-container">
+        <div id="math-preview"></div>
+        <div id="math-buffer"></div>
+        <button id="preview-send">Send to Chat <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+    </div>
+</div>
 
-
-</body>
+<!-- Copyright (c) 2012-2017 The MathJax Consortium -->
+<!--MathJaX Configurations-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        showProcessingMessages: false,
+        tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+        CommonHTML: { linebreaks: { automatic: true, width: "container" } },
+        "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+        SVG: {
+        linebreaks: { automatic: true, width: "container" },
+        scale: 150
+        }
+    });
+    MathJax.Hub.setRenderer("SVG");
+</script>
 <script>
     var svg_source = "";
     setTimeout(function () {
         Preview.Init();
     }, 2000);
 
+    var previewEditor = ace.edit("mathjax-viewer");
+    previewEditor.setTheme("ace/theme/monokai");
+    previewEditor.getSession().setMode("ace/mode/latex");
+    previewEditor.getSession().on('change', function(e) {
+        Preview.CreatePreview()
+    });
 
-
-    document.getElementById("preview-send").onclick = function () {
+    $("#preview-send").on("click", function() {
         if (previewEditor.getValue()) {
             raw_message = sanitizeHtml(previewEditor.getValue());
             raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
@@ -57,17 +45,12 @@
             };
             raw_message += btoa(JSON.stringify(message_attachment));
             raw_message += "\n-----MC2 END ATTACHMENT-----\n";
-            parent.document.getElementById('textArea').value = raw_message;
-            parent.document.getElementById('send-message-button').click();
+            $("#textArea").val(raw_message);
+            $("#send-message-button").click();
         } else {
-            parent.Alert.Alert.spawn("Oops","<div style='text-align: center;'><img src='app/images/image-convert-hint.png' width='150' /><br><br>Oops! You need to convert your drawings to equation before you can send it.</div>");
+            Alert.Alert.spawn("Oops","<div style='text-align: center;'><img src='app/images/image-convert-hint.png' width='150' /><br><br>Oops! You need to convert your drawings to equation before you can send it.</div>");
         }
-    }
-    var previewEditor = ace.edit("mathjax-viewer");
-    previewEditor.setTheme("ace/theme/monokai");
-    previewEditor.getSession().setMode("ace/mode/latex");
-    previewEditor.getSession().on('change', function(e) {
-        Preview.CreatePreview()
     });
 </script>
-</html>
+
+

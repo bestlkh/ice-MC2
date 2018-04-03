@@ -5,68 +5,71 @@
 
 @import "variables";
 
-body {
-  background-color: lighten(@primary-color, 5%);
-  margin: 0;
-  overflow: hidden;
+#mathjax-frame {
+  height: 30vh;
+  max-height: 300px;
+  width: 100%;
+  display: flex;
+  padding-bottom: 10px;
+  border-top: 1px solid #ccc;
 }
 
-#mathjax-viewer {
+#math-preview-container {
   width: 50%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  border-left: 1px solid #ccc;
+}
+
+// #mathjax-viewer {
+//   width: 50%;
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   height: 100vh;
+//   font-size: 18px;
+// }
+
+#math-preview, #math-buffer {
+  width: 100%;
+  height: ~"calc(100% - 50px)"; // subtract the send button
+  position: relative !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  overflow-y: auto;
+  color: @text-color;
+  background-color: #3c3c38;
   font-size: 18px;
-}
-
-#math-preview {
-  width: 50%;
-  position: absolute;
-  left: 50%;
-  top: 0;
-  text-align: center;
-  color: @text-color;
-}
-
-#math-buffer {
-  width: 50%;
-  position: absolute;
-  left: 50%;
-  top: 0;
-  text-align: center;
-  color: @text-color;
 }
 
 .ace_editor {
   width: 50%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100vh;
+  height: 100%;
   margin: 0;
+  border: none;
   font-size: 18px !important; // Override default font size
 }
 
 #preview-send {
-  position: absolute;
-  left: 50%;
+  width: 100%;
   height: 50px;
   border: none;
-  bottom: 7px;
   color: @text-color;
   font-size: 16px;
-  padding: 20px;
-  width: 50%;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255,255,255, 0.2);
   opacity: 0.7;
-  text-align: center;
   cursor: pointer;
   transition: all ease 0.2s;
   &:hover {
     opacity: 1;
-    transition: all ease 0.2s;
-    padding-bottom: 50px;
     font-size: 18px;
   }
+}
+
+.MJXc-display {
+  font-size: 1.25em; // increase latex preview text size 
+  width: 100%;
 }

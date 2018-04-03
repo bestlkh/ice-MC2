@@ -32,13 +32,12 @@
         <div class="form-group errGroup">
         </div>
         <div ng-class="{'form-group':true, 'has-feedback':true, 'has-error':isErrorReq}">
-            <input aria-label="Username" maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
 
+            <input aria-label="Username" ng-if="!ta" maxlength="20" required id="username" type="text" class="form-control" placeholder="Username" ng-model="form.username" ng-change="changeInitials();loginError();" focus-me="true"/>
             <input aria-label="TA secret" ng-if="ta" required id="secret" type="text" class="form-control" placeholder="Secret" ng-model="form.secret" />
             <input aria-label="Room Name" maxlength="50" ng-if="!roomId" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" ng-change="loginError();" />
             <input aria-label="Room Name" maxlength="50" ng-if="roomId && !isJoin" required id="room" type="text" class="form-control" placeholder="Room name" ng-model="form.roomId" />
             <div class="chat-box"></div>
-
             <hr>
             <input aria-label="Nickname" id="nickname" required type="hidden" class="form-control" ng-model="form.initials" ng-change="loginError();" onkeydown="limit(this);" onkeyup="limit(this);"/>
 

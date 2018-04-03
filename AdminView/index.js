@@ -14,6 +14,8 @@ var outlook = require("node-outlook");
 var Bot = require("./bot.js");
 var LectureNsp = require("../chatNsp").LectureNsp;
 var sharedsession = require("express-socket.io-session");
+var mimeMap = require("mime-types");
+var fs = require("fs");
 
 function findOne(list, params) {
     var result;
@@ -59,7 +61,7 @@ function AdminView(socketController, expressApp, sessionObj) {
     this.nsps = [];
 
     this.connectToDb(function (err, db) {
-        if (err) throw new Error("Could not connect to database.");
+        if (err) return console.log("Could not connect to database.");
         this.db = db;
 
         this.setupNamespaces(function (err, nsps) {
@@ -137,6 +139,27 @@ var ChatSetting = function (settings) {
     }
 
 };
+
+var filter = function(req, file, cb) {
+    if (file.mimetype.indexOf("image/") == -1) {
+        cb(null, false);
+    } else {
+        cb(null, true);
+    }
+};
+
+var naming = function(req, file, cb) {
+    var ext = mimeMap.extensions[file.mimetype][0];
+    cb(null, req.params.id+"."+ext);
+};
+
+var multer  = require("multer");
+var storage = multer.diskStorage({
+    filename: naming,
+    destination: "./public/app/css/dist/img"
+});
+
+var upload = multer({fileFilter: filter, storage: storage});
 
 AdminView.prototype.setupApi = function () {
 
@@ -500,34 +523,102 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
-    function TA(ta) {
+    function TA(ta, owner) {
         this.name = ta.name;
         this.token = ta.token ? ta.token : uuidv4().substring(0, 8);
+        this.owner = owner;
+        this.avatar = ta.avatar ? ta.avatar : "Avatar1.jpg";
     }
 
     this.app.post("/v1/api/ta", checkAuth, function (req, res) {
-        var ta = new TA(req.body);
+        var ta = new TA(req.body, req.session.user.username);
+        if (!ta.name || ta.name === "") return res.status(400).json({status: 400, message: "Invalid TA name"});
 
-
-        this.db.collection("ta").updateOne({owner: req.session.user.username}, {$push: {tas: ta}}, {upsert: true}, function (err, result) {
+        this.db.collection("ta").findOne({owner: ta.owner, name: ta.name}, function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (result) return res.status(400).json({status: 400, message: "Name already exists"});
+            this.db.collection("ta").insertOne(ta, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
-            res.json({});
 
-        });
+                res.json({});
+
+            });
+        }.bind(this));
 
     }.bind(this));
 
     this.app.get("/v1/api/ta", checkAuth, function (req, res) {
 
 
-        this.db.collection("ta").findOne({owner: req.session.user.username}, function (err, result) {
+        this.db.collection("ta").find({owner: req.session.user.username}, {avatar: 0, owner: 0}).toArray(function (err, result) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
-            res.json(result ? result.tas : []);
+            res.json(result);
 
         });
 
+    }.bind(this));
+
+    this.app.patch("/v1/api/ta/:id", checkAuth, upload.single("image"), function (req, res) {
+        var ta = new TA(req.body, req.session.user.username);
+
+        var r = Math.random();
+        if (req.file) ta.avatar = req.file.filename+"?"+r;
+
+        if (!ta.name || ta.name === "") return res.status(400).json({status: 400, message: "Invalid TA name"});
+
+        this.db.collection("ta").findOne({
+            owner: ta.owner,
+            $or: [
+                {token: ta.token},
+                {name: ta.name}
+                ]
+        }, function (err, originalTA) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (originalTA && (originalTA._id.toString() !== req.params.id)) return res.status(400).json({
+                status: 400,
+                message: "Token or Name already exists"
+            });
+            this.db.collection("ta").updateOne({
+                _id: new ObjectID(req.params.id),
+                owner: req.session.user.username
+            }, ta, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+                if (originalTA && (originalTA.avatar !== ta.avatar)) {
+                    if (originalTA.avatar.indexOf("_custom.") !== -1) return fs.unlink("./public/app/css/dist/img/"+originalTA.avatar, function () {
+                        res.json({});
+                    });
+
+                }
+                res.json({});
+
+            });
+        }.bind(this));
+
+    }.bind(this));
+
+    this.app.delete("/v1/api/ta/:id", checkAuth, function (req, res) {
+        this.db.collection("ta").removeOne({owner: req.session.user.username, _id: new ObjectID(req.params.id)}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            res.json({});
+        });
+    }.bind(this));
+
+    this.app.post("/v1/api/ta/:id/avatar", checkAuth, upload.single("image"), function (req, res) {
+        if (!req.file) return res.status(400).json({status: 400, message: "Invalid image"});
+
+        res.json({avatar: req.file.filename});
+    }.bind(this));
+
+    this.app.get("/v1/api/ta/:id", checkAuth, function (req, res) {
+        this.db.collection("ta").findOne({owner: req.session.user.username, _id: new ObjectID(req.params.id)}, function (err, ta) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+            if (!ta) return res.status(404).json({status: 404, message: "No such TA exists"});
+            res.json(ta);
+        });
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions", checkAuth, function (req, res) {
@@ -535,7 +626,7 @@ AdminView.prototype.setupApi = function () {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(sessions);
-        })
+        });
     }.bind(this));
 
     this.app.get("/v1/api/classrooms/:name/sessions/:id/messages", checkAuth, function (req, res) {
@@ -544,7 +635,7 @@ AdminView.prototype.setupApi = function () {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             res.json(session);
-        })
+        });
     }.bind(this));
 
     var parseStudent = require("./message-parser");

@@ -168,11 +168,9 @@ LectureNsp.prototype.findClient = function (roomName, username) {
 };
 
 LectureNsp.prototype.findTa = function (data, callback) {
-
-        this.db.collection("ta").findOne({owner: this.owner}, function (err, tas) {
+        this.db.collection("ta").findOne({owner: this.owner, token: data.secret}, function (err, ta) {
             if (err) return callback(err, null);
 
-            var ta = findOne(tas.tas, {token: data.secret});
             callback(null, ta);
         });
 
@@ -218,7 +216,7 @@ LectureNsp.prototype.listen = function () {
             }
 
             function destroySession() {
-                setSessionVars({username: null, connectedRoom: null, userAvatar: null});
+                setSessionVars({username: null, connectedRoom: null, userAvatar: null, ta: null});
             }
 
             // delete message
@@ -233,6 +231,12 @@ LectureNsp.prototype.listen = function () {
                 callback({success: true});
             }.bind(this));
 
+            // announce message
+            socket.on('announce-message', function (data, callback) {
+                this.nsp.to(socket.connectedRoom).emit('announce message', data);
+                callback({success: true});
+            }.bind(this));
+
             socket.on("new user", function (data, callback) {
                 data.roomId = data.roomId.toLowerCase();
 
@@ -241,29 +245,36 @@ LectureNsp.prototype.listen = function () {
                     if (this.findClient(data.roomId, data.username)) {
                         callback({success: false, message: "Use different username."});
                     } else {
+                        var login = function (data) {
+                            if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false, message: "Invalid user avatar"});
+                            else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
+                            if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
+                            setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
+                            callback({success: true, username: data.username});
+                        };
                         if (data.token) {
                             this.findStudent(data, function (err, student) {
                                 if (err) return callback({success: false, message: "Invalid id"});
                                 setSessionVar("utorid", student.utorid);
-
+                                login(data);
                             });
 
                         } else if (data.secret) {
                             this.findTa(data, function (err, ta) {
-                                if (err) return callback({success: false, message: "Invalid secret"});
+                                if (err || !ta) return callback({success: false, message: "Invalid secret"});
+
                                 setSessionVar("ta", ta);
 
+                                data.username = ta.name;
+                                login(data);
+                                setSessionVars({userAvatar: ta.avatar});
                             });
                         } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});
-                        }
+                        } else login(data);
 
 
-                        if (data.userAvatar && isNaN(data.userAvatar)) return callback({success: false});
-                        else data.userAvatar = "Avatar" + data.userAvatar + ".jpg";
-                        if (socket.handshake.session.userAvatar && !data.userAvatar) data.userAvatar = socket.handshake.session.userAvatar;
-                        setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
-                        callback({success: true});
+
                     }
                 }.bind(this));
                 //if (!data.isJoin) clients = {sockets:[]};
@@ -310,10 +321,6 @@ LectureNsp.prototype.listen = function () {
                                 type: "system",
                                 hidden: true
                             });
-
-                            if (socket.handshake.session.settings && socket.handshake.session.settings.chat)
-                                socket.handshake.session.isInstructor = (socket.handshake.session.settings.chat.roomName.toLowerCase() !== data.roomId);
-                            else socket.handshake.session.isInstructor = false;
 
                             if (!room.messageHistory) room.messageHistory = [];
 
@@ -396,6 +403,7 @@ LectureNsp.prototype.listen = function () {
                     message.isInstructor = socket.handshake.session.isAdmin || socket.handshake.session.isInstructor;
                     message.isTA = !!(socket.handshake.session.ta);
                     message.utorid = socket.handshake.session.utorid;
+
                     message.timestamp = moment().valueOf();
 
                     this.findRoomAdapter(socket.connectedRoom).messageHistory.push(message);

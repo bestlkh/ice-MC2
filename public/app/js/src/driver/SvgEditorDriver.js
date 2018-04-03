@@ -32,20 +32,55 @@ class SvgEditorDriver {
                     "element": "path",
                     "curStyles": true,
                     "attr": {
+                        "stroke-width": 0,
                         "d" : element.getPathData(),
                         "id": element.id,
                     }
                 });
+                this._canvas.recalculateDimensions(element.dom);
+                let size = element.getSize();
+                let loc = element.getPosition();
+                console.log(loc)
+                let xScale = SvgEditorDriver.getRelativeScale(size.width, 12);
+
+                let tlist = this._canvas.getTransformList(element.dom);
+
+                let svgroot = this._canvas.getRootElem();
+                let translateOrigin = svgroot.createSVGTransform(),
+                    scale = svgroot.createSVGTransform(),
+                    translateBack = svgroot.createSVGTransform();
+                translateOrigin.setTranslate(-loc.x, -loc.y);
+                scale.setScale(xScale, xScale);
+                translateBack.setTranslate(config.x, config.y);
+                tlist.appendItem(translateBack);
+                tlist.appendItem(scale);
+                tlist.appendItem(translateOrigin);
+                canv.recalculateDimensions(element.dom);
+
+
+
                 // Set element DOM size and position
                 // let size = element.getSize();
-                // let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
-                // let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                // element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
-                element.dom.setAttribute("transform", "scale(" + 0.1 + "," + 0.1 + ")");
-                let position = element.getPosition();
+                // let xScale = 0.1;// SvgEditorDriver.getRelativeScale(size.width, 12);
+                // // let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
+                // // element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
+                // let x = element.dom.getBBox().x;
+                // let y = element.dom.getBBox().y;
+                // element.dom.setAttribute("transform", "trasnlate(" + x + ", " + y + ") scale(" + xScale + "," + xScale + ") trasnlate(" + -x + ", " + -y + ")");
+                // console.log(2, element.dom.parentNode.innerHTML);
+                // this._canv.runExtensions('elementChanged', {
+                //     elems: [cur_shape]
+                // });
+                // this._canvas.recalculateDimensions(element.dom); 
+                // console.log(3, element.dom.parentNode.innerHTML);   
+                // let position = element.getPosition();
+                // this._canvas.selectOnly([element.dom], false);
                 // Move element to correct position, third parameter is false so this action cannot be undone
-                this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
-                this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
+            //     this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false);
+            //     // this._canvas.recalculateAllSelectedDimensions();
+            //     this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
+            //    // this._canvas.call("transition", selectedElements);
+                // this._canvas.clearSelection(true);
                 break;
             // It is a image element
             case SvgEditorElementTypes.IMAGE:

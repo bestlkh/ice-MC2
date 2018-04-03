@@ -1504,7 +1504,6 @@ var updateClipPath = function(attr, tx, ty) {
 var recalculateDimensions = this.recalculateDimensions = function(selected) {
   if (selected == null) return null;
   var tlist = getTransformList(selected);
-  console.log(tlist);
 
   // remove any unnecessary transforms
   if (tlist && tlist.numberOfItems > 0) {
@@ -9153,11 +9152,13 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
       if (!elementIn)
         selectorManager.requestSelector(selected).resize();
     }
+    console.log(1);
   }
   if (!batchCmd.isEmpty()) {
     if (undoable)
       addCommandToHistory(batchCmd);
     call("changed", elements);
+    console.log(123);
     return batchCmd;
   }
 };
@@ -10054,15 +10055,13 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
     if (key == "a") {
-      console.log(1);
       var svgDrv = new window.Driver.SvgEditorDriver();
-      console.log(svgDrv);
       var elem = svgDrv.createElement(0, {
         symbol: 2,
         x: 200,
         y: 200
       });
-      console.log(elem);
+      console.log("Elem:", elem);
       return;
     }
     var shortcuts = keyHash[key];

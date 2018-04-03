@@ -40,9 +40,8 @@ class SvgEditorDriver {
                 this._canvas.recalculateDimensions(element.dom);
                 let size = element.getSize();
                 let loc = element.getPosition();
-                console.log(loc)
-                let xScale = SvgEditorDriver.getRelativeScale(size.width, 12);
-
+                console.log(1, loc, size)
+                let xScale = 0.1;// SvgEditorDriver.getRelativeScale(size.width, 12);
                 let tlist = this._canvas.getTransformList(element.dom);
 
                 let svgroot = this._canvas.getRootElem();
@@ -51,11 +50,15 @@ class SvgEditorDriver {
                     translateBack = svgroot.createSVGTransform();
                 translateOrigin.setTranslate(-loc.x, -loc.y);
                 scale.setScale(xScale, xScale);
-                translateBack.setTranslate(config.x, config.y);
+                translateBack.setTranslate(config.x, config.y + (size.height * xScale));
                 tlist.appendItem(translateBack);
                 tlist.appendItem(scale);
                 tlist.appendItem(translateOrigin);
                 canv.recalculateDimensions(element.dom);
+
+                loc = element.getPosition();
+                size = element.getSize();
+                console.log(2, loc, size)
 
 
 
@@ -76,7 +79,7 @@ class SvgEditorDriver {
                 // let position = element.getPosition();
                 // this._canvas.selectOnly([element.dom], false);
                 // Move element to correct position, third parameter is false so this action cannot be undone
-            //     this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false);
+            //   this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false);
             //     // this._canvas.recalculateAllSelectedDimensions();
             //     this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
             //    // this._canvas.call("transition", selectedElements);

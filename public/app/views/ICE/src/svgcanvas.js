@@ -10054,16 +10054,7 @@ var moveCursorAbs = this.moveCursorAbs;
       return;
     }
 
-    if (key == "a") {
-      var svgDrv = new window.Driver.SvgEditorDriver();
-      var elem = svgDrv.createElement(0, {
-        symbol: 2,
-        x: 200,
-        y: 200
-      });
-      console.log("Elem:", elem);
-      return;
-    }
+
     var shortcuts = keyHash[key];
     var newChar = false;
     var shortcutsVisible = document.getElementById("floatingContent").style.display;
@@ -10146,27 +10137,14 @@ var moveCursorAbs = this.moveCursorAbs;
       clearSelection();
     }
     if (newChar || !shortcuts) {
-    	newText = addSvgElementFromJson({
-      element: 'text',
-    	curStyles: true,
-    	textContent: key,
-    	attr: {
-    		'x': x,
-    		'y': y,
-    	  'id': getNextId(),
-    		'fill': cur_text.fill,
-    	  'stroke-width': cur_text.stroke_width,
-    		'font-size': cur_text.font_size,
-    		//		'font-family': cur_text.font_family,
-    		'font-family': 'Times',
-    		'text-anchor': 'left',
-    		'xml:space': 'preserve',
-    		'opacity': cur_shape.opacity,
-    		'style': "pointer-events:inherit",
-    		}
+      var svgDrv = new window.Driver.SvgEditorDriver();
+    	newText = svgDrv.createElement(0, {
+        symbol: keyHash[key][0],
+        x: x,
+        y: y
       });
-      if(getBBox(newText).x != math_cursorB.x) {
-      }
+      var bbox = getBBox(newText.dom);
+      math_cursor.setAttribute('x', bbox.x + bbox.width + 3);
     } else {
         if (shortcuts) {
           if (shortcuts[shortcutIndex].length == 1) {

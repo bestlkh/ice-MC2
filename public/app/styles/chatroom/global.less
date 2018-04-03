@@ -27,7 +27,7 @@ body {
 
 #editor-frame {
   width: 100%;
-  height: 70vh;
+  height: ~"calc(100vh - 300px)"; // subtract mathjax preview
 }
 
 #math-editor {
@@ -199,12 +199,6 @@ position: absolute;
   box-shadow: #00b0ff 0 0 5px;
 }
 
-#preview-frame {
-  margin: 0;
-  border: none;
-  left: 0;
-}
-
 .ajs-bottom {
   margin-bottom: 70px;
 }
@@ -213,11 +207,6 @@ position: absolute;
   p {
     margin: 0;
   }
-}
-
-#preview-frame {
-  width: 100%;
-  height: 30vh;
 }
 
 #less-warning {

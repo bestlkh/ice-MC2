@@ -8,7 +8,10 @@
         <!--Dynamically resize window to fit editor-->
         <iframe title="math editor" name="editor" id="editor-frame" src="/app/views/ICE/ice.html" frameborder="0" scrolling="no"><p>Your
             browser does not support iframes.</p></iframe>
-        <iframe title="MathJax latex preview" name="preview" id="preview-frame" src="/app/views/preview.html"></iframe>
+        <!-- <div ng-include="'/app/views/ICE/ice.html'"></div> -->
+        <div id="preview-frame" ng-include="'/app/views/preview.html'"></div>
+        
+
         <script type="text/javascript">//<![CDATA[
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             document.getElementById("preview-frame").style.display = "none";

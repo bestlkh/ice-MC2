@@ -42,48 +42,11 @@ class SvgEditorDriver {
                 let loc = element.getPosition();
                 console.log(1, loc, size)
                 let xScale = 0.1;// SvgEditorDriver.getRelativeScale(size.width, 12);
-                let tlist = this._canvas.getTransformList(element.dom);
-
-                let svgroot = this._canvas.getRootElem();
-                let translateOrigin = svgroot.createSVGTransform(),
-                    scale = svgroot.createSVGTransform(),
-                    translateBack = svgroot.createSVGTransform();
-                translateOrigin.setTranslate(-loc.x, -loc.y);
-                scale.setScale(xScale, xScale);
-                translateBack.setTranslate(config.x, config.y + (size.height * xScale));
-                tlist.appendItem(translateBack);
-                tlist.appendItem(scale);
-                tlist.appendItem(translateOrigin);
-                canv.recalculateDimensions(element.dom);
-
+                this._scaleElement(element, xScale);
                 loc = element.getPosition();
                 size = element.getSize();
+                this._moveElementTo(element, config.x, config.y);
                 console.log(2, loc, size)
-
-
-
-                // Set element DOM size and position
-                // let size = element.getSize();
-                // let xScale = 0.1;// SvgEditorDriver.getRelativeScale(size.width, 12);
-                // // let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                // // element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
-                // let x = element.dom.getBBox().x;
-                // let y = element.dom.getBBox().y;
-                // element.dom.setAttribute("transform", "trasnlate(" + x + ", " + y + ") scale(" + xScale + "," + xScale + ") trasnlate(" + -x + ", " + -y + ")");
-                // console.log(2, element.dom.parentNode.innerHTML);
-                // this._canv.runExtensions('elementChanged', {
-                //     elems: [cur_shape]
-                // });
-                // this._canvas.recalculateDimensions(element.dom); 
-                // console.log(3, element.dom.parentNode.innerHTML);   
-                // let position = element.getPosition();
-                // this._canvas.selectOnly([element.dom], false);
-                // Move element to correct position, third parameter is false so this action cannot be undone
-            //   this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false);
-            //     // this._canvas.recalculateAllSelectedDimensions();
-            //     this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
-            //    // this._canvas.call("transition", selectedElements);
-                // this._canvas.clearSelection(true);
                 break;
             // It is a image element
             case SvgEditorElementTypes.IMAGE:
@@ -111,6 +74,51 @@ class SvgEditorDriver {
         return element;
     }
 
+
+    /**
+     * Scale an element with given scale
+     * @param element
+     * @param xScale
+     * @param yScale
+     */
+    _scaleElement(element, xScale, yScale=xScale) {
+        let loc = element.getPosition();
+        let tlist = this._canvas.getTransformList(element.dom);
+        let svgroot = this._canvas.getRootElem();
+        let translateOrigin = svgroot.createSVGTransform(),
+            scale = svgroot.createSVGTransform(),
+            translateBack = svgroot.createSVGTransform();
+        translateOrigin.setTranslate(-loc.x, -loc.y);
+        scale.setScale(xScale, xScale);
+        translateBack.setTranslate(loc.x, loc.y);
+        tlist.appendItem(translateBack);
+        tlist.appendItem(scale);
+        tlist.appendItem(translateOrigin);
+        canv.recalculateDimensions(element.dom);
+    }
+
+    /**
+     * Move element to given x and y
+     * @param element 
+     * @param {*} x 
+     * @param {*} y 
+     */
+    _moveElementTo(element, x, y) {
+        let loc = element.getPosition();
+        let tlist = this._canvas.getTransformList(element.dom);
+        let svgroot = this._canvas.getRootElem();
+        let translateOrigin = svgroot.createSVGTransform(),
+            scale = svgroot.createSVGTransform(),
+            translateBack = svgroot.createSVGTransform();
+        translateOrigin.setTranslate(-loc.x, -loc.y);
+        scale.setScale(1, 1);
+        translateBack.setTranslate(x, y);
+        tlist.appendItem(translateBack);
+        tlist.appendItem(scale);
+        tlist.appendItem(translateOrigin);
+        canv.recalculateDimensions(element.dom);
+    }
+    
     /**
      * Find a element by its ID.
      * @param id

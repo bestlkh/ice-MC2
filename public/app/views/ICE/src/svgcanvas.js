@@ -10132,7 +10132,7 @@ var moveCursorAbs = this.moveCursorAbs;
     var math_cursor = svgCanvas.getElem('math_cursor');
     var math_cursorB = getBBox(math_cursor);
     var x = math_cursorB.x;
-    var y = math_cursorB.y + 21;
+    var y = math_cursorB.y + math_cursorB.height + 10;
     if(selectedElements.length > 0) {
       clearSelection();
     }
@@ -10144,7 +10144,7 @@ var moveCursorAbs = this.moveCursorAbs;
         y: y
       });
       var bbox = getBBox(newText.dom);
-      math_cursor.setAttribute('x', bbox.x + bbox.width + 3);
+      math_cursor.setAttribute('x', bbox.x + bbox.width + 2);
     } else {
         if (shortcuts) {
           if (shortcuts[shortcutIndex].length == 1) {

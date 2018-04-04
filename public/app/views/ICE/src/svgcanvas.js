@@ -10138,13 +10138,36 @@ var moveCursorAbs = this.moveCursorAbs;
     }
     if (newChar || !shortcuts) {
       var svgDrv = new window.Driver.SvgEditorDriver();
-    	newText = svgDrv.createElement(0, {
-        symbol: keyHash[key][0],
-        x: x,
-        y: y
-      });
-      var bbox = getBBox(newText.dom);
-      math_cursor.setAttribute('x', bbox.x + bbox.width + 2);
+      var count = 1;
+      var backupx = x;
+      var backupy = y;
+      for(k in keyHash) {
+        for (val in keyHash[k]) {
+          newText = svgDrv.createElement(0, {
+            symbol: keyHash[k][val],
+            x: x,
+            y: y
+          });
+          count++;
+          var bbox = getBBox(newText.dom);
+          math_cursor.setAttribute('x', bbox.x + bbox.width + 2);
+          math_cursorB = getBBox(math_cursor);
+          x = math_cursorB.x;
+          y = math_cursorB.y + math_cursorB.height + 10;
+          if(count%20 == 0) {
+            math_cursor.setAttribute('x', backupx);
+            math_cursor.setAttribute('y', backupy + 60);
+            math_cursorB = getBBox(math_cursor);
+            x = math_cursorB.x;
+            y = math_cursorB.y + math_cursorB.height + 10;
+            backupx = x;
+            backupy = y;
+          }
+        }
+      }
+      console.log("done");
+      return;
+    
     } else {
         if (shortcuts) {
           if (shortcuts[shortcutIndex].length == 1) {

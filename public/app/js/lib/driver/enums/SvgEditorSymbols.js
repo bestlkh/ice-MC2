@@ -1,8 +1,8 @@
 "use strict";
 
 module.exports = {
-    SUM: 0,
-    SQRT: 1,
+    // SUM: 0,
+    // SQRT: 1,
     lowercase_a: 2,
     lowercase_alpha: 3,
     lowercase_b: 4,

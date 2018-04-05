@@ -47,16 +47,19 @@
 
         <!--Bubble Menu-->
         <div ng-include="'/app/views/chatroom/bubble-menu.html'"></div>
-        <div ng-include="'/app/views/chatroom/chat-content-zoom.html'"></div>
+        <div id="chat-zoom-container" ng-include="'/app/views/chatroom/chat-zoom.html'"></div>
 
         <div class="box box-warning direct-chat direct-chat-warning" id="direct-chat-container">
             <div id="chat-body-div" class="box-body">
+
+                <div id="member-list-container" ng-include="'/app/views/chatroom/member-list.html'"></div>
+                
                 <!--Announcement-->
                 <div id="announce-area">
                     <button id="close"></button>
                 </div>
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
+                <div class="direct-chat-messages chat-message--resizable" ng-click="resetMessageMenu()" id="dcs" scroll-bottom="messages">
 
                     <!-- Message. Default to the left -->
                     <div ng-repeat="message in getAllMsg()" ng-if="message.isChat() || (message.isSystem() && !(message.isHidden() && !enableVerbose))"
@@ -126,7 +129,6 @@
                 </div>
 
                 <div id="latex-editor-area" class="tex2jax_ignore"></div>
-                <div id="member-list-container" ng-include="'/app/views/chatroom/member-list.html'"></div>
             </div>
             <!-- /.box-footer-->
 

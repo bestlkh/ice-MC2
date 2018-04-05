@@ -578,6 +578,42 @@ angular.module('Controllers')
                 $('#announce-area').append('<p>' + msg.getText().getRaw() + '</p>');
             };
         });
+
+        // ====================================== Message Resizing Code ==============================
+
+        /**
+         * Changes the font-size attribute of an element by an interval.
+         * @param {object} $element - jQuery object
+         * @param {number} delta - the value of the interval to adjust
+         * @param {string} units - the units
+         */
+        function adjustFontSize($element, delta, units) {
+            let currentFontSize = parseInt($element.css('font-size'));
+            newFontSize = currentFontSize + delta + units;
+            $element.css('font-size', newFontSize);
+        };
+
+        /**
+         * Sets the font-size attribute of an element to size.
+         * @param {object} $element - jQuery object
+         * @param {string} size - the value and units to set
+         */
+        function setFontSize($element, size) {
+            $element.css('font-size', size);
+        };
+
+        $scope.zoomIn = function() {
+            adjustFontSize($('.chat-message--resizable'), 2, 'px');
+        };
+
+        $scope.zoomOut = function() {
+            adjustFontSize($('.chat-message--resizable'), -2, 'px');
+        };
+
+        $scope.zoomReset = function() {
+            setFontSize($('.chat-message--resizable'), '14px');
+        };
+
         // ====================================== Image Sending Code ==============================
         $scope.$watch('upload.image', function() {
             $('#chat-sending-animation').fadeIn();
@@ -797,7 +833,7 @@ angular.module('Controllers')
                     fd.append('filename', file.name);
                     $http.post('/v1/uploadImage', fd, {
                         transformRequest: angular.identity,
-                        headers: {'Content-Type': undefined},
+                        headers: {'Content-Type': undefined}
                     }).then(function(response) {
                     });
                 }
@@ -941,7 +977,7 @@ angular.module('Controllers')
                     fd.append('filename', file.name);
                     $http.post('/v1/uploadAudio', fd, {
                         transformRequest: angular.identity,
-                        headers: {'Content-Type': undefined},
+                        headers: {'Content-Type': undefined}
                     }).then(function(response) {
                     });
                 }
@@ -1085,7 +1121,7 @@ angular.module('Controllers')
                     fd.append('filename', file.name);
                     $http.post('/v1/uploadPDF', fd, {
                         transformRequest: angular.identity,
-                        headers: {'Content-Type': undefined},
+                        headers: {'Content-Type': undefined}
                     }).then(function(response) {
                         // console.log(response);
                     });

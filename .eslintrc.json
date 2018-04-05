@@ -16,12 +16,18 @@
     "rules": {
         "indent": [
             "error",
-            4
+             4
         ],
         "semi": [
             "error",
             "always"
         ],
-        "max-len": ["error", { "code": 2000 }]
+        "max-len": [
+            "error", { "code": 2000 }
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ]
     }
 }

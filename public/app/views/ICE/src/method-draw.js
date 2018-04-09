@@ -4332,7 +4332,11 @@ var SOTP = 0;
                                 svgCanvas.keyPressed('9');
                             },
                         },
-                        //{key: ['shift+8', true], fn: function(){svgCanvas.keyPressed('×');}},
+                        {
+                            key: ['shift+8', true], fn: function() {
+                                svgCanvas.keyPressed('×');
+                            }
+                        },
                         {
                             key: [String.fromCharCode(190), true],
                             fn: function() {
@@ -4416,18 +4420,12 @@ var SOTP = 0;
                                 svgCanvas.keyPressed('+');
                             },
                         },
-                        // end of Firefox specific binds
-                        {
-                            key: ['*', true], fn: function() {
-                                svgCanvas.keyPressed('×');
-                            },
-                        },
+                        // end of Firefox specific binds                        
                         {
                             key: '/', fn: function() {
                                 svgCanvas.keyPressed('/');
                             },
                         },
-
                         {
                             key: [String.fromCharCode(187), true],
                             fn: function() {

@@ -4,5 +4,6 @@ window.Driver = {
     SvgEditorElementSize    : require('./elements/SvgEditorElementSize'),
     SvgEditorElementPosition: require('./elements/SvgEditorElementPosition'),
     SvgEditorElementTypes   : require('./enums/SvgEditorElementTypes'),
-    SvgEditorSymbols        : require('./enums/SvgEditorSymbols')
+    SvgEditorSymbols        : require('./enums/SvgEditorSymbols'),
+    Symbols: require('./data/Symbols')
 };

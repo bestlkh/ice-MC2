@@ -178,5 +178,6 @@ module.exports = {
     symbol_partial_differential: 'symbol_partial_differential',
     symbol_doublestruck_capital_c: 'symbol_doublestruck_capital_c',
     symbol_there_exists: "symbol_there_exists",
+    symbol_doublestruck_capital_n: 'symbol_doublestruck_capital_n',    
     
 };

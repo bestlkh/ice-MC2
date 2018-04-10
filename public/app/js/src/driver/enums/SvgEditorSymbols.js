@@ -175,5 +175,8 @@ module.exports = {
     symbol_wedge: 'symbol_wedge',
     symbol_because: 'symbol_because',
     symbol_ring_operator: 'symbol_ring_operator',
+    symbol_partial_differential: 'symbol_partial_differential',
+    symbol_doublestruck_capital_c: 'symbol_doublestruck_capital_c',
+    symbol_there_exists: "symbol_there_exists",
     
 };

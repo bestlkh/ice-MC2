@@ -173,4 +173,7 @@ module.exports = {
     uppercase_z: 'uppercase_z',
     uppercase_zeta: 'uppercase_zeta',
     symbol_wedge: 'symbol_wedge',
+    symbol_because: 'symbol_because',
+    symbol_ring_operator: 'symbol_ring_operator',
+    
 };

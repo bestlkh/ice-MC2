@@ -144,6 +144,7 @@ data[SvgSymbols.symbol_eight] = "8";
 data[SvgSymbols.symbol_nine] = "9";
 data[SvgSymbols.symbol_zero] = "0";
 data[SvgSymbols.symbol_wedge] = "\u2227"
+data[SvgSymbols.symbol_ring_operator] = "\u2218"
 
 
 

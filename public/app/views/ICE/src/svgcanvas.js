@@ -10127,43 +10127,11 @@ var moveCursorAbs = this.moveCursorAbs;
     var math_cursorB = getBBox(math_cursor);
     var x = math_cursorB.x;
     var y = math_cursorB.y + math_cursorB.height + 10;
+    var svgDrv = new window.Driver.SvgEditorDriver();
     if(selectedElements.length > 0) {
       clearSelection();
     }
     if (newChar || !shortcuts) {
-      var svgDrv = new window.Driver.SvgEditorDriver();
-      // var count = 1;
-      // var backupx = x;
-      // var backupy = y;
-      // var temp = "";
-      // for(k in keyHash) {
-      //   for (val in keyHash[k]) {
-      //     newText = svgDrv.createElement(0, {
-      //       symbol: keyHash[k][val],
-      //       x: x,
-      //       y: y
-      //     });
-      //     temp += keyHash[k][val] + ": \"" + newText.dom.getAttribute('d') + "\",\n";
-      //     //console.log(config.symbol, element.dom.getAttribute('d'))
-      //     count++;
-      //     var bbox = getBBox(newText.dom);
-      //     math_cursor.setAttribute('x', bbox.x + bbox.width + 2);
-      //     math_cursorB = getBBox(math_cursor);
-      //     x = math_cursorB.x;
-      //     y = math_cursorB.y + math_cursorB.height + 10;
-      //     if(count%20 == 0) {
-      //       math_cursor.setAttribute('x', backupx);
-      //       math_cursor.setAttribute('y', backupy + 60);
-      //       math_cursorB = getBBox(math_cursor);
-      //       x = math_cursorB.x;
-      //       y = math_cursorB.y + math_cursorB.height + 10;
-      //       backupx = x;
-      //       backupy = y;
-      //     }
-      //   }
-      // }
-      // console.log(temp);
-      // console.log("done");
       newText = svgDrv.createElement(0, {
               symbol: keyHash[key][0],
               x: x,
@@ -10172,9 +10140,16 @@ var moveCursorAbs = this.moveCursorAbs;
     } else {
         if (shortcuts) {
           if (shortcuts[shortcutIndex].length == 1) {
-            newText.textContent = shortcuts[shortcutIndex];
+            //newText.textContent = shortcuts[shortcutIndex];
           } else {
-            newText.textContent = String.fromCharCode("0x"+shortcuts[shortcutIndex]);
+            math_cursor.setAttribute("x", getBBox(newText).x);
+            selectOnly([newText], false);
+            canvas.deleteSelectedElements();
+            newText = svgDrv.createElement(0, {
+              symbol: keyHash[key][shortcutIndex],
+              x: getBBox(math_cursor).x,
+              y: y
+            }).dom;
           }
         }
     }

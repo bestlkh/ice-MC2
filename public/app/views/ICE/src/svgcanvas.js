@@ -10142,7 +10142,7 @@ var moveCursorAbs = this.moveCursorAbs;
           if (shortcuts[shortcutIndex].length == 1) {
             //newText.textContent = shortcuts[shortcutIndex];
           } else {
-            math_cursor.setAttribute("x", getBBox(newText).x);
+            math_cursor.setAttribute("x", getBBox(newText).x-1);
             selectOnly([newText], false);
             canvas.deleteSelectedElements();
             newText = svgDrv.createElement(0, {

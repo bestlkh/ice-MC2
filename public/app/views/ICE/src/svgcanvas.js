@@ -228,7 +228,7 @@ var shortcutIndex = 0;
 var keyHash = new Object();
 var svgEditSymbols = window.Driver.SvgEditorSymbols;
 window.keyHash = keyHash;
-keyHash["a"] = [ svgEditSymbols.lowercase_a, svgEditSymbols.lowercase_alpha, svgEditSymbols.uppercase_a, svgEditSymbols.uppercase_alpha, svgEditSymbols.symbol_wedge];
+keyHash["a"] = [ svgEditSymbols.lowercase_a, svgEditSymbols.lowercase_alpha, svgEditSymbols.uppercase_a, svgEditSymbols.symbol_wedge];
 keyHash["b"] = [ svgEditSymbols.lowercase_b, svgEditSymbols.uppercase_b, svgEditSymbols.lowercase_beta, svgEditSymbols.symbol_because];
 keyHash["c"] = [ svgEditSymbols.lowercase_c, svgEditSymbols.lowercase_chi, svgEditSymbols.uppercase_c, svgEditSymbols.uppercase_chi];
 keyHash["d"] = [ svgEditSymbols.lowercase_d, svgEditSymbols.lowercase_delta, svgEditSymbols.uppercase_d, svgEditSymbols.uppercase_delta];
@@ -10043,10 +10043,13 @@ var moveCursorAbs = this.moveCursorAbs;
 
 
     var shortcuts = keyHash[key].map(function(x) {
-      return {
-        'unicode': window.Tool.SymbolTex[x],
-        'symbolId': x
-    };});
+      var data = window.Driver.Symbols[x];
+      data['key'] = x;
+      return data
+    });
+
+    console.log(shortcuts); 
+
     var newChar = false;
     var shortcutsVisible = document.getElementById("floatingContent").style.display;
     if (key == lastKeyPress && shortcutsVisible == "block") {
@@ -10099,17 +10102,17 @@ var moveCursorAbs = this.moveCursorAbs;
      shortcuts.forEach(function(shortcut, i) {
        if (i == shortcutIndex) {
          if (shortcuts[i].unicode.length == 1) {
-            shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].symbolId+"'" + ');"> ' + '<font color=orange>' + shortcuts[i].unicode + '</font></div>';
+            shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].key+"'" + ');"> ' + '<font color=orange>' + shortcuts[i].unicode + '</font></div>';
          }
           else {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].symbolId + ');"> ' + '<font color=orange>' + ' &#x' + shortcuts[i].unicode + '</font></div>';
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].key + ');"> ' + '<font color=orange>' + ' &#x' + shortcuts[i].unicode + '</font></div>';
           }
        } else {
          if (shortcuts[i].unicode.length == 1) {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].symbolId+"'" + ');"> ' + shortcuts[i].unicode + "</div>";
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].key+"'" + ');"> ' + shortcuts[i].unicode + "</div>";
          }
           else {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].symbolId + ');"> ' + ' &#x' + shortcuts[i].unicode + "</div>";
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].key + ');"> ' + ' &#x' + shortcuts[i].unicode + "</div>";
           }
        }
     });

@@ -2318,13 +2318,13 @@ var SOTP = 0;
                 // latex preview live reloading watcher
                 let autoReload = function () {
                     if ($('#svgcanvas')[0]) {
-                        let xtargetNode = $('#svgcanvas')[0];
-                        let xconfig = {childList: true, subtree: true};
-                        let xcb = updateLatexPreview;
+                        let previewTargetNode = $('#svgcanvas')[0];
+                        let previewConfig = {childList: true, subtree: true};
+                        let previewCb = updateLatexPreview;
 
-                        let xobserver = new MutationObserver(xcb);
-                        if (xtargetNode) {
-                            xobserver.observe(xtargetNode, xconfig);                
+                        let previewObserver = new MutationObserver(previewCb);
+                        if (previewTargetNode) {
+                            previewObserver.observe(previewTargetNode, previewConfig);                
                         }
                     }
                 }

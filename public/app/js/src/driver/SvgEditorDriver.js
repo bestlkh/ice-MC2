@@ -40,13 +40,11 @@ class SvgEditorDriver {
                 this._canvas.recalculateDimensions(element.dom);
                 let size = element.getSize();
                 let loc = element.getPosition();
-                console.log(1, loc, size)
-                let xScale = 0.1;// SvgEditorDriver.getRelativeScale(size.width, 12);
-                this._scaleElement(element, xScale);
+                let xScale = .25;// SvgEditorDriver.getRelativeScale(size.width, 12);
+                // this._scaleElement(element, 0.25, -0.25);
+                this._moveElementTo(element, config.x, config.y);
                 loc = element.getPosition();
                 size = element.getSize();
-                this._moveElementTo(element, config.x, config.y);
-                console.log(2, loc, size)
                 break;
             // It is a image element
             case SvgEditorElementTypes.IMAGE:
@@ -89,7 +87,7 @@ class SvgEditorDriver {
             scale = svgroot.createSVGTransform(),
             translateBack = svgroot.createSVGTransform();
         translateOrigin.setTranslate(-loc.x, -loc.y);
-        scale.setScale(xScale, xScale);
+        scale.setScale(xScale, yScale);
         translateBack.setTranslate(loc.x, loc.y);
         tlist.appendItem(translateBack);
         tlist.appendItem(scale);

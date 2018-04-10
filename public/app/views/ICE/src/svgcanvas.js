@@ -227,8 +227,9 @@ var shortcutIndex = 0;
 
 var keyHash = new Object();
 var svgEditSymbols = window.Driver.SvgEditorSymbols;
-keyHash["a"] = [ svgEditSymbols.lowercase_a, svgEditSymbols.lowercase_alpha, svgEditSymbols.uppercase_a, svgEditSymbols.uppercase_alpha];
-keyHash["b"] = [ svgEditSymbols.lowercase_b, svgEditSymbols.lowercase_beta, svgEditSymbols.uppercase_b, svgEditSymbols.uppercase_beta];
+window.keyHash = keyHash;
+keyHash["a"] = [ svgEditSymbols.lowercase_a, svgEditSymbols.lowercase_alpha, svgEditSymbols.uppercase_a, svgEditSymbols.uppercase_alpha, svgEditSymbols.symbol_wedge];
+keyHash["b"] = [ svgEditSymbols.lowercase_b, svgEditSymbols.uppercase_b, svgEditSymbols.lowercase_beta, ];
 keyHash["c"] = [ svgEditSymbols.lowercase_c, svgEditSymbols.lowercase_chi, svgEditSymbols.uppercase_c, svgEditSymbols.uppercase_chi];
 keyHash["d"] = [ svgEditSymbols.lowercase_d, svgEditSymbols.lowercase_delta, svgEditSymbols.uppercase_d, svgEditSymbols.uppercase_delta];
 keyHash["e"] = [ svgEditSymbols.lowercase_e, svgEditSymbols.lowercase_epsilon, svgEditSymbols.symbol_element_of, svgEditSymbols.symbol_not_an_element_of, svgEditSymbols.symbol_empty_set, svgEditSymbols.lowercase_eta, svgEditSymbols.uppercase_e, svgEditSymbols.uppercase_epsilon, svgEditSymbols.uppercase_eta];
@@ -295,7 +296,7 @@ keyHash["0"] = [ svgEditSymbols.symbol_zero ];
 keyHash["<"] = [ svgEditSymbols.symbol_greater, svgEditSymbols.symbol_greaterthan_or_equal_to, svgEditSymbols.symbol_greaterthan_sign];
 keyHash[">"] = [ svgEditSymbols.symbol_less, svgEditSymbols.symbol_lessthan_or_equal_to, svgEditSymbols.symbol_lessthan_sign, svgEditSymbols.symbol_combining_double_rightwards_arrow_below];
 keyHash["+"] = [ svgEditSymbols.symbol_plus, svgEditSymbols.symbol_plusminus_sign,svgEditSymbols.symbol_plus_sign];
-keyHash["−"] = [ svgEditSymbols.symbol_vertical_line];
+keyHash["−"] = [ svgEditSymbols.symbol_line];
 keyHash["/"] = [ svgEditSymbols.symbol_slash, svgEditSymbols.symbol_division_sign];
 
 
@@ -9977,6 +9978,7 @@ var moveCursorAbs = this.moveCursorAbs;
   var removeNearestToCursor = this.removeNearestToCursor;
 
   this.addToSVG = function(selectedSymbol){
+    var svgDrv = new window.Driver.SvgEditorDriver();
     var math_cursor = svgCanvas.getElem('math_cursor');
     // Undoes the most recently inserted element
     if (canvas.undoMgr.getUndoStackSize() > 0) {
@@ -9984,26 +9986,11 @@ var moveCursorAbs = this.moveCursorAbs;
     }
     var x = Number(math_cursor.getAttribute('x')) - 12;
     var y = Number(math_cursor.getAttribute('y')) + Number(math_cursor.getAttribute('height'));
-    newText = addSvgElementFromJson({
-      element: 'text',
-      curStyles: true,
-      textContent: selectedSymbol,
-      attr: {
-        'x': x.toString(),
-        'y': y.toString(),
-        'id': getNextId(),
-        'fill': cur_text.fill,
-        'stroke-width': cur_text.stroke_width,
-        'font-size': cur_text.font_size,
-        //    'font-family': cur_text.font_family,
-        'font-family': 'Monspace',
-        'text-anchor': 'left',
-        'xml:space': 'preserve',
-        'opacity': cur_shape.opacity,
-        'style': "pointer-events:inherit",
-            //'textContent': 'a'
-        }
-      });
+    svgDrv.createElement(0, {
+      symbol: selectedSymbol,
+      x: x,
+      y: y
+    }).dom
     // Closes the suggestion bar after element is inserted
     clearTimeout(shortcutTimer);
       ToggleFloatingLayer('floatingContent',1);
@@ -10055,7 +10042,11 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
 
-    var shortcuts = keyHash[key];
+    var shortcuts = keyHash[key].map(function(x) {
+      return {
+        'unicode': window.Tool.SymbolTex[x],
+        'symbolId': x
+    };});
     var newChar = false;
     var shortcutsVisible = document.getElementById("floatingContent").style.display;
     if (key == lastKeyPress && shortcutsVisible == "block") {
@@ -10107,18 +10098,18 @@ var moveCursorAbs = this.moveCursorAbs;
 
      shortcuts.forEach(function(shortcut, i) {
        if (i == shortcutIndex) {
-         if (shortcuts[i].length == 1) {
-            shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i]+"'" + ');"> ' + '<font color=orange>' + shortcuts[i] + '</font></div>';
+         if (shortcuts[i].unicode.length == 1) {
+            shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].symbolId+"'" + ');"> ' + '<font color=orange>' + shortcuts[i].unicode + '</font></div>';
          }
           else {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'&#x"+shortcuts[i]+"'" + ');"> ' + '<font color=orange>' + ' &#x' + shortcuts[i] + '</font></div>';
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].symbolId + ');"> ' + '<font color=orange>' + ' &#x' + shortcuts[i].unicode + '</font></div>';
           }
        } else {
-         if (shortcuts[i].length == 1) {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i]+"'" + ');"> ' + shortcuts[i] + "</div>";
+         if (shortcuts[i].unicode.length == 1) {
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].symbolId+"'" + ');"> ' + shortcuts[i].unicode + "</div>";
          }
           else {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'&#x"+shortcuts[i]+"'" + ');"> ' + ' &#x' + shortcuts[i] + "</div>";
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].symbolId + ');"> ' + ' &#x' + shortcuts[i].unicode + "</div>";
           }
        }
     });
@@ -10138,36 +10129,43 @@ var moveCursorAbs = this.moveCursorAbs;
     }
     if (newChar || !shortcuts) {
       var svgDrv = new window.Driver.SvgEditorDriver();
-      var count = 1;
-      var backupx = x;
-      var backupy = y;
-      for(k in keyHash) {
-        for (val in keyHash[k]) {
-          newText = svgDrv.createElement(0, {
-            symbol: keyHash[k][val],
-            x: x,
-            y: y
-          });
-          count++;
-          var bbox = getBBox(newText.dom);
-          math_cursor.setAttribute('x', bbox.x + bbox.width + 2);
-          math_cursorB = getBBox(math_cursor);
-          x = math_cursorB.x;
-          y = math_cursorB.y + math_cursorB.height + 10;
-          if(count%20 == 0) {
-            math_cursor.setAttribute('x', backupx);
-            math_cursor.setAttribute('y', backupy + 60);
-            math_cursorB = getBBox(math_cursor);
-            x = math_cursorB.x;
-            y = math_cursorB.y + math_cursorB.height + 10;
-            backupx = x;
-            backupy = y;
-          }
-        }
-      }
-      console.log("done");
-      return;
-    
+      // var count = 1;
+      // var backupx = x;
+      // var backupy = y;
+      // var temp = "";
+      // for(k in keyHash) {
+      //   for (val in keyHash[k]) {
+      //     newText = svgDrv.createElement(0, {
+      //       symbol: keyHash[k][val],
+      //       x: x,
+      //       y: y
+      //     });
+      //     temp += keyHash[k][val] + ": \"" + newText.dom.getAttribute('d') + "\",\n";
+      //     //console.log(config.symbol, element.dom.getAttribute('d'))
+      //     count++;
+      //     var bbox = getBBox(newText.dom);
+      //     math_cursor.setAttribute('x', bbox.x + bbox.width + 2);
+      //     math_cursorB = getBBox(math_cursor);
+      //     x = math_cursorB.x;
+      //     y = math_cursorB.y + math_cursorB.height + 10;
+      //     if(count%20 == 0) {
+      //       math_cursor.setAttribute('x', backupx);
+      //       math_cursor.setAttribute('y', backupy + 60);
+      //       math_cursorB = getBBox(math_cursor);
+      //       x = math_cursorB.x;
+      //       y = math_cursorB.y + math_cursorB.height + 10;
+      //       backupx = x;
+      //       backupy = y;
+      //     }
+      //   }
+      // }
+      // console.log(temp);
+      // console.log("done");
+      newText = svgDrv.createElement(0, {
+              symbol: keyHash[key][0],
+              x: x,
+              y: y
+            }).dom;
     } else {
         if (shortcuts) {
           if (shortcuts[shortcutIndex].length == 1) {

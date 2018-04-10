@@ -6,6 +6,8 @@ const RegionTypes = require('./enums/RegionTypes');
 const Constant = require('./constant');
 const SymbolFactory = require('./SymbolFactory');
 
+const SymbolTex = require('./SymbolTex');
+
 const CENTRED = ["a", "c", "e", "j", "m", "n", "o", "r", "s", "u", "v", "w", "x", "z"];
 const DECENDING = ["g", "p", "q", "y"]; // need these in when we have svgs for characters ready
 
@@ -389,7 +391,7 @@ class RecognitionTool {
         } else if (type == SymbolTypes.OPERATOR) {
             result += Constant.TEX_TEXT[value];
         } else {
-            result += value;
+            result += SymbolTex[value];
             if (bst.region[RegionTypes.SUPER].hasElement()) {
                 result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) +"}";
             }

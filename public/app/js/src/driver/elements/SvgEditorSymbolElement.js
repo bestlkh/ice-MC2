@@ -14,8 +14,6 @@ class SvgEditorSymbolElement extends SvgEditorElement {
 
     /**
      * Construct the symbol element
-     * @param width
-     * @param height
      * @param x
      * @param y
      * @param symbol
@@ -23,7 +21,9 @@ class SvgEditorSymbolElement extends SvgEditorElement {
     constructor(x, y, symbol){
         // Check to see if symbol is defined
         if(SymbolData[symbol]){
-            super(SymbolData[symbol].width, SymbolData[symbol].height, x, y);
+            let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path"); 
+            newpath.setAttributeNS(null, 'd', SymbolData[symbol].d);
+            super(newpath.getBBox().width, newpath.getBBox().height, x, y);
             this._symbol     = symbol;
             this._symbolData = SymbolData[symbol].d;
         } else {

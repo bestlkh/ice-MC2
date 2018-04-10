@@ -182,4 +182,5 @@ module.exports = {
     symbol_intersection: "symbol_intersection",
     symbol_subset: "symbol_subset",
     symbol_subset_or_equal: "symbol_subset_or_equal",
+    symbol_for_all: "symbol_for_all",
 };

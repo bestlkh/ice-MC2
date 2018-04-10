@@ -150,7 +150,7 @@ var filter = function(req, file, cb) {
 
 var naming = function(req, file, cb) {
     var ext = mimeMap.extensions[file.mimetype][0];
-    cb(null, req.params.id+"."+ext);
+    cb(null, (req.params.id || req.session.user._id)+"."+ext);
 };
 
 var multer  = require("multer");
@@ -729,6 +729,52 @@ AdminView.prototype.setupApi = function () {
             });
             return csv.stringify(result, {header: true}).pipe(res);
         })
+    }.bind(this));
+
+    this.app.get("/v1/api/settings/account", checkAuth, function (req, res) {
+        this.db.collection("users").findOne({username: req.session.user.username}, {salt: 0, saltedHash: 0}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            return res.json(result);
+        });
+    }.bind(this));
+
+
+    function UserSettings(data) {
+        this.userAvatar = data.userAvatar;
+    }
+
+    this.app.patch("/v1/api/settings/account", checkAuth, upload.single("image"), function (req, res) {
+        var user = new UserSettings(req.body);
+
+        var r = Math.random();
+        if (req.file) user.userAvatar = req.file.filename+"?"+r;
+
+        this.db.collection("users").findOne({
+            username: req.session.user.username
+        }, function (err, originalUser) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            this.db.collection("users").updateOne({
+                username: req.session.user.username
+            }, {$set: user}, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+                if (originalUser && originalUser.userAvatar && (originalUser.userAvatar !== user.userAvatar)) {
+                    if (originalUser.userAvatar.indexOf("_custom.") !== -1) return fs.unlink("./public/app/css/dist/img/"+originalUser.userAvatar, function () {
+                        res.json({});
+                    });
+
+                }
+                this.db.collection("users").findOne({
+                    username: req.session.user.username
+                }, {_id: 0, saltedHash: 0, salt: 0}, function (err, newUser) {
+                    req.session.user = newUser;
+                    res.json(newUser);
+                });
+
+
+            }.bind(this));
+        }.bind(this));
+
     }.bind(this));
 
 };

@@ -40,6 +40,10 @@ App.config(function ($routeProvider, $locationProvider){
         when("/ta/:id", {
             templateUrl: '/app/views/admin/ta.html',
             controller: 'taController'
+        }).
+        when("/account/", {
+            templateUrl: '/app/views/admin/acctSettings.html',
+            controller: 'acctSettingsController'
         })
         .otherwise({
             redirectTo: '/classrooms',	// Default Route

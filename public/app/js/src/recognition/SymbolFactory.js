@@ -48,9 +48,7 @@ class SymbolFactory {
         var width = rect.width;
         var height = rect.height;
         var value = elem.nodeName == "path" ? elem.id.split('_')[3] : elem.textContent;
-        value = elem.id.split(/svg_eqn_\d*_/)[1];
-        console.log(value);
-                            
+        value = elem.id.split(/svg_eqn_\d*_/)[1];                               
         var type = getSymbolType(value);
         var symbol;
         switch (type) {

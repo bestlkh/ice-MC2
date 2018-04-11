@@ -40,11 +40,15 @@ class SvgEditorDriver {
                 this._canvas.recalculateDimensions(element.dom);
                 let size = element.getSize();
                 let loc = element.getPosition();
-                let xScale = .25;// SvgEditorDriver.getRelativeScale(size.width, 12);
-                // this._scaleElement(element, 0.25, -0.25);
+                // let xScale = .25;// SvgEditorDriver.getRelativeScale(size.width, 12);
+                this._scaleElement(element, 1.2);
                 this._moveElementTo(element, config.x, config.y);
                 loc = element.getPosition();
                 size = element.getSize();
+                if (element._bottomScale !== undefined) {
+                    console.log(element._bottomScale, size.height, size.height * element._bottomScale)
+                    this._moveElement(element, 0, size.height * element._bottomScale)
+                }
                 break;
             // It is a image element
             case SvgEditorElementTypes.IMAGE:
@@ -111,6 +115,21 @@ class SvgEditorDriver {
         translateOrigin.setTranslate(-loc.x, -loc.y);
         scale.setScale(1, 1);
         translateBack.setTranslate(x, y);
+        tlist.appendItem(translateBack);
+        tlist.appendItem(scale);
+        tlist.appendItem(translateOrigin);
+        canv.recalculateDimensions(element.dom);
+    }
+
+    _moveElement(element, dx, dy) {
+        let tlist = this._canvas.getTransformList(element.dom);
+        let svgroot = this._canvas.getRootElem();
+        let translateOrigin = svgroot.createSVGTransform(),
+            scale = svgroot.createSVGTransform(),
+            translateBack = svgroot.createSVGTransform();
+        translateOrigin.setTranslate(dx, dy);
+        scale.setScale(1, 1);
+        translateBack.setTranslate(0, 0);
         tlist.appendItem(translateBack);
         tlist.appendItem(scale);
         tlist.appendItem(translateOrigin);

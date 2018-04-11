@@ -183,4 +183,5 @@ module.exports = {
     symbol_subset: "symbol_subset",
     symbol_subset_or_equal: "symbol_subset_or_equal",
     symbol_for_all: "symbol_for_all",
+    symbol_logical_or: "symbol_logical_or",    
 };

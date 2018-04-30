@@ -1,0 +1,71 @@
+
+<div class="control-header">
+    <header>  </header>
+    <div class="header-control-wrapper">
+        <logout-menu user="user"></logout-menu>
+
+    </div>
+</div>
+<div class="control-content" style="padding: 0;">
+        <form class="chat-setting-form" ng-submit="Actions.onUpdateSettings()">
+            <div class="setting-category">
+                <div style="display:flex;">
+                    <header>General</header>
+                    <div class="notif-popup" ng-class="{'error-popup': notif.error}" ng-if="notif">
+                        {{notif.message}}
+                    </div>
+                </div>
+
+                <div class="setting-wrapper">
+                    <div class="setting">
+                        <div class="setting-label">
+                            Profile Image
+                        </div>
+                        <div class="avatar-picker" ng-click="onEdit()">
+                            <div ng-style="{'background-image':'url('+getAvatar()+')'}" class="avatar">
+                            </div>
+
+                            <div class="edit">
+                                Edit
+                            </div>
+
+
+                        </div>
+                        <div class="avatar-selector card" ng-if="editAvatar" style="left: 1020px;">
+                            <div class="avatar-colours">
+                                <div ng-click="setAvatar(1)" style="background: url(/app/css/dist/img/Avatar1.jpg)"></div>
+                                <div ng-click="setAvatar(2)" style="background: url(/app/css/dist/img/Avatar2.jpg)"></div>
+                                <div ng-click="setAvatar(3)" style="background: url(/app/css/dist/img/Avatar3.jpg)"></div>
+                                <div ng-click="setAvatar(4)" style="background: url(/app/css/dist/img/Avatar4.jpg)"></div>
+                                <div ng-click="setAvatar(5)" style="background: url(/app/css/dist/img/Avatar5.jpg)"></div>
+                                <div ng-click="setAvatar(6)" style="background: url(/app/css/dist/img/Avatar6.jpg)"></div>
+                                <div ng-click="setAvatar(7)" style="background: url(/app/css/dist/img/Avatar7.jpg)"></div>
+                                <div ng-click="setAvatar(8)" style="background: url(/app/css/dist/img/Avatar8.jpg)"></div>
+
+                            </div>
+                            <label class="avatar-upload">
+                                <span class="line-button add-button">Upload Image</span>
+                                <input type="file" value="Upload Image" uploadavatar="Actions.onUploadAvatar"/>
+
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="setting">
+                    <div class="setting-label">
+                        Password
+                    </div>
+                    <div class="change-button" style="padding: 7px">
+                        Change
+                    </div>
+
+                </div>
+
+
+        </div>
+            <div class="button-wrapper">
+                <input ng-disabled="block.save" type="submit" value="Save" ng-class="{'disabled': block.save}">
+            </div>
+        </form>
+</div>

@@ -56,7 +56,7 @@ var AdminController =  new AdminView(ios, app, session);
 const Controllers = {
     SystemInfoController: require('./controllers/rest/SystemInfoController'),
     ImageLibraryController: require('./controllers/rest/ImageLibraryController')
-}
+};
 
 app.get('/api/v1', Controllers.SystemInfoController.getBasicSystemInformation);
 app.get('/api/v1/image-libraries', Controllers.ImageLibraryController.getAllAccredited);

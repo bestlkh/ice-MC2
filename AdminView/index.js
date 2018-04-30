@@ -150,7 +150,7 @@ var filter = function(req, file, cb) {
 
 var naming = function(req, file, cb) {
     var ext = mimeMap.extensions[file.mimetype][0];
-    cb(null, req.params.id+"."+ext);
+    cb(null, (req.params.id || req.session.user.username)+"_custom."+ext);
 };
 
 var multer  = require("multer");
@@ -190,17 +190,16 @@ AdminView.prototype.setupApi = function () {
     }.bind(this));
 
     this.app.get("/v1/api/session/current", function (req, res) {
-        var token;
-        if (req.session.user && req.session.user.outlook) {
-            token = req.session.user.outlook["access_token"];
-        }
-        return res.json({
-            username: req.session.user ? req.session.user.username : null,
-            connected: req.session.connected,
-            oauth: token,
-            userAvatar: req.session.userAvatar
+        this.db.collection("users").findOne({username: req.session.user.username}, function (err, user) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            req.session.user = user;
+            return res.json({
+                username: req.session.user ? req.session.user.username : null,
+                userAvatar: req.session.user.userAvatar
+            });
         });
-    });
+
+    }.bind(this));
 
     this.app.get("/logout", function (req, res) {
         req.session.destroy(function (err) {
@@ -587,7 +586,7 @@ AdminView.prototype.setupApi = function () {
                 if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
                 if (originalTA && (originalTA.avatar !== ta.avatar)) {
-                    if (originalTA.avatar.indexOf("_custom.") !== -1) return fs.unlink("./public/app/css/dist/img/"+originalTA.avatar, function () {
+                    if (originalTA.avatar.indexOf("_custom.") !== -1) return fs.unlink("./public/app/css/dist/img/"+originalTA.avatar.substring(0, originalTA.avatar.indexOf("?")), function () {
                         res.json({});
                     });
 
@@ -729,6 +728,54 @@ AdminView.prototype.setupApi = function () {
             });
             return csv.stringify(result, {header: true}).pipe(res);
         })
+    }.bind(this));
+
+    this.app.get("/v1/api/settings/account", checkAuth, function (req, res) {
+        this.db.collection("users").findOne({username: req.session.user.username}, {salt: 0, saltedHash: 0}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            return res.json(result);
+        });
+    }.bind(this));
+
+
+    function UserSettings(data) {
+        this.userAvatar = data.userAvatar;
+    }
+
+    this.app.patch("/v1/api/settings/account", checkAuth, upload.single("image"), function (req, res) {
+        var user = new UserSettings(req.body);
+
+        var r = Math.random();
+        if (req.file) user.userAvatar = req.file.filename+"?"+r;
+
+        this.db.collection("users").findOne({
+            username: req.session.user.username
+        }, function (err, originalUser) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            this.db.collection("users").updateOne({
+                username: req.session.user.username
+            }, {$set: user}, function (err, result) {
+                if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+
+                if (originalUser && originalUser.userAvatar && (originalUser.userAvatar !== user.userAvatar)) {
+                    if (originalUser.userAvatar.indexOf("_custom.") !== -1)
+                        return fs.unlink("./public/app/css/dist/img/"
+                            +originalUser.userAvatar.substring(0, originalUser.userAvatar.indexOf("?")));
+                }
+                this.db.collection("users").findOne({
+                    username: req.session.user.username
+                }, {saltedHash: 0, _id: 0, salt: 0} ,function (err, newUser) {
+                    req.session.user = newUser;
+                    req.session.save(function () {
+                        res.json(newUser);
+                    });
+
+                });
+
+
+            }.bind(this));
+        }.bind(this));
+
     }.bind(this));
 
 };

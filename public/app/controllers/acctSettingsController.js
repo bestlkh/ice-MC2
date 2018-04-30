@@ -89,7 +89,6 @@ angular.module('Controllers')
                         $scope.active = false;
                         $scope.Actions.onGetUser();
                         $rootScope.user = result;
-                        console.log($rootScope.user);
                         $scope.settings = {};
                         $scope.avatar = null;
                         $scope.block = {

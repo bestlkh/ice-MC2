@@ -89,6 +89,7 @@ angular.module('Controllers')
                         $scope.active = false;
                         $scope.Actions.onGetUser();
                         $rootScope.user = result;
+                        console.log($rootScope.user);
                         $scope.settings = {};
                         $scope.avatar = null;
                         $scope.block = {
@@ -104,6 +105,19 @@ angular.module('Controllers')
                     }
                 })
             },
+            onUploadAvatar: function (avatar) {
+
+                $scope.avatar = avatar;
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $scope.settings.userAvatar = e.target.result;
+                    $scope.editAvatar = false;
+                    $scope.$apply();
+                };
+
+                reader.readAsDataURL(avatar);
+            }
         };
 
         $scope.Actions.onGetUser();

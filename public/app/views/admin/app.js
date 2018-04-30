@@ -44,6 +44,10 @@ App.config(function ($routeProvider, $locationProvider){
         when("/account/", {
             templateUrl: '/app/views/admin/acctSettings.html',
             controller: 'acctSettingsController'
+        }).
+        when("/account/password", {
+            templateUrl: '/app/views/admin/acctSettings.html',
+            controller: 'acctSettingsController'
         })
         .otherwise({
             redirectTo: '/classrooms',	// Default Route

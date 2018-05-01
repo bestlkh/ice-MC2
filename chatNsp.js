@@ -198,6 +198,7 @@ LectureNsp.prototype.listen = function () {
     this.connectToDb(function () {
 
         this.nsp.on("connection", function (socket) {
+            if (!socket.handshake.session.chatVars) setSessionVar("chatVars", []);
 
             for (var e in this.binds) {
                 socket.on(e, binds[e](socket));
@@ -205,18 +206,26 @@ LectureNsp.prototype.listen = function () {
 
             function setSessionVar(variable, value) {
                 socket.handshake.session[variable] = value;
+
+                if (socket.handshake.session.chatVars) socket.handshake.session.chatVars.push(variable);
                 socket.handshake.session.save();
+
             }
 
             function setSessionVars(object) {
                 for (var variable in object) {
                     socket.handshake.session[variable] = object[variable];
+                    if (socket.handshake.session.chatVars) socket.handshake.session.chatVars.push(variable);
                 }
                 socket.handshake.session.save();
             }
 
             function destroySession() {
-                setSessionVars({username: null, connectedRoom: null, userAvatar: null, ta: null});
+                //setSessionVars({username: null, connectedRoom: null, userAvatar: null, ta: null, utorid });
+                socket.handshake.session.chatVars.forEach(function (variable) {
+                    socket.handshake.session[variable] = null;
+                });
+                socket.handshake.session.save();
             }
 
             // delete message
@@ -252,14 +261,7 @@ LectureNsp.prototype.listen = function () {
                             setSessionVars({username: data.username, userAvatar: data.userAvatar, initials: data.initials, connectedClass: data.roomId});
                             callback({success: true, username: data.username});
                         };
-                        if (data.token) {
-                            this.findStudent(data, function (err, student) {
-                                if (err) return callback({success: false, message: "Invalid id"});
-                                setSessionVar("utorid", student.utorid);
-                                login(data);
-                            });
-
-                        } else if (data.secret) {
+                        if (data.secret) {
                             this.findTa(data, function (err, ta) {
                                 if (err || !ta) return callback({success: false, message: "Invalid secret"});
 
@@ -268,6 +270,13 @@ LectureNsp.prototype.listen = function () {
                                 data.username = ta.name;
                                 login(data);
                                 setSessionVars({userAvatar: ta.avatar});
+                            });
+                        }
+                        else if (data.token) {
+                            this.findStudent(data, function (err, student) {
+                                if (err) return callback({success: false, message: "Invalid id"});
+                                setSessionVar("utorid", student.utorid);
+                                login(data);
                             });
                         } else if (classroom.invite) {
                             return callback({success: false, message: "Room is invite only"});

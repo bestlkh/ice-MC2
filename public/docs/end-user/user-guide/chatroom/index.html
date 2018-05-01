@@ -1,0 +1,1190 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.3, mkdocs-material-2.7.1">
+    
+    
+      
+        <title>Chatroom - MC² Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.78aab2dc.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.6079476c.css">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="cyan">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <a href="#how-to-send-text-messages" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="MC² Documentation" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                MC² Documentation
+              </span>
+              <span class="md-header-nav__topic">
+                Chatroom
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/bestlkh/ice-MC2/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      bestlkh/ice-MC2
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    MC² Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/bestlkh/ice-MC2/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      bestlkh/ice-MC2
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      User Guide
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        User Guide
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-1" type="checkbox" id="nav-2-1" checked>
+    
+    <label class="md-nav__link" for="nav-2-1">
+      End User
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-1">
+        End User
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../login/" title="Login" class="md-nav__link">
+      Login
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Chatroom
+      </label>
+    
+    <a href="./" title="Chatroom" class="md-nav__link md-nav__link--active">
+      Chatroom
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send-text-messages" title="How to Send Text Messages" class="md-nav__link">
+    How to Send Text Messages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send-latex-messages" title="How to Send LaTeX Messages" class="md-nav__link">
+    How to Send LaTeX Messages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-import-images-to-chat" title="How to Import Images to Chat" class="md-nav__link">
+    How to Import Images to Chat
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chat-menu-options" title="Chat Menu Options" class="md-nav__link">
+    Chat Menu Options
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-display-all-online-users" title="How to Display All Online Users" class="md-nav__link">
+    How to Display All Online Users
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-logout" title="How to Logout" class="md-nav__link">
+    How to Logout
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-options" title="Message Options" class="md-nav__link">
+    Message Options
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-messages" title="Text Messages" class="md-nav__link">
+    Text Messages
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-copy-a-message-to-the-chat" title="How to Copy a Message to the Chat" class="md-nav__link">
+    How to Copy a Message to the Chat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-message-details" title="How to View Message Details" class="md-nav__link">
+    How to View Message Details
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex-messages" title="LaTeX Messages" class="md-nav__link">
+    LaTeX Messages
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-latex-details" title="How to View LaTeX Details" class="md-nav__link">
+    How to View LaTeX Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-copy-latex" title="How to Copy LaTeX" class="md-nav__link">
+    How to Copy LaTeX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-the-latex-source" title="How to View the LaTeX Source" class="md-nav__link">
+    How to View the LaTeX Source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#images" title="Images" class="md-nav__link">
+    Images
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-change-magnification-of-images" title="How to Change Magnification of Images" class="md-nav__link">
+    How to Change Magnification of Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-image-details" title="How to View Image Details" class="md-nav__link">
+    How to View Image Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-copy-an-image-from-the-chat-to-the-math-editor" title="How to Copy an Image from the Chat to the Math Editor" class="md-nav__link">
+    How to Copy an Image from the Chat to the Math Editor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../math-editor/" title="Math Editor" class="md-nav__link">
+      Math Editor
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+    <label class="md-nav__link" for="nav-2-2">
+      Administrator
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        Administrator
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../admin-guide/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../admin-guide/classroom/" title="Classroom Management" class="md-nav__link">
+      Classroom Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../admin-guide/chatroom/" title="Chatroom Management" class="md-nav__link">
+      Chatroom Management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../admin-guide/ta/" title="TA Management" class="md-nav__link">
+      TA Management
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Developer Documentation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Developer Documentation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/build-tools/gulp/" title="Build Tools" class="md-nav__link">
+      Build Tools
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Libraries
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        Libraries
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3-1" type="checkbox" id="nav-3-3-1">
+    
+    <label class="md-nav__link" for="nav-3-3-1">
+      UI Library
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-3-1">
+        UI Library
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/ui-library/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3-2" type="checkbox" id="nav-3-3-2">
+    
+    <label class="md-nav__link" for="nav-3-3-2">
+      Alert Library
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-3-2">
+        Alert Library
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/alert-library/overview/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-4" type="checkbox" id="nav-3-4">
+    
+    <label class="md-nav__link" for="nav-3-4">
+      API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-4">
+        API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/message-format/" title="Message Format" class="md-nav__link">
+      Message Format
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-4-2" type="checkbox" id="nav-3-4-2">
+    
+    <label class="md-nav__link" for="nav-3-4-2">
+      Classes
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-4-2">
+        Classes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/ui-library/controls/basic-control/" title="UI.BasicControl" class="md-nav__link">
+      UI.BasicControl
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/alert-library/dialogs/alert/" title="Alert.Alert" class="md-nav__link">
+      Alert.Alert
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../developer/alert-library/overlays/notification/" title="Alert.Notification" class="md-nav__link">
+      Alert.Notification
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send-text-messages" title="How to Send Text Messages" class="md-nav__link">
+    How to Send Text Messages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-send-latex-messages" title="How to Send LaTeX Messages" class="md-nav__link">
+    How to Send LaTeX Messages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-import-images-to-chat" title="How to Import Images to Chat" class="md-nav__link">
+    How to Import Images to Chat
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chat-menu-options" title="Chat Menu Options" class="md-nav__link">
+    Chat Menu Options
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-display-all-online-users" title="How to Display All Online Users" class="md-nav__link">
+    How to Display All Online Users
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-logout" title="How to Logout" class="md-nav__link">
+    How to Logout
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-options" title="Message Options" class="md-nav__link">
+    Message Options
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-messages" title="Text Messages" class="md-nav__link">
+    Text Messages
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-copy-a-message-to-the-chat" title="How to Copy a Message to the Chat" class="md-nav__link">
+    How to Copy a Message to the Chat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-message-details" title="How to View Message Details" class="md-nav__link">
+    How to View Message Details
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex-messages" title="LaTeX Messages" class="md-nav__link">
+    LaTeX Messages
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-latex-details" title="How to View LaTeX Details" class="md-nav__link">
+    How to View LaTeX Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-copy-latex" title="How to Copy LaTeX" class="md-nav__link">
+    How to Copy LaTeX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-the-latex-source" title="How to View the LaTeX Source" class="md-nav__link">
+    How to View the LaTeX Source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#images" title="Images" class="md-nav__link">
+    Images
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-change-magnification-of-images" title="How to Change Magnification of Images" class="md-nav__link">
+    How to Change Magnification of Images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-view-image-details" title="How to View Image Details" class="md-nav__link">
+    How to View Image Details
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-copy-an-image-from-the-chat-to-the-math-editor" title="How to Copy an Image from the Chat to the Math Editor" class="md-nav__link">
+    How to Copy an Image from the Chat to the Math Editor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bestlkh/ice-MC2/tree/master/public/docs-src/end-user/user-guide/chatroom.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>Chatroom</h1>
+                
+                <details><summary>Authors</summary><p>Daniel Hugh (hughdani)</p></details><h2 id="how-to-send-text-messages">How to Send Text Messages<a class="headerlink" href="#how-to-send-text-messages" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Enter text into the message box.</li>
+<li>Click <strong>Send</strong>.</li>
+</ol>
+<h2 id="how-to-send-latex-messages">How to Send LaTeX Messages<a class="headerlink" href="#how-to-send-latex-messages" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Click the <strong>TeX</strong> icon to access the LaTeX Editor.</li>
+<li>Enter your LaTeX expression.</li>
+<li>Prepend and append <code class="codehilite">$$</code> to your LaTeX.</li>
+<li>Click <strong>Send</strong>.</li>
+</ol>
+<h2 id="how-to-import-images-to-chat">How to Import Images to Chat<a class="headerlink" href="#how-to-import-images-to-chat" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Click the <strong>Image</strong> icon.</li>
+<li>Select the file you wish to upload.
+</li>
+</ol>
+<h2 id="chat-menu-options">Chat Menu Options<a class="headerlink" href="#chat-menu-options" title="Permanent link">&para;</a></h2>
+<h3 id="how-to-display-all-online-users">How to Display All Online Users<a class="headerlink" href="#how-to-display-all-online-users" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Click the <strong>Chat Options</strong> tab to expand the options.</li>
+<li>Click the <strong>Online Users</strong> button.</li>
+</ol>
+<h3 id="how-to-logout">How to Logout<a class="headerlink" href="#how-to-logout" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Click the <strong>Chat Options</strong> tab to expand the options.</li>
+<li>Click the <strong>Logout</strong> button.</li>
+</ol>
+<h2 id="message-options">Message Options<a class="headerlink" href="#message-options" title="Permanent link">&para;</a></h2>
+<h3 id="text-messages">Text Messages<a class="headerlink" href="#text-messages" title="Permanent link">&para;</a></h3>
+<h4 id="how-to-copy-a-message-to-the-chat">How to Copy a Message to the Chat<a class="headerlink" href="#how-to-copy-a-message-to-the-chat" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on a message that has been sent to chat.</li>
+<li>Click the <strong>Pencil</strong> icon to copy the contents to the message textbox.</li>
+</ol>
+<h4 id="how-to-view-message-details">How to View Message Details<a class="headerlink" href="#how-to-view-message-details" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on a message that has been sent to chat.</li>
+<li>Click the <strong>Ellipsis</strong> to open a window containing message details.</li>
+</ol>
+<h3 id="latex-messages">LaTeX Messages<a class="headerlink" href="#latex-messages" title="Permanent link">&para;</a></h3>
+<h4 id="how-to-view-latex-details">How to View LaTeX Details<a class="headerlink" href="#how-to-view-latex-details" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on an equation that has been sent to chat.</li>
+<li>Click the <strong>Ellipsis</strong> to open a window containing equation details.</li>
+</ol>
+<h4 id="how-to-copy-latex">How to Copy LaTeX<a class="headerlink" href="#how-to-copy-latex" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on an equation that has been sent to chat.</li>
+<li>Click the <strong>Pencil</strong> icon.</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">LaTeX Destination</p>
+<p>The equation will appear in your math editor or chat textbox depending on the origin of the equation.</p>
+</div>
+<h4 id="how-to-view-the-latex-source">How to View the LaTeX Source<a class="headerlink" href="#how-to-view-the-latex-source" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on an equation that has been sent to chat.</li>
+<li>Click the <code class="codehilite">&lt;/&gt;</code> icon.</li>
+<li>A window containing the source will appear.</li>
+</ol>
+<h3 id="images">Images<a class="headerlink" href="#images" title="Permanent link">&para;</a></h3>
+<h4 id="how-to-change-magnification-of-images">How to Change Magnification of Images<a class="headerlink" href="#how-to-change-magnification-of-images" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on an image that has been sent to chat.</li>
+<li>Click the <strong>Magnification Glass</strong> icon.</li>
+<li>Use the <strong>Plus/Minus Magnification Glass</strong> icons to zoom.</li>
+</ol>
+<h4 id="how-to-view-image-details">How to View Image Details<a class="headerlink" href="#how-to-view-image-details" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on an image that has been sent to chat.</li>
+<li>Click the <strong>Ellipsis</strong> to open a window containing image details.</li>
+</ol>
+<h4 id="how-to-copy-an-image-from-the-chat-to-the-math-editor">How to Copy an Image from the Chat to the Math Editor<a class="headerlink" href="#how-to-copy-an-image-from-the-chat-to-the-math-editor" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Click on a image that has been sent to chat.</li>
+<li>Click the <strong>Pencil</strong> icon to make the image appear in the math editor.</li>
+</ol>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../login/" title="Login" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Login
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../math-editor/" title="Math Editor" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Math Editor
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/bestlkh/ice-MC2" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.8eb9be28.js"></script>
+      
+      <script>app.initialize({version:"0.17.3",url:{base:"../../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

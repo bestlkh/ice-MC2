@@ -1,0 +1,57 @@
+site_name: MC² Documentation
+pages:
+  - Home: 'index.md'
+  - User Guide:
+    - End User:
+      - Login: 'end-user/user-guide/login.md'
+      - Chatroom: 'end-user/user-guide/chatroom.md'
+      - Math Editor: 'end-user/user-guide/math-editor.md'
+    - Administrator:
+      - Overview: 'end-user/admin-guide/overview.md'
+      - Classroom Management: 'end-user/admin-guide/classroom.md'
+      - Chatroom Management: 'end-user/admin-guide/chatroom.md'
+      - TA Management: 'end-user/admin-guide/ta.md'
+
+  - Developer Documentation:
+    - Overview: 'developer/overview.md'
+    - Build Tools: 'developer/build-tools/gulp.md'
+    - Libraries:
+      - UI Library:
+        - Overview: 'developer/ui-library/overview.md'
+      - Alert Library:
+        - Overview: 'developer/alert-library/overview.md'
+    - API:
+      - Message Format: 'developer/message-format.md'
+      - Classes:
+        - UI.BasicControl: 'developer/ui-library/controls/basic-control.md'
+        - Alert.Alert: 'developer/alert-library/dialogs/alert.md'
+        - Alert.Notification: 'developer/alert-library/overlays/notification.md'
+
+repo_name: 'bestlkh/ice-MC2'
+repo_url: 'https://github.com/bestlkh/ice-MC2'
+edit_uri: 'tree/master/public/docs-src'
+      
+theme:
+  name: 'material'
+  palette:
+    primary: 'blue'
+    accent: 'cyan'
+  language: 'en'
+
+docs_dir: 'docs-src'
+site_dir: 'docs'
+
+extra:
+  search:
+    language: 'en'
+  social:
+    - type: 'github'
+      link: 'https://github.com/bestlkh/ice-MC2'
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - toc:
+      permalink: true

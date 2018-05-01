@@ -228,7 +228,7 @@ var shortcutIndex = 0;
 var keyHash = new Object();
 var ses = window.Driver.SvgEditorSymbols;
 window.keyHash = keyHash;
-keyHash["a"] = [ ses.lowercase_a, ses.lowercase_alpha, ses.uppercase_a, ses.symbol_for_all, ses.symbol_wedge];
+keyHash["a"] = [ ses.lowercase_a, ses.uppercase_a, ses.lowercase_alpha, ses.symbol_for_all, ses.symbol_wedge];
 keyHash["b"] = [ ses.lowercase_b, ses.uppercase_b, ses.lowercase_beta, ses.symbol_because];
 keyHash["c"] = [ ses.lowercase_c, ses.uppercase_c, ses.symbol_ring_operator, ses.symbol_doublestruck_capital_c];
 keyHash["d"] = [ ses.lowercase_d, ses.uppercase_d, ses.uppercase_delta, ses.lowercase_delta, ses.symbol_partial_differential];
@@ -255,10 +255,37 @@ keyHash["x"] = [ ses.lowercase_x, ses.uppercase_x, ses.lowercase_xi, ses.lowerca
 keyHash["y"] = [ ses.lowercase_y, ses.uppercase_y];
 keyHash["z"] = [ ses.lowercase_z, ses.uppercase_z, ses.symbol_doublestruck_capital_z  , ses.lowercase_zeta];
 
+keyHash["A"] = [ses.uppercase_a];
+keyHash["B"] = [ses.uppercase_b];
+keyHash["C"] = [ses.uppercase_c];
+keyHash["D"] = [ses.uppercase_d];
+keyHash["E"] = [ses.uppercase_e];
+keyHash["F"] = [ses.uppercase_f];
+keyHash["G"] = [ses.uppercase_g];
+keyHash["H"] = [ses.uppercase_h];
+keyHash["I"] = [ses.uppercase_i];
+keyHash["J"] = [ses.uppercase_j];
+keyHash["K"] = [ses.uppercase_k];
+keyHash["L"] = [ses.uppercase_l];
+keyHash["M"] = [ses.uppercase_m];
+keyHash["N"] = [ses.uppercase_n];
+keyHash["O"] = [ses.uppercase_o];
+keyHash["P"] = [ses.uppercase_p];
+keyHash["Q"] = [ses.uppercase_q];
+keyHash["R"] = [ses.uppercase_r];
+keyHash["S"] = [ses.uppercase_s];
+keyHash["T"] = [ses.uppercase_t];
+keyHash["U"] = [ses.uppercase_u];
+keyHash["V"] = [ses.uppercase_v];
+keyHash["W"] = [ses.uppercase_w];
+keyHash["X"] = [ses.uppercase_x];
+keyHash["Z"] = [ses.uppercase_z];
+
+
 keyHash["&"] = [ ses.symbol_ampersand ];
 keyHash["^"] = [ ses.symbol_asciicircum ];
 keyHash["~"] = [ ses.symbol_asciitilde];
-keyHash["*"] = [ ses.symbol_asterisk, ses.symbol_multiplication_sign ];
+keyHash["*"] = [ ses.symbol_multiplication_sign, ses.symbol_asterisk ];
 keyHash["@"] = [ ses.symbol_at ];
 keyHash["'\'"] = [ses.symbol_backslash ];
 keyHash["|"] = [ses.symbol_bar];
@@ -10041,12 +10068,13 @@ var moveCursorAbs = this.moveCursorAbs;
       return;
     }
 
-
-    var shortcuts = keyHash[key].map(function(x) {
-      var data = window.Driver.Symbols[x];
-      data['key'] = x;
-      return data
-    });
+    if (keyHash[key]) {
+      var shortcuts = keyHash[key].map(function(x) {
+        var data = window.Driver.Symbols[x];
+        data['key'] = x;
+        return data
+      });
+    }
   
     var newChar = false;
     var shortcutsVisible = document.getElementById("floatingContent").style.display;

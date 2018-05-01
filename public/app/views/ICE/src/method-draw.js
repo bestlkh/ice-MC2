@@ -4332,7 +4332,11 @@ var SOTP = 0;
                                 svgCanvas.keyPressed('9');
                             },
                         },
-                        //{key: ['shift+8', true], fn: function(){svgCanvas.keyPressed('×');}},
+                        {
+                            key: ['shift+8', true], fn: function() {
+                                svgCanvas.keyPressed('*');
+                            }
+                        },
                         {
                             key: [String.fromCharCode(190), true],
                             fn: function() {
@@ -4340,9 +4344,10 @@ var SOTP = 0;
                             },
                         },
                         {
-                            key: [String.fromCharCode(191), true],
+                            key: ['slash', true],
                             fn: function() {
-                                svgCanvas.keyPressed('//');
+                                console.log(1)
+                                svgCanvas.keyPressed('/');
                             },
                         },
                         {
@@ -4418,11 +4423,6 @@ var SOTP = 0;
                         },
                         // end of Firefox specific binds
                         {
-                            key: ['*', true], fn: function() {
-                                svgCanvas.keyPressed('×');
-                            },
-                        },
-                        {
                             key: '/', fn: function() {
                                 svgCanvas.keyPressed('/');
                             },
@@ -4435,21 +4435,15 @@ var SOTP = 0;
                             },
                         },
                         {
-                            key: ['shift+' + String.fromCharCode(187), true],
+                            key: ['shift+[' + String.fromCharCode(190), true],
                             fn: function() {
-                                svgCanvas.keyPressed('+');
+                                svgCanvas.keyPressed('{');
                             },
                         },
                         {
-                            key: ['shift+' + String.fromCharCode(188), true],
+                            key: ['shift+]' + String.fromCharCode(190), true],
                             fn: function() {
-                                svgCanvas.keyPressed('<');
-                            },
-                        },
-                        {
-                            key: ['shift+' + String.fromCharCode(190), true],
-                            fn: function() {
-                                svgCanvas.keyPressed('>');
+                                svgCanvas.keyPressed('}');
                             },
                         },
                         //    {key: ['shift+'+String.fromCharCode(60), true], fn: function(){svgCanvas.keyPressed('<');}},
@@ -4525,6 +4519,9 @@ var SOTP = 0;
                                     }
 
                                     $.each(keyval.split('/'), function(i, key) {
+                                        if (key == "slash") {
+                                            key = "/";
+                                        }
                                         $(document).bind('keydown', key, function(e) {
                                             fn();
                                             if (pd) {

@@ -26,8 +26,8 @@ class SvgEditorSymbolElement extends SvgEditorElement {
             super(newpath.getBBox().width, newpath.getBBox().height, x, y);
             this._symbol     = symbol;
             this._symbolData = SymbolData[symbol].d;
-            this._bottomScale = SymbolData[symbol].bottomScale;
-            console.log(this._bottomScale)
+            this._baseY = SymbolData[symbol].baseY;
+            console.log(this._baseY)
         } else {
             throw new SvgEditorDriverSymbolNotDefinedError();
         }

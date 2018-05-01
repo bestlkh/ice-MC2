@@ -41,13 +41,11 @@ class SvgEditorDriver {
                 let size = element.getSize();
                 let loc = element.getPosition();
                 // let xScale = .25;// SvgEditorDriver.getRelativeScale(size.width, 12);
-                this._scaleElement(element, 1.2);
                 this._moveElementTo(element, config.x, config.y);
                 loc = element.getPosition();
                 size = element.getSize();
-                if (element._bottomScale !== undefined) {
-                    console.log(element._bottomScale, size.height, size.height * element._bottomScale)
-                    this._moveElement(element, 0, size.height * element._bottomScale)
+                if (element._baseY !== undefined) {
+                    this._moveElement(element, 0, size.height * element._baseY)
                 }
                 break;
             // It is a image element

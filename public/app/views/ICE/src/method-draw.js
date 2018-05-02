@@ -2338,7 +2338,6 @@ var SOTP = 0;
                         svgCanvas.moveCursor(-1.9, 0);
                     }
                     if (path.getNodePoint()) {
-                        console.log('delpat');
                         path.deletePathNode();
                         // svgCanvas.resetSelection();
                         svgCanvas.clearSelection();
@@ -4344,9 +4343,20 @@ var SOTP = 0;
                             },
                         },
                         {
+                            key: ['shift+'+String.fromCharCode(190), true],
+                            fn: function() {
+                                svgCanvas.keyPressed('>');
+                            },
+                        },
+                        {
+                            key: ["shift+"+String.fromCharCode(188), true],
+                            fn: function() {
+                                svgCanvas.keyPressed('<');
+                            },
+                        },
+                        {
                             key: ['slash', true],
                             fn: function() {
-                                console.log(1)
                                 svgCanvas.keyPressed('/');
                             },
                         },
@@ -4366,11 +4376,6 @@ var SOTP = 0;
                         {
                             key: ['shift+.', true], fn: function() {
                                 svgCanvas.keyPressed('>');
-                            },
-                        },
-                        {
-                            key: '.', fn: function() {
-                                svgCanvas.keyPressed('.');
                             },
                         },
                         {
@@ -4435,19 +4440,25 @@ var SOTP = 0;
                             },
                         },
                         {
-                            key: ['shift+[' + String.fromCharCode(190), true],
+                            key: ['shift+' + String.fromCharCode(187), true],
+                            fn: function() {
+                                svgCanvas.keyPressed('+');
+                            },
+                        },
+                        {
+                            key: ['shift+[', true],
                             fn: function() {
                                 svgCanvas.keyPressed('{');
                             },
                         },
                         {
-                            key: ['shift+]' + String.fromCharCode(190), true],
+                            key: ['shift+]', true],
                             fn: function() {
                                 svgCanvas.keyPressed('}');
                             },
                         },
-                        //    {key: ['shift+'+String.fromCharCode(60), true], fn: function(){svgCanvas.keyPressed('<');}},
-                        //    {key: [String.fromCharCode(62), true], fn: function(){svgCanvas.keyPressed('>');}},
+                           {key: ['shift+'+String.fromCharCode(60), true], fn: function(){svgCanvas.keyPressed('<');}},
+                           {key: [String.fromCharCode(62), true], fn: function(){svgCanvas.keyPressed('>');}},
 
 
                         // MDP - End

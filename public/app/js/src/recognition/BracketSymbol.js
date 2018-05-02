@@ -14,14 +14,12 @@ class BracketSymbol extends Symbol {
     constructor(x, y, width, height, value) {
         super(x, y, width, height, value, SymbolTypes.BRACKET);
         this.bracketType = BracketTypes.CLOSE;
-        const BRACKET = ["lbracket", "(", ")", "rbracket"]; // organization needed
+        this.x = this.maxX;
+        const BRACKET = ["lbracket", "(", "symbol_parenleft", "symbol_left_square_bracket", "symbol_right_square_bracket", ")", "rbracket", "symbol_parenright"]; // organization needed
         if (BRACKET.indexOf(value) < BRACKET.length / 2) {
-            this.minX -= width;
-            this.maxX -= width;
-            this.x -= width;
+            this.x -= this.minX;
             this.bracketType = BracketTypes.OPEN;
-        }
-        ;
+        } 
     }
 }
 module.exports = BracketSymbol;

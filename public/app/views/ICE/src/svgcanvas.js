@@ -745,8 +745,8 @@ var getIntersectionList = this.getIntersectionList = function(rect) {
     var i = curBBoxes.length;
     while (i--) {
       if(!rubberBBox.width || !rubberBBox.width) continue;
-  //    if (svgedit.math.rectsIntersect(rubberBBox, curBBoxes[i].bbox))  {//**MDP
-      if (svgedit.math.rectContained(rubberBBox, curBBoxes[i].bbox))  {
+  //    if (svgedit.math.rectContained(rubberBBox, curBBoxes[i].bbox))  {//**MDP
+      if (svgedit.math.rectsIntersect(rubberBBox, curBBoxes[i].bbox))  {
         if(curBBoxes[i].elem.id=="math_cursor") continue; //**MDP Don't select Cursor
         if(curBBoxes[i].elem.id.substring(0, 4) === "snap") continue; // dont select snap
         resultList.push(curBBoxes[i].elem);
@@ -3546,8 +3546,8 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
           }
           if(selected)
           {
-            var newX = getBBox(selected).x +  getBBox(selected).width + 1;
-            var newY = getBBox(selected).y;
+            var newX = getBBox(selected).x +  getBBox(selected).width + 3;
+            var newY = getBBox(selected).y - 5;
             placeMathCursor(newX, newY);
             svgCanvas.keyPressed("");
           }
@@ -3573,10 +3573,11 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
               if(0 <= diffX && diffX < widthThreshold && 0 <= diffY && diffY < heightThreshold) {
                 var x = snapX + 1, y = snapY;
                 if (type == 'contains') {
-                  y = snapY + getBBox(snap).height/2 - 10;
-                  x = snapX + 10 + ((getBBox(snap).width - 20)/11);
+                  y = snapY - 5;
+                  console.log(y)
+                  x = snapX  + getBBox(snap).width + 3;
                 }
-                if (type == 'contains' || type == 'below' || type == 'above') {
+                if (type == 'below' || type == 'above') {
                   if (diffX > getBBox(snap).width/3) {
                     x += getBBox(snap).width/3;
                   }
@@ -9180,13 +9181,11 @@ this.moveSelectedElements = function(dx, dy, undoable, elements) {
       if (!elementIn)
         selectorManager.requestSelector(selected).resize();
     }
-    console.log(1);
   }
   if (!batchCmd.isEmpty()) {
     if (undoable)
       addCommandToHistory(batchCmd);
     call("changed", elements);
-    console.log(123);
     return batchCmd;
   }
 };
@@ -10097,7 +10096,7 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
 
-    if(key in keyHash) {
+    if(key in keyHash && keyHash[key].length > 1) {
       clearTimeout(shortcutTimer);
       ToggleFloatingLayer('floatingContent',1);
       shortcutTimer = setTimeout(function(){
@@ -10196,7 +10195,7 @@ var moveCursorAbs = this.moveCursorAbs;
     }
     parentNewText.appendChild(cloneNewText);
     newText = cloneNewText;
-    math_cursor.setAttribute('x', bbox.x + bbox.width + 1);
+    math_cursor.setAttribute('x', bbox.x + bbox.width + 3);
     math_cursor.setAttribute('opacity', 1);
 		//selectOnly([newText]);
 		//clearSelection();

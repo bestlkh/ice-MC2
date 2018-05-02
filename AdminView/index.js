@@ -634,6 +634,7 @@ AdminView.prototype.setupApi = function () {
         this.db.collection("chatHistory").findOne({owner: req.session.user.username, className: req.params.name, sessionId: parseInt(req.params.id), deleted: null}, {_id: 0}, function (err, session) {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
+            replaceImages(session.messages);
             res.json(session);
         });
     }.bind(this));
@@ -666,6 +667,7 @@ AdminView.prototype.setupApi = function () {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Disposition': 'attachment; filename=messages-'+req.params.name+'.csv'
             });
+            replaceImages(messages);
             return csv.stringify(messages, {columns: messageColumns, header: true}).pipe(res);
         })
     }.bind(this));
@@ -682,9 +684,17 @@ AdminView.prototype.setupApi = function () {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Disposition': 'attachment; filename=messages-'+session.roomName+'-'+session.sessionId+'.csv'
             });
+            replaceImages(session.messages);
             return csv.stringify(session.messages, {columns: messageColumns, header: true}).pipe(res);
         })
     }.bind(this));
+
+    var replaceImages = function (messages) {
+        messages.forEach(function (message) {
+            if (message.msg.startsWith("[mc2-image]"))
+                message.msg = "[mc2-image]";
+        });
+    };
 
     this.app.get("/v1/api/classrooms/:name/sessions/students.csv", checkAuth, function (req, res) {
         this.db.collection("chatHistory").find({owner: req.session.user.username, className: req.params.name, deleted: null}, {_id: 0}).toArray(function (err, sessions) {
@@ -729,6 +739,14 @@ AdminView.prototype.setupApi = function () {
             });
             return csv.stringify(result, {header: true}).pipe(res);
         })
+    }.bind(this));
+
+    this.app.get("/join/:name", function (req, res) {
+        this.db.collection("urls").findOne({name: req.params.name}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (result) return res.redirect(result.redirect);
+            res.redirect("/");
+        });
     }.bind(this));
 
 };

@@ -741,6 +741,14 @@ AdminView.prototype.setupApi = function () {
         })
     }.bind(this));
 
+    this.app.get("/join/:name", function (req, res) {
+        this.db.collection("urls").findOne({name: req.params.name}, function (err, result) {
+            if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
+            if (result) return res.redirect(result.redirect);
+            res.redirect("/");
+        });
+    }.bind(this));
+
 };
 
 AdminView.prototype.setupSocket = function () {

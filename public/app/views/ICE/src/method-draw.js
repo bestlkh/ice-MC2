@@ -2290,25 +2290,50 @@ var SOTP = 0;
                     }
                 };
 
+                let mobileSendEquation = function() {
+                    $("#send-sheet-equation-button").on('click touchstart', function() {
+                        clickSwap();
+                        let tex = window.Tool.RecognitionTool.getTex();
+                        raw_message = tex;
+                        raw_message += '\n-----MC2 BEGIN ATTACHMENT-----\n';
+                        let message_attachment = {
+                            'svg-source': btoa(unescape(encodeURIComponent($('#svgcontent').find('.active-layer').html()))),
+                        };
+                        raw_message += btoa(JSON.stringify(message_attachment));
+                        raw_message += '\n-----MC2 END ATTACHMENT-----\n';
+                        parent.document.getElementById('textArea').value = raw_message;
+
+                        // simulate sending a message using the chatroom textbox
+                        parent.document.getElementById('send-message-button').click();
+                    });
+                };
+                mobileSendEquation();
+
+                let updateLatexPreview = function() {
+                    let tex = window.Tool.RecognitionTool.getTex();
+                    parent.window.svg_source = btoa(unescape(encodeURIComponent($('#svgcontent').find('.active-layer').html())));
+                    parent.window.previewEditor.setValue(tex);
+                }
+
+                // latex preview live reloading watcher
+                let autoReload = function () {
+                    if ($('#svgcanvas')[0]) {
+                        let previewTargetNode = $('#svgcanvas')[0];
+                        let previewConfig = {childList: true, subtree: true};
+                        let previewCb = updateLatexPreview;
+
+                        let previewObserver = new MutationObserver(previewCb);
+                        if (previewTargetNode) {
+                            previewObserver.observe(previewTargetNode, previewConfig);                
+                        }
+                    }
+                }
+                autoReload();
+
                 var clickConvert = function() {
                     var getBST = window.Tool.RecognitionTool.parse;
                     if (toolButtonClick('#tool_convert')) {
-                        var tex = window.Tool.RecognitionTool.getTex();
-                        if ($(window).width() <= 732) {
-                            clickSwap();
-                            raw_message = tex;
-                            raw_message += '\n-----MC2 BEGIN ATTACHMENT-----\n';
-                            var message_attachment = {
-                                'svg-source': btoa(unescape(encodeURIComponent($('#svgcontent').find('.active-layer').html()))),
-                            };
-                            raw_message += btoa(JSON.stringify(message_attachment));
-                            raw_message += '\n-----MC2 END ATTACHMENT-----\n';
-                            parent.document.getElementById('textArea').value = raw_message;
-                            parent.document.getElementById('send-message-button').click();
-                        } else {
-                            parent.window.svg_source = btoa(unescape(encodeURIComponent($('#svgcontent').find('.active-layer').html())));
-                            parent.window.previewEditor.setValue(tex);
-                        }
+                        updateLatexPreview();   
                     }
                 };
 
@@ -5515,6 +5540,7 @@ var SOTP = 0;
     $(methodDraw.init);
 
     //methodDraw.placeMathCursor();
+
 
 
 })();

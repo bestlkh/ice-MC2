@@ -1,4 +1,4 @@
-var Preview = {
+let Preview = {
     delay: 100, // delay after keystroke before updating
     preview: null, // filled in by Init below
     buffer: null, // filled in by Init below
@@ -18,11 +18,13 @@ var Preview = {
     //  Switch the buffer and preview, and display the right one.
     //
     SwapBuffers: function() {
-        var buffer = this.preview;
-        var preview = this.buffer;
+        let buffer = this.preview;
+        let preview = this.buffer;
         this.buffer = buffer; this.preview = preview;
-        buffer.style.display = 'none';
-        preview.style.display = '';
+        if (buffer) {                
+            buffer.style.display = 'none';
+            preview.style.display = '';
+        }
     },
     //
     //  This gets called when a key is pressed in the textarea.
@@ -49,18 +51,25 @@ var Preview = {
     CreatePreview: function() {
         Preview.timeout = null;
         if (this.mjPending) return;
-        var text = sanitizeHtml(previewEditor.getValue());
+        let text = sanitizeHtml(previewEditor.getValue());
         if (text === this.oldtext) return;
         if (this.mjRunning) {
             this.mjPending = true;
             MathJax.Hub.Queue(['CreatePreview', this]);
         } else {
-            this.buffer.innerHTML = this.oldtext = text;
-            this.mjRunning = true;
-            MathJax.Hub.Queue(
-                ['Typeset', MathJax.Hub, this.buffer],
-                ['PreviewDone', this]
-            );
+            if (!this.buffer) {
+                MathJax.Hub.Queue(
+                    ['Typeset', MathJax.Hub, this.buffer],
+                    ['PreviewDone', this]
+                );
+            } else {
+                this.buffer.innerHTML = this.oldtext = text;
+                this.mjRunning = true;
+                MathJax.Hub.Queue(
+                    ['Typeset', MathJax.Hub, this.buffer],
+                    ['PreviewDone', this]
+                );
+            }
         }
     },
     //

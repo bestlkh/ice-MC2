@@ -40,7 +40,6 @@ class SvgEditorDriver {
                 this._canvas.recalculateDimensions(element.dom);
                 let size = element.getSize();
                 let loc = element.getPosition();
-                // let xScale = .25;// SvgEditorDriver.getRelativeScale(size.width, 12);
                 this._moveElementTo(element, config.x, config.y);
                 loc = element.getPosition();
                 size = element.getSize();

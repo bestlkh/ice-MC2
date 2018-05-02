@@ -27,7 +27,6 @@ class SvgEditorSymbolElement extends SvgEditorElement {
             this._symbol     = symbol;
             this._symbolData = SymbolData[symbol].d;
             this._baseY = SymbolData[symbol].baseY;
-            console.log(this._baseY)
         } else {
             throw new SvgEditorDriverSymbolNotDefinedError();
         }

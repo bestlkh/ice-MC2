@@ -635,6 +635,7 @@ AdminView.prototype.setupApi = function () {
             if (err) return res.status(500).json({status: 500, message: "Server error, could not resolve request"});
 
             replaceImages(session.messages);
+            replaceTimestamp(session.messages);
             res.json(session);
         });
     }.bind(this));
@@ -668,6 +669,7 @@ AdminView.prototype.setupApi = function () {
                 'Content-Disposition': 'attachment; filename=messages-'+req.params.name+'.csv'
             });
             replaceImages(messages);
+            replaceTimestamp(messages);
             return csv.stringify(messages, {columns: messageColumns, header: true}).pipe(res);
         })
     }.bind(this));
@@ -685,6 +687,7 @@ AdminView.prototype.setupApi = function () {
                 'Content-Disposition': 'attachment; filename=messages-'+session.roomName+'-'+session.sessionId+'.csv'
             });
             replaceImages(session.messages);
+            replaceTimestamp(session.messages);
             return csv.stringify(session.messages, {columns: messageColumns, header: true}).pipe(res);
         })
     }.bind(this));
@@ -693,6 +696,12 @@ AdminView.prototype.setupApi = function () {
         messages.forEach(function (message) {
             if (message.msg.startsWith("[mc2-image]"))
                 message.msg = "[mc2-image]";
+        });
+    };
+
+    var replaceTimestamp = function (messages) {
+        messages.forEach(function (message) {
+            message.timestamp = moment(message.timestamp).format("MM/DD/YYYY hh:mm:ss");
         });
     };
 

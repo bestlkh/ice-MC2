@@ -51,9 +51,9 @@ module.exports =  {
         'lim': ' \\lim ',
         '->': '\\to '
     },
-    BRACKET: ["lbracket", "(", ")", "rbracket"],
-    LINE: ["fraction", "—"],
-    ROOT: ["root"],
-    LIMIT: ["sum", "∑", "integral", "∫", "lim"],
-    OPERATOR: ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→']
+    BRACKET: ["lbracket", "(", "symbol_parenleft", "symbol_left_square_bracket", "symbol_right_square_bracket", ")", "rbracket", "symbol_parenright"],
+    LINE: ["fraction", "—", "symbol_", "symbol_hyphen"],
+    ROOT: ["root", "SQRT"],
+    LIMIT: ["sum", "∑", "integral", "∫", "lim", "uppercase_sigma", "symbol_integral"],
+    OPERATOR: ["+", "±", "∓", '<', '>', '≤', '≥', '=', '×', '→', "symbol_plusminus_sign", "symbol_plus", "symbol_greater", "symbol_less", "symbol_greaterthan_or_equal_to", "symbol_lessthan_or_equal_to", "symbol_combining_double_rightwards_arrow_below"]
 };

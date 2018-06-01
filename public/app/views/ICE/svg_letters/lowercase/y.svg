@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN SMALL LETTER Y' (U+0079)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M141.75 236.6719 L84.6562 388.4062 Q84.5156 388.6875 84.375 389.3906 Q76.2188 414.7031 65.3203 430.5234 Q54.4219 446.3438 34.3125 446.3438 Q27.5625 446.3438 17.8594 443.5312 L15.3281 419.625 Q22.6406 421.875 29.6719 421.875 Q43.7344 421.875 49.1484 414.1406 Q54.5625 406.4062 61.3125 386.1562 L4.6406 236.6719 L31.9219 236.6719 L67.0781 334.4062 Q70.1719 343.4062 73.6875 357.6094 L74.25 357.6094 Q77.7656 341.2969 83.25 326.5312 L116.0156 236.6719 L141.75 236.6719 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

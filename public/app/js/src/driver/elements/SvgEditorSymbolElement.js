@@ -14,18 +14,19 @@ class SvgEditorSymbolElement extends SvgEditorElement {
 
     /**
      * Construct the symbol element
-     * @param width
-     * @param height
      * @param x
      * @param y
      * @param symbol
      */
-    constructor(width, height, x, y, symbol = SvgEditorSymbols.SUM){
-        super(width, height, x, y);
+    constructor(x, y, symbol){
         // Check to see if symbol is defined
         if(SymbolData[symbol]){
+            let newpath = document.createElementNS('http://www.w3.org/2000/svg',"path"); 
+            newpath.setAttributeNS(null, 'd', SymbolData[symbol].d);
+            super(newpath.getBBox().width, newpath.getBBox().height, x, y);
             this._symbol     = symbol;
-            this._symbolData = SymbolData[symbol];
+            this._symbolData = SymbolData[symbol].d;
+            this._baseY = SymbolData[symbol].baseY;
         } else {
             throw new SvgEditorDriverSymbolNotDefinedError();
         }

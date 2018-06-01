@@ -51,14 +51,15 @@ var SvgEditorDriver = function () {
                         }
                     });
                     // Set element DOM size and position
-                    var size = element.getSize();
-                    var xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
-                    var yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                    element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
-                    this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
+                    // let size = element.getSize();
+                    // let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
+                    // let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
+                    // element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
+                    element.dom.setAttribute("transform", "scale(" + 0.1 + "," + 0.1 + ")");
                     var position = element.getPosition();
                     // Move element to correct position, third parameter is false so this action cannot be undone
                     this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
+                    this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
                     break;
                 // It is a image element
                 case SvgEditorElementTypes.IMAGE:

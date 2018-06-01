@@ -1,3 +1,3 @@
 window.Tool = {
-    RecognitionTool: require('./RecognitionTool')
+    RecognitionTool: require('./RecognitionTool'),
 };

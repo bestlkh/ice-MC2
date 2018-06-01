@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN SMALL LETTER U' (U+0075)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M140.2031 385.875 L117.5625 385.875 L117.5625 363.9375 L116.8594 363.9375 Q99.7031 389.3906 70.0312 389.3906 Q54.4219 389.3906 41.1328 382.1484 Q27.8438 374.9062 23.4141 362.1797 Q18.9844 349.4531 18.9844 329.2031 L18.9844 236.6719 L44.2969 236.6719 L44.2969 319.3594 Q44.2969 339.1875 46.1953 347.7656 Q48.0938 356.3438 56.1094 361.8984 Q64.125 367.4531 75.2344 367.4531 Q89.5781 367.4531 102.2344 357.5391 Q114.8906 347.625 114.8906 316.4062 L114.8906 236.6719 L140.2031 236.6719 L140.2031 385.875 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

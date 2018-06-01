@@ -6,8 +6,7 @@ const RegionTypes = require('./enums/RegionTypes');
 const Constant = require('./constant');
 const SymbolFactory = require('./SymbolFactory');
 
-const CENTRED = ["a", "c", "e", "j", "m", "n", "o", "r", "s", "u", "v", "w", "x", "z"];
-const DECENDING = ["g", "p", "q", "y"]; // need these in when we have svgs for characters ready
+const Symbols = require('../driver/data/Symbols');
 
 class RecognitionTool {
     /**
@@ -217,25 +216,27 @@ class RecognitionTool {
                     ls[temp2].setWall(oldWall);
                     symbol = ls[temp2];
                     var parentSize = parent.symbols.length;
-                    // if (symbol.value === "m" && parentSize >= 2 && parent.symbols[parentSize - 1].value === "i" && parent.symbols[parentSize - 2].value === "l") {
-                    //     var iSymbol = parent.symbols[parentSize - 1];
-                    //     var lSymbol = parent.symbols[parentSize - 2];
-                    //     var newX = lSymbol.minX;
-                    //     var newY = lSymbol.minY;
-                    //     var newWidth = symbol.x + symbol.width - newX;
-                    //     var newHeight = lSymbol.height;
-                    //     var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
-                    //     newLimitSymbol.setWall(oldWall);
-                    //     newLimitSymbol.subSymbols = [lSymbol, iSymbol, symbol]; // fix when moving aronud actual symbols.
-                    //     symbol = newLimitSymbol;
-                    //     ls[temp2] = symbol;
-                    //     //console.log(ls.popls.indexOf(parent.symbols[parentSize -2]))
-                    //     //console.log(ls.indexOf(parent.symbols[parentSize -1]))
-                    //     stack.splice(stack.indexOf([ls.indexOf(lSymbol), lSymbol]), 1);
-                    //     stack.splice(stack.indexOf([ls.indexOf(iSymbol), iSymbol]), 1);
-                    //     parent.symbols.pop();
-                    //     parent.symbols.pop();
-                    // }
+                    /** 
+                       if (symbol.value === "m" && parentSize >= 2 && parent.symbols[parentSize - 1].value === "i" && parent.symbols[parentSize - 2].value === "l") {
+                        var iSymbol = parent.symbols[parentSize - 1];
+                        var lSymbol = parent.symbols[parentSize - 2];
+                        var newX = lSymbol.minX;
+                        var newY = lSymbol.minY;
+                        var newWidth = symbol.x + symbol.width - newX;
+                        var newHeight = lSymbol.height;
+                        var newLimitSymbol = new LimitSymbol(newX, newY, newWidth, newHeight, "lim");
+                        newLimitSymbol.setWall(oldWall);
+                        newLimitSymbol.subSymbols = [lSymbol, iSymbol, symbol]; // fix when moving aronud actual symbols.
+                        symbol = newLimitSymbol;
+                        ls[temp2] = symbol;
+                        //console.log(ls.popls.indexOf(parent.symbols[parentSize -2]))
+                        //console.log(ls.indexOf(parent.symbols[parentSize -1]))
+                        stack.splice(stack.indexOf([ls.indexOf(lSymbol), lSymbol]), 1);
+                        stack.splice(stack.indexOf([ls.indexOf(iSymbol), iSymbol]), 1);
+                        parent.symbols.pop();
+                        parent.symbols.pop();
+                    }
+                    */
                     parent.symbols.push(symbol);
                     stack.push([temp2, symbol]);
                     ls[temp1].wall.right = ls[temp2].minX;
@@ -272,8 +273,8 @@ class RecognitionTool {
                     var maxX = symbol.maxX;
                     var minY = symbol.minY;
                     var maxY = symbol.maxY;
-                    var upperThreshold = minY + 2/5 * (maxY - minY);
-                    var lowerThreshold = maxY - 2/5 * (maxY - minY);
+                    var upperThreshold = minY + 2/7 * (maxY - minY);
+                    var lowerThreshold = maxY - 2/7 * (maxY - minY);
 
                     var above = [[minX, minY], [maxX, top], RegionTypes.ABOVE];
                     var below = [[minX, bottom], [maxX, maxY], RegionTypes.BELOW];
@@ -330,7 +331,7 @@ class RecognitionTool {
         var symbol = bst;
         var type = bst.type;
         if (type === SymbolTypes.LIMIT) {
-            result += Constant.TEX_TEXT[value] + " ";
+            result += (Symbols[value] ? Symbols[value].tex : Constant.TEX_TEXT[value]) + " ";
             if(bst.hasAnyBottom())
                 result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.BLEFT])
                             + RecognitionTool.getTex(bst.region[RegionTypes.BELOW])
@@ -369,7 +370,7 @@ class RecognitionTool {
 
 
         } else if (type === SymbolTypes.ROOT) {
-            result += Constant.TEX_TEXT[value] + "{" + RecognitionTool.getTex(bst.region[RegionTypes.CONTAINS]) + "} ";
+            result += (Symbols[value] ? Symbols[value].tex : Constant.TEX_TEXT[value]) + "{" + RecognitionTool.getTex(bst.region[RegionTypes.CONTAINS]) + "} ";
             if (bst.region[RegionTypes.SUPER].hasElement()) {
                 result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) +"} ";
             }
@@ -377,7 +378,7 @@ class RecognitionTool {
                 result += "_{" + RecognitionTool.getTex(bst.region[RegionTypes.SUBSC]) +"} ";
             }
         } else if (type === SymbolTypes.BRACKET) {
-            result += Constant.TEX_TEXT[value];
+            result += (Symbols[value] ? Symbols[value].tex : Constant.TEX_TEXT[value]);
             if (symbol.bracketType == Constant.BRACKET_TYPES.CLOSE) {
                 if (bst.region[RegionTypes.SUPER].hasElement()) {
                     result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) +"}";
@@ -387,9 +388,9 @@ class RecognitionTool {
                 }
             }
         } else if (type == SymbolTypes.OPERATOR) {
-            result += Constant.TEX_TEXT[value];
+            result += (Symbols[value] ? Symbols[value].tex : Constant.TEX_TEXT[value]);
         } else {
-            result += value;
+            result += Symbols[value].tex;
             if (bst.region[RegionTypes.SUPER].hasElement()) {
                 result += "^{" + RecognitionTool.getTex(bst.region[RegionTypes.SUPER]) +"}";
             }

@@ -32,19 +32,20 @@ class SvgEditorDriver {
                     "element": "path",
                     "curStyles": true,
                     "attr": {
+                        "stroke-width": 0,
                         "d" : element.getPathData(),
                         "id": element.id,
                     }
                 });
-                // Set element DOM size and position
+                this._canvas.recalculateDimensions(element.dom);
                 let size = element.getSize();
-                let xScale = SvgEditorDriver.getRelativeScale(size.width, config.width);
-                let yScale = SvgEditorDriver.getRelativeScale(size.height, config.height);
-                element.dom.setAttribute("transform", "scale(" + xScale + "," + yScale + ")");
-                this._canvas.recalculateDimensions(element.dom); // TODO: Still need to do proper scaling function
-                let position = element.getPosition();
-                // Move element to correct position, third parameter is false so this action cannot be undone
-                this._canvas.moveSelectedElements(config.x - position.x, config.y - position.y, false, [element.dom]);
+                let loc = element.getPosition();
+                this._moveElementTo(element, config.x, config.y);
+                loc = element.getPosition();
+                size = element.getSize();
+                if (element._baseY !== undefined) {
+                    this._moveElement(element, 0, size.height * element._baseY)
+                }
                 break;
             // It is a image element
             case SvgEditorElementTypes.IMAGE:
@@ -73,6 +74,65 @@ class SvgEditorDriver {
     }
 
 
+    /**
+     * Scale an element with given scale
+     * @param element
+     * @param xScale
+     * @param yScale
+     */
+    _scaleElement(element, xScale, yScale=xScale) {
+        let loc = element.getPosition();
+        let tlist = this._canvas.getTransformList(element.dom);
+        let svgroot = this._canvas.getRootElem();
+        let translateOrigin = svgroot.createSVGTransform(),
+            scale = svgroot.createSVGTransform(),
+            translateBack = svgroot.createSVGTransform();
+        translateOrigin.setTranslate(-loc.x, -loc.y);
+        scale.setScale(xScale, yScale);
+        translateBack.setTranslate(loc.x, loc.y);
+        tlist.appendItem(translateBack);
+        tlist.appendItem(scale);
+        tlist.appendItem(translateOrigin);
+        canv.recalculateDimensions(element.dom);
+    }
+
+    /**
+     * Move element to given x and y
+     * @param element 
+     * @param {*} x 
+     * @param {*} y 
+     */
+    _moveElementTo(element, x, y) {
+        let loc = element.getPosition();
+        let tlist = this._canvas.getTransformList(element.dom);
+        let svgroot = this._canvas.getRootElem();
+        let translateOrigin = svgroot.createSVGTransform(),
+            scale = svgroot.createSVGTransform(),
+            translateBack = svgroot.createSVGTransform();
+        translateOrigin.setTranslate(-loc.x, -loc.y);
+        scale.setScale(1, 1);
+        translateBack.setTranslate(x, y);
+        tlist.appendItem(translateBack);
+        tlist.appendItem(scale);
+        tlist.appendItem(translateOrigin);
+        canv.recalculateDimensions(element.dom);
+    }
+
+    _moveElement(element, dx, dy) {
+        let tlist = this._canvas.getTransformList(element.dom);
+        let svgroot = this._canvas.getRootElem();
+        let translateOrigin = svgroot.createSVGTransform(),
+            scale = svgroot.createSVGTransform(),
+            translateBack = svgroot.createSVGTransform();
+        translateOrigin.setTranslate(dx, dy);
+        scale.setScale(1, 1);
+        translateBack.setTranslate(0, 0);
+        tlist.appendItem(translateBack);
+        tlist.appendItem(scale);
+        tlist.appendItem(translateOrigin);
+        canv.recalculateDimensions(element.dom);
+    }
+    
     /**
      * Find a element by its ID.
      * @param id

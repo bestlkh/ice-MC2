@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'LATIN CAPITAL LETTER C' (U+0043)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M196.7344 320.4844 Q187.7344 355.2188 165.3047 372.3047 Q142.875 389.3906 111.5156 389.3906 Q60.8906 389.3906 37.7578 357.6797 Q14.625 325.9688 14.625 281.3906 Q14.625 232.0312 41.8359 204.1172 Q69.0469 176.2031 111.7969 176.2031 Q141.8906 176.2031 163.2656 191.5312 Q184.6406 206.8594 193.2188 236.3906 L166.5 242.7188 Q159.75 221.2031 145.9688 210.375 Q132.1875 199.5469 111.5156 199.5469 Q77.7656 199.5469 60.3281 221.6953 Q42.8906 243.8438 42.8906 281.1094 Q42.8906 324.1406 61.2422 345.0938 Q79.5938 366.0469 109.125 366.0469 Q133.3125 366.0469 148.4297 352.9688 Q163.5469 339.8906 169.5938 313.5938 L196.7344 320.4844 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

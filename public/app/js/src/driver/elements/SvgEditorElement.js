@@ -7,7 +7,7 @@ class SvgEditorElement {
      * @param x
      * @param y
      */
-    constructor(width, height, x = 0, y = 0){
+    constructor(width=0, height=0, x = 0, y = 0){
         this._width = width;
         this._height = height;
         this._x = x;

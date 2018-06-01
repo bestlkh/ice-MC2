@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER UPSILON' (U+03C5)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M139.0781 325.125 Q139.0781 355.0781 123.3281 372.2344 Q107.5781 389.3906 78.8906 389.3906 Q50.9062 389.3906 35.2266 372.2344 Q19.5469 355.0781 19.5469 325.125 L19.5469 236.6719 L44.8594 236.6719 L44.8594 325.125 Q44.8594 346.7812 54.9844 357.6797 Q65.1094 368.5781 79.1719 368.5781 Q93.9375 368.5781 103.8516 357.8203 Q113.7656 347.0625 113.7656 325.4062 L113.7656 236.6719 L139.0781 236.6719 L139.0781 325.125 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

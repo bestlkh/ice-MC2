@@ -14,7 +14,7 @@ class SvgEditorElementFactory {
              * (SvgEditorSymbols) symbol - Symbol this element represents
              */
             case SvgEditorElementTypes.SYMBOL:
-                return new SvgEditorSymbolElement(config.width, config.height, config.x, config.y, config.symbol);
+                return new SvgEditorSymbolElement(config.x, config.y, config.symbol);
             case SvgEditorElementTypes.IMAGE:
                 return new SvgEditorImageElement(config.width, config.height, config.x, config.y, config.base64);
         }

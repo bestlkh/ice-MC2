@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER ETA' (U+03B7)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M141.1875 443.25 L115.7344 443.25 L115.7344 295.1719 Q115.7344 279 112.3594 270.9141 Q108.9844 262.8281 102.0234 258.9609 Q95.0625 255.0938 84.6562 255.0938 Q73.2656 255.0938 63 261 Q52.7344 266.9062 48.7969 276.75 Q44.8594 286.5938 44.8594 304.3125 L44.8594 385.875 L19.5469 385.875 L19.5469 236.6719 L42.3281 236.6719 L42.3281 257.7656 L42.8906 257.7656 Q59.3438 233.2969 89.8594 233.2969 Q141.1875 233.2969 141.1875 287.4375 L141.1875 443.25 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

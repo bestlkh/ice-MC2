@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'GREEK SMALL LETTER EPSILON' (U+03B5)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M116.5781 365.4844 Q103.5 378.7031 90.9141 384.0469 Q78.3281 389.3906 60.75 389.3906 Q35.4375 389.3906 21.8672 376.875 Q8.2969 364.3594 8.2969 344.9531 Q8.2969 320.625 33.1875 308.6719 Q12.375 297.1406 12.375 276.4688 Q12.375 258.0469 25.8047 245.6719 Q39.2344 233.2969 61.875 233.2969 Q91.6875 233.2969 111.2344 253.4062 L93.0938 268.0312 Q76.6406 255.0938 60.75 255.0938 Q50.3438 255.0938 43.7344 261.2812 Q37.125 267.4688 37.125 275.9062 Q37.125 283.2188 42.8203 289.2656 Q48.5156 295.3125 54.9844 296.9297 Q61.4531 298.5469 77.2031 298.5469 L77.2031 319.3594 Q50.625 319.3594 42.75 327.1641 Q34.875 334.9688 34.875 344.6719 Q34.875 354.0938 42.6094 361.1953 Q50.3438 368.2969 61.3125 368.2969 Q82.9688 368.2969 98.4375 349.875 L116.5781 365.4844 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

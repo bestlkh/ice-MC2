@@ -226,48 +226,108 @@ var lastKeyPress;
 var shortcutIndex = 0;
 
 var keyHash = new Object();
-keyHash["a"] = ['a', 'A', '3B1', '2200', '2227', '2135', '2220'];
-keyHash["b"] = ['b', 'B', '3B2', '2235'];
-keyHash["c"] = ['c', 'C', '2218', '2102'];
-keyHash["d"] = ['d', 'D', '3B4', '394', '2202', '247'];
-keyHash["e"] = ['e', 'E', '2208', '2209', '3B5', '3F5', '2203'];
-keyHash["f"] = ['f', 'F', '2131'];
-keyHash["g"] = ['g', 'G', '3B3', '393'];
-keyHash["h"] = ['h', 'H', '210C', '210F'];
-keyHash["i"] = ['i', 'I', '222B', '2111', '221E', '3B9'];
-keyHash["j"] = ['j', 'J'];
-keyHash["k"] = ['k', 'K', '3BA'];
-keyHash["l"] = ['l', 'L', '2112', '3BB', '<', '2264', '2113'];
-keyHash["m"] = ['m', 'M', '3BC'];
-keyHash["n"] = ['n', 'N', '2115', '843', '2205'];
-keyHash["o"] = ['o', 'O', '3A9', '3C9', '2218', '2295', '2296', '2297', '2298', '2299'];
-keyHash["p"] = ['p', 'P', '3A0', '3C0', '3A6', '3A8', '3C8', '3D5', '2202'];
-keyHash["q"] = ['q', 'Q', '211A'];
-keyHash["r"] = ['r', 'R', '211D', '211C', '3C1', '221A'];
-keyHash["s"] = ['s', 'S', '2211', '3C3', '2286', '2282', '3C2'];
-keyHash["t"] = ['t', 'T', '3B8', '3C4', 'D7', '3D1', '398'];
-keyHash["u"] = ['u', 'U', '222A', '2229', '3C5'];
-keyHash["v"] = ['v', 'V', '2228'];
-keyHash["w"] = ['w', 'W'];
-keyHash["x"] = ['x', 'X', '3C7', '3BE', '39E'];
-keyHash["y"] = ['y', 'Y'];
-keyHash["z"] = ['z', 'Z', '2124', '3B6'];
+var ses = window.Driver.SvgEditorSymbols;
+window.keyHash = keyHash;
+keyHash["a"] = [ ses.lowercase_a, ses.uppercase_a, ses.lowercase_alpha, ses.symbol_for_all, ses.symbol_wedge];
+keyHash["b"] = [ ses.lowercase_b, ses.uppercase_b, ses.lowercase_beta, ses.symbol_because];
+keyHash["c"] = [ ses.lowercase_c, ses.uppercase_c, ses.symbol_ring_operator, ses.symbol_doublestruck_capital_c];
+keyHash["d"] = [ ses.lowercase_d, ses.uppercase_d, ses.uppercase_delta, ses.lowercase_delta, ses.symbol_partial_differential];
+keyHash["e"] = [ ses.lowercase_e, ses.uppercase_e, ses.symbol_element_of, ses.symbol_not_an_element_of, ses.symbol_element_of, ses.symbol_not_an_element_of, ses.lowercase_epsilon  , ses.symbol_there_exists];
+keyHash["f"] = [ ses.lowercase_f, ses.uppercase_f];
+keyHash["g"] = [ ses.lowercase_g, ses.uppercase_g, ses.lowercase_gamma, ses.uppercase_gamma];
+keyHash["h"] = [ ses.lowercase_h, ses.uppercase_h];
+keyHash["i"] = [ ses.lowercase_i, ses.uppercase_i, ses.symbol_integral, ses.symbol_infinity];
+keyHash["j"] = [ ses.lowercase_j, ses.uppercase_j];
+keyHash["k"] = [ ses.lowercase_k, ses.uppercase_k, ses.lowercase_kappa];
+keyHash["l"] = [ ses.lowercase_l, ses.uppercase_l, ses.lowercase_lamda, ses.symbol_less, ses.symbol_lessthan_or_equal_to];
+keyHash["m"] = [ ses.lowercase_m, ses.uppercase_m, ses.lowercase_mu];
+keyHash["n"] = [ ses.lowercase_n, ses.uppercase_n, ses.symbol_doublestruck_capital_n];
+keyHash["o"] = [ ses.lowercase_o, ses.uppercase_o, ses.lowercase_omega, ses.uppercase_omega, ses.symbol_ring_operator];
+keyHash["p"] = [ ses.lowercase_p, ses.uppercase_p, ses.lowercase_pi, ses.uppercase_pi, ses.lowercase_phi,  ses.uppercase_phi, ses.lowercase_psi, ses.uppercase_psi];
+keyHash["q"] = [ ses.lowercase_q, ses.uppercase_q, ses.symbol_doublestruck_capital_q];
+keyHash["r"] = [ ses.lowercase_r, ses.uppercase_r, ses.symbol_doublestruck_capital_r, ses.SQRT, ses.lowercase_rho];
+keyHash["s"] = [ ses.lowercase_s, ses.uppercase_s, ses.uppercase_sigma, ses.lowercase_sigma, ses.symbol_subset, ses.symbol_subset_or_equal];
+keyHash["t"] = [ ses.lowercase_t, ses.uppercase_t, ses.lowercase_theta, ses.uppercase_theta, ses.lowercase_tau, ses.symbol_multiplication_sign];
+keyHash["u"] = [ ses.lowercase_u, ses.uppercase_u, ses.symbol_nary_union, ses.symbol_intersection, ses.lowercase_upsilon];
+keyHash["v"] = [ ses.lowercase_v, ses.uppercase_v, ses.symbol_logical_or];
+keyHash["w"] = [ ses.lowercase_w, ses.uppercase_w];
+keyHash["x"] = [ ses.lowercase_x, ses.uppercase_x, ses.lowercase_xi, ses.lowercase_chi];
+keyHash["y"] = [ ses.lowercase_y, ses.uppercase_y];
+keyHash["z"] = [ ses.lowercase_z, ses.uppercase_z, ses.symbol_doublestruck_capital_z  , ses.lowercase_zeta];
 
-keyHash["<"] = ['<', '2264', '2266', '226A', '226E'];
-keyHash[">"] = ['>', '→', '2265', '2267', '226B', '226F'];
-keyHash["="] = ['=', '2260', '2261', '2243', '2248', '2245', '221D'];
-keyHash["~"] = ['~', '2243', '2248', '2245'];
-keyHash["+"] = ['+', 'B1', '2213', '2295'];
-keyHash["−"] = ['−', 'B1', '2213', '2296'];
-keyHash["×"] = ['×', '2297'];
-keyHash["/"] = ['/', 'F7', '2298'];
-keyHash["."] = ['.', '95', '2218', '2235', '2234'];
-keyHash["|"] = ['|', '2224', '2225', '2226'];
+keyHash["A"] = [ses.uppercase_a];
+keyHash["B"] = [ses.uppercase_b];
+keyHash["C"] = [ses.uppercase_c];
+keyHash["D"] = [ses.uppercase_d];
+keyHash["E"] = [ses.uppercase_e];
+keyHash["F"] = [ses.uppercase_f];
+keyHash["G"] = [ses.uppercase_g];
+keyHash["H"] = [ses.uppercase_h];
+keyHash["I"] = [ses.uppercase_i];
+keyHash["J"] = [ses.uppercase_j];
+keyHash["K"] = [ses.uppercase_k];
+keyHash["L"] = [ses.uppercase_l];
+keyHash["M"] = [ses.uppercase_m];
+keyHash["N"] = [ses.uppercase_n];
+keyHash["O"] = [ses.uppercase_o];
+keyHash["P"] = [ses.uppercase_p];
+keyHash["Q"] = [ses.uppercase_q];
+keyHash["R"] = [ses.uppercase_r];
+keyHash["S"] = [ses.uppercase_s];
+keyHash["T"] = [ses.uppercase_t];
+keyHash["U"] = [ses.uppercase_u];
+keyHash["V"] = [ses.uppercase_v];
+keyHash["W"] = [ses.uppercase_w];
+keyHash["X"] = [ses.uppercase_x];
+keyHash["Z"] = [ses.uppercase_z];
 
-keyHash["["] = ['[', '230A', '2309'];
-keyHash["]"] = [']', '230B', '2308'];
 
-var down_x;
+keyHash["&"] = [ ses.symbol_ampersand ];
+keyHash["^"] = [ ses.symbol_asciicircum ];
+keyHash["~"] = [ ses.symbol_asciitilde];
+keyHash["*"] = [ ses.symbol_multiplication_sign, ses.symbol_asterisk ];
+keyHash["@"] = [ ses.symbol_at ];
+keyHash["'\'"] = [ses.symbol_backslash ];
+keyHash["|"] = [ses.symbol_bar];
+keyHash["["] = [ses.symbol_left_square_bracket];
+keyHash["]"] = [ses.symbol_right_square_bracket];
+keyHash["("] = [ses.symbol_parenleft];
+keyHash[")"] = [ses.symbol_parenright];
+keyHash[":"] = [ses.symbol_colon];
+keyHash["."] = [ses.symbol_period, ses.symbol_middle_dot];
+keyHash["$"] = [ ses.symbol_dollar];
+keyHash["="] = [ ses.symbol_equal];
+keyHash["!"] = [ ses.symbol_exclam ];
+keyHash["`"] = [ ses.symbol_grave ];
+keyHash["-"] = [ ses.symbol_hyphen ];
+keyHash["{"] = [ ses.symbol_left_curly_bracket ];
+keyHash["}"] = [ ses.symbol_right_curly_bracket ];
+keyHash["#"] = [ ses.symbol_numbersign ];
+keyHash["?"] = [ ses.symbol_question ];
+keyHash['"'] = [ ses.symbol_quotedbl ];
+keyHash["'"] = [ ses.symbol_quotesingle ];
+keyHash[';'] = [ ses.symbol_semicolon ];
+keyHash['_'] = [ ses.symbol_underscore ];
+
+keyHash["1"] = [ ses.symbol_one ];
+keyHash["2"] = [ ses.symbol_two ];
+keyHash["3"] = [ ses.symbol_three ];
+keyHash["4"] = [ ses.symbol_four ];
+keyHash["5"] = [ ses.symbol_five ];
+keyHash["6"] = [ ses.symbol_six ];
+keyHash["7"] = [ ses.symbol_seven ];
+keyHash["8"] = [ ses.symbol_eight ];
+keyHash["9"] = [ ses.symbol_nine ];
+keyHash["0"] = [ ses.symbol_zero ];
+
+keyHash["<"] = [ ses.symbol_less, ses.symbol_lessthan_or_equal_to];
+keyHash[">"] = [ ses.symbol_greater, ses.symbol_greaterthan_or_equal_to, ses.symbol_combining_double_rightwards_arrow_below];
+keyHash["+"] = [ ses.symbol_plus, ses.symbol_plusminus_sign];
+keyHash["−"] = [ ses.symbol_hyphen];
+keyHash["/"] = [ ses.symbol_slash, ses.symbol_division_sign];
+
+
+var down_x; 
 var down_y;
 var cursor_x;
 var cursor_y;
@@ -685,8 +745,8 @@ var getIntersectionList = this.getIntersectionList = function(rect) {
     var i = curBBoxes.length;
     while (i--) {
       if(!rubberBBox.width || !rubberBBox.width) continue;
-  //    if (svgedit.math.rectsIntersect(rubberBBox, curBBoxes[i].bbox))  {//**MDP
-      if (svgedit.math.rectContained(rubberBBox, curBBoxes[i].bbox))  {
+  //    if (svgedit.math.rectContained(rubberBBox, curBBoxes[i].bbox))  {//**MDP
+      if (svgedit.math.rectsIntersect(rubberBBox, curBBoxes[i].bbox))  {
         if(curBBoxes[i].elem.id=="math_cursor") continue; //**MDP Don't select Cursor
         if(curBBoxes[i].elem.id.substring(0, 4) === "snap") continue; // dont select snap
         resultList.push(curBBoxes[i].elem);
@@ -3486,8 +3546,8 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
           }
           if(selected)
           {
-            var newX = getBBox(selected).x +  getBBox(selected).width + 1;
-            var newY = getBBox(selected).y;
+            var newX = getBBox(selected).x +  getBBox(selected).width + 3;
+            var newY = getBBox(selected).y - 5;
             placeMathCursor(newX, newY);
             svgCanvas.keyPressed("");
           }
@@ -3513,10 +3573,11 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
               if(0 <= diffX && diffX < widthThreshold && 0 <= diffY && diffY < heightThreshold) {
                 var x = snapX + 1, y = snapY;
                 if (type == 'contains') {
-                  y = snapY + getBBox(snap).height/2 - 10;
-                  x = snapX + 10 + ((getBBox(snap).width - 20)/11);
+                  y = snapY - 5;
+                  console.log(y)
+                  x = snapX  + getBBox(snap).width + 3;
                 }
-                if (type == 'contains' || type == 'below' || type == 'above') {
+                if (type == 'below' || type == 'above') {
                   if (diffX > getBBox(snap).width/3) {
                     x += getBBox(snap).width/3;
                   }
@@ -9943,6 +10004,7 @@ var moveCursorAbs = this.moveCursorAbs;
   var removeNearestToCursor = this.removeNearestToCursor;
 
   this.addToSVG = function(selectedSymbol){
+    var svgDrv = new window.Driver.SvgEditorDriver();
     var math_cursor = svgCanvas.getElem('math_cursor');
     // Undoes the most recently inserted element
     if (canvas.undoMgr.getUndoStackSize() > 0) {
@@ -9950,26 +10012,11 @@ var moveCursorAbs = this.moveCursorAbs;
     }
     var x = Number(math_cursor.getAttribute('x')) - 12;
     var y = Number(math_cursor.getAttribute('y')) + Number(math_cursor.getAttribute('height'));
-    newText = addSvgElementFromJson({
-      element: 'text',
-      curStyles: true,
-      textContent: selectedSymbol,
-      attr: {
-        'x': x.toString(),
-        'y': y.toString(),
-        'id': getNextId(),
-        'fill': cur_text.fill,
-        'stroke-width': cur_text.stroke_width,
-        'font-size': cur_text.font_size,
-        //    'font-family': cur_text.font_family,
-        'font-family': 'Monspace',
-        'text-anchor': 'left',
-        'xml:space': 'preserve',
-        'opacity': cur_shape.opacity,
-        'style': "pointer-events:inherit",
-            //'textContent': 'a'
-        }
-      });
+    svgDrv.createElement(0, {
+      symbol: selectedSymbol,
+      x: x,
+      y: y
+    }).dom
     // Closes the suggestion bar after element is inserted
     clearTimeout(shortcutTimer);
       ToggleFloatingLayer('floatingContent',1);
@@ -9984,7 +10031,6 @@ var moveCursorAbs = this.moveCursorAbs;
   };
 
 	this.keyPressed = function (key) {
-    
     if (key=="\u21e6") {
       moveCursor(-.25, 0);
       return;
@@ -10020,7 +10066,15 @@ var moveCursorAbs = this.moveCursorAbs;
       removeNearestToCursor();
       return;
     }
-    var shortcuts = keyHash[key];
+
+    if (keyHash[key]) {
+      var shortcuts = keyHash[key].map(function(x) {
+        var data = window.Driver.Symbols[x];
+        data['key'] = x;
+        return data
+      });
+    }
+  
     var newChar = false;
     var shortcutsVisible = document.getElementById("floatingContent").style.display;
     if (key == lastKeyPress && shortcutsVisible == "block") {
@@ -10042,7 +10096,7 @@ var moveCursorAbs = this.moveCursorAbs;
     }
 
 
-    if(key in keyHash) {
+    if(key in keyHash && keyHash[key].length > 1) {
       clearTimeout(shortcutTimer);
       ToggleFloatingLayer('floatingContent',1);
       shortcutTimer = setTimeout(function(){
@@ -10072,18 +10126,18 @@ var moveCursorAbs = this.moveCursorAbs;
 
      shortcuts.forEach(function(shortcut, i) {
        if (i == shortcutIndex) {
-         if (shortcuts[i].length == 1) {
-            shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i]+"'" + ');"> ' + '<font color=orange>' + shortcuts[i] + '</font></div>';
+         if (shortcuts[i].unicode.length == 1) {
+            shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].key+"'" + ');"> ' + '<font color=orange>' + shortcuts[i].unicode + '</font></div>';
          }
           else {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'&#x"+shortcuts[i]+"'" + ');"> ' + '<font color=orange>' + ' &#x' + shortcuts[i] + '</font></div>';
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].key + ');"> ' + '<font color=orange>' + ' &#x' + shortcuts[i].unicode + '</font></div>';
           }
        } else {
-         if (shortcuts[i].length == 1) {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i]+"'" + ');"> ' + shortcuts[i] + "</div>";
+         if (shortcuts[i].unicode.length == 1) {
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'"+shortcuts[i].key+"'" + ');"> ' + shortcuts[i].unicode + "</div>";
          }
           else {
-             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + "'&#x"+shortcuts[i]+"'" + ');"> ' + ' &#x' + shortcuts[i] + "</div>";
+             shortcutText += '<div class="suggest" onmouseup="svgCanvas.addToSVG(' + shortcuts[i].key + ');"> ' + ' &#x' + shortcuts[i].unicode + "</div>";
           }
        }
     });
@@ -10097,38 +10151,31 @@ var moveCursorAbs = this.moveCursorAbs;
     var math_cursor = svgCanvas.getElem('math_cursor');
     var math_cursorB = getBBox(math_cursor);
     var x = math_cursorB.x;
-    var y = math_cursorB.y + 21;
+    var y = math_cursorB.y + math_cursorB.height + 10;
+    var svgDrv = new window.Driver.SvgEditorDriver();
     if(selectedElements.length > 0) {
       clearSelection();
     }
     if (newChar || !shortcuts) {
-    	newText = addSvgElementFromJson({
-      element: 'text',
-    	curStyles: true,
-    	textContent: key,
-    	attr: {
-    		'x': x,
-    		'y': y,
-    	  'id': getNextId(),
-    		'fill': cur_text.fill,
-    	  'stroke-width': cur_text.stroke_width,
-    		'font-size': cur_text.font_size,
-    		//		'font-family': cur_text.font_family,
-    		'font-family': 'Times',
-    		'text-anchor': 'left',
-    		'xml:space': 'preserve',
-    		'opacity': cur_shape.opacity,
-    		'style': "pointer-events:inherit",
-    		}
-      });
-      if(getBBox(newText).x != math_cursorB.x) {
-      }
+      newText = svgDrv.createElement(0, {
+              symbol: keyHash[key][0],
+              x: x,
+              y: y
+            }).dom;
     } else {
         if (shortcuts) {
           if (shortcuts[shortcutIndex].length == 1) {
-            newText.textContent = shortcuts[shortcutIndex];
+            //newText.textContent = shortcuts[shortcutIndex];
           } else {
-            newText.textContent = String.fromCharCode("0x"+shortcuts[shortcutIndex]);
+            math_cursor.setAttribute("x", getBBox(newText).x - 1);
+
+            selectOnly([newText], false);
+            canvas.deleteSelectedElements();
+            newText = svgDrv.createElement(0, {
+              symbol: keyHash[key][shortcutIndex],
+              x: getBBox(math_cursor).x,
+              y: y
+            }).dom;
           }
         }
     }
@@ -10148,7 +10195,7 @@ var moveCursorAbs = this.moveCursorAbs;
     }
     parentNewText.appendChild(cloneNewText);
     newText = cloneNewText;
-    math_cursor.setAttribute('x', bbox.x + bbox.width + 1);
+    math_cursor.setAttribute('x', bbox.x + bbox.width + 3);
     math_cursor.setAttribute('opacity', 1);
 		//selectOnly([newText]);
 		//clearSelection();

@@ -1,0 +1,35 @@
+/*
+ * Chat zoom controls stylesheet
+ */
+
+
+.chat-message--resizable {
+    font-size: 14px;
+}
+
+#chat-zoom-container {
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+}
+#chat-zoom-control {
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    margin: auto;
+
+    button {
+        &#chat-zoom-in,
+        &#chat-zoom-out,
+        &#chat-zoom-reset {
+            height: 40px;
+            width: 40px;
+            margin: 5px auto;
+            background: transparent;
+            border: none;    
+            z-index: 2;
+        }
+    }
+}
+
+

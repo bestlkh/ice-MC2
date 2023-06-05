@@ -12,12 +12,19 @@ var util = require('util');
 const uuidv4 = require('uuid-v4');
 var moment = require("moment");
 var Message = require("./message");
+var canvg = require('canvg');
 
 const AdminView = require("./AdminView");
 const ChatNsp = require("./chatNsp").ChatNsp;
 const constants = require("./AdminView/constants");
 
 var MongoClient = require('mongodb').MongoClient;
+
+// app.use(function (req, res, next) {
+// 	console.log("HTTP request", req.method, req.url, req.body);
+// 	next();
+//   });
+
 
 function findOne(list, params) {
     var result;
@@ -74,7 +81,10 @@ var expiryTime = 8;
 var routineTime = 1;
 
 var port = process.env.PORT || 8080;
-server.listen(port);		// server starting on port '8080'
+server.listen(port, function () { // server starting on port '8080'
+	console.log('Server listening at port %d', port);
+});
+
 
 // cofiguring body-parser
 app.use(bodyParser.json({	// setting json limit
@@ -128,6 +138,12 @@ var chat = new ChatNsp("", ios);
 
 
 chat.on('connection', function(socket){
+	console.log("New connection: "+socket.id);
+
+	socket.on("message", function (data) {
+		console.log(data);
+	});
+	
 
     // if (socket.handshake.session.id) {
     // 	console.log("clearing timeout: "+socket.handshake.session.id);

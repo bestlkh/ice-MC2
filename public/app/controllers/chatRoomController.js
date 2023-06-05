@@ -86,7 +86,10 @@ angular.module('Controllers')
     var nsp = "";
     if ($location.search().nsp)
         nsp = "/"+$location.search().nsp;
-    $socket.disconnect();
+	// Check if socket is connected
+	if($socket.connected) {
+		$socket.disconnect();
+	}
     $socket.connect($location.host() +":"+ $location.port()+nsp);
 
 
@@ -112,7 +115,6 @@ angular.module('Controllers')
     });
 
 	$socket.on("connect", function () {
-		//console.log("connect");
 		if ($scope.disconnected) {
 			$scope.messages.push({type: "system", msg: "Reconnected to chat."});
 			$scope.disconnected = false;

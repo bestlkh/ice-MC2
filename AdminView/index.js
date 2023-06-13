@@ -64,10 +64,10 @@ function AdminView(socketController, expressApp, sessionObj) {
         if (err) return console.log('Could not connect to database.');
         this.db = db;
 
-        // this.setupNamespaces(function (err, nsps) {
-        //     if (err) console.log('Failed to initialize namespaces.');
-        //     this.nsps = nsps;
-        // });
+        this.setupNamespaces(function (err, nsps) {
+            if (err) console.log("Error with namespace: " + err);
+            this.nsps = nsps;
+        });
 
         this.setupRoute();
         this.setupApi();

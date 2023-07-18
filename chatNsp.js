@@ -2,10 +2,19 @@
 // the default chatnsp will replace existing code in the main app.js
 // lecturensp will be used for creating classrooms
 var constants = require("./AdminView/constants");
-var MongoClient = require('mongodb').MongoClient;
+const sequelize = require('./datasource.js');
 var moment = require("moment");
-var Message = require("./message");
+const Message = require('./models/messages.js');
+
 const uuidv4 = require('uuid/v4');
+
+const Rooms = require('./models/rooms.js');
+const Student = require('./models/student.js');
+const Ta = require('./models/ta.js');
+
+
+
+
 
 function ChatNsp(name, io) {
     this.name = name;
@@ -19,6 +28,8 @@ function ChatNsp(name, io) {
     this.onLogin = null;
 
     this.onJoin = null;
+
+    this.db = null;
 
 }
 
@@ -69,15 +80,20 @@ function LectureNsp(name, owner, io) {
 
     this.owner = owner;
 
-    this.db = null;
 }
 
 LectureNsp.prototype.connectToDb = function (callback) {
-    MongoClient.connect(constants.dbUrl, function (err, db) {
-        this.db = db;
-
-        callback();
-    }.bind(this));
+    try { 
+        sequelize.authenticate();
+        console.log('Connection has been established successfully to the database.');
+        sequelize.sync({
+            alter: {
+                drop: false
+            }
+        });
+    } catch(error) {
+        console.error('Unable to connect to the database:', error);
+    }
 };
 
 LectureNsp.prototype.sendMessage = function (roomName, message, callback) {
@@ -89,27 +105,22 @@ LectureNsp.prototype.sendMessage = function (roomName, message, callback) {
 
     this.findRoom(roomName, function (err, room) {
         if (err) return callback(err, null);
-                this.db.collection("chatHistory").updateOne({
-                    owner: this.owner,
-                    roomName: roomName,
-                    sessionId: this.rooms[roomName].sessionId,
-                    className: this.rooms[roomName].className
-                }, {$push: {messages: message}}, {upsert: true}, function (err, result) {
-                    if (callback) callback(null, result);
-                });
-
+        const message = Message.create({
+            content: message,
+            RoomId: room.id
+        });
     }.bind(this));
 
 };
 
 LectureNsp.prototype.findRoom = function (roomName, callback) {
-
-        this.db.collection("classrooms").findOne({owner: this.owner, roomName: new RegExp("^" + roomName + "$", 'i')}, {}, function (err, classroom) {
-            if (err) return callback(err, null);
-            callback(null, classroom);
-        });
-
-
+    const room = Rooms.findOne(
+        {where: {name: roomName}}
+    );
+    if(!room) {
+        callback("Invalid room", null);
+    }
+    callback(null, room);
 };
 
 function findOne(list, params) {
@@ -128,19 +139,14 @@ function findOne(list, params) {
 }
 
 LectureNsp.prototype.findStudent = function (data, callback) {
-        this.db.collection("classrooms").findOne({owner: this.owner, roomName: new RegExp("^" + data.roomId + "$", 'i')}, function (err, classroom) {
-            if (err) return callback(err, null);
-            if (!classroom) return callback({}, null);
-
-            this.db.collection("students").findOne({owner: this.owner, className: classroom.name}, function (err, students) {
-                if (err) return callback(err, null);
-                var student = findOne(students.students, {token: data.token});
-
-
-                callback(null, student);
-            });
-
-        }.bind(this));
+    const student = Student.findOne(
+        {where: {name: this.owner,
+         RoomId: data.roomId}}
+    );
+    if(!student) {
+        callback("Invalid student", null);
+    }
+    callback(null, student);
 };
 
 LectureNsp.prototype.findRoomAdapter = function (roomName) {
@@ -168,12 +174,14 @@ LectureNsp.prototype.findClient = function (roomName, username) {
 };
 
 LectureNsp.prototype.findTa = function (data, callback) {
-        this.db.collection("ta").findOne({owner: this.owner, token: data.secret}, function (err, ta) {
-            if (err) return callback(err, null);
-
-            callback(null, ta);
-        });
-
+    const ta = Ta.findOne(
+        {where: {name: this.owner,
+            RoomId: data.roomId}}
+    );
+    if(!ta) {
+        callback("Invalid ta", null);
+    }
+    callback(null, ta);
 };
 
 LectureNsp.prototype.deleteMessage = function (roomName, message) {
@@ -181,6 +189,8 @@ LectureNsp.prototype.deleteMessage = function (roomName, message) {
     var room = this.findRoomAdapter(roomName);
     if (room) {
         message.deleted = true;
+
+        
 
             this.db.collection("chatHistory").updateOne({
                 sessionId: room.sessionId,
@@ -248,6 +258,8 @@ LectureNsp.prototype.listen = function () {
 
             socket.on("new user", function (data, callback) {
                 data.roomId = data.roomId.toLowerCase();
+                console.log("room id: " + data.roomId);
+                console.log("username: " + data.username);
 
                 this.findRoom(data.roomId, function (err, classroom) {
                     if (!classroom) return callback({success: false, message: "Room does not exist"});

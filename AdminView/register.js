@@ -3,6 +3,8 @@ var crypto = require("crypto");
 var prompt = require("prompt");
 var MongoClient = require('mongodb').MongoClient;
 
+const sequelize = require('../datasource.js');
+const User = require("./models/users.js");
 
 var User = function(user){
     var salt = crypto.randomBytes(16).toString('base64');
@@ -39,11 +41,11 @@ console.log("Creating account for AdminView in MC2.");
 prompt.start();
 
 prompt.get(schema, function (err, result) {
-    MongoClient.connect(constants.dbUrl, function (err, db) {
-        var user = new User(result);
-        db.collection("users").insertOne(user, function (err, result) {
-            console.log("Successfully created admin account.");
-            db.close();
-        })
+    sequelize.authenticate().then(function (err) {
+        const user = User.create(
+            { username: result.username,
+              password: result.password, 
+              userAvatar: result.userAvatar }
+        );
     });
 });

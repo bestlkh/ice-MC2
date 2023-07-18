@@ -2,6 +2,9 @@ var constants = require("./constants.js");
 var prompt = require("prompt");
 var MongoClient = require('mongodb').MongoClient;
 
+const sequelize = require('../datasource.js');
+const Urls = require("./models/urls.js");
+
 var CustomUrl = function (data) {
     this.redirect = "/#/v1/{roomName}?nsp={nsp}";
     this.redirect = this.redirect.replace("{roomName}", data.roomName).replace("{nsp}", data.nsp);
@@ -39,11 +42,14 @@ console.log("Creating a custom url for a classroom in MC2.");
 prompt.start();
 
 prompt.get(schema, function (err, result) {
-    MongoClient.connect(constants.dbUrl, function (err, db) {
-        var url = new CustomUrl(result);
-        db.collection("urls").insertOne(url, function (err, result) {
-            console.log("Successfully created a custom link at: /join/"+url.name+".");
-            db.close();
-        })
+    sequelize.authenticate().then(function (err) {
+        console.log('Connection has been established successfully.');
+
+    }).catch(function (err) {
+        console.log('Unable to connect to the database:', err);
     });
+    var url = new CustomUrl(result);
+    const urlModel = Urls.create(
+        { name: url.name, redirect: url.redirect }
+    );
 });

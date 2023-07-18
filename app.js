@@ -14,11 +14,13 @@ var moment = require("moment");
 var Message = require("./message");
 var canvg = require('canvg');
 
+
+const sequelize = require("./datasource.js").sequelize;
 const AdminView = require("./AdminView");
 const ChatNsp = require("./chatNsp").ChatNsp;
 const constants = require("./AdminView/constants");
 
-var MongoClient = require('mongodb').MongoClient;
+//var MongoClient = require('mongodb').MongoClient;
 
 // app.use(function (req, res, next) {
 // 	console.log("HTTP request", req.method, req.url, req.body);
@@ -212,6 +214,7 @@ chat.on('connection', function(socket){
 
 	//TODO: verify username is alphanumeric
 	socket.on('new user', function(data, callback){
+
 		data.roomId = data.roomId.toLowerCase();
         var clients = ios.sockets.adapter.rooms[data.roomId];
 
@@ -252,6 +255,7 @@ chat.on('connection', function(socket){
 
 	// sending new message
 	socket.on('send-message', function(data, callback){
+		console.log(data);
 		data.type = "chat";
 		if (socket.handshake.session.username) {
 			var message = new Message.Message(data, socket.handshake.session);

@@ -6,8 +6,8 @@ const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 let csv = require('csv');
 
-let MongoClient = require('mongodb').MongoClient;
-let ObjectID = require('mongodb').ObjectID;
+//let MongoClient = require('mongodb').MongoClient;
+//let ObjectID = require('mongodb').ObjectID;
 let request = require('request');
 let outlook = require('node-outlook');
 
@@ -16,6 +16,13 @@ let LectureNsp = require('../chatNsp').LectureNsp;
 let sharedsession = require('express-socket.io-session');
 let mimeMap = require('mime-types');
 let fs = require('fs');
+
+const sequelize = require('../datasource.js');
+const Students = require('../models/student.js');
+const Rooms = require('../models/rooms.js');
+const Messages = require('../models/messages.js');
+const db_relationships = require('../models/relationships.js');
+
 
 function findOne(list, params) {
     let result;
@@ -56,13 +63,21 @@ function AdminView(socketController, expressApp, sessionObj) {
 
     this.app.use(bodyParser.json());
 
-    this.db = null;
 
     this.nsps = [];
 
     this.connectToDb(function (err, db) {
-        if (err) return console.log('Could not connect to database.');
-        this.db = db;
+        try { 
+            sequelize.authenticate();
+            console.log('[AdminView] Connection has been established successfully to the database.');
+            sequelize.sync({
+                alter: {
+                    drop: false
+                }
+            });
+        } catch(error) {
+            console.error('Unable to connect to the database:', error);
+        }
 
         this.setupNamespaces(function (err, nsps) {
             if (err) console.log("Error with namespace: " + err);
@@ -78,33 +93,39 @@ function AdminView(socketController, expressApp, sessionObj) {
 }
 
 AdminView.prototype.connectToDb = function (callback) {
-    MongoClient.connect(constants.dbUrl, function (err, db) {
-        this.db = db;
-
-        callback(err, db);
-    }.bind(this));
+    try { 
+        sequelize.authenticate();
+        console.log('Connection has been established successfully to the database.');
+        sequelize.sync({
+            alter: {
+                drop: false
+            }
+        });
+    } catch(error) {
+        console.error('Unable to connect to the database:', error);
+    }
 };
 
 AdminView.prototype.setupNamespaces = function (callback) {
+    console.log("Setting up namespaces.");
 
-
-    this.db.collection('users').find({}).toArray(function (err, users) {
-        if (err) return callback(err, null);
-        let nsps = [];
-        users.forEach(function (user) {
-            console.log(user.username + ' nsp added.');
-            let nsp = new LectureNsp(user.username, user.username, this.ios);
-            nsp.nsp.use(sharedsession(this.session, {
-                autoSave: true
-            }));
-            nsp.listen();
-            nsps.push(nsp);
-
-            callback(null, nsps);
-        }.bind(this));
-    }.bind(this))
-
-
+    const allStudents = Students.findAll();
+    if (!allUsers) {
+        console.log("No users found.");
+        return;
+    }
+    let nsps = [];
+    allStudents.forEach(function (user) {
+        console.log(user.username + ' nsp added.');
+        let nsp = new LectureNsp(user.username, user.username, this.ios);
+        nsp.nsp.use(sharedsession(this.session, {
+            autoSave: true
+        }));
+        nsp.listen();
+        nsps.push(nsp);
+        
+        callback(null, nsps);
+    }, this);
 };
 
 
@@ -154,6 +175,7 @@ let naming = function(req, file, cb) {
 };
 
 let multer  = require('multer');
+const { Sequelize } = require('sequelize');
 let storage = multer.diskStorage({
     filename: naming,
     destination: './public/app/css/dist/img'
@@ -562,6 +584,8 @@ AdminView.prototype.setupApi = function () {
 
     }.bind(this));
 
+    /*
+
     this.app.patch('/v1/api/ta/:id', checkAuth, upload.single('image'), function (req, res) {
         let ta = new TA(req.body, req.session.user.username);
 
@@ -600,6 +624,7 @@ AdminView.prototype.setupApi = function () {
         }.bind(this));
 
     }.bind(this));
+    
 
     this.app.delete('/v1/api/ta/:id', checkAuth, function (req, res) {
         this.db.collection('ta').removeOne({owner: req.session.user.username, _id: new ObjectID(req.params.id)}, function (err, result) {
@@ -607,6 +632,7 @@ AdminView.prototype.setupApi = function () {
             res.json({});
         });
     }.bind(this));
+    */
 
     this.app.post('/v1/api/ta/:id/avatar', checkAuth, upload.single('image'), function (req, res) {
         if (!req.file) return res.status(400).json({status: 400, message: 'Invalid image'});
@@ -614,6 +640,7 @@ AdminView.prototype.setupApi = function () {
         res.json({avatar: req.file.filename});
     }.bind(this));
 
+    /*
     this.app.get('/v1/api/ta/:id', checkAuth, function (req, res) {
         this.db.collection('ta').findOne({owner: req.session.user.username, _id: new ObjectID(req.params.id)}, function (err, ta) {
             if (err) return res.status(500).json({status: 500, message: 'Server error, could not resolve request'});
@@ -622,6 +649,7 @@ AdminView.prototype.setupApi = function () {
             res.json(ta);
         });
     }.bind(this));
+    */
 
     this.app.get('/v1/api/classrooms/:name/sessions', checkAuth, function (req, res) {
         this.db.collection('chatHistory').find({owner: req.session.user.username, className: req.params.name, deleted: null}, {messages: 0, _id: 0}).toArray(function (err, sessions) {

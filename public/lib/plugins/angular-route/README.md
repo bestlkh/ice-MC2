@@ -17,7 +17,7 @@ npm install angular-route
 Then add `ngRoute` as a dependency for your app:
 
 ```javascript
-angular.module('myApp', [require('angular-route')]);
+angular.module("myApp", [require("angular-route")]);
 ```
 
 ### bower
@@ -35,7 +35,7 @@ Add a `<script>` to your `index.html`:
 Then add `ngRoute` as a dependency for your app:
 
 ```javascript
-angular.module('myApp', ['ngRoute']);
+angular.module("myApp", ["ngRoute"]);
 ```
 
 ## Documentation

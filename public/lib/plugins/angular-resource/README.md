@@ -17,7 +17,7 @@ npm install angular-resource
 Then add `ngResource` as a dependency for your app:
 
 ```javascript
-angular.module('myApp', [require('angular-resource')]);
+angular.module("myApp", [require("angular-resource")]);
 ```
 
 ### bower
@@ -35,7 +35,7 @@ Add a `<script>` to your `index.html`:
 Then add `ngResource` as a dependency for your app:
 
 ```javascript
-angular.module('myApp', ['ngResource']);
+angular.module("myApp", ["ngResource"]);
 ```
 
 ## Documentation

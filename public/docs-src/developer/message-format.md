@@ -3,9 +3,8 @@
 / [Home](../) / Message Format
 
 ??? "Authors"
-    Jun Zheng (junthehacker)
-    
-    
+Jun Zheng (junthehacker)
+
 All messages in the chat are sent by plain text. But there are many advanced message types that you may want to use.
 
 You can simply use Message class to auto generate the following text format. This is just for reference.

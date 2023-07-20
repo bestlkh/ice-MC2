@@ -1,76 +1,79 @@
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
   grunt.initConfig({
     concat: {
       dist: {
-        src: ['bower_components/jquery/dist/jquery.js', 'src/js/lightbox.js'],
-        dest: 'dist/js/lightbox-plus-jquery.js',
+        src: ["bower_components/jquery/dist/jquery.js", "src/js/lightbox.js"],
+        dest: "dist/js/lightbox-plus-jquery.js",
       },
     },
     connect: {
       server: {
         options: {
-          port: 8000
-        }
-      }
+          port: 8000,
+        },
+      },
     },
     copy: {
       dist: {
         files: [
           {
             expand: true,
-            cwd: 'src/',
-            src: ['**'],
-            dest: 'dist/'
-          }
+            cwd: "src/",
+            src: ["**"],
+            dest: "dist/",
+          },
         ],
       },
     },
     jshint: {
-      all: [
-        'src/js/lightbox.js'
-      ],
+      all: ["src/js/lightbox.js"],
       options: {
-        jshintrc: true
-      }
+        jshintrc: true,
+      },
     },
     jscs: {
-      src: [
-        'src/js/lightbox.js'
-      ],
+      src: ["src/js/lightbox.js"],
       options: {
-        config: ".jscsrc"
-      }
+        config: ".jscsrc",
+      },
     },
     uglify: {
       options: {
-        preserveComments: 'some',
-        sourceMap: true
+        preserveComments: "some",
+        sourceMap: true,
       },
       dist: {
         files: {
-          'dist/js/lightbox.min.js': ['src/js/lightbox.js'],
-          'dist/js/lightbox-plus-jquery.min.js': ['dist/js/lightbox-plus-jquery.js']
-        }
-      }
-    },   
+          "dist/js/lightbox.min.js": ["src/js/lightbox.js"],
+          "dist/js/lightbox-plus-jquery.min.js": [
+            "dist/js/lightbox-plus-jquery.js",
+          ],
+        },
+      },
+    },
     watch: {
       jshint: {
-        files: ['src/js/lightbox.js'],
-        tasks: ['jshint', 'jscs']
-      }
-    }
+        files: ["src/js/lightbox.js"],
+        tasks: ["jshint", "jscs"],
+      },
+    },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks("grunt-contrib-concat");
+  grunt.loadNpmTasks("grunt-contrib-connect");
+  grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-jscs");
 
-  grunt.registerTask('default', ['connect', 'watch']);
-  grunt.registerTask('test', ['jshint', 'jscs']);
-  grunt.registerTask('build', ['jshint', 'jscs', 'copy:dist', 'concat', 'uglify']);
+  grunt.registerTask("default", ["connect", "watch"]);
+  grunt.registerTask("test", ["jshint", "jscs"]);
+  grunt.registerTask("build", [
+    "jshint",
+    "jscs",
+    "copy:dist",
+    "concat",
+    "uglify",
+  ]);
 };

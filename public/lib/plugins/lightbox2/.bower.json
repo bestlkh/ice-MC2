@@ -1,9 +1,7 @@
 {
   "name": "lightbox2",
   "homepage": "http://lokeshdhakar.com/projects/lightbox2/",
-  "authors": [
-    "Lokesh Dhakar <lokesh.dhakar@gmail.com>"
-  ],
+  "authors": ["Lokesh Dhakar <lokesh.dhakar@gmail.com>"],
   "description": "The original Lightbox script. Uses jQuery.",
   "main": [
     "./dist/js/lightbox.js",
@@ -22,11 +20,7 @@
     "images"
   ],
   "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components"
-  ],
+  "ignore": ["**/.*", "node_modules", "bower_components"],
   "dependencies": {
     "jquery": "~2"
   },

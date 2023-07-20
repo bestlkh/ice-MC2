@@ -3,7 +3,7 @@
   &:active {
     .hamburger {
       transition: transform 50ms;
-      transform: scale(.95);
+      transform: scale(0.95);
     }
   }
 }
@@ -13,13 +13,15 @@
     background: #2f2f2c;
     &:active {
       .hamburger {
-        transform: scale(.95) rotateY(-180deg);
+        transform: scale(0.95) rotateY(-180deg);
       }
     }
   }
   .hamburger {
     transform: rotateY(-180deg);
-    &::before, &::after, .inner {
+    &::before,
+    &::after,
+    .inner {
       background: white;
     }
     &::before {
@@ -27,7 +29,9 @@
     }
     .inner {
       transform: rotateY(-90deg);
-      transition: transform 375ms, background-color 750ms ease-in-out;
+      transition:
+        transform 375ms,
+        background-color 750ms ease-in-out;
     }
     &::after {
       transform: translate3d(-4px, -1px, 0) rotateZ(45deg);
@@ -68,8 +72,10 @@
   width: 25px;
   height: 10px;
   transition: transform 750ms ease-in-out;
-  &::before, &::after, .inner {
-    content: '';
+  &::before,
+  &::after,
+  .inner {
+    content: "";
     position: absolute;
     width: 25px;
     height: 2px;
@@ -96,9 +102,9 @@ nav {
   z-index: -1;
   pointer-events: none;
   &::before {
-    content: '';
+    content: "";
     position: absolute;
-    border-right: 1px solid rgba(41, 37, 47, .05);
+    border-right: 1px solid rgba(41, 37, 47, 0.05);
     top: -10px;
     bottom: -10px;
     left: -10px;
@@ -118,7 +124,7 @@ nav {
   li {
     display: block;
     position: relative;
-    font-family: 'Helvetica Neue Light', Helvetica, sans-serif;
+    font-family: "Helvetica Neue Light", Helvetica, sans-serif;
     font-weight: 200;
     font-size: 26px;
     line-height: 36px;
@@ -126,7 +132,9 @@ nav {
     padding: 5px 5px 5px 15px;
     width: 200px;
     transform: rotateY(90deg) rotateZ(-15deg);
-    transition: transform 350ms, opacity 250ms;
+    transition:
+      transform 350ms,
+      opacity 250ms;
     transform-origin: 0 0;
     background: #2f2f2c;
     color: white;
@@ -152,14 +160,18 @@ nav {
       position: relative;
       text-decoration: none;
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         width: 220px;
         bottom: 0;
         height: 2px;
-        opacity: .5;
-        background: linear-gradient(to right, rgba(199, 25, 60, .4), rgba(199, 25, 60, .8));
+        opacity: 0.5;
+        background: linear-gradient(
+          to right,
+          rgba(199, 25, 60, 0.4),
+          rgba(199, 25, 60, 0.8)
+        );
         transform: translateX(-220px);
         transition: all 200ms 50ms;
       }
@@ -203,7 +215,7 @@ nav {
   display: inline-block;
   .menu_title {
     &:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
     }
   }
   .menu_list {
@@ -212,7 +224,7 @@ nav {
   }
 }
 
-.menu_logo{
+.menu_logo {
   display: none;
 }
 
@@ -236,7 +248,7 @@ nav {
   background: white;
   padding: 7px 0;
   border-radius: 0 3px 3px 3px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   .separator {
     margin: 5px 0;
     border-top: solid #ddd 1px;
@@ -253,7 +265,7 @@ nav {
       position: absolute;
       right: 10px;
       padding: 5px;
-      background: rgba(0,0,0, 0.1);
+      background: rgba(0, 0, 0, 0.1);
       top: 6px;
       height: 10px;
       text-align: center;
@@ -269,7 +281,7 @@ nav {
       width: auto;
     }
     &:hover {
-      background: rgba(0,0,0,0.1);
+      background: rgba(0, 0, 0, 0.1);
       color: #000;
     }
     &.disabled {
@@ -285,7 +297,7 @@ nav {
       height: auto;
       margin: 0;
       &:hover {
-        background: rgba(0,0,0,0.1);
+        background: rgba(0, 0, 0, 0.1);
         color: #000;
       }
       &.disabled {
@@ -295,7 +307,7 @@ nav {
         }
       }
       &:before {
-        content: '✔';
+        content: "✔";
         position: absolute;
         display: block;
         left: 7px;
@@ -309,7 +321,8 @@ nav {
 
 #main_menu {
   li {
-    &#tool_open, &#tool_import {
+    &#tool_open,
+    &#tool_import {
       position: relative;
       overflow: hidden;
     }

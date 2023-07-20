@@ -3,7 +3,7 @@
 / [Home](../../../) / [Alert Library](../overview) / Alert.Alert
 
 ??? "Authors"
-    Jun Zheng (junthehacker)
+Jun Zheng (junthehacker)
 
 Alert dialog class.
 
@@ -30,8 +30,8 @@ Callback function after user presses OK.
 The constructor, `message` and `callback` are optional, if you only provide the `title` then it will become message.
 
 ```javascript
-var my_alert = new Alert.Alert("title", "message", function(){
-   // code here 
+var my_alert = new Alert.Alert("title", "message", function () {
+  // code here
 });
 ```
 
@@ -44,4 +44,3 @@ Show the alert instance.
 Spawn an anonymous alert instance.
 
 The usage is same as constructor, this method does not return anything.
-

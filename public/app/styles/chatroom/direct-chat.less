@@ -30,28 +30,34 @@
 }
 
 #chat-sending-animation {
-    width: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  display: none;
+  #chat-sending-animation-inner {
     position: absolute;
     top: 0;
     left: 0;
     height: 5px;
-    display: none;
-    #chat-sending-animation-inner {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 5px;
-        width: 100px;
-        background-color: #64B5F6;
-        animation-timing-function: linear;
-        animation: sending-bounce 1s infinite;
-    }
+    width: 100px;
+    background-color: #64b5f6;
+    animation-timing-function: linear;
+    animation: sending-bounce 1s infinite;
+  }
 }
 
 @keyframes sending-bounce {
-    0% {left: 0%;}
-    50% {left: 90%;}
-    100% {left: 0%;}
+  0% {
+    left: 0%;
+  }
+  50% {
+    left: 90%;
+  }
+  100% {
+    left: 0%;
+  }
 }
 
 // Fancy enter animation for direct chat messages
@@ -81,26 +87,26 @@
   line-height: 18px;
   width: 400px;
   padding: 5px;
-  background-color: rgba(0,0,0,0.05);
+  background-color: rgba(0, 0, 0, 0.05);
   outline: none;
 }
 
 span.input-inline-block {
   padding: 3px;
   margin-right: 3px;
-  background-color: rgba(0,0,255, 0.1);
+  background-color: rgba(0, 0, 255, 0.1);
   border-radius: 3px;
 }
 
 .system-message {
-  color: #A0A0A0 !important;
+  color: #a0a0a0 !important;
   margin-bottom: 5px;
   font-size: 14px;
 }
 
 .nicknames {
-  position:absolute;
-  z-index:99;
+  position: absolute;
+  z-index: 99;
   color: white;
   font-size: 16px;
 }

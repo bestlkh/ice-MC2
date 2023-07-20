@@ -1,9 +1,10 @@
-<div class="chat-text-inner"
-     ng-click="showMessageMenu($event, message)"
-     ng-class="{
+<div
+  class="chat-text-inner"
+  ng-click="showMessageMenu($event, message)"
+  ng-class="{
                               'instructor-message': message.isInstructor() || message.isTA(),
                               'darken-background': message == showMenuMessage
-                             }" >
-
-    <div ng-include="'/app/views/chatroom/chat-text-content.html'"></div>
+                             }"
+>
+  <div ng-include="'/app/views/chatroom/chat-text-content.html'"></div>
 </div>

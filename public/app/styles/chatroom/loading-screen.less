@@ -5,7 +5,7 @@
   height: 100%;
   width: 100%;
   z-index: 999;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   opacity: 0;
   pointer-events: none;
   transition: opacity ease 0.5s;
@@ -32,7 +32,7 @@
 .loading-spinner > div {
   width: 18px;
   height: 18px;
-  background-color: #E65100;
+  background-color: #e65100;
 
   border-radius: 100%;
   display: inline-block;
@@ -51,16 +51,25 @@
 }
 
 @-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
 }
 
 @keyframes sk-bouncedelay {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     -webkit-transform: scale(0);
     transform: scale(0);
-  } 40% {
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
-    }
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
 }

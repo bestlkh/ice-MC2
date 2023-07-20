@@ -1,4 +1,4 @@
 module.exports = {
-    SUM : 0,
-    SQRT: 1
+  SUM: 0,
+  SQRT: 1,
 };

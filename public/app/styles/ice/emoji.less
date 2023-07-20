@@ -18,7 +18,7 @@ div {
 }
 
 #previewArea {
-  background-color: #CCCCCC;
+  background-color: #cccccc;
   border-radius: 5px;
   padding: 5px;
 }
@@ -28,7 +28,8 @@ div {
 button {
   &.accordion {
     transition: 0.5s;
-    &.active, &:hover {
+    &.active,
+    &:hover {
       background-color: transparent;
     }
   }
@@ -139,7 +140,8 @@ li {
   padding: 10px;
 }
 
-.tools_flyout .tool_button, .tools_flyout .tool_flyout {
+.tools_flyout .tool_button,
+.tools_flyout .tool_flyout {
   height: 25px;
   width: 25px;
 }
@@ -151,12 +153,12 @@ li {
   top: 0;
 }
 
-#tools_shapelib{
+#tools_shapelib {
   background-color: #eee;
 }
 
-#shape_buttons{
-  margin-left:4%;
+#shape_buttons {
+  margin-left: 4%;
   padding: 2.5%;
 }
 
@@ -166,18 +168,18 @@ li {
   width: 400px;
 }
 
-#floatingContent>h1 {
+#floatingContent > h1 {
   margin: 0;
 }
 
 /* Buttons */
 
-.dollorbutton{
-  height:20px;
-  width:30px;
+.dollorbutton {
+  height: 20px;
+  width: 30px;
   display: flex;
-  border:none;
-  background:none;
+  border: none;
+  background: none;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -188,8 +190,6 @@ li {
   border: none;
   background-color: white;
 }
-
-
 
 /* Keyboard */
 
@@ -206,7 +206,9 @@ li {
     height: auto;
     top: auto !important;
     display: block !important;
-    transition: bottom ease 0.5s, opacity ease 0.5s;
+    transition:
+      bottom ease 0.5s,
+      opacity ease 0.5s;
     /*Hide keyboard on startup*/
     bottom: -500px;
     opacity: 0;
@@ -236,7 +238,7 @@ li {
     overflow: auto !important;
     align-content: flex-start;
     /*height: 130px;*/
-    .tool_button>svg {
+    .tool_button > svg {
       display: block;
       margin: auto;
     }
@@ -264,14 +266,14 @@ li {
     }
   }
 
-  #shape_cats{
+  #shape_cats {
     border-radius: 0 !important;
     display: flex;
     width: 100% !important;
     background-color: #ebf0ef !important;
     /*height: 170px;*/
     height: auto;
-    &>div {
+    & > div {
       width: 100%;
       text-align: center;
       background-color: #e1e6e5;
@@ -312,7 +314,7 @@ li {
       margin: 0;
       line-height: 24px;
       display: flex;
-      &>div {
+      & > div {
         padding: 0 3px;
         margin: 0;
         flex-grow: 1;
@@ -332,14 +334,14 @@ li {
     top: inherit !important;
     width: 100%;
     margin-left: -47px !important;
-    &>div {
+    & > div {
       height: 60px;
       font-size: 12px;
     }
   }
 
   #math_cats {
-    &>div {
+    & > div {
       padding: 0;
       text-align: center;
       width: 50px;
@@ -379,4 +381,3 @@ li {
     display: none !important;
   }
 }
-

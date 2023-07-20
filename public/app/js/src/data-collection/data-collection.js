@@ -1,3 +1,3 @@
 window.DataCollection = {
-    Logger: require('./logger/Logger')
+  Logger: require("./logger/Logger"),
 };

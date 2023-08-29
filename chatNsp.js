@@ -79,19 +79,6 @@ function LectureNsp(name, owner, io) {
 }
 
 LectureNsp.prototype.connectToDb = function (callback) {
-  try {
-    sequelize.authenticate();
-    console.log(
-      "Connection has been established successfully to the database.",
-    );
-    sequelize.sync({
-      alter: {
-        drop: false,
-      },
-    });
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
 };
 
 LectureNsp.prototype.sendMessage = function (roomName, message, callback) {

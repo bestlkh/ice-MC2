@@ -212,6 +212,22 @@ angular
                   if (!$scope.isJoin || !$scope.roomId)
                     $location.path("/v1/ChatRoom/" + $scope.form.roomId);
                   else $location.path("/v1/ChatRoom/" + $scope.roomId);
+
+                  // $.ajax({
+                  //   url:
+                  //     "/v1/bot/joinRoom/" +
+                  //     $scope.form.roomId,
+                  //   type: "POST",
+                  //   success: function (result) {
+                  //     $scope.$apply();
+                  //   },
+                  //   error: function (err) {
+                  //     $scope.error = err.responseJSON;
+                  //     console.log(err);
+                  //   },
+                  // });
+
+
                 } else {
                   // print custom errors if duplication occurs
                   if (data.issue === "noRoomExists") {

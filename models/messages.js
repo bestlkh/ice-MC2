@@ -2,8 +2,8 @@ const sequelize = require("../datasource.js");
 const DataTypes = require("sequelize").DataTypes;
 
 const Message = sequelize.define("Message", {
-  content: {
-    type: DataTypes.STRING,
-  },
+  username: DataTypes.STRING,
+  message: DataTypes.STRING,
+  roomId: DataTypes.STRING,
 });
 module.exports = Message;

@@ -17,6 +17,7 @@ function Bot(params) {
     timeout: params.timeout,
     reconnectionAttempts: 10,
     reconnectionDelay: 2000,
+    isBot: true,
   });
 }
 
@@ -42,7 +43,7 @@ Bot.prototype.emit = function (event, data, callback) {
 };
 
 Bot.prototype.join = function (roomName, callback) {
-  this.socket.emit("join-room", { roomId: roomName }, function (result) {
+  this.socket.emit("join-room", { roomId: roomName, username: "bot" }, function (result) {
     callback(result);
   });
 };

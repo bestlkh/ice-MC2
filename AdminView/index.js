@@ -17,11 +17,12 @@ let sharedsession = require("express-socket.io-session");
 let mimeMap = require("mime-types");
 let fs = require("fs");
 
-const sequelize = require("../datasource.js");
-const Students = require("../models/student.js");
-const Rooms = require("../models/rooms.js");
-const Messages = require("../models/messages.js");
-const db_relationships = require("../models/relationships.js");
+// const sequelize = require("../datasource.js");
+// const Students = require("../models/student.js");
+// const Settings = require("../models/settings.js");
+// const Rooms = require("../models/rooms.js");
+// const Messages = require("../models/messages.js");
+// const db_relationships = require("../models/relationships.js");
 
 function findOne(list, params) {
   let result;
@@ -63,7 +64,7 @@ function AdminView(socketController, expressApp, sessionObj) {
   this.nsps = [];
 
   console.log("Setting up admin view.");
-  this.connectToDb();
+  //this.connectToDb();
 
   // this.connectToDb(function (err, db) {
   //     try {
@@ -170,6 +171,7 @@ let naming = function (req, file, cb) {
 
 let multer = require("multer");
 const { Sequelize } = require("sequelize");
+const { CONSTRAINT } = require("sqlite3");
 let storage = multer.diskStorage({
   filename: naming,
   destination: "./public/app/css/dist/img",
@@ -182,6 +184,27 @@ AdminView.prototype.setupApi = function () {
     "/v1/api/login",
     function (req, res) {
       console.log("login request received");
+
+      const user = Users.findOne({
+        where: {
+          username: req.body.username,
+        },
+      });
+      if (!user || !checkPassword(user, req.body.password)) {
+        return res.status(403).json({
+          message: "Invalid username or password",
+          status: 403,
+        });
+      }
+      const settings = Settings.findOne({
+        where: {
+          username: user.username,
+        },
+      });
+      
+
+
+
 
       this.db.collection("users").findOne(
         { username: req.body.username },
@@ -605,31 +628,55 @@ AdminView.prototype.setupApi = function () {
     }.bind(this),
   );
 
+  this.app.post("/v1/bot/joinRoom/:roomId", function (req, res) {
+    console.log("Bot join room");
+    let roomId = req.params.roomId.toLowerCase();
+    var bot = new Bot({name: uuidv4(), host: "http://localhost", port: 8080, timeout: 5000, nsp: "/test"});
+    bot.connect({username: "BOT", initials: "bo", userAvatar: 'avatar1.jpg', roomId: roomId}, function (result) {
+      console.log(result);
+
+      bot.join(roomId, function (result) {
+          console.log(result);
+
+          bot.emit("send-message", {msg: "hello world!", hasMsg: true}, function (result) {
+              console.log(result);
+          });
+      });
+
+      bot.on("new message", function (data) {
+          console.log("received message: [" + data.msgTime + "] " + data.username + ": " + data.msg);
+      });
+
+
+    });
+    res.end("end");
+  });
+
   // this.app.get("/admin/client/test", function (req, res) {
-  //
+  
   //     var secret = uuidv4();
   //     this.secrets.push(secret);
   //     var bot = new Bot({name: uuidv4(), host: "http://localhost", port: 8080, timeout: 5000, nsp: "/test"});
-  //
+  
   //     bot.connect({username: "BOT", initials: "bo", userAvatar: 'avatar1.jpg', roomId: "test2"}, function (result) {
   //         console.log(result);
-  //
+  
   //         bot.join('test2', function (result) {
   //             console.log(result);
-  //
+  
   //             bot.emit("send-message", {msg: "hello world!", hasMsg: true}, function (result) {
   //                 console.log(result);
   //             });
   //         });
-  //
+  
   //         bot.on("new message", function (data) {
   //             console.log("received message: [" + data.msgTime + "] " + data.username + ": " + data.msg);
   //         });
-  //
-  //
+  
+  
   //     });
-  //
-  //
+  
+  
   //     res.end("end");
   // }.bind(this));
 

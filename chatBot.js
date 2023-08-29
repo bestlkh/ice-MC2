@@ -1,5 +1,31 @@
 let Bot = require("./AdminView/bot.js");
 const uuidv4 = require("uuid/v4");
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+async function generateResponse(message) {
+  try {
+      const prompt = `You: ${message}\nAI: `;
+
+      const response = await openai.createCompletion({
+          model: "text-davinci-002",
+          prompt,
+          max_tokens: 50,
+      });
+
+      // Extract the AI's response from the API response
+      const aiResponse = response.data.choices[0].text;
+
+      return aiResponse;
+  } catch (error) {
+      console.error("Error generating response:", error);
+      return "An error occurred while generating a response.";
+  }
+}
 
 let bot = new Bot(
   {

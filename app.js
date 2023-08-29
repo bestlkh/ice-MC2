@@ -11,10 +11,13 @@ let formidable = require("formidable"); // file upload module
 let moment = require("moment");
 let Message = require("./message");
 
-const sequelize = require("./datasource.js").sequelize;
+const sequelize = require("./datasource.js");
 const AdminView = require("./AdminView");
+const DbMessage = require("./models/messages.js");
 const ChatNsp = require("./chatNsp").ChatNsp;
 const constants = require("./AdminView/constants");
+const Mc2Bot = require("./chatBot.js");
+
 
 function findOne(list, params) {
   let result;
@@ -50,6 +53,7 @@ ios.use(
 );
 
 let AdminController = new AdminView(ios, app, session);
+//const BotController = new Mc2Bot(ios, app);
 
 const Controllers = {
   SystemInfoController: require("./controllers/rest/SystemInfoController"),
@@ -73,6 +77,14 @@ let socket_data;
 let files_array = [];
 let expiryTime = 8;
 let routineTime = 1;
+
+const useDatabase = process.env.DB_SAVE || false;
+if(useDatabase) {
+  connectToDb().then();
+  console.log("Using database\n");
+} else {
+  console.log("Not using database, will not keep info on \n ");
+}
 
 let port = process.env.PORT || 8080;
 server.listen(port, function () {
@@ -143,11 +155,6 @@ let chat = new ChatNsp("", ios);
 //sockets handling
 
 chat.on("connection", function (socket) {
-  console.log("New connection: " + socket.id);
-
-  socket.on("message", function (data) {
-    console.log(data);
-  });
 
   function setSessionVar(variable, value) {
     socket.handshake.session[variable] = value;
@@ -167,7 +174,6 @@ chat.on("connection", function (socket) {
 
   socket.on("check-session", function (data, callback) {
     let session = socket.handshake.session;
-
     let username = session.username;
     if (!username) callback({});
     else callback({ username: username, avatar: session.userAvatar });
@@ -193,7 +199,6 @@ chat.on("connection", function (socket) {
         });
         socket.join(data.roomId, function () {
           room = findRoom(data.roomId);
-
           socket.connectedRoom = data.roomId;
 
           if (!room.messageHistory) room.messageHistory = [];
@@ -277,11 +282,12 @@ chat.on("connection", function (socket) {
 
   // sending new message
   socket.on("send-message", function (data, callback) {
-    console.log(data);
     data.type = "chat";
     if (socket.handshake.session.username) {
       let message = new Message.Message(data, socket.handshake.session);
-
+      if(useDatabase) {
+        addMessage(socket.handshake.session.username, socket.connectedRoom, message);
+      }
       findRoom(socket.connectedRoom).messageHistory.push(message);
 
       ios.sockets.to(socket.connectedRoom).emit("new message", message);
@@ -530,6 +536,30 @@ app.post("/v1/getfile", function (req, res) {
     res.send(deletedfileinfo);
   }
 });
+
+async function connectToDb() {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync({ alter: { drop: false } });
+    console.log("Database connected");
+  } catch(error) {
+    console.log("Unable to connect to database:", error);
+  }
+}
+
+function addMessage(username, roomId, message) {
+  try {
+    const messageData = new DbMessage({
+      username: username,
+      roomId: roomId,
+      message: message.msg,
+    });
+    messageData.save();
+
+  } catch(error) {
+    console.error("Unable to save message to database:", error);
+  }
+}
 
 // Routine Clean up call
 setInterval(function () {

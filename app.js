@@ -16,7 +16,7 @@ const AdminView = require("./AdminView");
 const DbMessage = require("./models/messages.js");
 const ChatNsp = require("./chatNsp").ChatNsp;
 const constants = require("./AdminView/constants");
-const Mc2Bot = require("./chatBot.js");
+//const Mc2Bot = require("./chatBot.js");
 
 
 function findOne(list, params) {

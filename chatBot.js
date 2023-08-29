@@ -31,7 +31,7 @@ let bot = new Bot(
   {
     name: "mc2bot", 
     host: "ws://localhost",
-    port: 8081, 
+    port: 8080, 
     timeout: 5000, 
     nsp: "", 
   });

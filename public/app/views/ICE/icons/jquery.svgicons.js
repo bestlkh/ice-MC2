@@ -126,78 +126,86 @@ $(function() {
 
 */
 
+(function ($) {
+  var svg_icons = {},
+    fixIDs;
 
-(function($) {
-  var svg_icons = {}, fixIDs;
-
-  $.svgIcons = function(file, opts) {
+  $.svgIcons = function (file, opts) {
     var svgns = "http://www.w3.org/2000/svg",
       xlinkns = "http://www.w3.org/1999/xlink",
-      icon_w = opts.w?opts.w : 24,
-      icon_h = opts.h?opts.h : 24,
-      elems, svgdoc, testImg,
-      icons_made = false, data_loaded = false, load_attempts = 0,
-      ua = navigator.userAgent, isOpera = !!window.opera, isSafari = (ua.indexOf('Safari/') > -1 && ua.indexOf('Chrome/')==-1),
-      data_pre = 'data:image/svg+xml;charset=utf-8;base64,';
-      
-      if(opts.svgz) {
-        var data_el = $('<object data="' + file + '" type=image/svg+xml>').appendTo('body').hide();
-        try {
-          svgdoc = data_el[0].contentDocument;
-          data_el.load(getIcons);
-          getIcons(0, true); // Opera will not run "load" event if file is already cached
-        } catch(err1) {
-          useFallback();
-        }
-      } else {
-        var parser = new DOMParser();
-        $.ajax({
-          url: file,
-          dataType: 'string',
-          success: function(data) {
-            if(!data) {
-              $(useFallback);
-              return;
-            }
-            svgdoc = parser.parseFromString(data, "text/xml");
-            $(function() {
-              getIcons('ajax');
+      icon_w = opts.w ? opts.w : 24,
+      icon_h = opts.h ? opts.h : 24,
+      elems,
+      svgdoc,
+      testImg,
+      icons_made = false,
+      data_loaded = false,
+      load_attempts = 0,
+      ua = navigator.userAgent,
+      isOpera = !!window.opera,
+      isSafari = ua.indexOf("Safari/") > -1 && ua.indexOf("Chrome/") == -1,
+      data_pre = "data:image/svg+xml;charset=utf-8;base64,";
+
+    if (opts.svgz) {
+      var data_el = $('<object data="' + file + '" type=image/svg+xml>')
+        .appendTo("body")
+        .hide();
+      try {
+        svgdoc = data_el[0].contentDocument;
+        data_el.load(getIcons);
+        getIcons(0, true); // Opera will not run "load" event if file is already cached
+      } catch (err1) {
+        useFallback();
+      }
+    } else {
+      var parser = new DOMParser();
+      $.ajax({
+        url: file,
+        dataType: "string",
+        success: function (data) {
+          if (!data) {
+            $(useFallback);
+            return;
+          }
+          svgdoc = parser.parseFromString(data, "text/xml");
+          $(function () {
+            getIcons("ajax");
+          });
+        },
+        error: function (err) {
+          // TODO: Fix Opera widget icon bug
+          if (window.opera) {
+            $(function () {
+              useFallback();
             });
-          },
-          error: function(err) {
-            // TODO: Fix Opera widget icon bug
-            if(window.opera) {
-              $(function() {
-                useFallback();
-              });
-            } else {
-              if(err.responseText) {
-                svgdoc = parser.parseFromString(err.responseText, "text/xml");
-                if(!svgdoc.childNodes.length) {
-                  $(useFallback);                 
-                }
-                $(function() {
-                  getIcons('ajax');
-                });             
-              } else {
+          } else {
+            if (err.responseText) {
+              svgdoc = parser.parseFromString(err.responseText, "text/xml");
+              if (!svgdoc.childNodes.length) {
                 $(useFallback);
               }
+              $(function () {
+                getIcons("ajax");
+              });
+            } else {
+              $(useFallback);
             }
           }
-        });
-      }
-      
+        },
+      });
+    }
+
     function getIcons(evt, no_wait) {
-      if(evt !== 'ajax') {
-        if(data_loaded) return;
+      if (evt !== "ajax") {
+        if (data_loaded) return;
         // Webkit sometimes says svgdoc is undefined, other times
-        // it fails to load all nodes. Thus we must make sure the "eof" 
+        // it fails to load all nodes. Thus we must make sure the "eof"
         // element is loaded.
         svgdoc = data_el[0].contentDocument; // Needed again for Webkit
-        var isReady = (svgdoc && svgdoc.getElementById('svg_eof'));
-        if(!isReady && !(no_wait && isReady)) {
+        var isReady = svgdoc && svgdoc.getElementById("svg_eof");
+        if (!isReady && !(no_wait && isReady)) {
           load_attempts++;
-          if(load_attempts < 50) {
+          if (load_attempts < 50) {
             setTimeout(getIcons, 20);
           } else {
             useFallback();
@@ -207,265 +215,272 @@ $(function() {
         }
         data_loaded = true;
       }
-      
+
       elems = $(svgdoc.firstChild).children(); //.getElementsByTagName('foreignContent');
-      
-      if(!opts.no_img) {
-        var testSrc = data_pre + 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNzUiIGhlaWdodD0iMjc1Ij48L3N2Zz4%3D';
-        
-        testImg = $(new Image()).attr({
-          src: testSrc,
-          width: 0,
-          height: 0
-        }).appendTo('body')
-        .load(function () {
-          // Safari 4 crashes, Opera and Chrome don't
-          makeIcons(true);
-        }).error(function () {
-          makeIcons();
-        });
+
+      if (!opts.no_img) {
+        var testSrc =
+          data_pre +
+          "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNzUiIGhlaWdodD0iMjc1Ij48L3N2Zz4%3D";
+
+        testImg = $(new Image())
+          .attr({
+            src: testSrc,
+            width: 0,
+            height: 0,
+          })
+          .appendTo("body")
+          .load(function () {
+            // Safari 4 crashes, Opera and Chrome don't
+            makeIcons(true);
+          })
+          .error(function () {
+            makeIcons();
+          });
       } else {
-        setTimeout(function() {
-          if(!icons_made) makeIcons();
-        },500);
+        setTimeout(function () {
+          if (!icons_made) makeIcons();
+        }, 500);
       }
     }
-    
-    var setIcon = function(target, icon, id, setID) {
-      if(isOpera) icon.css('visibility','hidden');
-      if(opts.replace) {
-        if(setID) icon.attr('id',id);
-        var cl = target.attr('class');
-        if(cl) icon.attr('class','svg_icon '+cl);
+
+    var setIcon = function (target, icon, id, setID) {
+      if (isOpera) icon.css("visibility", "hidden");
+      if (opts.replace) {
+        if (setID) icon.attr("id", id);
+        var cl = target.attr("class");
+        if (cl) icon.attr("class", "svg_icon " + cl);
         target.replaceWith(icon);
       } else {
-        
         target.append(icon);
       }
-      if(isOpera) {
-        setTimeout(function() {
-          icon.removeAttr('style');
-        },1);
+      if (isOpera) {
+        setTimeout(function () {
+          icon.removeAttr("style");
+        }, 1);
       }
-    }
-    
-    var addIcon = function(icon, id) {
-      if(opts.id_match === undefined || opts.id_match !== false) {
+    };
+
+    var addIcon = function (icon, id) {
+      if (opts.id_match === undefined || opts.id_match !== false) {
         setIcon(holder, icon, id, true);
       }
       svg_icons[id] = icon;
-    }
-    
+    };
+
     function makeIcons(toImage, fallback) {
-      if(icons_made) return;
-      if(opts.no_img) toImage = false;
+      if (icons_made) return;
+      if (opts.no_img) toImage = false;
       var holder;
-      
-      if(toImage) {
-        var temp_holder = $(document.createElement('div'));
-        temp_holder.hide().appendTo('body');
-      } 
-      if(fallback) {
-        var path = opts.fallback_path?opts.fallback_path:'';
-        $.each(fallback, function(id, imgsrc) {
-          holder = $('#' + id);
-          var icon = $(new Image())
-            .attr({
-              'class':'svg_icon',
-              src: path + imgsrc,
-              'width': icon_w,
-              'height': icon_h,
-              'alt': 'icon'
-            });
-          
+
+      if (toImage) {
+        var temp_holder = $(document.createElement("div"));
+        temp_holder.hide().appendTo("body");
+      }
+      if (fallback) {
+        var path = opts.fallback_path ? opts.fallback_path : "";
+        $.each(fallback, function (id, imgsrc) {
+          holder = $("#" + id);
+          var icon = $(new Image()).attr({
+            class: "svg_icon",
+            src: path + imgsrc,
+            width: icon_w,
+            height: icon_h,
+            alt: "icon",
+          });
+
           addIcon(icon, id);
         });
       } else {
         var len = elems.length;
-        for(var i = 0; i < len; i++) {
+        for (var i = 0; i < len; i++) {
           var elem = elems[i];
           var id = elem.id;
-          if(id === 'svg_eof') break;
-          holder = $('#' + id);
-          var svg = elem.getElementsByTagNameNS(svgns, 'svg')[0];
+          if (id === "svg_eof") break;
+          holder = $("#" + id);
+          var svg = elem.getElementsByTagNameNS(svgns, "svg")[0];
           var svgroot = document.createElementNS(svgns, "svg");
-          svgroot.setAttributeNS(svgns, 'viewBox', [0,0,icon_w,icon_h].join(' '));
+          svgroot.setAttributeNS(
+            svgns,
+            "viewBox",
+            [0, 0, icon_w, icon_h].join(" "),
+          );
           // Make flexible by converting width/height to viewBox
-          var w = svg.getAttribute('width');
-          var h = svg.getAttribute('height');
-          svg.removeAttribute('width');
-          svg.removeAttribute('height');
-          
-          var vb = svg.getAttribute('viewBox');
-          if(!vb) {
-            svg.setAttribute('viewBox', [0,0,w,h].join(' '));
+          var w = svg.getAttribute("width");
+          var h = svg.getAttribute("height");
+          svg.removeAttribute("width");
+          svg.removeAttribute("height");
+
+          var vb = svg.getAttribute("viewBox");
+          if (!vb) {
+            svg.setAttribute("viewBox", [0, 0, w, h].join(" "));
           }
-          
+
           // Not using jQuery to be a bit faster
-          svgroot.setAttribute('xmlns', svgns);
-          svgroot.setAttribute('width', icon_w);
-          svgroot.setAttribute('height', icon_h);
+          svgroot.setAttribute("xmlns", svgns);
+          svgroot.setAttribute("width", icon_w);
+          svgroot.setAttribute("height", icon_h);
           svgroot.setAttribute("xmlns:xlink", xlinkns);
-          svgroot.setAttribute("class", 'svg_icon');
+          svgroot.setAttribute("class", "svg_icon");
 
           // Without cloning, Firefox will make another GET request.
           // With cloning, causes issue in Opera/Win/Non-EN
-          if(!isOpera) svg = svg.cloneNode(true);
-          
+          if (!isOpera) svg = svg.cloneNode(true);
+
           svgroot.appendChild(svg);
-      
-          if(toImage) {
+
+          if (toImage) {
             // Without cloning, Safari will crash
             // With cloning, causes issue in Opera/Win/Non-EN
-            var svgcontent = isOpera?svgroot:svgroot.cloneNode(true);
+            var svgcontent = isOpera ? svgroot : svgroot.cloneNode(true);
             temp_holder.empty().append(svgroot);
             var str = data_pre + encode64(temp_holder.html());
-            var icon = $(new Image())
-              .attr({'class':'svg_icon', src:str});
+            var icon = $(new Image()).attr({ class: "svg_icon", src: str });
           } else {
             var icon = fixIDs($(svgroot), i);
           }
           addIcon(icon, id);
         }
-
       }
-      
-      if(opts.placement) {
-        $.each(opts.placement, function(sel, id) {
-          if(!svg_icons[id]) return;
-          $(sel).each(function(i) {
+
+      if (opts.placement) {
+        $.each(opts.placement, function (sel, id) {
+          if (!svg_icons[id]) return;
+          $(sel).each(function (i) {
             var copy = svg_icons[id].clone();
-            if(i > 0 && !toImage) copy = fixIDs(copy, i, true);
+            if (i > 0 && !toImage) copy = fixIDs(copy, i, true);
             setIcon($(this), copy, id);
-          })
+          });
         });
       }
-      if(!fallback) {
-        if(toImage) temp_holder.remove();
-        if(data_el) data_el.remove();
-        if(testImg) testImg.remove();
+      if (!fallback) {
+        if (toImage) temp_holder.remove();
+        if (data_el) data_el.remove();
+        if (testImg) testImg.remove();
       }
-      if(opts.resize) $.resizeSvgIcons(opts.resize);
+      if (opts.resize) $.resizeSvgIcons(opts.resize);
       icons_made = true;
 
-      if(opts.callback) opts.callback(svg_icons);
+      if (opts.callback) opts.callback(svg_icons);
     }
-    
-    fixIDs = function(svg_el, svg_num, force) {
-      var defs = svg_el.find('defs');
-      if(!defs.length) return svg_el;
-      
-      if(isOpera) {
-        var id_elems = defs.find('*').filter(function() {
+
+    fixIDs = function (svg_el, svg_num, force) {
+      var defs = svg_el.find("defs");
+      if (!defs.length) return svg_el;
+
+      if (isOpera) {
+        var id_elems = defs.find("*").filter(function () {
           return !!this.id;
         });
       } else {
-        var id_elems = defs.find('[id]');
+        var id_elems = defs.find("[id]");
       }
-      
-      var all_elems = svg_el[0].getElementsByTagName('*'), len = all_elems.length;
-      
-      id_elems.each(function(i) {
-        var id = this.id;
-        var no_dupes = ($(svgdoc).find('#' + id).length <= 1);
-        if(isOpera) no_dupes = false; // Opera didn't clone svg_el, so not reliable
-        // if(!force && no_dupes) return;
-        var new_id = 'x' + id + svg_num + i;
-        this.id = new_id;
-        
-        var old_val = 'url(#' + id + ')';
-        var new_val = 'url(#' + new_id + ')';
 
-        for(var i = 0; i < len; i++) {
+      var all_elems = svg_el[0].getElementsByTagName("*"),
+        len = all_elems.length;
+
+      id_elems.each(function (i) {
+        var id = this.id;
+        var no_dupes = $(svgdoc).find("#" + id).length <= 1;
+        if (isOpera) no_dupes = false; // Opera didn't clone svg_el, so not reliable
+        // if(!force && no_dupes) return;
+        var new_id = "x" + id + svg_num + i;
+        this.id = new_id;
+
+        var old_val = "url(#" + id + ")";
+        var new_val = "url(#" + new_id + ")";
+
+        for (var i = 0; i < len; i++) {
           var elem = all_elems[i];
-          if(elem.getAttribute('fill') === old_val) {
-            elem.setAttribute('fill', new_val);
+          if (elem.getAttribute("fill") === old_val) {
+            elem.setAttribute("fill", new_val);
           }
-          if(elem.getAttribute('stroke') === old_val) {
-            elem.setAttribute('stroke', new_val);
+          if (elem.getAttribute("stroke") === old_val) {
+            elem.setAttribute("stroke", new_val);
           }
-          if(elem.getAttribute('filter') === old_val) {
-            elem.setAttribute('filter', new_val);
+          if (elem.getAttribute("filter") === old_val) {
+            elem.setAttribute("filter", new_val);
           }
         }
       });
       return svg_el;
-    }
-    
+    };
+
     function useFallback() {
-      if(file.indexOf('.svgz') != -1) {
-        var reg_file = file.replace('.svgz','.svg');
-        if(window.console) {
-          console.log('.svgz failed, trying with .svg');
+      if (file.indexOf(".svgz") != -1) {
+        var reg_file = file.replace(".svgz", ".svg");
+        if (window.console) {
+          console.log(".svgz failed, trying with .svg");
         }
         $.svgIcons(reg_file, opts);
-      } else if(opts.fallback) {
+      } else if (opts.fallback) {
         makeIcons(false, opts.fallback);
       }
     }
-        
+
     function encode64(input) {
       // base64 strings are 4/3 larger than the original string
-      if(window.btoa) return window.btoa(input);
-      var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-      var output = new Array( Math.floor( (input.length + 2) / 3 ) * 4 );
+      if (window.btoa) return window.btoa(input);
+      var _keyStr =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+      var output = new Array(Math.floor((input.length + 2) / 3) * 4);
       var chr1, chr2, chr3;
       var enc1, enc2, enc3, enc4;
-      var i = 0, p = 0;
-    
+      var i = 0,
+        p = 0;
+
       do {
         chr1 = input.charCodeAt(i++);
         chr2 = input.charCodeAt(i++);
         chr3 = input.charCodeAt(i++);
-    
+
         enc1 = chr1 >> 2;
         enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
         enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
         enc4 = chr3 & 63;
-    
+
         if (isNaN(chr2)) {
           enc3 = enc4 = 64;
         } else if (isNaN(chr3)) {
           enc4 = 64;
         }
-    
+
         output[p++] = _keyStr.charAt(enc1);
         output[p++] = _keyStr.charAt(enc2);
         output[p++] = _keyStr.charAt(enc3);
         output[p++] = _keyStr.charAt(enc4);
       } while (i < input.length);
-    
-      return output.join('');
+
+      return output.join("");
     }
-  }
-  
-  $.getSvgIcon = function(id, uniqueClone) { 
+  };
+
+  $.getSvgIcon = function (id, uniqueClone) {
     var icon = svg_icons[id];
-    if(uniqueClone && icon) {
+    if (uniqueClone && icon) {
       icon = fixIDs(icon, 0, true).clone(true);
     }
-    return icon; 
-  }
-  
-  $.resizeSvgIcons = function(obj) {
+    return icon;
+  };
+
+  $.resizeSvgIcons = function (obj) {
     // FF2 and older don't detect .svg_icon, so we change it detect svg elems instead
-    var change_sel = !$('.svg_icon:first').length;
-    $.each(obj, function(sel, size) {
+    var change_sel = !$(".svg_icon:first").length;
+    $.each(obj, function (sel, size) {
       var arr = $.isArray(size);
-      var w = arr?size[0]:size,
-        h = arr?size[1]:size;
-      if(change_sel) {
-        sel = sel.replace(/\.svg_icon/g,'svg');
+      var w = arr ? size[0] : size,
+        h = arr ? size[1] : size;
+      if (change_sel) {
+        sel = sel.replace(/\.svg_icon/g, "svg");
       }
-      $(sel).each(function() {
-        this.setAttribute('width', w);
-        this.setAttribute('height', h);
-        if(window.opera && window.widget) {
-          this.parentNode.style.width = w + 'px';
-          this.parentNode.style.height = h + 'px';
+      $(sel).each(function () {
+        this.setAttribute("width", w);
+        this.setAttribute("height", h);
+        if (window.opera && window.widget) {
+          this.parentNode.style.width = w + "px";
+          this.parentNode.style.height = h + "px";
         }
       });
     });
-  }
-  
+  };
 })(jQuery);

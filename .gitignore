@@ -2,6 +2,8 @@
 logs
 *.log
 
+*.sqlite
+
 # Runtime data
 pids
 *.pid

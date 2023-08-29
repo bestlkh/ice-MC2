@@ -1,54 +1,65 @@
 <div id="mathjax-frame">
-    <textarea id="mathjax-viewer" cols="40" rows="10" onchange="Preview.CreatePreview()"
-                onkeyup="Preview.CreatePreview()" style="margin-top:5px"></textarea>
-    <div id="math-preview-container">
-        <div id="math-preview"></div>
-        <div id="math-buffer"></div>
-        <button id="preview-send">Send to Chat <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-    </div>
+  <textarea
+    id="mathjax-viewer"
+    cols="40"
+    rows="10"
+    onchange="Preview.CreatePreview()"
+    onkeyup="Preview.CreatePreview()"
+    style="margin-top: 5px"
+  ></textarea>
+  <div id="math-preview-container">
+    <div id="math-preview"></div>
+    <div id="math-buffer"></div>
+    <button id="preview-send">
+      Send to Chat <i class="fa fa-paper-plane" aria-hidden="true"></i>
+    </button>
+  </div>
 </div>
 
 <!-- Copyright (c) 2012-2017 The MathJax Consortium -->
 <!--MathJaX Configurations-->
 <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        showProcessingMessages: false,
-        tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
-        CommonHTML: { linebreaks: { automatic: true, width: "container" } },
-        "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
-        SVG: {
-        linebreaks: { automatic: true, width: "container" },
-        scale: 150
-        }
-    });
-    MathJax.Hub.setRenderer("SVG");
+  MathJax.Hub.Config({
+      showProcessingMessages: false,
+      tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] },
+      CommonHTML: { linebreaks: { automatic: true, width: "container" } },
+      "HTML-CSS": { linebreaks: { automatic: true, width: "container" } },
+      SVG: {
+      linebreaks: { automatic: true, width: "container" },
+      scale: 150
+      }
+  });
+  MathJax.Hub.setRenderer("SVG");
 </script>
 <script>
-    var svg_source = "";
-    setTimeout(function () {
-        Preview.Init();
-    }, 2000);
+  var svg_source = "";
+  setTimeout(function () {
+    Preview.Init();
+  }, 2000);
 
-    var previewEditor = ace.edit("mathjax-viewer");
-    previewEditor.setTheme("ace/theme/monokai");
-    previewEditor.getSession().setMode("ace/mode/latex");
-    previewEditor.getSession().on('change', function(e) {
-        Preview.CreatePreview()
-    });
+  var previewEditor = ace.edit("mathjax-viewer");
+  previewEditor.setTheme("ace/theme/monokai");
+  previewEditor.getSession().setMode("ace/mode/latex");
+  previewEditor.getSession().on("change", function (e) {
+    Preview.CreatePreview();
+  });
 
-    $("#preview-send").on("click", function() {
-        if (previewEditor.getValue()) {
-            raw_message = sanitizeHtml(previewEditor.getValue());
-            raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
-            var message_attachment = {
-                'svg-source': svg_source
-            };
-            raw_message += btoa(JSON.stringify(message_attachment));
-            raw_message += "\n-----MC2 END ATTACHMENT-----\n";
-            $("#textArea").val(raw_message);
-            $("#send-message-button").click();
-        } else {
-            Alert.Alert.spawn("Oops","<div style='text-align: center;'><img src='app/images/image-convert-hint.png' width='150' /><br><br>Oops! You need to convert your drawings to equation before you can send it.</div>");
-        }
-    });
+  $("#preview-send").on("click", function () {
+    if (previewEditor.getValue()) {
+      raw_message = sanitizeHtml(previewEditor.getValue());
+      raw_message += "\n-----MC2 BEGIN ATTACHMENT-----\n";
+      var message_attachment = {
+        "svg-source": svg_source,
+      };
+      raw_message += btoa(JSON.stringify(message_attachment));
+      raw_message += "\n-----MC2 END ATTACHMENT-----\n";
+      $("#textArea").val(raw_message);
+      $("#send-message-button").click();
+    } else {
+      Alert.Alert.spawn(
+        "Oops",
+        "<div style='text-align: center;'><img src='app/images/image-convert-hint.png' width='150' /><br><br>Oops! You need to convert your drawings to equation before you can send it.</div>",
+      );
+    }
+  });
 </script>

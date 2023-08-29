@@ -1,86 +1,101 @@
-
 <div class="control-header">
-
-    <header> </header>
-    <div class="header-control-wrapper">
-        <logout-menu user="user"></logout-menu>
-
-    </div>
+  <header></header>
+  <div class="header-control-wrapper">
+    <logout-menu user="user"></logout-menu>
+  </div>
 </div>
-<div class="overlay" ng-if="!hideOverlay" >
+<div class="overlay" ng-if="!hideOverlay">
+  <div class="import-wrapper" ng-if="!hideAdd">
+    <header>
+      <span>Create classroom</span>
+      <div class="button-wrapper">
+        <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
+        <input type="submit" ng-click="Actions.onClassSubmit()" />
+      </div>
+    </header>
 
-    <div class="import-wrapper" ng-if="!hideAdd">
-
-        <header>
-            <span>Create classroom</span>
-            <div class="button-wrapper">
-                <div class="cancel-button" ng-click="onCancelClick()">Cancel</div>
-                <input type="submit" ng-click="Actions.onClassSubmit()"/>
-            </div>
-        </header>
-
-        <form >
-            <div class="form-wrapper" style="border: 0;padding: 0">
-                <div class="add-wrapper">
-                    <div>
-                        Name
-                    </div>
-                    <input type="text" ng-model="classroom.name" required/>
-                    <div>
-                        Room name
-                    </div>
-                    <input type="text" ng-model="classroom.roomName" required/>
-                    <div>
-                        Require invite
-                    </div>
-                    <md-switch ng-model="classroom.invite" aria-label="Switch 1" class="md-warn" style="margin: 0;">
-                    </md-switch>
-                </div>
-
-            </div>
-
-
-
-        </form>
-    </div>
+    <form>
+      <div class="form-wrapper" style="border: 0; padding: 0">
+        <div class="add-wrapper">
+          <div>Name</div>
+          <input type="text" ng-model="classroom.name" required />
+          <div>Room name</div>
+          <input type="text" ng-model="classroom.roomName" required />
+          <div>Require invite</div>
+          <md-switch
+            ng-model="classroom.invite"
+            aria-label="Switch 1"
+            class="md-warn"
+            style="margin: 0"
+          >
+          </md-switch>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="control-content">
-
-    <div class="student-control-wrapper" style="margin-bottom: 20px;">
-        <div style="display:flex;">
-            <input class="student-search" placeholder="search" ng-model="search.value" />
-            <div class="notif-popup"  ng-class="{'error-popup': notif.error}" ng-if="notif">
-                {{notif.message}}
-            </div>
-        </div>
-        <div class="button-wrapper">
-            <div class="line-button import-button reset-button" ng-if="selected" ng-click="Actions.onConnect()">
-                Connect
-            </div>
-            <div class="line-button add-button" ng-if="selected" ng-click="onDetailClick()">
-                Details
-            </div>
-
-            <div class="line-button add-button" ng-click="onAddClick()" style="width: auto; padding: 10px 16px;">
-                Create classroom
-            </div>
-            <div class="line-button delete-button" ng-if="selected" ng-click="Actions.onDeleteClick()">
-                Delete
-            </div>
-
-        </div>
+  <div class="student-control-wrapper" style="margin-bottom: 20px">
+    <div style="display: flex">
+      <input
+        class="student-search"
+        placeholder="search"
+        ng-model="search.value"
+      />
+      <div
+        class="notif-popup"
+        ng-class="{'error-popup': notif.error}"
+        ng-if="notif"
+      >
+        {{notif.message}}
+      </div>
     </div>
-    <div class="card-view">
-        <div class="card class-card purple-button" ng-repeat="classroom in classrooms"  ng-if="checkInclude(classroom)" ng-click="select(classroom)" ng-class="{'purple-border': selected === classroom}">
-            <header>{{classroom.name}}</header>
+    <div class="button-wrapper">
+      <div
+        class="line-button import-button reset-button"
+        ng-if="selected"
+        ng-click="Actions.onConnect()"
+      >
+        Connect
+      </div>
+      <div
+        class="line-button add-button"
+        ng-if="selected"
+        ng-click="onDetailClick()"
+      >
+        Details
+      </div>
 
-            <div class="status green-text">{{classroom.online ? classroom.online : "0"}} online</div>
-        </div>
+      <div
+        class="line-button add-button"
+        ng-click="onAddClick()"
+        style="width: auto; padding: 10px 16px"
+      >
+        Create classroom
+      </div>
+      <div
+        class="line-button delete-button"
+        ng-if="selected"
+        ng-click="Actions.onDeleteClick()"
+      >
+        Delete
+      </div>
     </div>
+  </div>
+  <div class="card-view">
+    <div
+      class="card class-card purple-button"
+      ng-repeat="classroom in classrooms"
+      ng-if="checkInclude(classroom)"
+      ng-click="select(classroom)"
+      ng-class="{'purple-border': selected === classroom}"
+    >
+      <header>{{classroom.name}}</header>
 
-
+      <div class="status green-text">
+        {{classroom.online ? classroom.online : "0"}} online
+      </div>
+    </div>
+  </div>
 </div>
-
-
-

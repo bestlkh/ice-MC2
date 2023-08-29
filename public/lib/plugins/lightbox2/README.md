@@ -8,7 +8,6 @@ For demos and usage instructions, visit [lokeshdhakar.com/projects/lightbox2/](h
 
 by [Lokesh Dhakar](http://www.lokeshdhakar.com)
 
-
 ## Roadmap
 
 - **Maintenance.** Get open Issues and PRs number down.
@@ -51,7 +50,7 @@ by [Lokesh Dhakar](http://www.lokeshdhakar.com)
 
 - [Add] maxWidth and maxHeight options added [#197](https://github.com/lokesh/lightbox2/pull/197)
 - [Add] Enable target attribute in caption links [#299](https://github.com/lokesh/lightbox2/pull/299)
-- [Change] Switched to The MIT License from  Creative Commons Attribution 4.0 International License.
+- [Change] Switched to The MIT License from Creative Commons Attribution 4.0 International License.
 - [Change] Add CSS and images to bower.json main property.
 - [Change] Dropped version property from bower.json. [#453](https://github.com/lokesh/lightbox2/pull/453)
 - [Change] Use src -> dist folder structure for build.
@@ -66,12 +65,12 @@ by [Lokesh Dhakar](http://www.lokeshdhakar.com)
 
 ### v2.7.0 - 2014-03-29
 
-- [Add] Support for data-title attribute for the caption.  - Thanks [@copycut](https://github.com/copycut)
+- [Add] Support for data-title attribute for the caption. - Thanks [@copycut](https://github.com/copycut)
 - [Add] New option to enable always visible prev and next arrows
 - [Change] Rewrite Coffeescript code into plain ole Javascript
 - [Change] Updated jQuery to v1.10.2
 - [Fix] prev/next arrows not appearing in IE9 and IE 10 - Thanks [@rebizu](https://github.com/rebizu)
-- [Fix]  Support wrap around option w/keyboard actions. Thanks [@vovayatsyuk](https://github.com/vovayatsyuk)
+- [Fix] Support wrap around option w/keyboard actions. Thanks [@vovayatsyuk](https://github.com/vovayatsyuk)
 
 ### v2.6.0 - 2013-07-06
 
@@ -92,11 +91,10 @@ by [Lokesh Dhakar](http://www.lokeshdhakar.com)
 - [Change] Switch from CSS to SASS
 - [Add] Repo created on Github
 
-
 ## How to deploy
 
-- Update version number in ```src/lightbox.js```
+- Update version number in `src/lightbox.js`
 - Update README.md Changelog with release date
 - grunt build
 - Push to Github repo
-- Create a new Github release along with tag. Naming convention for both ```v2.8.1```
+- Create a new Github release along with tag. Naming convention for both `v2.8.1`

@@ -1,18 +1,18 @@
 #imglib-backdrop {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 98;
-    opacity: 0;
-    pointer-events: none;
-    &.shown {
-        transition: all ease 0.3s;
-        opacity: 1;
-        pointer-events: all;
-    }
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 98;
+  opacity: 0;
+  pointer-events: none;
+  &.shown {
+    transition: all ease 0.3s;
+    opacity: 1;
+    pointer-events: all;
+  }
 }
 
 #imglib-panel {
@@ -24,7 +24,7 @@
   width: 100%;
   height: 70%;
   background-color: white;
-  box-shadow: rgba(0,0,0,0.2) 0 0 20px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
   color: black;
   transition: bottom ease 0.5s;
 
@@ -78,7 +78,7 @@
         top: 0;
         left: 0;
         color: white;
-        background-color: rgba(0,0,0,0.50);
+        background-color: rgba(0, 0, 0, 0.5);
         opacity: 0;
         &:hover {
           opacity: 1;
@@ -88,7 +88,7 @@
   }
 }
 
-@media(max-width: 732px){
+@media (max-width: 732px) {
   #imglib-panel {
     .imglib-panel-title {
       .imglib-button {

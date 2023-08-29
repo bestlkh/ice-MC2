@@ -1,6 +1,5 @@
-'use strict';
+"use strict";
 $(function () {
-
   /* ChartJS
    * -------
    * Here we will create a few charts using ChartJS
@@ -158,7 +157,7 @@ $(function () {
   //   tooltipTemplate: "<%=value %> <%=label%> users"
   // };
   // //Create pie or douhnut chart
-  // // You can switch between pie and douhnut using the method below.  
+  // // You can switch between pie and douhnut using the method below.
   // pieChart.Doughnut(PieData, pieOptions);
   // //-----------------
   // //- END PIE CHART -
@@ -236,39 +235,39 @@ $(function () {
   //-----------------
   //- SPARKLINE BAR -
   //-----------------
-  $('.sparkbar').each(function () {
+  $(".sparkbar").each(function () {
     var $this = $(this);
-    $this.sparkline('html', {
-      type: 'bar',
-      height: $this.data('height') ? $this.data('height') : '30',
-      barColor: $this.data('color')
+    $this.sparkline("html", {
+      type: "bar",
+      height: $this.data("height") ? $this.data("height") : "30",
+      barColor: $this.data("color"),
     });
   });
 
   //-----------------
   //- SPARKLINE PIE -
   //-----------------
-  $('.sparkpie').each(function () {
+  $(".sparkpie").each(function () {
     var $this = $(this);
-    $this.sparkline('html', {
-      type: 'pie',
-      height: $this.data('height') ? $this.data('height') : '90',
-      sliceColors: $this.data('color')
+    $this.sparkline("html", {
+      type: "pie",
+      height: $this.data("height") ? $this.data("height") : "90",
+      sliceColors: $this.data("color"),
     });
   });
 
   //------------------
   //- SPARKLINE LINE -
   //------------------
-  $('.sparkline').each(function () {
+  $(".sparkline").each(function () {
     var $this = $(this);
-    $this.sparkline('html', {
-      type: 'line',
-      height: $this.data('height') ? $this.data('height') : '90',
-      width: '100%',
-      lineColor: $this.data('linecolor'),
-      fillColor: $this.data('fillcolor'),
-      spotColor: $this.data('spotcolor')
+    $this.sparkline("html", {
+      type: "line",
+      height: $this.data("height") ? $this.data("height") : "90",
+      width: "100%",
+      lineColor: $this.data("linecolor"),
+      fillColor: $this.data("fillcolor"),
+      spotColor: $this.data("spotcolor"),
     });
   });
 });

@@ -1,42 +1,55 @@
 <div class="chat-text-menu" ng-class="{ 'shown': message == showMenuMessage }">
-    <button ng-click="deleteMsg(message.raw_data)"
-            ng-if="isAdmin && message.isChat()"
-            title="Delete">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-    </button>
-    <button ng-click="openBase64ImageInOverlay(message.getText().getImage())"
-            ng-if="message.getText().isImage()"
-            title="Open Image">
-        <i class="fa fa-search-plus" aria-hidden="true"></i>
-    </button>
-    <button ng-click="showMessageDetails(message)"
-            title="Detailed Information">
-        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-    </button>
-    <button ng-if="message.getText().isImage() && !message.getText().hasSvgSource()"
-            ng-click="putImageToEditor(message.getText().getImage())"
-            title="Edit Image">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-    </button>
-    <button ng-click="editSvgSource(message.getText().getSvgSource())"
-            ng-if="message.getText().hasSvgSource()"
-            title="Edit in Editor">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-    </button>
-    <!--If the message is not SVG, also not a image, then it must be a text message-->
-    <button ng-click="editTextMessage(message.getText().getRaw())"
-            ng-if="!message.getText().hasSvgSource() && !message.getText().isImage()"
-            title="Edit">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-    </button>
-    <button ng-if="message.getText().isEquation()"
-            ng-click="showEquationSource(message.getText().getRaw())"
-            title="Show LaTeX Source">
-        <i class="fa fa-code" aria-hidden="true"></i>
-    </button>
-    <button ng-click="announceMsg(message)"
-            ng-if="isAdmin && message.isChat()"
-            title="Announcement Message">
-            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
-    </button>
+  <button
+    ng-click="deleteMsg(message.raw_data)"
+    ng-if="isAdmin && message.isChat()"
+    title="Delete"
+  >
+    <i class="fa fa-trash-o" aria-hidden="true"></i>
+  </button>
+  <button
+    ng-click="openBase64ImageInOverlay(message.getText().getImage())"
+    ng-if="message.getText().isImage()"
+    title="Open Image"
+  >
+    <i class="fa fa-search-plus" aria-hidden="true"></i>
+  </button>
+  <button ng-click="showMessageDetails(message)" title="Detailed Information">
+    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+  </button>
+  <button
+    ng-if="message.getText().isImage() && !message.getText().hasSvgSource()"
+    ng-click="putImageToEditor(message.getText().getImage())"
+    title="Edit Image"
+  >
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+  </button>
+  <button
+    ng-click="editSvgSource(message.getText().getSvgSource())"
+    ng-if="message.getText().hasSvgSource()"
+    title="Edit in Editor"
+  >
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+  </button>
+  <!--If the message is not SVG, also not a image, then it must be a text message-->
+  <button
+    ng-click="editTextMessage(message.getText().getRaw())"
+    ng-if="!message.getText().hasSvgSource() && !message.getText().isImage()"
+    title="Edit"
+  >
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+  </button>
+  <button
+    ng-if="message.getText().isEquation()"
+    ng-click="showEquationSource(message.getText().getRaw())"
+    title="Show LaTeX Source"
+  >
+    <i class="fa fa-code" aria-hidden="true"></i>
+  </button>
+  <button
+    ng-click="announceMsg(message)"
+    ng-if="isAdmin && message.isChat()"
+    title="Announcement Message"
+  >
+    <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+  </button>
 </div>

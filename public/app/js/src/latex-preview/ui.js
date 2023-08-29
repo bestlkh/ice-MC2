@@ -2,6 +2,4 @@
  * Author(s): Jun Zheng
  */
 
-onMainLoop(function() {
-
-});
+onMainLoop(function () {});

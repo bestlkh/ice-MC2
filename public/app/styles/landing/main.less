@@ -9,32 +9,32 @@
   text-rendering: geometricPrecision;
   color: #414141;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   outline: none;
 }
 
-a:active, a:focus, a:hover {
+a:active,
+a:focus,
+a:hover {
   text-decoration: none !important;
 }
-
-
 
 @import "landing";
 
 @keyframes OpenPulse {
   from {
-    transform: scale3d(1,1,1);
-    opacity: .5
+    transform: scale3d(1, 1, 1);
+    opacity: 0.5;
   }
 
   75% {
-    transform: scale3d(4,4,4);
-    opacity: 0
+    transform: scale3d(4, 4, 4);
+    opacity: 0;
   }
 
   to {
-    transform: scale3d(4,4,4);
-    opacity: 0
+    transform: scale3d(4, 4, 4);
+    opacity: 0;
   }
 }
 @media (min-width: 877px) and (max-width: 1486px) {
@@ -56,7 +56,6 @@ a:active, a:focus, a:hover {
 }
 
 @media (min-width: 851px) and (max-width: 876px) {
-
   .container-wrapper {
     width: 90% !important;
   }
@@ -80,11 +79,9 @@ a:active, a:focus, a:hover {
   .card-container {
     flex-wrap: wrap;
   }
-
 }
 
 @media (min-width: 0px) and (max-width: 850px) {
-
   .control-content-wrapper {
     min-width: 0;
   }
@@ -93,14 +90,12 @@ a:active, a:focus, a:hover {
     width: 90% !important;
   }
 
-
   .selector-wrapper {
     width: 90%;
   }
 
   .card {
     width: 90%;
-
   }
 
   .ng-scope .card {
@@ -126,7 +121,6 @@ a:active, a:focus, a:hover {
   }
 
   .landing-text {
-
     width: 100%;
     text-align: center;
   }
@@ -138,11 +132,10 @@ a:active, a:focus, a:hover {
   .chat-button {
     margin: auto;
   }
-
 }
 
 @media (min-width: 0px) and (max-width: 420px) {
-  .selector-wrapper>div {
+  .selector-wrapper > div {
     text-align: right;
   }
 
@@ -170,11 +163,9 @@ a:active, a:focus, a:hover {
   .landing-text .text {
     line-height: 1.1;
   }
-
 }
 
 @media (min-width: 0px) and (max-width: 330px) {
-
   .landing {
     width: 100%;
     min-height: 587px;
@@ -183,11 +174,9 @@ a:active, a:focus, a:hover {
   .ng-scope .card {
     height: calc(100vh - 35px);
   }
-
 }
 @media (max-height: 420px) and (min-height: 0px) {
   .landing {
-
     min-height: 450px;
   }
 }

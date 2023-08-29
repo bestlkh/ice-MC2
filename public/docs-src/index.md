@@ -1,7 +1,7 @@
 # MC² Project
 
 ??? "Authors"
-    Jun Zheng (junthehacker), Daniel Hugh (hughdani)
+Jun Zheng (junthehacker), Daniel Hugh (hughdani)
 
 Welcome to the documentation for the MC² Project, a collaborative math equation editing software.
 
@@ -9,9 +9,9 @@ Welcome to the documentation for the MC² Project, a collaborative math equation
 
 You must have the following installed:
 
-* npm
-* Node.js
-* MongoDB
+- npm
+- Node.js
+- MongoDB
 
 ## Running the Application Locally
 

@@ -3,7 +3,7 @@
 / [Home](../../../) / [Alert Library](../overview) / Alert.Notification
 
 ??? "Authors"
-    Jun Zheng (junthehacker)
+Jun Zheng (junthehacker)
 
 Notification badge class.
 
@@ -34,9 +34,14 @@ Callback function message is dismissed.
 The constructor. `type`, `delay` and `callback` are optional.
 
 ```javascript
-var my_notification = new Alert.Notification("message", "success", 5, function(){
+var my_notification = new Alert.Notification(
+  "message",
+  "success",
+  5,
+  function () {
     // Code here
-});
+  },
+);
 ```
 
 ### `#!js show()`
@@ -48,4 +53,3 @@ Show the notification instance.
 Spawn a anonymous notification instance.
 
 The usage is same as constructor, this method does not return anything.
-

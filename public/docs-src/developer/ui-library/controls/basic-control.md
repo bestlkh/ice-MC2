@@ -3,7 +3,7 @@
 / [Home](../../../) / [UI Library](../overview) / UI.BasicControl
 
 ??? "Authors"
-    Jun Zheng (junthehacker)
+Jun Zheng (junthehacker)
 
 Basic control class, this is the parent class for most controls.
 
@@ -28,7 +28,6 @@ If true, onClick event will prevent system default click event.
 
 onClick event emitter instance.
 
-
 ## Methods
 
 ### `#!js constructor(dom)`
@@ -44,9 +43,7 @@ let control = new ui.BasicControl($("#dom"));
 Set onClick event handler, you can set multiple handlers, they will be fired in order.
 
 ```js
-control.onClick = function(e){
-    console.log("Clicked!");
-}
+control.onClick = function (e) {
+  console.log("Clicked!");
+};
 ```
-
-

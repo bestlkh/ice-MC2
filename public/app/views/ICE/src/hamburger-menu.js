@@ -1,11 +1,11 @@
-onHamburgerMenuOpen(function(){
-    $("#hamburger-menu").css({
-        'pointer-events': 'all'
-    });
+onHamburgerMenuOpen(function () {
+  $("#hamburger-menu").css({
+    "pointer-events": "all",
+  });
 });
 
-onHamburgerMenuClose(function(){
-    $("#hamburger-menu").css({
-        'pointer-events': 'none'
-    });
+onHamburgerMenuClose(function () {
+  $("#hamburger-menu").css({
+    "pointer-events": "none",
+  });
 });

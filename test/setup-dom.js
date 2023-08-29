@@ -1,6 +1,8 @@
-if (typeof process === 'object') {
-    // Initialize node environment
-    require('mocha-jsdom')()
+if (typeof process === "object") {
+  // Initialize node environment
+  require("mocha-jsdom")();
 } else {
-    window.require = function () { /* noop */ }
+  window.require = function () {
+    /* noop */
+  };
 }
